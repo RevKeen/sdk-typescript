@@ -1,0 +1,1 @@
+{"version":3,"file":"InvoicesSendRequest.js","sourceRoot":"","sources":["InvoicesSendRequest.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAgBhE,MAAM,KAAW,mBAAmB,CAQnC;AARD,WAAiB,mBAAmB;IAChC,wDAAwD;IAC3C,2BAAO,GAAG;QACnB,KAAK,EAAE,OAAO;QACd,GAAG,EAAE,KAAK;QACV,QAAQ,EAAE,UAAU;KACd,CAAC;AAEf,CAAC,EARgB,mBAAmB,KAAnB,mBAAmB,QAQnC"}
