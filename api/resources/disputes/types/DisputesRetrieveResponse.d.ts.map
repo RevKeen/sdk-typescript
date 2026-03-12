@@ -1,0 +1,1 @@
+{"version":3,"file":"DisputesRetrieveResponse.d.ts","sourceRoot":"","sources":["DisputesRetrieveResponse.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,mBAAmB,CAAC;AAElD,MAAM,WAAW,wBAAwB;IACrC,IAAI,EAAE,wBAAwB,CAAC,IAAI,CAAC;CACvC;AAED,yBAAiB,wBAAwB,CAAC;IACtC,UAAiB,IAAK,SAAQ,OAAO,CAAC,OAAO;QACzC,cAAc,EAAE,MAAM,GAAG,IAAI,CAAC;QAC9B,UAAU,EAAE,OAAO,CAAC;KACvB;CACJ"}
