@@ -1,0 +1,1 @@
+{"version":3,"file":"PostUserInvitationsRequest.js","sourceRoot":"","sources":["PostUserInvitationsRequest.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAehE,MAAM,KAAW,0BAA0B,CAO1C;AAPD,WAAiB,0BAA0B;IAC1B,+BAAI,GAAG;QAChB,KAAK,EAAE,OAAO;QACd,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,QAAQ;KACV,CAAC;AAEf,CAAC,EAPgB,0BAA0B,KAA1B,0BAA0B,QAO1C"}

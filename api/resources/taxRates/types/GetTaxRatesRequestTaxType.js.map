@@ -1,0 +1,1 @@
+{"version":3,"file":"GetTaxRatesRequestTaxType.js","sourceRoot":"","sources":["GetTaxRatesRequestTaxType.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAEhE,yBAAyB;AACzB,MAAM,CAAC,MAAM,yBAAyB,GAAG;IACrC,GAAG,EAAE,KAAK;IACV,QAAQ,EAAE,WAAW;IACrB,GAAG,EAAE,KAAK;IACV,KAAK,EAAE,OAAO;CACR,CAAC"}

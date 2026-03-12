@@ -1,0 +1,1 @@
+{"version":3,"file":"CancelSubscriptionInput.js","sourceRoot":"","sources":["CancelSubscriptionInput.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAkBhE,MAAM,KAAW,uBAAuB,CAOvC;AAPD,WAAiB,uBAAuB;IACpC,+GAA+G;IAClG,4BAAI,GAAG;QAChB,WAAW,EAAE,aAAa;QAC1B,SAAS,EAAE,YAAY;KACjB,CAAC;AAEf,CAAC,EAPgB,uBAAuB,KAAvB,uBAAuB,QAOvC"}
