@@ -1,0 +1,1 @@
+{"version":3,"file":"TerminalDeviceListResponse.d.ts","sourceRoot":"","sources":["TerminalDeviceListResponse.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,aAAa,CAAC;AAE5C,MAAM,WAAW,0BAA0B;IACvC,IAAI,EAAE,OAAO,CAAC,cAAc,EAAE,CAAC;IAC/B,IAAI,EAAE,0BAA0B,CAAC,IAAI,CAAC;CACzC;AAED,yBAAiB,0BAA0B,CAAC;IACxC,UAAiB,IAAI;QACjB,KAAK,EAAE,MAAM,CAAC;KACjB;CACJ"}
