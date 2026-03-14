@@ -1,0 +1,1 @@
+{"version":3,"file":"CommsMessagesListRequest.d.ts","sourceRoot":"","sources":["CommsMessagesListRequest.ts"],"names":[],"mappings":"AAEA;;;;;GAKG;AACH,MAAM,WAAW,wBAAwB;IACrC,kBAAkB;IAClB,QAAQ,EAAE,MAAM,CAAC;IACjB,wCAAwC;IACxC,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,gCAAgC;IAChC,MAAM,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;CAC1B"}
