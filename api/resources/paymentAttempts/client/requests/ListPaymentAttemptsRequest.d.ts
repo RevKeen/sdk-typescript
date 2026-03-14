@@ -1,0 +1,19 @@
+/**
+ * @example
+ *     {}
+ */
+export interface ListPaymentAttemptsRequest {
+    /** Maximum number of results to return */
+    limit?: number;
+    /** Filter by gateway (e.g., 'nmi') */
+    gateway?: string;
+    /** Filter by error category */
+    category?: string;
+    /** Filter by subscription ID */
+    subscription_id?: string;
+    /** Filter by created_at >= (ISO 8601) */
+    start_date?: string;
+    /** Filter by created_at <= (ISO 8601) */
+    end_date?: string;
+}
+//# sourceMappingURL=ListPaymentAttemptsRequest.d.ts.map

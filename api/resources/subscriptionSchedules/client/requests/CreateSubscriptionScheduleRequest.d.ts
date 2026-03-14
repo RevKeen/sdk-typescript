@@ -1,0 +1,39 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {
+ *         phases: [{
+ *                 items: [{
+ *                         price_id: "price_id"
+ *                     }],
+ *                 start_date: "2026-03-01T00:00:00Z"
+ *             }]
+ *     }
+ */
+export interface CreateSubscriptionScheduleRequest {
+    /** Customer ID (required if no subscription) */
+    customer?: string;
+    /** Existing subscription to attach schedule to */
+    subscription?: string;
+    /** When schedule starts. 'now', ISO date, or Unix timestamp. Defaults to now. */
+    start_date?: CreateSubscriptionScheduleRequest.StartDate;
+    /** Phases defining the schedule (at least one required) */
+    phases: RevKeen.SchedulePhase[];
+    /** What happens when all phases complete */
+    end_behavior?: CreateSubscriptionScheduleRequest.EndBehavior;
+    /** Custom metadata */
+    metadata?: Record<string, unknown>;
+}
+export declare namespace CreateSubscriptionScheduleRequest {
+    /**
+     * When schedule starts. 'now', ISO date, or Unix timestamp. Defaults to now.
+     */
+    type StartDate = "now" | string | number;
+    /** What happens when all phases complete */
+    const EndBehavior: {
+        readonly Cancel: "cancel";
+        readonly Release: "release";
+    };
+    type EndBehavior = (typeof EndBehavior)[keyof typeof EndBehavior];
+}
+//# sourceMappingURL=CreateSubscriptionScheduleRequest.d.ts.map
