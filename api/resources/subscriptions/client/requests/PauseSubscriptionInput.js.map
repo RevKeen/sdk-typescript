@@ -1,0 +1,1 @@
+{"version":3,"file":"PauseSubscriptionInput.js","sourceRoot":"","sources":["PauseSubscriptionInput.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAiBhE,MAAM,KAAW,sBAAsB,CAQtC;AARD,WAAiB,sBAAsB;IACnC,qDAAqD;IACxC,+BAAQ,GAAG;QACpB,WAAW,EAAE,eAAe;QAC5B,iBAAiB,EAAE,oBAAoB;QACvC,IAAI,EAAE,MAAM;KACN,CAAC;AAEf,CAAC,EARgB,sBAAsB,KAAtB,sBAAsB,QAQtC"}
