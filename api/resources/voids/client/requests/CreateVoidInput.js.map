@@ -1,0 +1,1 @@
+{"version":3,"file":"CreateVoidInput.js","sourceRoot":"","sources":["CreateVoidInput.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAiBhE,MAAM,KAAW,eAAe,CAU/B;AAVD,WAAiB,eAAe;IAC5B,4CAA4C;IAC/B,0BAAU,GAAG;QACtB,eAAe,EAAE,kBAAkB;QACnC,SAAS,EAAE,WAAW;QACtB,UAAU,EAAE,YAAY;QACxB,KAAK,EAAE,OAAO;QACd,KAAK,EAAE,OAAO;KACR,CAAC;AAEf,CAAC,EAVgB,eAAe,KAAf,eAAe,QAU/B"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"SubscriptionItemsListRequest.d.ts","sourceRoot":"","sources":["SubscriptionItemsListRequest.ts"],"names":[],"mappings":"AAEA;;;;;GAKG;AACH,MAAM,WAAW,4BAA4B;IACzC,wBAAwB;IACxB,cAAc,EAAE,MAAM,CAAC;IACvB,wCAAwC;IACxC,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,gCAAgC;IAChC,MAAM,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;CAC1B"}
