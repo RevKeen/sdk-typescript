@@ -1,0 +1,1 @@
+{"version":3,"file":"CreateWebhookEndpointInput.d.ts","sourceRoot":"","sources":["CreateWebhookEndpointInput.ts"],"names":[],"mappings":"AAEA;;;;;;GAMG;AACH,MAAM,WAAW,0BAA0B;IACvC,+CAA+C;IAC/C,GAAG,EAAE,MAAM,CAAC;IACZ,oFAAoF;IACpF,cAAc,EAAE,MAAM,EAAE,CAAC;IACzB,6CAA6C;IAC7C,WAAW,CAAC,EAAE,MAAM,CAAC;CACxB"}

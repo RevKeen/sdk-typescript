@@ -1,0 +1,24 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {}
+ */
+export interface SubscriptionSchedulesListRequest {
+    /** Filter by customer ID */
+    customer?: string;
+    /** Filter by subscription ID */
+    subscription?: string;
+    /** Filter by status */
+    status?: RevKeen.SubscriptionSchedulesListRequestStatus;
+    /** Start date >= (Unix timestamp) */
+    scheduled_gte?: number | null;
+    /** Start date <= (Unix timestamp) */
+    scheduled_lte?: number | null;
+    /** Max results (1-100) */
+    limit?: number;
+    /** Cursor - return results after this ID */
+    starting_after?: string;
+    /** Cursor - return results before this ID */
+    ending_before?: string;
+}
+//# sourceMappingURL=SubscriptionSchedulesListRequest.d.ts.map

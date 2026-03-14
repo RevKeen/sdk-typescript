@@ -1,0 +1,1 @@
+{"version":3,"file":"CreateTaxRateRequest.js","sourceRoot":"","sources":["CreateTaxRateRequest.ts"],"names":[],"mappings":"AAAA,gEAAgE;AA8BhE,MAAM,KAAW,oBAAoB,CASpC;AATD,WAAiB,oBAAoB;IACjC,kBAAkB;IACL,4BAAO,GAAG;QACnB,GAAG,EAAE,KAAK;QACV,QAAQ,EAAE,WAAW;QACrB,GAAG,EAAE,KAAK;QACV,KAAK,EAAE,OAAO;KACR,CAAC;AAEf,CAAC,EATgB,oBAAoB,KAApB,oBAAoB,QASpC"}
