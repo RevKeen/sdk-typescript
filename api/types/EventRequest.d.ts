@@ -1,0 +1,10 @@
+/**
+ * Information about the request that triggered this event
+ */
+export interface EventRequest {
+    /** Request ID that triggered this event (if applicable) */
+    id: string | null;
+    /** Idempotency key used in the request (if applicable) */
+    idempotency_key: string | null;
+}
+//# sourceMappingURL=EventRequest.d.ts.map
