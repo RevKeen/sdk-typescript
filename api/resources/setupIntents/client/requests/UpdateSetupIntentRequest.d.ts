@@ -1,0 +1,19 @@
+/**
+ * @example
+ *     {
+ *         id: "seti_1a2b3c4d5e6f"
+ *     }
+ */
+export interface UpdateSetupIntentRequest {
+    /** Setup Intent ID (UUID or public ID seti_xxx) */
+    id: string;
+    /** ID of the customer to attach the payment method to */
+    customer_id?: string;
+    /** Allowed payment method types */
+    payment_method_types?: string[];
+    /** Merchant description for reference */
+    description?: string;
+    /** Custom metadata to attach */
+    metadata?: Record<string, unknown>;
+}
+//# sourceMappingURL=UpdateSetupIntentRequest.d.ts.map

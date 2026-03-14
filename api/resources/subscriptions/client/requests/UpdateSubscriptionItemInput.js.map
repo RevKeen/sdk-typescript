@@ -1,0 +1,1 @@
+{"version":3,"file":"UpdateSubscriptionItemInput.js","sourceRoot":"","sources":["UpdateSubscriptionItemInput.ts"],"names":[],"mappings":"AAAA,gEAAgE;AA0BhE,MAAM,KAAW,2BAA2B,CAQ3C;AARD,WAAiB,2BAA2B;IACxC,kDAAkD;IACrC,2CAAe,GAAG;QAC3B,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,UAAU;QACpB,OAAO,EAAE,SAAS;KACZ,CAAC;AAEf,CAAC,EARgB,2BAA2B,KAA3B,2BAA2B,QAQ3C"}
