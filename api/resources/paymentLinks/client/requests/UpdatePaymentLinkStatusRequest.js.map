@@ -1,0 +1,1 @@
+{"version":3,"file":"UpdatePaymentLinkStatusRequest.js","sourceRoot":"","sources":["UpdatePaymentLinkStatusRequest.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAgBhE,MAAM,KAAW,8BAA8B,CAQ9C;AARD,WAAiB,8BAA8B;IAC3C,sCAAsC;IACzB,qCAAM,GAAG;QAClB,MAAM,EAAE,QAAQ;QAChB,QAAQ,EAAE,UAAU;QACpB,QAAQ,EAAE,UAAU;KACd,CAAC;AAEf,CAAC,EARgB,8BAA8B,KAA9B,8BAA8B,QAQ9C"}

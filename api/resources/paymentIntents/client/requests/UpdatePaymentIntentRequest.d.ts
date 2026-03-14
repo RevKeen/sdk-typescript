@@ -1,0 +1,27 @@
+/**
+ * @example
+ *     {
+ *         id: "id"
+ *     }
+ */
+export interface UpdatePaymentIntentRequest {
+    /** Payment intent ID (pi_xxx) */
+    id: string;
+    /** Amount in cents */
+    amount?: number;
+    /** Three-letter ISO currency code */
+    currency?: string;
+    /** Payment method ID */
+    payment_method?: string;
+    /** Description for merchant reference */
+    description?: string;
+    /** Statement descriptor */
+    statement_descriptor?: string;
+    /** Statement descriptor suffix */
+    statement_descriptor_suffix?: string;
+    /** Email to send receipt to */
+    receipt_email?: string;
+    /** Custom key-value metadata */
+    metadata?: Record<string, unknown>;
+}
+//# sourceMappingURL=UpdatePaymentIntentRequest.d.ts.map
