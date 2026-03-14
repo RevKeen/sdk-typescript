@@ -1,0 +1,21 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {
+ *         customerId: "cus_abc123",
+ *         limit: 20
+ *     }
+ */
+export interface CustomersSubscriptionsListRequest {
+    /** Customer ID */
+    customerId: string;
+    /** Maximum number of records to return (1-100) */
+    limit?: number;
+    /** Cursor for pagination - return records after this ID */
+    starting_after?: string;
+    /** Cursor for pagination - return records before this ID */
+    ending_before?: string;
+    /** Filter by subscription status */
+    status?: RevKeen.CustomersSubscriptionsListRequestStatus;
+}
+//# sourceMappingURL=CustomersSubscriptionsListRequest.d.ts.map
