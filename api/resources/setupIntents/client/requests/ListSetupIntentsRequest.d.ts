@@ -1,0 +1,18 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {}
+ */
+export interface ListSetupIntentsRequest {
+    /** Filter by customer ID */
+    customer_id?: string;
+    /** Filter by status */
+    status?: RevKeen.ListSetupIntentsRequestStatus;
+    /** Maximum number of results to return */
+    limit?: number;
+    /** Cursor for pagination (setup intent ID) */
+    starting_after?: string;
+    /** Cursor for pagination (setup intent ID) */
+    ending_before?: string;
+}
+//# sourceMappingURL=ListSetupIntentsRequest.d.ts.map

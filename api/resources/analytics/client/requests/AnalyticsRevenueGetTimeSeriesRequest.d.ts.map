@@ -1,0 +1,1 @@
+{"version":3,"file":"AnalyticsRevenueGetTimeSeriesRequest.d.ts","sourceRoot":"","sources":["AnalyticsRevenueGetTimeSeriesRequest.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,sBAAsB,CAAC;AAErD;;;;;;GAMG;AACH,MAAM,WAAW,oCAAoC;IACjD,4BAA4B;IAC5B,SAAS,EAAE,MAAM,CAAC;IAClB,0BAA0B;IAC1B,OAAO,EAAE,MAAM,CAAC;IAChB,uCAAuC;IACvC,WAAW,CAAC,EAAE,OAAO,CAAC,+CAA+C,CAAC;CACzE"}
