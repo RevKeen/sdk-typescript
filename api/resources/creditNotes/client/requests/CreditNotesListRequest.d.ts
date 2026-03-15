@@ -1,0 +1,28 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {
+ *         created_after: "2024-01-01T00:00:00Z",
+ *         created_before: "2024-12-31T23:59:59Z",
+ *         limit: 20
+ *     }
+ */
+export interface CreditNotesListRequest {
+    /** Filter by credit note status */
+    status?: RevKeen.CreditNotesListRequestStatus;
+    /** Filter by invoice ID */
+    invoice_id?: string;
+    /** Filter by customer ID */
+    customer_id?: string;
+    /** Filter by credit method */
+    credit_method?: RevKeen.CreditNotesListRequestCreditMethod;
+    /** ISO 8601 date - only credit notes created after this date */
+    created_after?: string;
+    /** ISO 8601 date - only credit notes created before this date */
+    created_before?: string;
+    /** Number of results to return (1-100) */
+    limit?: number;
+    /** Number of results to skip */
+    offset?: number | null;
+}
+//# sourceMappingURL=CreditNotesListRequest.d.ts.map
