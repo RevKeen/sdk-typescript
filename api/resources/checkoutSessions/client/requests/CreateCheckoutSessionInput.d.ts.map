@@ -1,0 +1,1 @@
+{"version":3,"file":"CreateCheckoutSessionInput.d.ts","sourceRoot":"","sources":["CreateCheckoutSessionInput.ts"],"names":[],"mappings":"AAEA;;;GAGG;AACH,MAAM,WAAW,0BAA0B;IACvC,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,WAAW,CAAC,EAAE,MAAM,CAAC;IACrB,QAAQ,CAAC,EAAE,MAAM,CAAC;IAClB,UAAU,CAAC,EAAE,MAAM,CAAC;IACpB,SAAS,CAAC,EAAE,MAAM,CAAC;CACtB"}
