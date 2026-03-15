@@ -1,0 +1,1 @@
+{"version":3,"file":"ActivatePaymentLinkResponse.js","sourceRoot":"","sources":["ActivatePaymentLinkResponse.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAUhE,MAAM,KAAW,2BAA2B,CAO3C;AAPD,WAAiB,2BAA2B;IAC3B,kCAAM,GAAG;QAClB,MAAM,EAAE,QAAQ;QAChB,QAAQ,EAAE,UAAU;QACpB,QAAQ,EAAE,UAAU;KACd,CAAC;AAEf,CAAC,EAPgB,2BAA2B,KAA3B,2BAA2B,QAO3C"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"BadRequestErrorBody.d.ts","sourceRoot":"","sources":["BadRequestErrorBody.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,mBAAmB;IAChC,KAAK,EAAE,mBAAmB,CAAC,MAAM,CAAC;CACrC;AAED,yBAAiB,mBAAmB,CAAC;IACjC,UAAiB,MAAM;QACnB,OAAO,EAAE,MAAM,CAAC;QAChB,IAAI,EAAE,MAAM,CAAC;KAChB;CACJ"}
