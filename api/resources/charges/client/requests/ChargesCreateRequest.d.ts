@@ -1,0 +1,21 @@
+/**
+ * @example
+ *     {
+ *         customerId: "customerId",
+ *         amountMinor: 1,
+ *         description: "description"
+ *     }
+ */
+export interface ChargesCreateRequest {
+    customerId: string;
+    amountMinor: number;
+    currency?: string;
+    description: string;
+    paymentMethodId?: string;
+    capture?: boolean;
+    statementDescriptor?: string;
+    metadata?: Record<string, unknown>;
+    sendReceipt?: boolean;
+    idempotencyKey?: string;
+}
+//# sourceMappingURL=ChargesCreateRequest.d.ts.map

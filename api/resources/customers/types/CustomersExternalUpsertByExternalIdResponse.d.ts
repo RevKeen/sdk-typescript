@@ -1,0 +1,23 @@
+export type CustomersExternalUpsertByExternalIdResponse = {
+    data: {
+        id: string;
+        merchantId: string;
+        merchantRefId?: string | undefined;
+        email: string;
+        name?: string | undefined;
+        phone?: string | undefined;
+        authUserId?: string | undefined;
+        metadata?: Record<string, unknown> | undefined;
+        customFields?: Record<string, unknown> | undefined;
+        createdAt: string;
+        updatedAt: string;
+    };
+    created: boolean;
+    warnings?: string[] | undefined;
+} | {
+    ignored: boolean;
+    reason: "stale_update";
+    stored_timestamp: string;
+    incoming_timestamp: string;
+};
+//# sourceMappingURL=CustomersExternalUpsertByExternalIdResponse.d.ts.map
