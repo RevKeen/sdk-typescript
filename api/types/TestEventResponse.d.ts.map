@@ -1,0 +1,1 @@
+{"version":3,"file":"TestEventResponse.d.ts","sourceRoot":"","sources":["TestEventResponse.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,aAAa,CAAC;AAE5C,MAAM,WAAW,iBAAiB;IAC9B,yCAAyC;IACzC,OAAO,EAAE,OAAO,CAAC;IACjB,KAAK,CAAC,EAAE,OAAO,CAAC,KAAK,CAAC;IACtB,6BAA6B;IAC7B,OAAO,CAAC,EAAE,MAAM,CAAC;CACpB"}
