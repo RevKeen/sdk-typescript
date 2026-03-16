@@ -1,0 +1,15 @@
+/**
+ * @example
+ *     {
+ *         id: "seti_1a2b3c4d5e6f"
+ *     }
+ */
+export interface ConfirmSetupIntentRequest {
+    /** Setup Intent ID (UUID or public ID seti_xxx) */
+    id: string;
+    /** ID of the payment method to confirm with */
+    payment_method_id?: string;
+    /** URL to redirect to after 3DS authentication */
+    return_url?: string;
+}
+//# sourceMappingURL=ConfirmSetupIntentRequest.d.ts.map
