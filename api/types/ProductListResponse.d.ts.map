@@ -1,0 +1,1 @@
+{"version":3,"file":"ProductListResponse.d.ts","sourceRoot":"","sources":["ProductListResponse.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,aAAa,CAAC;AAE5C;;GAEG;AACH,MAAM,WAAW,mBAAmB;IAChC,IAAI,EAAE,OAAO,CAAC,OAAO,EAAE,CAAC;IACxB,UAAU,EAAE,OAAO,CAAC,UAAU,CAAC;CAClC"}

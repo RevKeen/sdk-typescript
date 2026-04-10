@@ -1,0 +1,71 @@
+/**
+ * A financial movement in the unified transaction model. Every money movement — payments, refunds, voids, disputes — is recorded as a transaction linked to an invoice.
+ */
+export interface Transaction {
+    /** Unique identifier for the transaction */
+    id: string;
+    /** Object type */
+    object: Transaction.Object_;
+    /** Transaction type. sale: original payment. refund: money returned. void: cancel before settlement. capture: capture a previous auth. dispute: chargeback. adjustment: manual correction. */
+    type: Transaction.Type;
+    /** Transaction status. pending: processing. succeeded: completed. failed: declined or errored. voided: canceled. */
+    status: Transaction.Status;
+    /** Associated invoice ID */
+    invoice_id: string;
+    /** Customer ID */
+    customer_id?: string | null;
+    /** Parent transaction ID (required for refunds, voids, disputes, adjustments) */
+    parent_transaction_id?: string | null;
+    /** Three-letter ISO currency code */
+    currency: string;
+    /** Transaction amount in minor units (cents) */
+    amount: number;
+    /** Amount refunded in minor units */
+    amount_refunded?: number;
+    /** Payment gateway (e.g., 'nmi') */
+    gateway?: string | null;
+    /** Gateway's transaction reference */
+    gateway_transaction_id?: string | null;
+    /** Gateway response code */
+    gateway_response_code?: string | null;
+    /** Gateway response message */
+    gateway_response_text?: string | null;
+    /** Payment method type (card, ach, wallet) */
+    payment_method_type?: string | null;
+    /** Card brand (visa, mastercard, etc.) */
+    card_brand?: string | null;
+    /** Last 4 digits of card */
+    card_last_four?: string | null;
+    /** Custom key-value metadata */
+    metadata?: Record<string, unknown>;
+    /** Creation timestamp (ISO 8601) */
+    created_at: string;
+    /** Last update timestamp (ISO 8601) */
+    updated_at: string;
+}
+export declare namespace Transaction {
+    /** Object type */
+    const Object_: {
+        readonly Transaction: "transaction";
+    };
+    type Object_ = (typeof Object_)[keyof typeof Object_];
+    /** Transaction type. sale: original payment. refund: money returned. void: cancel before settlement. capture: capture a previous auth. dispute: chargeback. adjustment: manual correction. */
+    const Type: {
+        readonly Sale: "sale";
+        readonly Refund: "refund";
+        readonly Void: "void";
+        readonly Capture: "capture";
+        readonly Dispute: "dispute";
+        readonly Adjustment: "adjustment";
+    };
+    type Type = (typeof Type)[keyof typeof Type];
+    /** Transaction status. pending: processing. succeeded: completed. failed: declined or errored. voided: canceled. */
+    const Status: {
+        readonly Pending: "pending";
+        readonly Succeeded: "succeeded";
+        readonly Failed: "failed";
+        readonly Voided: "voided";
+    };
+    type Status = (typeof Status)[keyof typeof Status];
+}
+//# sourceMappingURL=Transaction.d.ts.map
