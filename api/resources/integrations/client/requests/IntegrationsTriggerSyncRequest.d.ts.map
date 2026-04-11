@@ -1,0 +1,1 @@
+{"version":3,"file":"IntegrationsTriggerSyncRequest.d.ts","sourceRoot":"","sources":["IntegrationsTriggerSyncRequest.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,sBAAsB,CAAC;AAErD;;;;;GAKG;AACH,MAAM,WAAW,8BAA8B;IAC3C,QAAQ,EAAE,OAAO,CAAC,sCAAsC,CAAC;IACzD,UAAU,CAAC,EAAE,OAAO,CAAC;CACxB"}

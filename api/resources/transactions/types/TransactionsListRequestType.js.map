@@ -1,0 +1,1 @@
+{"version":3,"file":"TransactionsListRequestType.js","sourceRoot":"","sources":["TransactionsListRequestType.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAEhE,iCAAiC;AACjC,MAAM,CAAC,MAAM,2BAA2B,GAAG;IACvC,IAAI,EAAE,MAAM;IACZ,MAAM,EAAE,QAAQ;IAChB,IAAI,EAAE,MAAM;IACZ,OAAO,EAAE,SAAS;IAClB,OAAO,EAAE,SAAS;IAClB,UAAU,EAAE,YAAY;CAClB,CAAC"}

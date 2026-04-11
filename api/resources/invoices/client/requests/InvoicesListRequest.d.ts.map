@@ -1,0 +1,1 @@
+{"version":3,"file":"InvoicesListRequest.d.ts","sourceRoot":"","sources":["InvoicesListRequest.ts"],"names":[],"mappings":"AAEA;;;GAGG;AACH,MAAM,WAAW,mBAAmB;IAChC,+BAA+B;IAC/B,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB,4BAA4B;IAC5B,UAAU,CAAC,EAAE,MAAM,CAAC;IACpB,wCAAwC;IACxC,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,gCAAgC;IAChC,MAAM,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;CAC1B"}
