@@ -1,0 +1,1 @@
+{"version":3,"file":"IntegrationsDeactivateRequest.d.ts","sourceRoot":"","sources":["IntegrationsDeactivateRequest.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,KAAK,OAAO,MAAM,sBAAsB,CAAC;AAErD;;;;;GAKG;AACH,MAAM,WAAW,6BAA6B;IAC1C,QAAQ,EAAE,OAAO,CAAC,qCAAqC,CAAC;IACxD,iBAAiB,CAAC,EAAE,OAAO,CAAC;CAC/B"}

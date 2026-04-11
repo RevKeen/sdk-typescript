@@ -1,0 +1,34 @@
+/**
+ * Current-period usage for a single meter, including consumed units, included allowance, overage, and estimated cost.
+ */
+export interface UsageBalanceMeter {
+    /** Meter ID */
+    meter_id: string;
+    /** Meter display name */
+    meter_name: string;
+    /** Unit display name */
+    unit_name: string | null;
+    /** Aggregated usage in current period */
+    current_value: number;
+    /** Units included in plan (0 if pure metered) */
+    included_quantity: number;
+    /** Usage consumed (same as current_value) */
+    used_quantity: number;
+    /** Remaining included units (max 0) */
+    remaining_included: number;
+    /** Units over allowance (max 0) */
+    overage_quantity: number;
+    /** Estimated charge for overage in minor units */
+    estimated_amount_minor: number;
+    /** Sum of event cost annotations (null if no cost data) */
+    total_cost_minor: number | null;
+    /** Estimated margin: revenue - cost (null if no cost data) */
+    margin_minor: number | null;
+    /** Currency code */
+    currency: string;
+    /** Current billing period start (ISO 8601) */
+    period_start: string;
+    /** Current billing period end (ISO 8601) */
+    period_end: string;
+}
+//# sourceMappingURL=UsageBalanceMeter.d.ts.map
