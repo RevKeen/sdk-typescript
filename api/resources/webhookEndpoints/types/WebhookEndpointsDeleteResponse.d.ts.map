@@ -1,0 +1,1 @@
+{"version":3,"file":"WebhookEndpointsDeleteResponse.d.ts","sourceRoot":"","sources":["WebhookEndpointsDeleteResponse.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,8BAA8B;IAC3C,IAAI,EAAE,8BAA8B,CAAC,IAAI,CAAC;CAC7C;AAED,yBAAiB,8BAA8B,CAAC;IAC5C,UAAiB,IAAI;QACjB,EAAE,EAAE,MAAM,CAAC;QACX,OAAO,EAAE,OAAO,CAAC;KACpB;CACJ"}

@@ -1,0 +1,36 @@
+/**
+ * A formal accounting document that reduces the amount owed on a paid or partially paid invoice, used for refunds, billing corrections, and prorated cancellations.
+ */
+export interface CreditNote {
+    /** Unique credit note identifier */
+    id: string;
+    /** Sequential credit note number for accounting reference */
+    credit_note_number: string | null;
+    /** ID of the invoice this credit note applies to */
+    invoice_id: string;
+    /** ID of the customer who received the credit */
+    customer_id: string | null;
+    /** Credit amount in minor units (cents) */
+    amount_minor: number;
+    /** Tax portion of the credit in minor units */
+    tax_amount_minor: number | null;
+    /** Three-letter ISO 4217 currency code */
+    currency: string;
+    /** Credit note status: draft, issued, or void */
+    status: string;
+    /** Human-readable reason for the credit */
+    reason: string | null;
+    /** Machine-readable reason code (e.g., billing_error, customer_request) */
+    reason_code: string | null;
+    /** How the credit is applied: refund_to_payment_method, customer_balance, or external */
+    credit_method: string | null;
+    /** URL to the credit note PDF document */
+    pdf_url: string | null;
+    /** When the credit note was issued (ISO 8601) */
+    issued_at: string | null;
+    /** When the credit note was created (ISO 8601) */
+    created_at: string;
+    /** When the credit note was last updated (ISO 8601) */
+    updated_at: string;
+}
+//# sourceMappingURL=CreditNote.d.ts.map

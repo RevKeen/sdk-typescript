@@ -1,0 +1,1 @@
+{"version":3,"file":"WebhookEndpoint.js","sourceRoot":"","sources":["WebhookEndpoint.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAmBhE,MAAM,KAAW,eAAe,CAY/B;AAZD,WAAiB,eAAe;IACf,sBAAM,GAAG;QAClB,OAAO,EAAE,SAAS;QAClB,QAAQ,EAAE,UAAU;KACd,CAAC;IAEE,mCAAmB,GAAG;QAC/B,MAAM,EAAE,QAAQ;QAChB,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,WAAW;KACf,CAAC;AAEf,CAAC,EAZgB,eAAe,KAAf,eAAe,QAY/B"}
