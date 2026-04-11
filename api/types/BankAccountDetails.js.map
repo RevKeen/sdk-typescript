@@ -1,0 +1,1 @@
+{"version":3,"file":"BankAccountDetails.js","sourceRoot":"","sources":["BankAccountDetails.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAgBhE,MAAM,KAAW,kBAAkB,CAOlC;AAPD,WAAiB,kBAAkB;IAC/B,+BAA+B;IAClB,8BAAW,GAAG;QACvB,QAAQ,EAAE,UAAU;QACpB,OAAO,EAAE,SAAS;KACZ,CAAC;AAEf,CAAC,EAPgB,kBAAkB,KAAlB,kBAAkB,QAOlC"}

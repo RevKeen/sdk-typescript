@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderErrorResponse.d.ts","sourceRoot":"","sources":["OrderErrorResponse.ts"],"names":[],"mappings":"AAEA;;GAEG;AACH,MAAM,WAAW,kBAAkB;IAC/B,KAAK,EAAE,kBAAkB,CAAC,MAAM,CAAC;CACpC;AAED,yBAAiB,kBAAkB,CAAC;IAChC,UAAiB,MAAM;QACnB,IAAI,EAAE,MAAM,CAAC;QACb,IAAI,EAAE,MAAM,CAAC;QACb,OAAO,EAAE,MAAM,CAAC;QAChB,KAAK,CAAC,EAAE,MAAM,CAAC;KAClB;CACJ"}
