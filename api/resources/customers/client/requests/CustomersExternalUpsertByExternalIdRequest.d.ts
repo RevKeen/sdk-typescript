@@ -1,0 +1,31 @@
+/**
+ * @example
+ *     {
+ *         source: "practicehub",
+ *         externalId: "PAT-12345",
+ *         email: "email"
+ *     }
+ */
+export interface CustomersExternalUpsertByExternalIdRequest {
+    /** External source identifier (e.g., practicehub, wodify) */
+    source: string;
+    /** External ID from the source system */
+    externalId: string;
+    email: string;
+    name?: string;
+    phone?: string;
+    address_line1?: string;
+    address_line2?: string;
+    city?: string;
+    state?: string;
+    postal_code?: string;
+    country?: string;
+    tax_id?: string;
+    tax_id_country?: string;
+    notes?: string;
+    metadata?: Record<string, unknown>;
+    /** Custom fields */
+    custom_fields?: Record<string, unknown>;
+    external_updated_at?: string;
+}
+//# sourceMappingURL=CustomersExternalUpsertByExternalIdRequest.d.ts.map
