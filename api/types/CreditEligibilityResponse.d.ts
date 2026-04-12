@@ -1,0 +1,22 @@
+/**
+ * Shows whether an invoice is eligible for a credit note and the maximum amount that can be credited.
+ */
+export interface CreditEligibilityResponse {
+    data: CreditEligibilityResponse.Data;
+    requestId: string;
+}
+export declare namespace CreditEligibilityResponse {
+    interface Data {
+        /** Whether a credit note can be issued for this invoice */
+        can_credit: boolean;
+        /** Maximum amount that can be credited in minor units */
+        max_creditable_minor: number;
+        /** Total amount already credited against this invoice */
+        total_credited_minor: number;
+        /** Original invoice total in minor units */
+        invoice_total_minor: number;
+        /** Reason why the invoice cannot be credited, if applicable */
+        reason?: string;
+    }
+}
+//# sourceMappingURL=CreditEligibilityResponse.d.ts.map

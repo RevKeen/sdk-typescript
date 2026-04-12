@@ -1,0 +1,12 @@
+/**
+ * Confirmation that a webhook event was resent to the specified endpoint.
+ */
+export interface ResendWebhookResponse {
+    /** Whether the webhook was queued for resending */
+    success: boolean;
+    /** The webhook endpoint ID the event was sent to */
+    webhook_endpoint_id?: string;
+    /** Additional information */
+    message?: string;
+}
+//# sourceMappingURL=ResendWebhookResponse.d.ts.map

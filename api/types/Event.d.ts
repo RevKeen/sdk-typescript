@@ -1,0 +1,40 @@
+import type * as RevKeen from "../index.js";
+/**
+ * An event represents something that happened in your account — a payment succeeded, an invoice was created, a subscription changed. Events are the source of truth for webhook delivery.
+ */
+export interface Event {
+    /** Unique event identifier */
+    id: string;
+    /** Object type */
+    object: Event.Object_;
+    /** Event type (e.g., invoice.paid, payment.succeeded) */
+    type: string;
+    /** Event data containing the affected object */
+    data: Event.Data;
+    request: RevKeen.EventRequest | null;
+    /** Number of webhooks still pending delivery for this event */
+    pending_webhooks: number;
+    /** API version used to render this event */
+    api_version: string | null;
+    /** Whether this event was produced in live mode */
+    livemode: boolean;
+    /** Unix timestamp when the event was created */
+    created: number;
+}
+export declare namespace Event {
+    /** Object type */
+    const Object_: {
+        readonly Event: "event";
+    };
+    type Object_ = (typeof Object_)[keyof typeof Object_];
+    /**
+     * Event data containing the affected object
+     */
+    interface Data {
+        /** The object that triggered the event (invoice, payment, etc.) */
+        object?: unknown;
+        /** Previous values of attributes that changed (for update events) */
+        previous_attributes?: unknown;
+    }
+}
+//# sourceMappingURL=Event.d.ts.map

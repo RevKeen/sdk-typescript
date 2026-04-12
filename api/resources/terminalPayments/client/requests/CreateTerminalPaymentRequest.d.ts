@@ -1,0 +1,21 @@
+/**
+ * @example
+ *     {
+ *         device_id: "d1e2f3a4-b5c6-7890-abcd-ef1234567890",
+ *         amount_minor: 5000,
+ *         currency: "GBP"
+ *     }
+ */
+export interface CreateTerminalPaymentRequest {
+    /** The ID of the terminal device to send the payment to. Use List Devices to discover available device IDs. Even merchants with a single terminal must pass the device_id explicitly — there is no auto-routing fallback. */
+    device_id: string;
+    /** Amount in minor units (e.g., pence for GBP, cents for USD) */
+    amount_minor: number;
+    /** ISO 4217 currency code */
+    currency: string;
+    /** The invoice to charge. Omit for walk-in or ad-hoc payments where no invoice exists. When omitted, the terminal payment is recorded without an invoice association. */
+    invoice_id?: string;
+    /** Custom reference for the payment. Auto-generated if not provided. */
+    reference?: string;
+}
+//# sourceMappingURL=CreateTerminalPaymentRequest.d.ts.map

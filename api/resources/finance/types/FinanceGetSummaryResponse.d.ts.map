@@ -1,0 +1,1 @@
+{"version":3,"file":"FinanceGetSummaryResponse.d.ts","sourceRoot":"","sources":["FinanceGetSummaryResponse.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,yBAAyB;IACtC,mBAAmB,EAAE,MAAM,CAAC;IAC5B,gBAAgB,EAAE,MAAM,CAAC;IACzB,qBAAqB,EAAE,MAAM,CAAC;IAC9B,uBAAuB,EAAE,MAAM,CAAC;CACnC"}
