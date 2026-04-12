@@ -1,0 +1,16 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {}
+ */
+export interface AnalyticsCheckoutAbandonmentListRequest {
+    /** Filter by alert status */
+    status?: RevKeen.AnalyticsCheckoutAbandonmentListRequestStatus;
+    /** Filter by severity level */
+    severity?: RevKeen.AnalyticsCheckoutAbandonmentListRequestSeverity;
+    /** Page number */
+    page?: number;
+    /** Results per page (1-100) */
+    pageSize?: number;
+}
+//# sourceMappingURL=AnalyticsCheckoutAbandonmentListRequest.d.ts.map

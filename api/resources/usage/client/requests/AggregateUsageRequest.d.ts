@@ -1,0 +1,23 @@
+/**
+ * @example
+ *     {
+ *         meterId: "mtr_abc123",
+ *         start_time: "2026-03-01T00:00:00Z",
+ *         end_time: "2026-03-31T23:59:59Z"
+ *     }
+ */
+export interface AggregateUsageRequest {
+    /** Meter ID */
+    meterId: string;
+    /** Start of time range (ISO 8601) */
+    start_time: string;
+    /** End of time range (ISO 8601) */
+    end_time: string;
+    /** Filter by customer ID */
+    customer_id?: string;
+    /** Filter by external customer ID */
+    external_customer_id?: string;
+    /** Filter by subscription ID */
+    subscription_id?: string;
+}
+//# sourceMappingURL=AggregateUsageRequest.d.ts.map
