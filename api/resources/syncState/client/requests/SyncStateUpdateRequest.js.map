@@ -1,0 +1,1 @@
+{"version":3,"file":"SyncStateUpdateRequest.js","sourceRoot":"","sources":["SyncStateUpdateRequest.ts"],"names":[],"mappings":"AAAA,gEAAgE;AAwBhE,MAAM,KAAW,sBAAsB,CAQtC;AARD,WAAiB,sBAAsB;IACtB,qCAAc,GAAG;QAC1B,IAAI,EAAE,MAAM;QACZ,OAAO,EAAE,SAAS;QAClB,OAAO,EAAE,SAAS;QAClB,KAAK,EAAE,OAAO;KACR,CAAC;AAEf,CAAC,EARgB,sBAAsB,KAAtB,sBAAsB,QAQtC"}

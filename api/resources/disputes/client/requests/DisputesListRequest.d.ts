@@ -1,0 +1,30 @@
+import type * as RevKeen from "../../../../index.js";
+/**
+ * @example
+ *     {
+ *         disputed_after: "2024-01-01T00:00:00Z",
+ *         disputed_before: "2024-12-31T23:59:59Z",
+ *         limit: 20
+ *     }
+ */
+export interface DisputesListRequest {
+    /** Filter by dispute status */
+    status?: RevKeen.DisputesListRequestStatus;
+    /** Filter by resolution outcome */
+    resolution?: RevKeen.DisputesListRequestResolution;
+    /** Filter by original payment ID */
+    payment_id?: string;
+    /** Filter by payment gateway (nmi, stripe, etc.) */
+    gateway?: string;
+    /** ISO 8601 date - only disputes after this date */
+    disputed_after?: string;
+    /** ISO 8601 date - only disputes before this date */
+    disputed_before?: string;
+    /** Only show disputes that need evidence submission */
+    needs_evidence?: RevKeen.DisputesListRequestNeedsEvidence;
+    /** Number of results to return (1-100) */
+    limit?: number;
+    /** Number of results to skip */
+    offset?: number | null;
+}
+//# sourceMappingURL=DisputesListRequest.d.ts.map

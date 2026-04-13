@@ -1,0 +1,40 @@
+/**
+ * @example
+ *     {
+ *         amount: 5000,
+ *         customer: "customer"
+ *     }
+ */
+export interface CreatePaymentIntentRequest {
+    /** Amount in cents. Must be greater than 0. */
+    amount: number;
+    /** Three-letter ISO currency code. Defaults to USD. */
+    currency?: string;
+    /** Customer ID to charge */
+    customer: string;
+    /** Payment method ID. If not provided, status will be requires_payment_method. */
+    payment_method?: string;
+    /** Capture method. Defaults to automatic. */
+    capture_method?: CreatePaymentIntentRequest.CaptureMethod;
+    /** Description for merchant reference */
+    description?: string;
+    /** Statement descriptor shown on customer's statement */
+    statement_descriptor?: string;
+    /** Statement descriptor suffix */
+    statement_descriptor_suffix?: string;
+    /** Email to send receipt to */
+    receipt_email?: string;
+    /** Custom key-value metadata */
+    metadata?: Record<string, unknown>;
+    /** Specific gateway merchant ID for multi-MID setups (NMI) */
+    gateway_merchant_id?: string;
+}
+export declare namespace CreatePaymentIntentRequest {
+    /** Capture method. Defaults to automatic. */
+    const CaptureMethod: {
+        readonly Automatic: "automatic";
+        readonly Manual: "manual";
+    };
+    type CaptureMethod = (typeof CaptureMethod)[keyof typeof CaptureMethod];
+}
+//# sourceMappingURL=CreatePaymentIntentRequest.d.ts.map
