@@ -1,0 +1,53 @@
+{
+  "name": "@revkeen/sdk",
+  "version": "1.20260414.871",
+  "description": "RevKeen API SDK - Stripe-like billing infrastructure for your SaaS",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "**/*.ts",
+    "!**/*.test.ts"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "form-data": "^4.0.0",
+    "readable-stream": "^4.5.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.0",
+    "@types/readable-stream": "^4.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/revkeen/sdk-typescript.git"
+  },
+  "keywords": [
+    "revkeen",
+    "billing",
+    "payments",
+    "subscriptions",
+    "invoices",
+    "saas",
+    "api",
+    "sdk"
+  ],
+  "author": "RevKeen <support@revkeen.com>",
+  "license": "MIT",
+  "homepage": "https://revkeen.com",
+  "engines": {
+    "node": ">=18"
+  }
+}
