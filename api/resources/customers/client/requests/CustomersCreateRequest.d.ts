@@ -1,0 +1,19 @@
+/**
+ * @example
+ *     {
+ *         email: "email"
+ *     }
+ */
+export interface CustomersCreateRequest {
+    /** Customer's email address (must be unique per merchant) */
+    email: string;
+    /** Customer's full name */
+    name?: string;
+    /** Customer's phone number */
+    phone?: string;
+    /** Arbitrary key-value metadata to attach to this customer */
+    metadata?: Record<string, unknown>;
+    /** Merchant-defined custom fields displayed as columns in the dashboard */
+    customFields?: Record<string, unknown>;
+}
+//# sourceMappingURL=CustomersCreateRequest.d.ts.map

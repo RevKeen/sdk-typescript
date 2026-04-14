@@ -1,0 +1,21 @@
+/**
+ * @example
+ *     {
+ *         customer_id: "customer_id"
+ *     }
+ */
+export interface EntitlementsListRequest {
+    /** Customer UUID (required) */
+    customer_id: string;
+    /** Include expired entitlements */
+    include_expired?: boolean | null;
+    /** Filter by benefit type */
+    benefit_type?: string;
+    /** Filter by category */
+    category?: string;
+    /** Maximum results (1-100) */
+    limit?: number;
+    /** Results to skip */
+    offset?: number | null;
+}
+//# sourceMappingURL=EntitlementsListRequest.d.ts.map

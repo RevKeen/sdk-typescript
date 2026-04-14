@@ -1,0 +1,1 @@
+{"version":3,"file":"WebhookEndpointsUpdateRequest.d.ts","sourceRoot":"","sources":["WebhookEndpointsUpdateRequest.ts"],"names":[],"mappings":"AAEA;;;;;GAKG;AACH,MAAM,WAAW,6BAA6B;IAC1C,EAAE,EAAE,MAAM,CAAC;IACX,GAAG,CAAC,EAAE,MAAM,CAAC;IACb,cAAc,CAAC,EAAE,MAAM,EAAE,CAAC;IAC1B,WAAW,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;IAC5B,OAAO,CAAC,EAAE,OAAO,CAAC;CACrB"}
