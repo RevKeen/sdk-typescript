@@ -1,137 +1,65 @@
 # RevKeen TypeScript SDK
 
-[![npm version](https://img.shields.io/npm/v/@revkeen/sdk.svg)](https://www.npmjs.com/package/@revkeen/sdk)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+The official TypeScript and JavaScript client for the [RevKeen API](https://docs.revkeen.com). Typed end-to-end from the OpenAPI spec, with auto-pagination, automatic retries, webhook verification, and first-class OAuth support.
 
-Official TypeScript/Node.js SDK for the [RevKeen API](https://docs.revkeen.com/api-reference/openapi) — auto-generated from the OpenAPI specification via [Hey API](https://heyapi.dev).
+[![npm version](https://img.shields.io/npm/v/@revkeen/sdk?style=flat-square&color=000)](https://www.npmjs.com/package/@revkeen/sdk)
+[![CI](https://img.shields.io/github/actions/workflow/status/RevKeen/sdk-typescript/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/RevKeen/sdk-typescript/actions)
+[![License: MIT](https://img.shields.io/badge/license-MIT-000?style=flat-square)](./LICENSE)
+[![Docs](https://img.shields.io/badge/docs-docs.revkeen.com-000?style=flat-square)](https://docs.revkeen.com/docs/sdks/typescript)
 
-## Installation
+## Install
 
 ```bash
 npm install @revkeen/sdk
+# or: pnpm add / yarn add / bun add
 ```
 
-```bash
-pnpm add @revkeen/sdk
-```
+Requires Node.js 18+ (or any modern runtime with `fetch`). Ships with full TypeScript definitions — no `@types` package needed.
 
-```bash
-yarn add @revkeen/sdk
-```
+## Quick start
 
-## Quick Start
+```ts
+import { RevKeen } from "@revkeen/sdk";
 
-```typescript
-import { RevKeen } from '@revkeen/sdk';
-
-const client = new RevKeen({ apiKey: process.env.REVKEEN_API_KEY! });
-
-const customers = await client.customers.list({ limit: 10 });
-
-for (const customer of customers.data) {
-  console.log(customer.name, customer.email);
-}
-```
-
-## Authentication
-
-### API Key (recommended for server-to-server)
-
-```typescript
-const client = new RevKeen({ apiKey: process.env.REVKEEN_API_KEY! });
-```
-
-### OAuth 2.1 (recommended for MCP and third-party integrations)
-
-```typescript
-const client = new RevKeen({
-  oauth: {
-    clientId: process.env.REVKEEN_CLIENT_ID!,
-    clientSecret: process.env.REVKEEN_CLIENT_SECRET!,
-    scopes: ['customers:read', 'invoices:read'],
-  },
-});
-```
-
-The SDK handles token acquisition, caching, and automatic refresh. See the [OAuth guide](https://docs.revkeen.com/docs/developers/oauth) for details.
-
-## Resources
-
-Every API resource is available as a typed property on the client:
-
-| Resource | Method examples |
-|----------|----------------|
-| `client.customers` | `list()`, `create()`, `get()`, `update()`, `delete()` |
-| `client.invoices` | `list()`, `create()`, `get()`, `update()`, `finalize()`, `send()`, `void()` |
-| `client.subscriptions` | `list()`, `create()`, `get()`, `update()`, `cancel()`, `pause()`, `resume()` |
-| `client.products` | `list()`, `create()`, `get()`, `update()`, `delete()` |
-| `client.payments` | `list()`, `create()`, `get()` |
-| `client.checkoutSessions` | `create()`, `get()` |
-| `client.discounts` | `list()`, `create()`, `get()`, `update()`, `delete()` |
-| `client.creditNotes` | `list()`, `create()`, `get()` |
-| `client.paymentLinks` | `list()`, `create()`, `get()`, `update()` |
-| `client.paymentMethods` | `list()`, `get()`, `detach()` |
-| `client.webhookEndpoints` | `list()`, `create()`, `delete()` |
-| `client.events` | `list()`, `get()` |
-| `client.entitlements` | `list()`, `check()` |
-
-## Webhook Verification
-
-```typescript
-import { constructEvent, WebhookSignatureVerificationError } from '@revkeen/sdk';
-
-try {
-  const event = constructEvent(
-    requestBody,
-    headers['revkeen-signature'],
-    process.env.REVKEEN_WEBHOOK_SECRET!
-  );
-
-  switch (event.type) {
-    case 'invoice.paid':
-      console.log('Invoice paid:', event.data.id);
-      break;
-  }
-} catch (error) {
-  if (error instanceof WebhookSignatureVerificationError) {
-    console.error('Invalid signature');
-  }
-}
-```
-
-## Error Handling
-
-```typescript
-try {
-  const customer = await client.customers.get('cus_nonexistent');
-} catch (error) {
-  if (error instanceof RevKeen.ApiError) {
-    console.error(`API error ${error.statusCode}: ${error.message}`);
-  }
-}
-```
-
-## Configuration
-
-```typescript
 const client = new RevKeen({
   apiKey: process.env.REVKEEN_API_KEY!,
-  // Staging environment
-  baseUrl: 'https://staging-api.revkeen.com',
-  // Custom timeout (ms)
-  timeoutInSeconds: 30,
 });
+
+const customer = await client.customers.create({
+  email: "ops@acme.example",
+  name: "Acme Inc.",
+});
+
+console.log(customer.id);
 ```
 
-## Compatibility
+## Features
 
-- **Runtime:** Node.js 18+
-- **Package format:** ESM and CommonJS
-- **TypeScript:** Full type definitions included
+- **Typed request and response shapes** — autocomplete and compile-time validation for every field
+- **Automatic pagination** — `for await (const invoice of client.invoices.list())`
+- **Automatic retries** — idempotent requests retry on `5xx`, `429`, and network errors with exponential backoff
+- **Idempotency keys** — attached automatically on safe-to-retry mutations
+- **Webhook verification** — `client.webhooks.verify(rawBody, signature, secret)`
+- **OAuth 2.1 + API-key auth** — drop in either, mix per-request
+- **Runtime-agnostic** — Node.js, Bun, Deno, Cloudflare Workers, Vercel Edge
 
-## Links
+## Documentation
 
-- [API Reference](https://docs.revkeen.com/api-reference/openapi)
-- [SDK Documentation](https://docs.revkeen.com/docs/developers/sdks/typescript)
-- [Go SDK](https://github.com/revkeen/sdk-go)
-- [PHP SDK](https://github.com/revkeen/sdk-php)
+- [SDK docs](https://docs.revkeen.com/docs/sdks/typescript) — examples, recipes, and full API surface
+- [API reference](https://docs.revkeen.com/docs/api-reference) — every endpoint, from the OpenAPI spec
+- [Webhooks guide](https://docs.revkeen.com/docs/webhooks) — signature verification + event catalogue
+- [Versioning](https://docs.revkeen.com/docs/fundamentals/versioning) — API ↔ SDK compatibility matrix
+
+## Generation
+
+This SDK is generated from the [canonical OpenAPI spec](https://docs.revkeen.com/docs/api-reference). The generator runs on every spec change — see `.github/workflows/generate.yml`. A human-authored layer adds idiomatic helpers for pagination, retries, webhooks, and errors.
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, test instructions, and the release process.
+
+Please file issues and feature requests on the [issue tracker](https://github.com/RevKeen/sdk-typescript/issues). For security disclosures, see [SECURITY.md](./SECURITY.md).
+
+## License
+
+[MIT](./LICENSE) — © RevKeen.
