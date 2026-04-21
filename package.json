@@ -1,0 +1,56 @@
+{
+  "name": "@revkeen/sdk",
+  "version": "1.20260421.952",
+  "description": "RevKeen TypeScript SDK — Know What You Keep",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./webhooks": {
+      "types": "./dist/webhooks.d.ts",
+      "import": "./dist/webhooks.mjs",
+      "require": "./dist/webhooks.js"
+    },
+    "./auth": {
+      "types": "./dist/auth.d.ts",
+      "import": "./dist/auth.mjs",
+      "require": "./dist/auth.js"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "generate:webhooks": "node scripts/sync-webhooks.mjs",
+    "generate:client": "openapi-ts --file openapi-ts.config.ts",
+    "generate:wrapper": "tsx scripts/generate-resources.ts",
+    "generate": "pnpm generate:webhooks && pnpm generate:client && pnpm generate:wrapper",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^3.1.1"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/revkeen/sdk"
+  },
+  "keywords": [
+    "revkeen",
+    "payments",
+    "billing",
+    "sdk",
+    "api"
+  ],
+  "dependencies": {}
+}
