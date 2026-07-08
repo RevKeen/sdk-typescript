@@ -1,159 +1,3 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// src/index.ts
-var src_exports = {};
-__export(src_exports, {
-  OAuthTokenManager: () => OAuthTokenManager,
-  RevKeen: () => RevKeenClient,
-  RevKeenAPIError: () => RevKeenAPIError,
-  RevKeenClient: () => RevKeenClient,
-  RevKeenError: () => RevKeenError,
-  RevKeenTimeoutError: () => RevKeenTimeoutError,
-  WEBHOOK_TOLERANCE_IN_SECONDS: () => WEBHOOK_TOLERANCE_IN_SECONDS,
-  WebhookSignatureVerificationError: () => WebhookSignatureVerificationError,
-  analyticsRevenueMrrSummary: () => analyticsRevenueMrrSummary,
-  analyticsRevenueTimeSeries: () => analyticsRevenueTimeSeries,
-  buildGeneratedResources: () => buildGeneratedResources,
-  cartSessionsAddLineItem: () => cartSessionsAddLineItem,
-  cartSessionsApplyDiscountCode: () => cartSessionsApplyDiscountCode,
-  cartSessionsConvert: () => cartSessionsConvert,
-  cartSessionsCreate: () => cartSessionsCreate,
-  cartSessionsGet: () => cartSessionsGet,
-  cartSessionsRemoveLineItem: () => cartSessionsRemoveLineItem,
-  cartSessionsToggleAddOn: () => cartSessionsToggleAddOn,
-  cartSessionsUpdateLineItem: () => cartSessionsUpdateLineItem,
-  checkoutSessionsCreate: () => checkoutSessionsCreate,
-  checkoutSessionsExpire: () => checkoutSessionsExpire,
-  checkoutSessionsGet: () => checkoutSessionsGet,
-  constructEvent: () => constructEvent,
-  constructEventWithHeaders: () => constructEventWithHeaders,
-  creditNotesCreate: () => creditNotesCreate,
-  creditNotesGet: () => creditNotesGet,
-  creditNotesList: () => creditNotesList,
-  creditNotesListLines: () => creditNotesListLines,
-  creditNotesPreview: () => creditNotesPreview,
-  creditNotesVoid: () => creditNotesVoid,
-  customerMetersGet: () => customerMetersGet,
-  customerMetersList: () => customerMetersList,
-  customerPortalCustomerGet: () => customerPortalCustomerGet,
-  customerPortalInvoicesGet: () => customerPortalInvoicesGet,
-  customerPortalInvoicesList: () => customerPortalInvoicesList,
-  customerPortalMandatesList: () => customerPortalMandatesList,
-  customerPortalMandatesReauthorize: () => customerPortalMandatesReauthorize,
-  customerPortalSessionsCreate: () => customerPortalSessionsCreate,
-  customerPortalSubscriptionsCancel: () => customerPortalSubscriptionsCancel,
-  customerPortalSubscriptionsGet: () => customerPortalSubscriptionsGet,
-  customerPortalSubscriptionsList: () => customerPortalSubscriptionsList,
-  customersCreate: () => customersCreate,
-  customersGet: () => customersGet,
-  customersList: () => customersList,
-  customersPaymentMethodsList: () => customersPaymentMethodsList,
-  customersPaymentRailsGet: () => customersPaymentRailsGet,
-  customersPreferredRailsGet: () => customersPreferredRailsGet,
-  customersUpdate: () => customersUpdate,
-  ddMandateRequestsGet: () => ddMandateRequestsGet,
-  ddPreview: () => ddPreview,
-  ddValidate: () => ddValidate,
-  default: () => RevKeenClient,
-  entitlementsCheck: () => entitlementsCheck,
-  entitlementsList: () => entitlementsList,
-  eventsGet: () => eventsGet,
-  eventsList: () => eventsList,
-  eventsResend: () => eventsResend,
-  extractWebhookHeaders: () => extractWebhookHeaders,
-  invoicesCreate: () => invoicesCreate,
-  invoicesFinalize: () => invoicesFinalize,
-  invoicesGet: () => invoicesGet,
-  invoicesList: () => invoicesList,
-  invoicesMarginEstimate: () => invoicesMarginEstimate,
-  invoicesSend: () => invoicesSend,
-  invoicesUpdate: () => invoicesUpdate,
-  invoicesVoid: () => invoicesVoid,
-  mandatesCancel: () => mandatesCancel,
-  mandatesCreate: () => mandatesCreate,
-  mandatesGet: () => mandatesGet,
-  mandatesList: () => mandatesList,
-  mandatesReinstate: () => mandatesReinstate,
-  mandatesScheduleCollection: () => mandatesScheduleCollection,
-  mandatesSuspend: () => mandatesSuspend,
-  paymentIntentsCancel: () => paymentIntentsCancel,
-  paymentIntentsCapture: () => paymentIntentsCapture,
-  paymentIntentsConfirm: () => paymentIntentsConfirm,
-  paymentIntentsCreate: () => paymentIntentsCreate,
-  paymentIntentsGet: () => paymentIntentsGet,
-  paymentIntentsList: () => paymentIntentsList,
-  paymentLinksActivate: () => paymentLinksActivate,
-  paymentLinksArchive: () => paymentLinksArchive,
-  paymentLinksCreate: () => paymentLinksCreate,
-  paymentLinksDeactivate: () => paymentLinksDeactivate,
-  paymentLinksExpire: () => paymentLinksExpire,
-  paymentLinksGet: () => paymentLinksGet,
-  paymentLinksList: () => paymentLinksList,
-  paymentLinksUpdate: () => paymentLinksUpdate,
-  pricesArchive: () => pricesArchive,
-  pricesCreate: () => pricesCreate,
-  pricesGet: () => pricesGet,
-  pricesList: () => pricesList,
-  pricesUpdate: () => pricesUpdate,
-  productsCreate: () => productsCreate,
-  productsGet: () => productsGet,
-  productsList: () => productsList,
-  productsUpdate: () => productsUpdate,
-  refundsCreate: () => refundsCreate,
-  refundsGet: () => refundsGet,
-  refundsList: () => refundsList,
-  subscriptionsCancel: () => subscriptionsCancel,
-  subscriptionsCreate: () => subscriptionsCreate,
-  subscriptionsGet: () => subscriptionsGet,
-  subscriptionsList: () => subscriptionsList,
-  subscriptionsUpdate: () => subscriptionsUpdate,
-  transactionsGet: () => transactionsGet,
-  transactionsList: () => transactionsList,
-  verifySignature: () => verifySignature,
-  webhookDeliveriesGet: () => webhookDeliveriesGet,
-  webhookDeliveriesList: () => webhookDeliveriesList,
-  webhookDeliveriesRetry: () => webhookDeliveriesRetry,
-  webhookEndpointsCreate: () => webhookEndpointsCreate,
-  webhookEndpointsDelete: () => webhookEndpointsDelete,
-  webhookEndpointsGet: () => webhookEndpointsGet,
-  webhookEndpointsList: () => webhookEndpointsList,
-  webhookEndpointsRotateSecret: () => webhookEndpointsRotateSecret,
-  webhookEndpointsUpdate: () => webhookEndpointsUpdate,
-  webhooks: () => webhooks_default
-});
-module.exports = __toCommonJS(src_exports);
-
-// src/generated/core/bodySerializer.gen.ts
-var jsonBodySerializer = {
-  bodySerializer: (body) => JSON.stringify(body, (_key, value) => typeof value === "bigint" ? value.toString() : value)
-};
-
-// src/generated/core/params.gen.ts
-var extraPrefixesMap = {
-  $body_: "body",
-  $headers_: "headers",
-  $path_: "path",
-  $query_: "query"
-};
-var extraPrefixes = Object.entries(extraPrefixesMap);
-
 // src/generated/core/serverSentEvents.gen.ts
 function createSseClient({
   onRequest,
@@ -515,6 +359,11 @@ var getAuthToken = async (auth, callback) => {
     return `Basic ${btoa(token)}`;
   }
   return token;
+};
+
+// src/generated/core/bodySerializer.gen.ts
+var jsonBodySerializer = {
+  bodySerializer: (body) => JSON.stringify(body, (_key, value) => typeof value === "bigint" ? value.toString() : value)
 };
 
 // src/generated/client/utils.gen.ts
@@ -942,6 +791,15 @@ var createClient = (config = {}) => {
     trace: makeMethodFn("TRACE")
   };
 };
+
+// src/generated/core/params.gen.ts
+var extraPrefixesMap = {
+  $body_: "body",
+  $headers_: "headers",
+  $path_: "path",
+  $query_: "query"
+};
+var extraPrefixes = Object.entries(extraPrefixesMap);
 
 // src/generated/client.gen.ts
 var client = createClient(createConfig({ baseUrl: "https://staging-api.revkeen.com/v2" }));
@@ -1626,647 +1484,109 @@ var mandatesScheduleCollection = (options) => (options.client ?? client).post({
   }
 });
 
-// src/generated-resources.ts
-function buildGeneratedResources(runtime) {
-  return {
-    analytics: {
-      revenueMrrSummary: async (query) => runtime.requestData(analyticsRevenueMrrSummary, query === void 0 ? void 0 : { query }),
-      revenueTimeSeries: async (query) => runtime.requestData(analyticsRevenueTimeSeries, query === void 0 ? void 0 : { query })
-    },
-    cart: {
-      sessionsAddLineItem: async (id, body) => runtime.requestData(cartSessionsAddLineItem, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsApplyDiscountCode: async (id, body) => runtime.requestData(cartSessionsApplyDiscountCode, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsConvert: async (id) => runtime.requestData(cartSessionsConvert, { path: { id } }),
-      sessionsCreate: async (body) => runtime.requestData(cartSessionsCreate, body === void 0 ? void 0 : { body }),
-      sessionsGet: async (id) => runtime.requestData(cartSessionsGet, { path: { id } }),
-      sessionsRemoveLineItem: async (path) => runtime.requestData(cartSessionsRemoveLineItem, { path }),
-      sessionsToggleAddOn: async (id, body) => runtime.requestData(cartSessionsToggleAddOn, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsUpdateLineItem: async (params) => runtime.requestData(cartSessionsUpdateLineItem, { path: params.path, ...params.body === void 0 ? {} : { body: params.body } })
-    },
-    checkoutSessions: {
-      create: async (body) => runtime.requestData(checkoutSessionsCreate, body === void 0 ? void 0 : { body }),
-      expire: async (id) => runtime.requestData(checkoutSessionsExpire, { path: { id } }),
-      get: async (id) => runtime.requestData(checkoutSessionsGet, { path: { id } })
-    },
-    creditNotes: {
-      create: async (body) => runtime.requestData(creditNotesCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(creditNotesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(creditNotesList, query === void 0 ? void 0 : { query }),
-      listLines: async (id, query) => runtime.requestData(creditNotesListLines, query === void 0 ? { path: { id } } : { path: { id }, query }),
-      preview: async (body) => runtime.requestData(creditNotesPreview, { body }),
-      void: async (id) => runtime.requestData(creditNotesVoid, { path: { id } })
-    },
-    customer: {
-      metersGet: async (path) => runtime.requestData(customerMetersGet, { path }),
-      metersList: async (query) => runtime.requestData(customerMetersList, query === void 0 ? void 0 : { query }),
-      portalCustomerGet: async () => runtime.requestData(customerPortalCustomerGet, void 0),
-      portalInvoicesGet: async (id) => runtime.requestData(customerPortalInvoicesGet, { path: { id } }),
-      portalInvoicesList: async (query) => runtime.requestData(customerPortalInvoicesList, query === void 0 ? void 0 : { query }),
-      portalMandatesList: async () => runtime.requestData(customerPortalMandatesList, void 0),
-      portalMandatesReauthorize: async (id, body) => runtime.requestData(customerPortalMandatesReauthorize, { path: { id }, body }),
-      portalSessionsCreate: async (body) => runtime.requestData(customerPortalSessionsCreate, { body }),
-      portalSubscriptionsCancel: async (id, body) => runtime.requestData(customerPortalSubscriptionsCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      portalSubscriptionsGet: async (id) => runtime.requestData(customerPortalSubscriptionsGet, { path: { id } }),
-      portalSubscriptionsList: async (query) => runtime.requestData(customerPortalSubscriptionsList, query === void 0 ? void 0 : { query })
-    },
-    customers: {
-      create: async (body) => runtime.requestData(customersCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(customersGet, { path: { id } }),
-      list: async (query) => runtime.requestData(customersList, query === void 0 ? void 0 : { query }),
-      paymentMethodsList: async (id) => runtime.requestData(customersPaymentMethodsList, { path: { id } }),
-      paymentRailsGet: async (id, query) => runtime.requestData(customersPaymentRailsGet, query === void 0 ? { path: { id } } : { path: { id }, query }),
-      preferredRailsGet: async (id, query) => runtime.requestData(customersPreferredRailsGet, query === void 0 ? { path: { id } } : { path: { id }, query }),
-      update: async (id, body) => runtime.requestData(customersUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    dd: {
-      mandateRequestsGet: async (id) => runtime.requestData(ddMandateRequestsGet, { path: { token: id } }),
-      preview: async (body) => runtime.requestData(ddPreview, body === void 0 ? void 0 : { body }),
-      validate: async (body) => runtime.requestData(ddValidate, body === void 0 ? void 0 : { body })
-    },
-    entitlements: {
-      check: async (query) => runtime.requestData(entitlementsCheck, query === void 0 ? void 0 : { query }),
-      list: async (query) => runtime.requestData(entitlementsList, query === void 0 ? void 0 : { query })
-    },
-    events: {
-      get: async (id) => runtime.requestData(eventsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(eventsList, query === void 0 ? void 0 : { query }),
-      resend: async (id) => runtime.requestData(eventsResend, { path: { id } })
-    },
-    invoices: {
-      create: async (body) => runtime.requestData(invoicesCreate, { body }),
-      finalize: async (id, body) => runtime.requestData(invoicesFinalize, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      get: async (id) => runtime.requestData(invoicesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(invoicesList, query === void 0 ? void 0 : { query }),
-      marginEstimate: async (id, body) => runtime.requestData(invoicesMarginEstimate, { path: { id }, body }),
-      send: async (id, body) => runtime.requestData(invoicesSend, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      update: async (id, body) => runtime.requestData(invoicesUpdate, { path: { id }, body }),
-      void: async (id, body) => runtime.requestData(invoicesVoid, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    mandates: {
-      cancel: async (id, body) => runtime.requestData(mandatesCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      create: async (body) => runtime.requestData(mandatesCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(mandatesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(mandatesList, query === void 0 ? void 0 : { query }),
-      reinstate: async (id, body) => runtime.requestData(mandatesReinstate, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      scheduleCollection: async (id, body) => runtime.requestData(mandatesScheduleCollection, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      suspend: async (id, body) => runtime.requestData(mandatesSuspend, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    paymentIntents: {
-      cancel: async (id, body) => runtime.requestData(paymentIntentsCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      capture: async (id, body) => runtime.requestData(paymentIntentsCapture, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      confirm: async (id, body) => runtime.requestData(paymentIntentsConfirm, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      create: async (body) => runtime.requestData(paymentIntentsCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(paymentIntentsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(paymentIntentsList, query === void 0 ? void 0 : { query })
-    },
-    paymentLinks: {
-      activate: async (id) => runtime.requestData(paymentLinksActivate, { path: { id } }),
-      archive: async (id) => runtime.requestData(paymentLinksArchive, { path: { id } }),
-      create: async (body) => runtime.requestData(paymentLinksCreate, body === void 0 ? void 0 : { body }),
-      deactivate: async (id) => runtime.requestData(paymentLinksDeactivate, { path: { id } }),
-      expire: async (id, body) => runtime.requestData(paymentLinksExpire, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      get: async (id) => runtime.requestData(paymentLinksGet, { path: { id } }),
-      list: async (query) => runtime.requestData(paymentLinksList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(paymentLinksUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    prices: {
-      archive: async (id) => runtime.requestData(pricesArchive, { path: { id } }),
-      create: async (body) => runtime.requestData(pricesCreate, { body }),
-      get: async (id) => runtime.requestData(pricesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(pricesList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(pricesUpdate, { path: { id }, body })
-    },
-    products: {
-      create: async (body) => runtime.requestData(productsCreate, { body }),
-      get: async (id) => runtime.requestData(productsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(productsList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(productsUpdate, { path: { id }, body })
-    },
-    refunds: {
-      create: async (body) => runtime.requestData(refundsCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(refundsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(refundsList, query === void 0 ? void 0 : { query })
-    },
-    subscriptions: {
-      cancel: async (id, body) => runtime.requestData(subscriptionsCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      create: async (body) => runtime.requestData(subscriptionsCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(subscriptionsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(subscriptionsList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(subscriptionsUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    transactions: {
-      get: async (id) => runtime.requestData(transactionsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(transactionsList, query === void 0 ? void 0 : { query })
-    },
-    webhook: {
-      deliveriesGet: async (id) => runtime.requestData(webhookDeliveriesGet, { path: { id } }),
-      deliveriesList: async (query) => runtime.requestData(webhookDeliveriesList, query === void 0 ? void 0 : { query }),
-      deliveriesRetry: async (id) => runtime.requestData(webhookDeliveriesRetry, { path: { id } })
-    },
-    webhookEndpoints: {
-      create: async (body) => runtime.requestData(webhookEndpointsCreate, body === void 0 ? void 0 : { body }),
-      delete: async (id) => runtime.requestData(webhookEndpointsDelete, { path: { id } }),
-      get: async (id) => runtime.requestData(webhookEndpointsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(webhookEndpointsList, query === void 0 ? void 0 : { query }),
-      rotateSecret: async (id) => runtime.requestData(webhookEndpointsRotateSecret, { path: { id } }),
-      update: async (id, body) => runtime.requestData(webhookEndpointsUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    }
-  };
-}
-
-// src/core/errors.ts
-var RevKeenError = class extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "RevKeenError";
-  }
-};
-var RevKeenAPIError = class extends RevKeenError {
-  constructor(status, message, body) {
-    super(message);
-    this.status = status;
-    this.body = body;
-    this.name = "RevKeenAPIError";
-  }
-  status;
-  body;
-};
-var RevKeenTimeoutError = class extends RevKeenError {
-  constructor(message) {
-    super(message);
-    this.name = "RevKeenTimeoutError";
-  }
-};
-
-// src/core/oauth.ts
-var DEFAULT_TOKEN_ENDPOINT = "https://api.revkeen.com/api/auth/oauth2/token";
-var PRE_EXPIRY_BUFFER_MS = 6e4;
-var OAuthTokenManager = class {
-  config;
-  cachedToken = null;
-  inflightRequest = null;
-  constructor(config) {
-    this.config = {
-      clientId: config.clientId,
-      clientSecret: config.clientSecret,
-      tokenEndpoint: config.tokenEndpoint || DEFAULT_TOKEN_ENDPOINT,
-      scopes: config.scopes
-    };
-  }
-  async getToken() {
-    if (this.cachedToken && Date.now() < this.cachedToken.expiresAt - PRE_EXPIRY_BUFFER_MS) {
-      return this.cachedToken.accessToken;
-    }
-    if (this.inflightRequest) {
-      return this.inflightRequest;
-    }
-    this.inflightRequest = this.fetchToken();
-    try {
-      return await this.inflightRequest;
-    } finally {
-      this.inflightRequest = null;
-    }
-  }
-  async fetchToken() {
-    if (this.cachedToken?.refreshToken) {
-      try {
-        return await this.requestToken("refresh_token");
-      } catch {
-      }
-    }
-    return await this.requestToken("client_credentials");
-  }
-  async requestToken(grantType) {
-    const body = new URLSearchParams();
-    body.set("grant_type", grantType);
-    if (grantType === "client_credentials") {
-      body.set("client_id", this.config.clientId);
-      body.set("client_secret", this.config.clientSecret);
-      if (this.config.scopes?.length) {
-        body.set("scope", this.config.scopes.join(" "));
-      }
-    } else if (grantType === "refresh_token" && this.cachedToken?.refreshToken) {
-      body.set("refresh_token", this.cachedToken.refreshToken);
-      body.set("client_id", this.config.clientId);
-      body.set("client_secret", this.config.clientSecret);
-    }
-    const res = await fetch(this.config.tokenEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: body.toString()
-    });
-    if (!res.ok) {
-      const errorBody = await res.text().catch(() => "");
-      throw new RevKeenError(
-        `OAuth token request failed (${res.status}): ${errorBody || res.statusText}`
-      );
-    }
-    const data = await res.json();
-    this.cachedToken = {
-      accessToken: data.access_token,
-      refreshToken: data.refresh_token ?? this.cachedToken?.refreshToken,
-      expiresAt: Date.now() + data.expires_in * 1e3
-    };
-    return data.access_token;
-  }
-};
-
-// src/client.ts
-var API_SECURITY = [
-  { name: "x-api-key", type: "apiKey" },
-  { scheme: "bearer", type: "http" }
-];
-function createTimeoutFetch(fetchImpl, timeoutMs) {
-  return async (input, init = {}) => {
-    const timeoutController = new AbortController();
-    const signal = init.signal ? AbortSignal.any([init.signal, timeoutController.signal]) : timeoutController.signal;
-    const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
-    try {
-      return await fetchImpl(input, {
-        ...init,
-        signal
-      });
-    } finally {
-      clearTimeout(timeoutId);
-    }
-  };
-}
-function getApiErrorMessage(error, fallback) {
-  if (typeof error === "string" && error.length > 0) {
-    return error;
-  }
-  if (error && typeof error === "object" && "error" in error && typeof error.error === "string") {
-    return error.error;
-  }
-  if (error && typeof error === "object" && "message" in error && typeof error.message === "string") {
-    return error.message;
-  }
-  return fallback;
-}
-var RevKeenClient = class {
-  generatedClient;
-  usage;
-  constructor(options) {
-    if (!options.apiKey && !options.oauth) {
-      throw new RevKeenError(
-        "RevKeenClient requires either 'apiKey' or 'oauth' configuration. See https://docs.revkeen.com/api/authentication"
-      );
-    }
-    if (options.apiKey && options.oauth) {
-      throw new RevKeenError(
-        "Provide either 'apiKey' or 'oauth', not both. Use 'apiKey' for server-to-server with Unkey keys, or 'oauth' for OAuth 2.1 client credentials."
-      );
-    }
-    const timeoutMs = options.timeout ?? 3e4;
-    const tokenManager = options.oauth ? new OAuthTokenManager(options.oauth) : null;
-    const fetchImpl = createTimeoutFetch(options.fetch ?? globalThis.fetch, timeoutMs);
-    this.generatedClient = createClient({
-      auth: async (auth) => {
-        if (auth.type === "apiKey") {
-          return options.apiKey;
-        }
-        if (auth.scheme === "bearer" && tokenManager) {
-          return tokenManager.getToken();
-        }
-        return void 0;
-      },
-      baseUrl: options.baseUrl || "https://api.revkeen.com/v2",
-      fetch: fetchImpl,
-      headers: options.headers
-    });
-    this.generatedClient.interceptors.error.use(async (error, response, request) => {
-      if (error instanceof RevKeenError) {
-        return error;
-      }
-      if (response) {
-        return new RevKeenAPIError(
-          response.status,
-          getApiErrorMessage(error, response.statusText),
-          error
-        );
-      }
-      if (error instanceof Error && error.name === "AbortError") {
-        return new RevKeenTimeoutError(
-          `Request timed out${request ? ` for ${request.method} ${request.url}` : ""}`
-        );
-      }
-      if (error instanceof Error) {
-        return new RevKeenError(`Network error: ${error.message}`);
-      }
-      return new RevKeenError("Unknown SDK error");
-    });
-    Object.assign(this, buildGeneratedResources(this));
-    this.usage = {
-      ingest: (body) => this.postUsage("/usage-events", body),
-      dryRun: (body) => this.postUsage("/usage-events/dry-run", body)
-    };
-  }
-  async requestData(fn, options) {
-    const result = await fn({
-      client: this.generatedClient,
-      throwOnError: true,
-      ...options ?? {}
-    });
-    if (result.data === void 0) {
-      throw new RevKeenError("SDK request completed without response data");
-    }
-    return result.data;
-  }
-  async postUsage(url, body) {
-    const result = await this.generatedClient.post({
-      security: API_SECURITY,
-      throwOnError: true,
-      url,
-      body
-    });
-    return result.data;
-  }
-};
-
-// src/webhooks.ts
-var import_crypto = require("crypto");
-var WEBHOOK_TOLERANCE_IN_SECONDS = 300;
-function extractWebhookHeaders(headers) {
-  const getHeader = (name) => {
-    const value = headers[name] || headers[name.toLowerCase()];
-    if (Array.isArray(value)) return value[0];
-    return value || void 0;
-  };
-  const signature = getHeader("X-Revkeen-Signature") || getHeader("x-rk-signature");
-  if (!signature) {
-    throw new WebhookSignatureVerificationError(
-      "Missing webhook signature header (X-Revkeen-Signature or x-rk-signature)"
-    );
-  }
-  return {
-    signature,
-    version: getHeader("X-Revkeen-Version"),
-    account: getHeader("X-Revkeen-Account"),
-    eventId: getHeader("X-Revkeen-Event-Id"),
-    timestamp: getHeader("X-Revkeen-Timestamp")
-  };
-}
-var WebhookSignatureVerificationError = class _WebhookSignatureVerificationError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "WebhookSignatureVerificationError";
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, _WebhookSignatureVerificationError);
-    }
-  }
-};
-function parseSignatureHeader(header) {
-  const parts = header.split(",");
-  let timestamp;
-  const signatures = [];
-  for (const part of parts) {
-    const [key, value] = part.split("=");
-    if (key === "t") {
-      timestamp = parseInt(value, 10);
-    } else if (key === "v1") {
-      signatures.push(value);
-    }
-  }
-  if (!timestamp || signatures.length === 0) {
-    throw new WebhookSignatureVerificationError(
-      "Invalid signature header: missing timestamp or signature"
-    );
-  }
-  return { timestamp, signatures };
-}
-function verifySignature(options) {
-  const {
-    payload,
-    signature,
-    secret,
-    tolerance = WEBHOOK_TOLERANCE_IN_SECONDS
-  } = options;
-  if (!signature) {
-    throw new WebhookSignatureVerificationError(
-      "Missing webhook signature header"
-    );
-  }
-  const parsed = parseSignatureHeader(signature);
-  const currentTime = Math.floor(Date.now() / 1e3);
-  const timeDiff = Math.abs(currentTime - parsed.timestamp);
-  if (timeDiff > tolerance) {
-    throw new WebhookSignatureVerificationError(
-      `Timestamp outside tolerance window (${timeDiff}s > ${tolerance}s). The webhook might be a replay attack, or your server's clock might be out of sync.`
-    );
-  }
-  const signedPayload = `${parsed.timestamp}.${payload}`;
-  const expectedSignature = (0, import_crypto.createHmac)("sha256", secret).update(signedPayload, "utf8").digest("hex");
-  const signatureValid = parsed.signatures.some((sig) => {
-    try {
-      const sigBuffer = Buffer.from(sig, "hex");
-      const expectedBuffer = Buffer.from(expectedSignature, "hex");
-      if (sigBuffer.length !== expectedBuffer.length) {
-        return false;
-      }
-      return (0, import_crypto.timingSafeEqual)(sigBuffer, expectedBuffer);
-    } catch {
-      return false;
-    }
-  });
-  if (!signatureValid) {
-    throw new WebhookSignatureVerificationError(
-      "Signature verification failed. Ensure you're using the correct webhook secret and the raw request body."
-    );
-  }
-  return true;
-}
-function constructEvent(payload, signature, secret, options) {
-  verifySignature({
-    payload,
-    signature,
-    secret,
-    tolerance: options?.tolerance
-  });
-  try {
-    const event = JSON.parse(payload);
-    if (!event.id || !event.type || !event.data) {
-      throw new Error("Invalid event structure");
-    }
-    return event;
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new WebhookSignatureVerificationError(
-        "Invalid JSON payload: " + error.message
-      );
-    }
-    throw error;
-  }
-}
-function constructEventWithHeaders(payload, headers, secret, options) {
-  verifySignature({
-    payload,
-    signature: headers.signature,
-    secret,
-    tolerance: options?.tolerance
-  });
-  try {
-    const event = JSON.parse(payload);
-    if (!event.id || !event.type || !event.data) {
-      throw new Error("Invalid event structure");
-    }
-    return {
-      ...event,
-      api_version: event.api_version || headers.version || "unknown",
-      account: event.account || headers.account
-    };
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new WebhookSignatureVerificationError(
-        "Invalid JSON payload: " + error.message
-      );
-    }
-    throw error;
-  }
-}
-var webhooks = {
-  /**
-   * Constructs and verifies a webhook event
-   * @see constructEvent
-   */
-  constructEvent,
-  /**
-   * Constructs and verifies a webhook event with header metadata
-   * @see constructEventWithHeaders
-   */
-  constructEventWithHeaders,
-  /**
-   * Extract webhook headers from request
-   * @see extractWebhookHeaders
-   */
-  extractWebhookHeaders,
-  /**
-   * Verifies a webhook signature without parsing the payload
-   * @see verifySignature
-   */
-  verifySignature,
-  /**
-   * Default timestamp tolerance in seconds
-   */
-  TOLERANCE_IN_SECONDS: WEBHOOK_TOLERANCE_IN_SECONDS
-};
-var webhooks_default = webhooks;
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  OAuthTokenManager,
-  RevKeen,
-  RevKeenAPIError,
-  RevKeenClient,
-  RevKeenError,
-  RevKeenTimeoutError,
-  WEBHOOK_TOLERANCE_IN_SECONDS,
-  WebhookSignatureVerificationError,
-  analyticsRevenueMrrSummary,
-  analyticsRevenueTimeSeries,
-  buildGeneratedResources,
-  cartSessionsAddLineItem,
-  cartSessionsApplyDiscountCode,
-  cartSessionsConvert,
-  cartSessionsCreate,
-  cartSessionsGet,
-  cartSessionsRemoveLineItem,
-  cartSessionsToggleAddOn,
-  cartSessionsUpdateLineItem,
-  checkoutSessionsCreate,
-  checkoutSessionsExpire,
-  checkoutSessionsGet,
-  constructEvent,
-  constructEventWithHeaders,
-  creditNotesCreate,
-  creditNotesGet,
-  creditNotesList,
-  creditNotesListLines,
-  creditNotesPreview,
-  creditNotesVoid,
-  customerMetersGet,
-  customerMetersList,
-  customerPortalCustomerGet,
-  customerPortalInvoicesGet,
-  customerPortalInvoicesList,
-  customerPortalMandatesList,
-  customerPortalMandatesReauthorize,
-  customerPortalSessionsCreate,
-  customerPortalSubscriptionsCancel,
-  customerPortalSubscriptionsGet,
-  customerPortalSubscriptionsList,
-  customersCreate,
-  customersGet,
-  customersList,
-  customersPaymentMethodsList,
-  customersPaymentRailsGet,
-  customersPreferredRailsGet,
-  customersUpdate,
-  ddMandateRequestsGet,
-  ddPreview,
-  ddValidate,
-  entitlementsCheck,
-  entitlementsList,
-  eventsGet,
-  eventsList,
-  eventsResend,
-  extractWebhookHeaders,
-  invoicesCreate,
-  invoicesFinalize,
-  invoicesGet,
+export {
+  createClient,
   invoicesList,
-  invoicesMarginEstimate,
-  invoicesSend,
+  invoicesCreate,
+  invoicesGet,
   invoicesUpdate,
+  invoicesMarginEstimate,
+  invoicesFinalize,
   invoicesVoid,
-  mandatesCancel,
-  mandatesCreate,
-  mandatesGet,
-  mandatesList,
-  mandatesReinstate,
-  mandatesScheduleCollection,
-  mandatesSuspend,
-  paymentIntentsCancel,
-  paymentIntentsCapture,
-  paymentIntentsConfirm,
-  paymentIntentsCreate,
-  paymentIntentsGet,
-  paymentIntentsList,
-  paymentLinksActivate,
-  paymentLinksArchive,
-  paymentLinksCreate,
-  paymentLinksDeactivate,
-  paymentLinksExpire,
-  paymentLinksGet,
-  paymentLinksList,
-  paymentLinksUpdate,
-  pricesArchive,
-  pricesCreate,
-  pricesGet,
-  pricesList,
-  pricesUpdate,
+  invoicesSend,
+  productsList,
   productsCreate,
   productsGet,
-  productsList,
   productsUpdate,
-  refundsCreate,
-  refundsGet,
-  refundsList,
-  subscriptionsCancel,
+  checkoutSessionsCreate,
+  checkoutSessionsGet,
+  checkoutSessionsExpire,
+  cartSessionsCreate,
+  cartSessionsGet,
+  cartSessionsAddLineItem,
+  cartSessionsRemoveLineItem,
+  cartSessionsUpdateLineItem,
+  cartSessionsToggleAddOn,
+  cartSessionsApplyDiscountCode,
+  cartSessionsConvert,
+  customersList,
+  customersCreate,
+  customersGet,
+  customersUpdate,
+  customersPaymentRailsGet,
+  customersPreferredRailsGet,
+  customersPaymentMethodsList,
+  subscriptionsList,
   subscriptionsCreate,
   subscriptionsGet,
-  subscriptionsList,
   subscriptionsUpdate,
-  transactionsGet,
-  transactionsList,
-  verifySignature,
-  webhookDeliveriesGet,
-  webhookDeliveriesList,
-  webhookDeliveriesRetry,
+  subscriptionsCancel,
+  analyticsRevenueMrrSummary,
+  analyticsRevenueTimeSeries,
+  refundsList,
+  refundsCreate,
+  refundsGet,
+  creditNotesList,
+  creditNotesCreate,
+  creditNotesGet,
+  creditNotesVoid,
+  creditNotesListLines,
+  creditNotesPreview,
+  paymentLinksList,
+  paymentLinksCreate,
+  paymentLinksGet,
+  paymentLinksExpire,
+  paymentLinksUpdate,
+  paymentLinksDeactivate,
+  paymentLinksActivate,
+  paymentLinksArchive,
+  pricesList,
+  pricesCreate,
+  pricesArchive,
+  pricesGet,
+  pricesUpdate,
+  webhookEndpointsList,
   webhookEndpointsCreate,
   webhookEndpointsDelete,
   webhookEndpointsGet,
-  webhookEndpointsList,
-  webhookEndpointsRotateSecret,
   webhookEndpointsUpdate,
-  webhooks
-});
-//# sourceMappingURL=index.js.map
+  webhookEndpointsRotateSecret,
+  webhookDeliveriesList,
+  webhookDeliveriesGet,
+  webhookDeliveriesRetry,
+  customerPortalSessionsCreate,
+  customerPortalCustomerGet,
+  customerPortalSubscriptionsList,
+  customerPortalSubscriptionsGet,
+  customerPortalSubscriptionsCancel,
+  customerPortalInvoicesList,
+  customerPortalInvoicesGet,
+  customerPortalMandatesList,
+  customerPortalMandatesReauthorize,
+  customerMetersList,
+  customerMetersGet,
+  paymentIntentsList,
+  paymentIntentsCreate,
+  paymentIntentsGet,
+  paymentIntentsConfirm,
+  paymentIntentsCapture,
+  paymentIntentsCancel,
+  eventsList,
+  eventsGet,
+  eventsResend,
+  entitlementsList,
+  entitlementsCheck,
+  transactionsList,
+  transactionsGet,
+  ddMandateRequestsGet,
+  ddValidate,
+  ddPreview,
+  mandatesList,
+  mandatesCreate,
+  mandatesGet,
+  mandatesCancel,
+  mandatesSuspend,
+  mandatesReinstate,
+  mandatesScheduleCollection
+};
+//# sourceMappingURL=chunk-IB2JLWSL.mjs.map

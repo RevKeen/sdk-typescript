@@ -33,6 +33,37 @@ for (const customer of customers.data) {
 }
 ```
 
+## Browser and Server Clients
+
+Use the browser entry point for storefront code. It only accepts `rk_pk_*`
+publishable keys and only exposes product-read and cart operations.
+
+```typescript
+import { RevKeenBrowserClient } from '@revkeen/sdk/browser';
+
+const revkeen = new RevKeenBrowserClient({
+  publishableKey: 'rk_pk_test_123',
+});
+
+const products = await revkeen.products.list();
+const cart = await revkeen.cart.sessionsCreate();
+```
+
+Use the server entry point for secret-key setup, webhook, and admin operations.
+It rejects publishable keys and exposes the full generated SDK surface plus
+webhook verification helpers.
+
+```typescript
+import { RevKeenServerClient, constructEvent } from '@revkeen/sdk/server';
+
+const revkeen = new RevKeenServerClient({
+  apiKey: process.env.REVKEEN_API_KEY!,
+});
+
+await revkeen.webhookEndpoints.list();
+const event = constructEvent(body, signature, process.env.REVKEEN_WEBHOOK_SECRET!);
+```
+
 ## Authentication
 
 ### API Key (recommended for server-to-server)

@@ -1,24 +1,6 @@
-// src/core/errors.ts
-var RevKeenError = class extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "RevKeenError";
-  }
-};
-var RevKeenAPIError = class extends RevKeenError {
-  constructor(status, message, body) {
-    super(message);
-    this.status = status;
-    this.body = body;
-    this.name = "RevKeenAPIError";
-  }
-};
-var RevKeenTimeoutError = class extends RevKeenError {
-  constructor(message) {
-    super(message);
-    this.name = "RevKeenTimeoutError";
-  }
-};
+import {
+  RevKeenError
+} from "./chunk-ZOT7NMVT.mjs";
 
 // src/core/oauth.ts
 var DEFAULT_TOKEN_ENDPOINT = "https://api.revkeen.com/api/auth/oauth2/token";
@@ -94,9 +76,6 @@ var OAuthTokenManager = class {
 };
 
 export {
-  RevKeenError,
-  RevKeenAPIError,
-  RevKeenTimeoutError,
   OAuthTokenManager
 };
-//# sourceMappingURL=chunk-VKMDZSYJ.mjs.map
+//# sourceMappingURL=chunk-3JCG2SO2.mjs.map
