@@ -1,0 +1,181 @@
+name: Publish reviewed TypeScript SDK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - ".github/workflows/publish.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sdk-publish-typescript
+  cancel-in-progress: false
+
+jobs:
+  detect-release:
+    name: Detect and validate release candidate
+    runs-on: ubuntu-24.04
+    outputs:
+      release: ${{ steps.release.outputs.release }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Enforce publish-workflow credential isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORKFLOW=.github/workflows/publish.yml
+          if grep -Eq '\$\{\{[[:space:]]*secrets\.' "$WORKFLOW"; then
+            echo "::error::SDK publishing must not reference registry or repository secrets."
+            exit 1
+          fi
+          if grep -Eq '^[[:space:]]+(NPM_TOKEN|NODE_AUTH_TOKEN|PACKAGIST_TOKEN|PYPI_TOKEN):' "$WORKFLOW"; then
+            echo "::error::SDK publishing must not declare registry credential variables."
+            exit 1
+          fi
+          if grep -Eq '^[[:space:]]+workflow_dispatch:' "$WORKFLOW"; then
+            echo "::error::Out-of-band workflow_dispatch publishing is forbidden."
+            exit 1
+          fi
+
+      - name: Parse release marker
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" != "push" ]; then
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          SUBJECT=$(git log -1 --format=%s)
+          if [[ ! "$SUBJECT" =~ ^sdk\[release\]:\ ([0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?)$ ]]; then
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          VERSION="${BASH_REMATCH[1]}"
+          SOURCE_SHA=$(git log -1 --format=%B | sed -n 's/^Source: //p' | tail -1)
+          if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::A release candidate must carry a Source: <40-character SHA> trailer."
+            exit 1
+          fi
+
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if [ "$PACKAGE_VERSION" != "$VERSION" ]; then
+            echo "::error::package.json version $PACKAGE_VERSION does not match release marker $VERSION."
+            exit 1
+          fi
+
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+  validate:
+    name: Validate TypeScript package
+    needs: detect-release
+    if: needs.detect-release.outputs.release == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Validate publishable package
+        run: |
+          test -f dist/index.js
+          test -f dist/index.mjs
+          test -f dist/index.d.ts
+          npm pack --dry-run
+
+  publish:
+    name: Approve, tag, and publish TypeScript SDK
+    needs:
+      - detect-release
+      - validate
+    if: needs.detect-release.outputs.release == 'true'
+    runs-on: ubuntu-24.04
+    environment: sdk-release-typescript
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Enforce reviewed release sentinel
+        env:
+          REVIEW_GATE: ${{ vars.SDK_RELEASE_REVIEW_GATE }}
+        run: |
+          if [ "$REVIEW_GATE" != "enabled" ]; then
+            echo "::error::sdk-release-typescript is missing the reviewed release sentinel."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Verify npm trusted-publishing runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const [major, minor] = process.versions.node.split(".").map(Number);
+          if (major < 22 || (major === 22 && minor < 14)) {
+            throw new Error("npm trusted publishing requires Node.js 22.14.0 or newer");
+          }
+          NODE
+          NPM_VERSION=$(npm --version)
+          IFS=. read -r NPM_MAJOR NPM_MINOR NPM_PATCH <<< "$NPM_VERSION"
+          if [ "$NPM_MAJOR" -lt 11 ] || { [ "$NPM_MAJOR" -eq 11 ] && [ "$NPM_MINOR" -lt 5 ]; }; then
+            echo "::error::npm trusted publishing requires npm 11.5.1 or newer; found $NPM_VERSION."
+            exit 1
+          fi
+
+      - name: Require unused npm version
+        env:
+          VERSION: ${{ needs.detect-release.outputs.version }}
+        shell: bash
+        run: |
+          set +e
+          OUTPUT=$(npm view "@revkeen/sdk@${VERSION}" version 2>&1)
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "::error::@revkeen/sdk@${VERSION} already exists."
+            exit 1
+          fi
+          if ! grep -q "E404" <<< "$OUTPUT"; then
+            echo "$OUTPUT"
+            echo "::error::Could not prove that the npm version is unused."
+            exit 1
+          fi
+
+      - name: Create immutable release tag
+        env:
+          VERSION: ${{ needs.detect-release.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          git config user.name "RevKeen Bot"
+          git config user.email "bot@revkeen.com"
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            git fetch origin "refs/tags/${TAG}:refs/tags/${TAG}"
+            test "$(git rev-list -n 1 "${TAG}")" = "$GITHUB_SHA"
+          else
+            git tag -a "${TAG}" -m "Release ${TAG}"
+            git push origin "refs/tags/${TAG}"
+          fi
+
+      - name: Publish through npm trusted publishing
+        run: npm publish --access public --provenance
