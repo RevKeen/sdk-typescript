@@ -173,28 +173,41 @@ jobs:
             exit 1
           fi
 
-      - name: Require unused npm version
+      - name: Reconcile npm publication state
+        id: npm-state
         env:
           VERSION: ${{ needs.detect-release.outputs.version }}
         shell: bash
         run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/sdk-pack"
+          PACK_OUTPUT=$(npm pack --json --pack-destination "$RUNNER_TEMP/sdk-pack")
+          EXPECTED_INTEGRITY=$(PACK_OUTPUT="$PACK_OUTPUT" node -e 'const result=JSON.parse(process.env.PACK_OUTPUT); const value=result[0]?.integrity; if (!value) throw new Error("npm pack did not return integrity"); process.stdout.write(value)')
+
           set +e
-          OUTPUT=$(npm view "@revkeen/sdk@${VERSION}" version 2>&1)
+          OUTPUT=$(npm view "@revkeen/sdk@${VERSION}" dist.integrity --json 2>&1)
           STATUS=$?
           set -e
           if [ "$STATUS" -eq 0 ]; then
-            echo "::error::@revkeen/sdk@${VERSION} already exists."
-            exit 1
+            PUBLISHED_INTEGRITY=$(OUTPUT="$OUTPUT" node -e 'const value=JSON.parse(process.env.OUTPUT); if (typeof value !== "string") throw new Error("npm returned invalid integrity metadata"); process.stdout.write(value)')
+            if [ "$PUBLISHED_INTEGRITY" != "$EXPECTED_INTEGRITY" ]; then
+              echo "::error::@revkeen/sdk@${VERSION} exists with different package integrity."
+              exit 1
+            fi
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
           if ! grep -q "E404" <<< "$OUTPUT"; then
             echo "$OUTPUT"
-            echo "::error::Could not prove that the npm version is unused."
+            echo "::error::Could not determine npm publication state."
             exit 1
           fi
+          echo "already_published=false" >> "$GITHUB_OUTPUT"
 
       - name: Create immutable release tag
         env:
           VERSION: ${{ needs.detect-release.outputs.version }}
+          ALREADY_PUBLISHED: ${{ steps.npm-state.outputs.already_published }}
         shell: bash
         run: |
           set -euo pipefail
@@ -205,9 +218,14 @@ jobs:
             git fetch origin "refs/tags/${TAG}:refs/tags/${TAG}"
             test "$(git rev-list -n 1 "${TAG}")" = "$GITHUB_SHA"
           else
+            if [ "$ALREADY_PUBLISHED" = "true" ]; then
+              echo "::error::npm contains ${VERSION}, but its immutable repository tag is missing."
+              exit 1
+            fi
             git tag -a "${TAG}" -m "Release ${TAG}"
             git push origin "refs/tags/${TAG}"
           fi
 
       - name: Publish through npm trusted publishing
+        if: steps.npm-state.outputs.already_published != 'true'
         run: npm publish --access public --provenance
