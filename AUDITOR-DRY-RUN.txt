@@ -1,0 +1,4 @@
+﻿This file exists only to exercise the SDK release auditor webhook.
+
+Do not merge this pull request.
+Do not publish a package.
