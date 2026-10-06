@@ -5,202 +5,952 @@
  * Source of truth: packages/openapi/sdk-openapi.json
  */
 
-import * as operations from "./generated/sdk.gen.js";
-import type { AccountingInvoicePaymentRequestsCreateData, AccountingInvoicePaymentRequestsCreateResponse, AccountingInvoicePaymentRequestsGetData, AccountingInvoicePaymentRequestsGetResponse, AnalyticsRevenueMrrSummaryData, AnalyticsRevenueMrrSummaryResponse, AnalyticsRevenueTimeSeriesData, AnalyticsRevenueTimeSeriesResponse, CartApiKeysEnsureData, CartApiKeysEnsureResponse, CartApiKeysRotateData, CartApiKeysRotateResponse, CartApiKeysStatusData, CartApiKeysStatusResponse, CartSessionsAddLineItemData, CartSessionsAddLineItemResponse, CartSessionsApplyDiscountCodeData, CartSessionsApplyDiscountCodeResponse, CartSessionsConvertData, CartSessionsConvertResponse, CartSessionsCreateData, CartSessionsCreateResponse, CartSessionsGetData, CartSessionsGetResponse, CartSessionsRemoveLineItemData, CartSessionsRemoveLineItemResponse, CartSessionsSetContactData, CartSessionsSetContactResponse, CartSessionsToggleAddOnData, CartSessionsToggleAddOnResponse, CartSessionsUpdateLineItemData, CartSessionsUpdateLineItemResponse, CheckoutSessionsCreateData, CheckoutSessionsCreateResponse, CheckoutSessionsExpireData, CheckoutSessionsExpireResponse, CheckoutSessionsGetData, CheckoutSessionsGetResponse, CreditNotesCreateData, CreditNotesCreateResponse, CreditNotesGetData, CreditNotesGetResponse, CreditNotesListData, CreditNotesListLinesData, CreditNotesListLinesResponse, CreditNotesListResponse, CreditNotesPreviewData, CreditNotesPreviewResponse, CreditNotesVoidData, CreditNotesVoidResponse, CustomerMetersGetData, CustomerMetersGetResponse, CustomerMetersListData, CustomerMetersListResponse, CustomerPortalCustomerGetData, CustomerPortalCustomerGetResponse, CustomerPortalInvoicesGetData, CustomerPortalInvoicesGetResponse, CustomerPortalInvoicesListData, CustomerPortalInvoicesListResponse, CustomerPortalMandatesCancelData, CustomerPortalMandatesCancelResponse, CustomerPortalMandatesListData, CustomerPortalMandatesListResponse, CustomerPortalMandatesReauthorizeData, CustomerPortalMandatesReauthorizeResponse, CustomerPortalMandatesReauthorizeSendOtpData, CustomerPortalMandatesReauthorizeSendOtpResponse, CustomerPortalMandatesReauthorizeVerifyOtpData, CustomerPortalMandatesReauthorizeVerifyOtpResponse, CustomerPortalSessionsCreateData, CustomerPortalSessionsCreateResponse, CustomerPortalSubscriptionsCancelData, CustomerPortalSubscriptionsCancelResponse, CustomerPortalSubscriptionsGetData, CustomerPortalSubscriptionsGetResponse, CustomerPortalSubscriptionsListData, CustomerPortalSubscriptionsListResponse, CustomersCreateData, CustomersCreateResponse, CustomersGetData, CustomersGetResponse, CustomersListData, CustomersListResponse, CustomersPaymentMethodsListData, CustomersPaymentMethodsListResponse, CustomersPaymentRailsGetData, CustomersPaymentRailsGetResponse, CustomersPreferredRailsGetData, CustomersPreferredRailsGetResponse, CustomersUpdateData, CustomersUpdateResponse, DdMandateRequestsGetData, DdMandateRequestsGetResponse, DdPreviewData, DdPreviewResponse, DdValidateData, DdValidateResponse, EntitlementsCheckData, EntitlementsCheckResponse, EntitlementsListData, EntitlementsListResponse, EventsGetData, EventsGetResponse, EventsListData, EventsListResponse, EventsResendData, EventsResendResponse, InvoicesCreateData, InvoicesCreateResponse, InvoicesFinalizeData, InvoicesFinalizeResponse, InvoicesGetData, InvoicesGetResponse, InvoicesListData, InvoicesListResponse, InvoicesMarginEstimateData, InvoicesMarginEstimateResponse, InvoicesSendData, InvoicesSendResponse, InvoicesUpdateData, InvoicesUpdateResponse, InvoicesVoidData, InvoicesVoidResponse, MandatesCancelData, MandatesCancelResponse, MandatesCreateData, MandatesCreateResponse, MandatesGetData, MandatesGetResponse, MandatesListData, MandatesListResponse, MandatesReinstateData, MandatesReinstateResponse, MandatesScheduleCollectionData, MandatesScheduleCollectionResponse, MandatesSuspendData, MandatesSuspendResponse, PaymentIntentsCancelData, PaymentIntentsCancelResponse, PaymentIntentsCaptureData, PaymentIntentsCaptureResponse, PaymentIntentsConfirmData, PaymentIntentsConfirmResponse, PaymentIntentsCreateData, PaymentIntentsCreateResponse, PaymentIntentsGetData, PaymentIntentsGetResponse, PaymentIntentsListData, PaymentIntentsListResponse, PaymentLinksActivateData, PaymentLinksActivateResponse, PaymentLinksArchiveData, PaymentLinksArchiveResponse, PaymentLinksCreateData, PaymentLinksCreateResponse, PaymentLinksDeactivateData, PaymentLinksDeactivateResponse, PaymentLinksExpireData, PaymentLinksExpireResponse, PaymentLinksGetData, PaymentLinksGetResponse, PaymentLinksListData, PaymentLinksListResponse, PaymentLinksUpdateData, PaymentLinksUpdateResponse, PricesArchiveData, PricesArchiveResponse, PricesCreateData, PricesCreateResponse, PricesGetData, PricesGetResponse, PricesListData, PricesListResponse, PricesUpdateData, PricesUpdateResponse, ProductsCreateData, ProductsCreateResponse, ProductsGetData, ProductsGetResponse, ProductsListData, ProductsListResponse, ProductsUpdateData, ProductsUpdateResponse, RefundsCreateData, RefundsCreateResponse, RefundsGetData, RefundsGetResponse, RefundsListData, RefundsListResponse, StorefrontOriginsCreateData, StorefrontOriginsCreateResponse, StorefrontOriginsDeleteData, StorefrontOriginsDeleteResponse, StorefrontOriginsListData, StorefrontOriginsListResponse, StorefrontProductsGetData, StorefrontProductsGetResponse, StorefrontProductsListData, StorefrontProductsListResponse, StorefrontStatusGetData, StorefrontStatusGetResponse, SubscriptionsCancelData, SubscriptionsCancelResponse, SubscriptionsCreateData, SubscriptionsCreateResponse, SubscriptionsGetData, SubscriptionsGetResponse, SubscriptionsListData, SubscriptionsListResponse, SubscriptionsUpdateData, SubscriptionsUpdateResponse, TransactionsGetData, TransactionsGetResponse, TransactionsListData, TransactionsListResponse, WebhookDeliveriesGetData, WebhookDeliveriesGetResponse, WebhookDeliveriesListData, WebhookDeliveriesListResponse, WebhookDeliveriesRetryData, WebhookDeliveriesRetryResponse, WebhookEndpointsCreateData, WebhookEndpointsCreateResponse, WebhookEndpointsDeleteData, WebhookEndpointsDeleteResponse, WebhookEndpointsGetData, WebhookEndpointsGetResponse, WebhookEndpointsListData, WebhookEndpointsListResponse, WebhookEndpointsRotateSecretData, WebhookEndpointsRotateSecretResponse, WebhookEndpointsUpdateData, WebhookEndpointsUpdateResponse } from "./generated/types.gen.js";
+import type {
+  AccountingInvoicePaymentRequestsCreateData,
+  AccountingInvoicePaymentRequestsCreateResponse,
+  AccountingInvoicePaymentRequestsGetData,
+  AccountingInvoicePaymentRequestsGetResponse,
+  AnalyticsRevenueMrrSummaryData,
+  AnalyticsRevenueMrrSummaryResponse,
+  AnalyticsRevenueTimeSeriesData,
+  AnalyticsRevenueTimeSeriesResponse,
+  BillingOverviewGetData,
+  BillingOverviewGetResponse,
+  CartApiKeysEnsureData,
+  CartApiKeysEnsureResponse,
+  CartApiKeysRotateData,
+  CartApiKeysRotateResponse,
+  CartApiKeysStatusData,
+  CartApiKeysStatusResponse,
+  CartSessionsAddLineItemData,
+  CartSessionsAddLineItemResponse,
+  CartSessionsApplyDiscountCodeData,
+  CartSessionsApplyDiscountCodeResponse,
+  CartSessionsConvertData,
+  CartSessionsConvertResponse,
+  CartSessionsCreateData,
+  CartSessionsCreateResponse,
+  CartSessionsGetData,
+  CartSessionsGetResponse,
+  CartSessionsRemoveLineItemData,
+  CartSessionsRemoveLineItemResponse,
+  CartSessionsSetContactData,
+  CartSessionsSetContactResponse,
+  CartSessionsToggleAddOnData,
+  CartSessionsToggleAddOnResponse,
+  CartSessionsUpdateLineItemData,
+  CartSessionsUpdateLineItemResponse,
+  CheckoutSessionsCreateData,
+  CheckoutSessionsCreateResponse,
+  CheckoutSessionsExpireData,
+  CheckoutSessionsExpireResponse,
+  CheckoutSessionsGetData,
+  CheckoutSessionsGetResponse,
+  CreditNotesCreateData,
+  CreditNotesCreateResponse,
+  CreditNotesGetData,
+  CreditNotesGetResponse,
+  CreditNotesListData,
+  CreditNotesListLinesData,
+  CreditNotesListLinesResponse,
+  CreditNotesListResponse,
+  CreditNotesPreviewData,
+  CreditNotesPreviewResponse,
+  CreditNotesVoidData,
+  CreditNotesVoidResponse,
+  CustomerMetersGetData,
+  CustomerMetersGetResponse,
+  CustomerMetersListData,
+  CustomerMetersListResponse,
+  CustomerPortalCustomerGetData,
+  CustomerPortalCustomerGetResponse,
+  CustomerPortalInvoicesGetData,
+  CustomerPortalInvoicesGetResponse,
+  CustomerPortalInvoicesListData,
+  CustomerPortalInvoicesListResponse,
+  CustomerPortalMandatesCancelData,
+  CustomerPortalMandatesCancelResponse,
+  CustomerPortalMandatesListData,
+  CustomerPortalMandatesListResponse,
+  CustomerPortalMandatesReauthorizeData,
+  CustomerPortalMandatesReauthorizeResponse,
+  CustomerPortalMandatesReauthorizeSendOtpData,
+  CustomerPortalMandatesReauthorizeSendOtpResponse,
+  CustomerPortalMandatesReauthorizeVerifyOtpData,
+  CustomerPortalMandatesReauthorizeVerifyOtpResponse,
+  CustomerPortalSessionsCreateData,
+  CustomerPortalSessionsCreateResponse,
+  CustomerPortalSubscriptionsCancelData,
+  CustomerPortalSubscriptionsCancelResponse,
+  CustomerPortalSubscriptionsGetData,
+  CustomerPortalSubscriptionsGetResponse,
+  CustomerPortalSubscriptionsListData,
+  CustomerPortalSubscriptionsListResponse,
+  CustomerStateGetData,
+  CustomerStateGetResponse,
+  CustomersCreateData,
+  CustomersCreateResponse,
+  CustomersGetData,
+  CustomersGetResponse,
+  CustomersListData,
+  CustomersListResponse,
+  CustomersPaymentMethodsListData,
+  CustomersPaymentMethodsListResponse,
+  CustomersPaymentRailsGetData,
+  CustomersPaymentRailsGetResponse,
+  CustomersPreferredRailsGetData,
+  CustomersPreferredRailsGetResponse,
+  CustomersUpdateData,
+  CustomersUpdateResponse,
+  DdMandateRequestsGetData,
+  DdMandateRequestsGetResponse,
+  DdPreviewData,
+  DdPreviewResponse,
+  DdValidateData,
+  DdValidateResponse,
+  EntitlementsCheckData,
+  EntitlementsCheckResponse,
+  EntitlementsListData,
+  EntitlementsListResponse,
+  EventsGetData,
+  EventsGetResponse,
+  EventsListData,
+  EventsListResponse,
+  EventsResendData,
+  EventsResendResponse,
+  InvoiceLineItemsListUsageEventsData,
+  InvoiceLineItemsListUsageEventsResponse,
+  InvoiceUsageExplainData,
+  InvoiceUsageExplainResponse,
+  InvoicesCreateData,
+  InvoicesCreateResponse,
+  InvoicesFinalizeData,
+  InvoicesFinalizeResponse,
+  InvoicesGetData,
+  InvoicesGetResponse,
+  InvoicesListData,
+  InvoicesListResponse,
+  InvoicesMarginEstimateData,
+  InvoicesMarginEstimateResponse,
+  InvoicesSendData,
+  InvoicesSendResponse,
+  InvoicesUpdateData,
+  InvoicesUpdateResponse,
+  InvoicesVoidData,
+  InvoicesVoidResponse,
+  MandatesCancelData,
+  MandatesCancelResponse,
+  MandatesCreateData,
+  MandatesCreateResponse,
+  MandatesGetData,
+  MandatesGetResponse,
+  MandatesListData,
+  MandatesListResponse,
+  MandatesReinstateData,
+  MandatesReinstateResponse,
+  MandatesScheduleCollectionData,
+  MandatesScheduleCollectionResponse,
+  MandatesSuspendData,
+  MandatesSuspendResponse,
+  MetersCreateData,
+  MetersCreateResponse,
+  MetersGetData,
+  MetersGetResponse,
+  MetersListData,
+  MetersListResponse,
+  MetersQuantitiesData,
+  MetersQuantitiesResponse,
+  MetersUpdateData,
+  MetersUpdateResponse,
+  PaymentIntentsCancelData,
+  PaymentIntentsCancelResponse,
+  PaymentIntentsCaptureData,
+  PaymentIntentsCaptureResponse,
+  PaymentIntentsConfirmData,
+  PaymentIntentsConfirmResponse,
+  PaymentIntentsCreateData,
+  PaymentIntentsCreateResponse,
+  PaymentIntentsGetData,
+  PaymentIntentsGetResponse,
+  PaymentIntentsListData,
+  PaymentIntentsListResponse,
+  PaymentLinksActivateData,
+  PaymentLinksActivateResponse,
+  PaymentLinksArchiveData,
+  PaymentLinksArchiveResponse,
+  PaymentLinksCreateData,
+  PaymentLinksCreateResponse,
+  PaymentLinksDeactivateData,
+  PaymentLinksDeactivateResponse,
+  PaymentLinksExpireData,
+  PaymentLinksExpireResponse,
+  PaymentLinksGetData,
+  PaymentLinksGetResponse,
+  PaymentLinksListData,
+  PaymentLinksListResponse,
+  PaymentLinksUpdateData,
+  PaymentLinksUpdateResponse,
+  PricesArchiveData,
+  PricesArchiveResponse,
+  PricesCreateData,
+  PricesCreateResponse,
+  PricesGetData,
+  PricesGetResponse,
+  PricesListData,
+  PricesListResponse,
+  PricesUpdateData,
+  PricesUpdateResponse,
+  ProductCollectionsCreateData,
+  ProductCollectionsCreateResponse,
+  ProductCollectionsDeleteData,
+  ProductCollectionsDeleteResponse,
+  ProductCollectionsGetData,
+  ProductCollectionsGetResponse,
+  ProductCollectionsListData,
+  ProductCollectionsListResponse,
+  ProductCollectionsUpdateData,
+  ProductCollectionsUpdateResponse,
+  ProductsCreateData,
+  ProductsCreateResponse,
+  ProductsGetData,
+  ProductsGetResponse,
+  ProductsListData,
+  ProductsListResponse,
+  ProductsUpdateData,
+  ProductsUpdateResponse,
+  RefundsCreateData,
+  RefundsCreateResponse,
+  RefundsGetData,
+  RefundsGetResponse,
+  RefundsListData,
+  RefundsListResponse,
+  StorefrontOriginsCreateData,
+  StorefrontOriginsCreateResponse,
+  StorefrontOriginsDeleteData,
+  StorefrontOriginsDeleteResponse,
+  StorefrontOriginsListData,
+  StorefrontOriginsListResponse,
+  StorefrontProductsGetData,
+  StorefrontProductsGetResponse,
+  StorefrontProductsListData,
+  StorefrontProductsListResponse,
+  StorefrontStatusGetData,
+  StorefrontStatusGetResponse,
+  SubscriptionsCancelData,
+  SubscriptionsCancelResponse,
+  SubscriptionsCreateData,
+  SubscriptionsCreateResponse,
+  SubscriptionsGetData,
+  SubscriptionsGetResponse,
+  SubscriptionsListData,
+  SubscriptionsListResponse,
+  SubscriptionsUpdateData,
+  SubscriptionsUpdateResponse,
+  TransactionsGetData,
+  TransactionsGetResponse,
+  TransactionsListData,
+  TransactionsListResponse,
+  UsageBalanceGetData,
+  UsageBalanceGetResponse,
+  UsageEventsGetData,
+  UsageEventsGetResponse,
+  UsageEventsIngestData,
+  UsageEventsIngestResponse,
+  UsageEventsListData,
+  UsageEventsListResponse,
+  WebhookDeliveriesGetData,
+  WebhookDeliveriesGetResponse,
+  WebhookDeliveriesListData,
+  WebhookDeliveriesListResponse,
+  WebhookDeliveriesRetryData,
+  WebhookDeliveriesRetryResponse,
+  WebhookEndpointsCreateData,
+  WebhookEndpointsCreateResponse,
+  WebhookEndpointsDeleteData,
+  WebhookEndpointsDeleteResponse,
+  WebhookEndpointsGetData,
+  WebhookEndpointsGetResponse,
+  WebhookEndpointsListData,
+  WebhookEndpointsListResponse,
+  WebhookEndpointsRotateSecretData,
+  WebhookEndpointsRotateSecretResponse,
+  WebhookEndpointsUpdateData,
+  WebhookEndpointsUpdateResponse,
+} from "./generated/types.gen.js";
+import type {
+  RevKeenOperationMetadata,
+  RevKeenRequestOptions,
+} from "./core/request-options.js";
 
 export interface GeneratedResourceRuntime {
   requestData<T>(
-    fn: (options: unknown) => Promise<{ data?: T; error?: unknown }>,
-    options?: Record<string, unknown>
+    options?: Record<string, unknown>,
+    requestOptions?: RevKeenRequestOptions,
+    operation?: RevKeenOperationMetadata,
   ): Promise<T>;
 }
 
 export interface AccountingResource {
-  invoicePaymentRequestsCreate: (body?: NonNullable<AccountingInvoicePaymentRequestsCreateData["body"]>) => Promise<AccountingInvoicePaymentRequestsCreateResponse>;
-  invoicePaymentRequestsGet: (id: NonNullable<AccountingInvoicePaymentRequestsGetData["path"]>["id"]) => Promise<AccountingInvoicePaymentRequestsGetResponse>;
+  invoicePaymentRequestsCreate: (
+    body?: NonNullable<AccountingInvoicePaymentRequestsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<AccountingInvoicePaymentRequestsCreateResponse>;
+  invoicePaymentRequestsGet: (
+    id: NonNullable<AccountingInvoicePaymentRequestsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<AccountingInvoicePaymentRequestsGetResponse>;
 }
 
 export interface AnalyticsResource {
-  revenueMrrSummary: (query?: NonNullable<AnalyticsRevenueMrrSummaryData["query"]>) => Promise<AnalyticsRevenueMrrSummaryResponse>;
-  revenueTimeSeries: (query?: NonNullable<AnalyticsRevenueTimeSeriesData["query"]>) => Promise<AnalyticsRevenueTimeSeriesResponse>;
+  revenueMrrSummary: (
+    query?: NonNullable<AnalyticsRevenueMrrSummaryData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<AnalyticsRevenueMrrSummaryResponse>;
+  revenueTimeSeries: (
+    query?: NonNullable<AnalyticsRevenueTimeSeriesData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<AnalyticsRevenueTimeSeriesResponse>;
+}
+
+export interface BillingResource {
+  overviewGet: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<BillingOverviewGetResponse>;
 }
 
 export interface CartResource {
-  apiKeysEnsure: () => Promise<CartApiKeysEnsureResponse>;
-  apiKeysRotate: (id: NonNullable<CartApiKeysRotateData["path"]>["kind"], body?: NonNullable<CartApiKeysRotateData["body"]>) => Promise<CartApiKeysRotateResponse>;
-  apiKeysStatus: () => Promise<CartApiKeysStatusResponse>;
-  sessionsAddLineItem: (id: NonNullable<CartSessionsAddLineItemData["path"]>["id"], body?: NonNullable<CartSessionsAddLineItemData["body"]>) => Promise<CartSessionsAddLineItemResponse>;
-  sessionsApplyDiscountCode: (id: NonNullable<CartSessionsApplyDiscountCodeData["path"]>["id"], body?: NonNullable<CartSessionsApplyDiscountCodeData["body"]>) => Promise<CartSessionsApplyDiscountCodeResponse>;
-  sessionsConvert: (id: NonNullable<CartSessionsConvertData["path"]>["id"]) => Promise<CartSessionsConvertResponse>;
-  sessionsCreate: (body?: NonNullable<CartSessionsCreateData["body"]>) => Promise<CartSessionsCreateResponse>;
-  sessionsGet: (id: NonNullable<CartSessionsGetData["path"]>["id"]) => Promise<CartSessionsGetResponse>;
-  sessionsRemoveLineItem: (path: NonNullable<CartSessionsRemoveLineItemData["path"]>) => Promise<CartSessionsRemoveLineItemResponse>;
-  sessionsSetContact: (id: NonNullable<CartSessionsSetContactData["path"]>["id"], body?: NonNullable<CartSessionsSetContactData["body"]>) => Promise<CartSessionsSetContactResponse>;
-  sessionsToggleAddOn: (id: NonNullable<CartSessionsToggleAddOnData["path"]>["id"], body?: NonNullable<CartSessionsToggleAddOnData["body"]>) => Promise<CartSessionsToggleAddOnResponse>;
-  sessionsUpdateLineItem: (params: { path: NonNullable<CartSessionsUpdateLineItemData["path"]>; body?: NonNullable<CartSessionsUpdateLineItemData["body"]> }) => Promise<CartSessionsUpdateLineItemResponse>;
+  apiKeysEnsure: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartApiKeysEnsureResponse>;
+  apiKeysRotate: (
+    id: NonNullable<CartApiKeysRotateData["path"]>["kind"],
+    body?: NonNullable<CartApiKeysRotateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartApiKeysRotateResponse>;
+  apiKeysStatus: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartApiKeysStatusResponse>;
+  sessionsAddLineItem: (
+    id: NonNullable<CartSessionsAddLineItemData["path"]>["id"],
+    body?: NonNullable<CartSessionsAddLineItemData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsAddLineItemResponse>;
+  sessionsApplyDiscountCode: (
+    id: NonNullable<CartSessionsApplyDiscountCodeData["path"]>["id"],
+    body?: NonNullable<CartSessionsApplyDiscountCodeData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsApplyDiscountCodeResponse>;
+  sessionsConvert: (
+    id: NonNullable<CartSessionsConvertData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsConvertResponse>;
+  sessionsCreate: (
+    body?: NonNullable<CartSessionsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsCreateResponse>;
+  sessionsGet: (
+    id: NonNullable<CartSessionsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsGetResponse>;
+  sessionsRemoveLineItem: (
+    path: NonNullable<CartSessionsRemoveLineItemData["path"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsRemoveLineItemResponse>;
+  sessionsSetContact: (
+    id: NonNullable<CartSessionsSetContactData["path"]>["id"],
+    body?: NonNullable<CartSessionsSetContactData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsSetContactResponse>;
+  sessionsToggleAddOn: (
+    id: NonNullable<CartSessionsToggleAddOnData["path"]>["id"],
+    body?: NonNullable<CartSessionsToggleAddOnData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsToggleAddOnResponse>;
+  sessionsUpdateLineItem: (
+    params: {
+      path: NonNullable<CartSessionsUpdateLineItemData["path"]>;
+      body?: NonNullable<CartSessionsUpdateLineItemData["body"]>;
+    },
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CartSessionsUpdateLineItemResponse>;
 }
 
 export interface CheckoutSessionsResource {
-  create: (body?: NonNullable<CheckoutSessionsCreateData["body"]>) => Promise<CheckoutSessionsCreateResponse>;
-  expire: (id: NonNullable<CheckoutSessionsExpireData["path"]>["id"]) => Promise<CheckoutSessionsExpireResponse>;
-  get: (id: NonNullable<CheckoutSessionsGetData["path"]>["id"]) => Promise<CheckoutSessionsGetResponse>;
+  create: (
+    body?: NonNullable<CheckoutSessionsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CheckoutSessionsCreateResponse>;
+  expire: (
+    id: NonNullable<CheckoutSessionsExpireData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CheckoutSessionsExpireResponse>;
+  get: (
+    id: NonNullable<CheckoutSessionsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CheckoutSessionsGetResponse>;
 }
 
 export interface CreditNotesResource {
-  create: (body?: NonNullable<CreditNotesCreateData["body"]>) => Promise<CreditNotesCreateResponse>;
-  get: (id: NonNullable<CreditNotesGetData["path"]>["id"]) => Promise<CreditNotesGetResponse>;
-  list: (query?: NonNullable<CreditNotesListData["query"]>) => Promise<CreditNotesListResponse>;
-  listLines: (id: NonNullable<CreditNotesListLinesData["path"]>["id"], query?: NonNullable<CreditNotesListLinesData["query"]>) => Promise<CreditNotesListLinesResponse>;
-  preview: (body: NonNullable<CreditNotesPreviewData["body"]>) => Promise<CreditNotesPreviewResponse>;
-  void: (id: NonNullable<CreditNotesVoidData["path"]>["id"]) => Promise<CreditNotesVoidResponse>;
+  create: (
+    body?: NonNullable<CreditNotesCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CreditNotesCreateResponse>;
+  get: (
+    id: NonNullable<CreditNotesGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CreditNotesGetResponse>;
+  list: (
+    query?: NonNullable<CreditNotesListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CreditNotesListResponse>;
+  listLines: (
+    id: NonNullable<CreditNotesListLinesData["path"]>["id"],
+    query?: NonNullable<CreditNotesListLinesData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CreditNotesListLinesResponse>;
+  preview: (
+    body: NonNullable<CreditNotesPreviewData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CreditNotesPreviewResponse>;
+  void: (
+    id: NonNullable<CreditNotesVoidData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CreditNotesVoidResponse>;
 }
 
 export interface CustomerResource {
-  metersGet: (path: NonNullable<CustomerMetersGetData["path"]>) => Promise<CustomerMetersGetResponse>;
-  metersList: (query?: NonNullable<CustomerMetersListData["query"]>) => Promise<CustomerMetersListResponse>;
-  portalCustomerGet: () => Promise<CustomerPortalCustomerGetResponse>;
-  portalInvoicesGet: (id: NonNullable<CustomerPortalInvoicesGetData["path"]>["id"]) => Promise<CustomerPortalInvoicesGetResponse>;
-  portalInvoicesList: (query?: NonNullable<CustomerPortalInvoicesListData["query"]>) => Promise<CustomerPortalInvoicesListResponse>;
-  portalMandatesCancel: (id: NonNullable<CustomerPortalMandatesCancelData["path"]>["id"], body?: NonNullable<CustomerPortalMandatesCancelData["body"]>) => Promise<CustomerPortalMandatesCancelResponse>;
-  portalMandatesList: () => Promise<CustomerPortalMandatesListResponse>;
-  portalMandatesReauthorize: (id: NonNullable<CustomerPortalMandatesReauthorizeData["path"]>["id"], body: NonNullable<CustomerPortalMandatesReauthorizeData["body"]>) => Promise<CustomerPortalMandatesReauthorizeResponse>;
-  portalMandatesReauthorizeSendOtp: (id: NonNullable<CustomerPortalMandatesReauthorizeSendOtpData["path"]>["id"]) => Promise<CustomerPortalMandatesReauthorizeSendOtpResponse>;
-  portalMandatesReauthorizeVerifyOtp: (id: NonNullable<CustomerPortalMandatesReauthorizeVerifyOtpData["path"]>["id"], body: NonNullable<CustomerPortalMandatesReauthorizeVerifyOtpData["body"]>) => Promise<CustomerPortalMandatesReauthorizeVerifyOtpResponse>;
-  portalSessionsCreate: (body: NonNullable<CustomerPortalSessionsCreateData["body"]>) => Promise<CustomerPortalSessionsCreateResponse>;
-  portalSubscriptionsCancel: (id: NonNullable<CustomerPortalSubscriptionsCancelData["path"]>["id"], body?: NonNullable<CustomerPortalSubscriptionsCancelData["body"]>) => Promise<CustomerPortalSubscriptionsCancelResponse>;
-  portalSubscriptionsGet: (id: NonNullable<CustomerPortalSubscriptionsGetData["path"]>["id"]) => Promise<CustomerPortalSubscriptionsGetResponse>;
-  portalSubscriptionsList: (query?: NonNullable<CustomerPortalSubscriptionsListData["query"]>) => Promise<CustomerPortalSubscriptionsListResponse>;
+  metersGet: (
+    path: NonNullable<CustomerMetersGetData["path"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerMetersGetResponse>;
+  metersList: (
+    query?: NonNullable<CustomerMetersListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerMetersListResponse>;
+  portalCustomerGet: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalCustomerGetResponse>;
+  portalInvoicesGet: (
+    id: NonNullable<CustomerPortalInvoicesGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalInvoicesGetResponse>;
+  portalInvoicesList: (
+    query?: NonNullable<CustomerPortalInvoicesListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalInvoicesListResponse>;
+  portalMandatesCancel: (
+    id: NonNullable<CustomerPortalMandatesCancelData["path"]>["id"],
+    body?: NonNullable<CustomerPortalMandatesCancelData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalMandatesCancelResponse>;
+  portalMandatesList: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalMandatesListResponse>;
+  portalMandatesReauthorize: (
+    id: NonNullable<CustomerPortalMandatesReauthorizeData["path"]>["id"],
+    body: NonNullable<CustomerPortalMandatesReauthorizeData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalMandatesReauthorizeResponse>;
+  portalMandatesReauthorizeSendOtp: (
+    id: NonNullable<CustomerPortalMandatesReauthorizeSendOtpData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalMandatesReauthorizeSendOtpResponse>;
+  portalMandatesReauthorizeVerifyOtp: (
+    id: NonNullable<
+      CustomerPortalMandatesReauthorizeVerifyOtpData["path"]
+    >["id"],
+    body: NonNullable<CustomerPortalMandatesReauthorizeVerifyOtpData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalMandatesReauthorizeVerifyOtpResponse>;
+  portalSessionsCreate: (
+    body: NonNullable<CustomerPortalSessionsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalSessionsCreateResponse>;
+  portalSubscriptionsCancel: (
+    id: NonNullable<CustomerPortalSubscriptionsCancelData["path"]>["id"],
+    body?: NonNullable<CustomerPortalSubscriptionsCancelData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalSubscriptionsCancelResponse>;
+  portalSubscriptionsGet: (
+    id: NonNullable<CustomerPortalSubscriptionsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalSubscriptionsGetResponse>;
+  portalSubscriptionsList: (
+    query?: NonNullable<CustomerPortalSubscriptionsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerPortalSubscriptionsListResponse>;
+  stateGet: (
+    id: NonNullable<CustomerStateGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomerStateGetResponse>;
 }
 
 export interface CustomersResource {
-  create: (body?: NonNullable<CustomersCreateData["body"]>) => Promise<CustomersCreateResponse>;
-  get: (id: NonNullable<CustomersGetData["path"]>["id"]) => Promise<CustomersGetResponse>;
-  list: (query?: NonNullable<CustomersListData["query"]>) => Promise<CustomersListResponse>;
-  paymentMethodsList: (id: NonNullable<CustomersPaymentMethodsListData["path"]>["id"]) => Promise<CustomersPaymentMethodsListResponse>;
-  paymentRailsGet: (id: NonNullable<CustomersPaymentRailsGetData["path"]>["id"], query?: NonNullable<CustomersPaymentRailsGetData["query"]>) => Promise<CustomersPaymentRailsGetResponse>;
-  preferredRailsGet: (id: NonNullable<CustomersPreferredRailsGetData["path"]>["id"], query?: NonNullable<CustomersPreferredRailsGetData["query"]>) => Promise<CustomersPreferredRailsGetResponse>;
-  update: (id: NonNullable<CustomersUpdateData["path"]>["id"], body?: NonNullable<CustomersUpdateData["body"]>) => Promise<CustomersUpdateResponse>;
+  create: (
+    body?: NonNullable<CustomersCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersCreateResponse>;
+  get: (
+    id: NonNullable<CustomersGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersGetResponse>;
+  list: (
+    query?: NonNullable<CustomersListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersListResponse>;
+  paymentMethodsList: (
+    id: NonNullable<CustomersPaymentMethodsListData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersPaymentMethodsListResponse>;
+  paymentRailsGet: (
+    id: NonNullable<CustomersPaymentRailsGetData["path"]>["id"],
+    query?: NonNullable<CustomersPaymentRailsGetData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersPaymentRailsGetResponse>;
+  preferredRailsGet: (
+    id: NonNullable<CustomersPreferredRailsGetData["path"]>["id"],
+    query?: NonNullable<CustomersPreferredRailsGetData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersPreferredRailsGetResponse>;
+  update: (
+    id: NonNullable<CustomersUpdateData["path"]>["id"],
+    body?: NonNullable<CustomersUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<CustomersUpdateResponse>;
 }
 
 export interface DdResource {
-  mandateRequestsGet: (id: NonNullable<DdMandateRequestsGetData["path"]>["token"]) => Promise<DdMandateRequestsGetResponse>;
-  preview: (body?: NonNullable<DdPreviewData["body"]>) => Promise<DdPreviewResponse>;
-  validate: (body?: NonNullable<DdValidateData["body"]>) => Promise<DdValidateResponse>;
+  mandateRequestsGet: (
+    id: NonNullable<DdMandateRequestsGetData["path"]>["token"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<DdMandateRequestsGetResponse>;
+  preview: (
+    body?: NonNullable<DdPreviewData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<DdPreviewResponse>;
+  validate: (
+    body?: NonNullable<DdValidateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<DdValidateResponse>;
 }
 
 export interface EntitlementsResource {
-  check: (query?: NonNullable<EntitlementsCheckData["query"]>) => Promise<EntitlementsCheckResponse>;
-  list: (query?: NonNullable<EntitlementsListData["query"]>) => Promise<EntitlementsListResponse>;
+  check: (
+    query?: NonNullable<EntitlementsCheckData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<EntitlementsCheckResponse>;
+  list: (
+    query?: NonNullable<EntitlementsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<EntitlementsListResponse>;
 }
 
 export interface EventsResource {
-  get: (id: NonNullable<EventsGetData["path"]>["id"]) => Promise<EventsGetResponse>;
-  list: (query?: NonNullable<EventsListData["query"]>) => Promise<EventsListResponse>;
-  resend: (id: NonNullable<EventsResendData["path"]>["id"]) => Promise<EventsResendResponse>;
+  get: (
+    id: NonNullable<EventsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<EventsGetResponse>;
+  list: (
+    query?: NonNullable<EventsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<EventsListResponse>;
+  resend: (
+    id: NonNullable<EventsResendData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<EventsResendResponse>;
+}
+
+export interface InvoiceResource {
+  lineItemsListUsageEvents: (
+    id: NonNullable<InvoiceLineItemsListUsageEventsData["path"]>["id"],
+    query?: NonNullable<InvoiceLineItemsListUsageEventsData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoiceLineItemsListUsageEventsResponse>;
+  usageExplain: (
+    id: NonNullable<InvoiceUsageExplainData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoiceUsageExplainResponse>;
 }
 
 export interface InvoicesResource {
-  create: (body: NonNullable<InvoicesCreateData["body"]>) => Promise<InvoicesCreateResponse>;
-  finalize: (id: NonNullable<InvoicesFinalizeData["path"]>["id"], body?: NonNullable<InvoicesFinalizeData["body"]>) => Promise<InvoicesFinalizeResponse>;
-  get: (id: NonNullable<InvoicesGetData["path"]>["id"]) => Promise<InvoicesGetResponse>;
-  list: (query?: NonNullable<InvoicesListData["query"]>) => Promise<InvoicesListResponse>;
-  marginEstimate: (id: NonNullable<InvoicesMarginEstimateData["path"]>["id"], body: NonNullable<InvoicesMarginEstimateData["body"]>) => Promise<InvoicesMarginEstimateResponse>;
-  send: (id: NonNullable<InvoicesSendData["path"]>["id"], body?: NonNullable<InvoicesSendData["body"]>) => Promise<InvoicesSendResponse>;
-  update: (id: NonNullable<InvoicesUpdateData["path"]>["id"], body: NonNullable<InvoicesUpdateData["body"]>) => Promise<InvoicesUpdateResponse>;
-  void: (id: NonNullable<InvoicesVoidData["path"]>["id"], body?: NonNullable<InvoicesVoidData["body"]>) => Promise<InvoicesVoidResponse>;
+  create: (
+    body: NonNullable<InvoicesCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesCreateResponse>;
+  finalize: (
+    id: NonNullable<InvoicesFinalizeData["path"]>["id"],
+    body?: NonNullable<InvoicesFinalizeData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesFinalizeResponse>;
+  get: (
+    id: NonNullable<InvoicesGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesGetResponse>;
+  list: (
+    query?: NonNullable<InvoicesListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesListResponse>;
+  marginEstimate: (
+    id: NonNullable<InvoicesMarginEstimateData["path"]>["id"],
+    body: NonNullable<InvoicesMarginEstimateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesMarginEstimateResponse>;
+  send: (
+    id: NonNullable<InvoicesSendData["path"]>["id"],
+    body?: NonNullable<InvoicesSendData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesSendResponse>;
+  update: (
+    id: NonNullable<InvoicesUpdateData["path"]>["id"],
+    body: NonNullable<InvoicesUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesUpdateResponse>;
+  void: (
+    id: NonNullable<InvoicesVoidData["path"]>["id"],
+    body?: NonNullable<InvoicesVoidData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<InvoicesVoidResponse>;
 }
 
 export interface MandatesResource {
-  cancel: (id: NonNullable<MandatesCancelData["path"]>["id"], body?: NonNullable<MandatesCancelData["body"]>) => Promise<MandatesCancelResponse>;
-  create: (body?: NonNullable<MandatesCreateData["body"]>) => Promise<MandatesCreateResponse>;
-  get: (id: NonNullable<MandatesGetData["path"]>["id"]) => Promise<MandatesGetResponse>;
-  list: (query?: NonNullable<MandatesListData["query"]>) => Promise<MandatesListResponse>;
-  reinstate: (id: NonNullable<MandatesReinstateData["path"]>["id"], body?: NonNullable<MandatesReinstateData["body"]>) => Promise<MandatesReinstateResponse>;
-  scheduleCollection: (id: NonNullable<MandatesScheduleCollectionData["path"]>["id"], body?: NonNullable<MandatesScheduleCollectionData["body"]>) => Promise<MandatesScheduleCollectionResponse>;
-  suspend: (id: NonNullable<MandatesSuspendData["path"]>["id"], body?: NonNullable<MandatesSuspendData["body"]>) => Promise<MandatesSuspendResponse>;
+  cancel: (
+    id: NonNullable<MandatesCancelData["path"]>["id"],
+    body?: NonNullable<MandatesCancelData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesCancelResponse>;
+  create: (
+    body?: NonNullable<MandatesCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesCreateResponse>;
+  get: (
+    id: NonNullable<MandatesGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesGetResponse>;
+  list: (
+    query?: NonNullable<MandatesListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesListResponse>;
+  reinstate: (
+    id: NonNullable<MandatesReinstateData["path"]>["id"],
+    body?: NonNullable<MandatesReinstateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesReinstateResponse>;
+  scheduleCollection: (
+    id: NonNullable<MandatesScheduleCollectionData["path"]>["id"],
+    body?: NonNullable<MandatesScheduleCollectionData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesScheduleCollectionResponse>;
+  suspend: (
+    id: NonNullable<MandatesSuspendData["path"]>["id"],
+    body?: NonNullable<MandatesSuspendData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MandatesSuspendResponse>;
+}
+
+export interface MetersResource {
+  create: (
+    body?: NonNullable<MetersCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MetersCreateResponse>;
+  get: (
+    id: NonNullable<MetersGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MetersGetResponse>;
+  list: (
+    query?: NonNullable<MetersListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MetersListResponse>;
+  quantities: (
+    id: NonNullable<MetersQuantitiesData["path"]>["id"],
+    query?: NonNullable<MetersQuantitiesData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MetersQuantitiesResponse>;
+  update: (
+    id: NonNullable<MetersUpdateData["path"]>["id"],
+    body?: NonNullable<MetersUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<MetersUpdateResponse>;
 }
 
 export interface PaymentIntentsResource {
-  cancel: (id: NonNullable<PaymentIntentsCancelData["path"]>["id"], body?: NonNullable<PaymentIntentsCancelData["body"]>) => Promise<PaymentIntentsCancelResponse>;
-  capture: (id: NonNullable<PaymentIntentsCaptureData["path"]>["id"], body?: NonNullable<PaymentIntentsCaptureData["body"]>) => Promise<PaymentIntentsCaptureResponse>;
-  confirm: (id: NonNullable<PaymentIntentsConfirmData["path"]>["id"], body?: NonNullable<PaymentIntentsConfirmData["body"]>) => Promise<PaymentIntentsConfirmResponse>;
-  create: (body?: NonNullable<PaymentIntentsCreateData["body"]>) => Promise<PaymentIntentsCreateResponse>;
-  get: (id: NonNullable<PaymentIntentsGetData["path"]>["id"]) => Promise<PaymentIntentsGetResponse>;
-  list: (query?: NonNullable<PaymentIntentsListData["query"]>) => Promise<PaymentIntentsListResponse>;
+  cancel: (
+    id: NonNullable<PaymentIntentsCancelData["path"]>["id"],
+    body?: NonNullable<PaymentIntentsCancelData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentIntentsCancelResponse>;
+  capture: (
+    id: NonNullable<PaymentIntentsCaptureData["path"]>["id"],
+    body?: NonNullable<PaymentIntentsCaptureData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentIntentsCaptureResponse>;
+  confirm: (
+    id: NonNullable<PaymentIntentsConfirmData["path"]>["id"],
+    body?: NonNullable<PaymentIntentsConfirmData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentIntentsConfirmResponse>;
+  create: (
+    body?: NonNullable<PaymentIntentsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentIntentsCreateResponse>;
+  get: (
+    id: NonNullable<PaymentIntentsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentIntentsGetResponse>;
+  list: (
+    query?: NonNullable<PaymentIntentsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentIntentsListResponse>;
 }
 
 export interface PaymentLinksResource {
-  activate: (id: NonNullable<PaymentLinksActivateData["path"]>["id"]) => Promise<PaymentLinksActivateResponse>;
-  archive: (id: NonNullable<PaymentLinksArchiveData["path"]>["id"]) => Promise<PaymentLinksArchiveResponse>;
-  create: (body?: NonNullable<PaymentLinksCreateData["body"]>) => Promise<PaymentLinksCreateResponse>;
-  deactivate: (id: NonNullable<PaymentLinksDeactivateData["path"]>["id"]) => Promise<PaymentLinksDeactivateResponse>;
-  expire: (id: NonNullable<PaymentLinksExpireData["path"]>["id"], body?: NonNullable<PaymentLinksExpireData["body"]>) => Promise<PaymentLinksExpireResponse>;
-  get: (id: NonNullable<PaymentLinksGetData["path"]>["id"]) => Promise<PaymentLinksGetResponse>;
-  list: (query?: NonNullable<PaymentLinksListData["query"]>) => Promise<PaymentLinksListResponse>;
-  update: (id: NonNullable<PaymentLinksUpdateData["path"]>["id"], body?: NonNullable<PaymentLinksUpdateData["body"]>) => Promise<PaymentLinksUpdateResponse>;
+  activate: (
+    id: NonNullable<PaymentLinksActivateData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksActivateResponse>;
+  archive: (
+    id: NonNullable<PaymentLinksArchiveData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksArchiveResponse>;
+  create: (
+    body?: NonNullable<PaymentLinksCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksCreateResponse>;
+  deactivate: (
+    id: NonNullable<PaymentLinksDeactivateData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksDeactivateResponse>;
+  expire: (
+    id: NonNullable<PaymentLinksExpireData["path"]>["id"],
+    body?: NonNullable<PaymentLinksExpireData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksExpireResponse>;
+  get: (
+    id: NonNullable<PaymentLinksGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksGetResponse>;
+  list: (
+    query?: NonNullable<PaymentLinksListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksListResponse>;
+  update: (
+    id: NonNullable<PaymentLinksUpdateData["path"]>["id"],
+    body?: NonNullable<PaymentLinksUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PaymentLinksUpdateResponse>;
 }
 
 export interface PricesResource {
-  archive: (id: NonNullable<PricesArchiveData["path"]>["id"]) => Promise<PricesArchiveResponse>;
-  create: (body: NonNullable<PricesCreateData["body"]>) => Promise<PricesCreateResponse>;
-  get: (id: NonNullable<PricesGetData["path"]>["id"]) => Promise<PricesGetResponse>;
-  list: (query?: NonNullable<PricesListData["query"]>) => Promise<PricesListResponse>;
-  update: (id: NonNullable<PricesUpdateData["path"]>["id"], body: NonNullable<PricesUpdateData["body"]>) => Promise<PricesUpdateResponse>;
+  archive: (
+    id: NonNullable<PricesArchiveData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PricesArchiveResponse>;
+  create: (
+    body: NonNullable<PricesCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PricesCreateResponse>;
+  get: (
+    id: NonNullable<PricesGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PricesGetResponse>;
+  list: (
+    query?: NonNullable<PricesListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PricesListResponse>;
+  update: (
+    id: NonNullable<PricesUpdateData["path"]>["id"],
+    body: NonNullable<PricesUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<PricesUpdateResponse>;
+}
+
+export interface ProductResource {
+  collectionsCreate: (
+    body?: NonNullable<ProductCollectionsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductCollectionsCreateResponse>;
+  collectionsDelete: (
+    id: NonNullable<ProductCollectionsDeleteData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductCollectionsDeleteResponse>;
+  collectionsGet: (
+    id: NonNullable<ProductCollectionsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductCollectionsGetResponse>;
+  collectionsList: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductCollectionsListResponse>;
+  collectionsUpdate: (
+    id: NonNullable<ProductCollectionsUpdateData["path"]>["id"],
+    body?: NonNullable<ProductCollectionsUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductCollectionsUpdateResponse>;
 }
 
 export interface ProductsResource {
-  create: (body: NonNullable<ProductsCreateData["body"]>) => Promise<ProductsCreateResponse>;
-  get: (id: NonNullable<ProductsGetData["path"]>["id"]) => Promise<ProductsGetResponse>;
-  list: (query?: NonNullable<ProductsListData["query"]>) => Promise<ProductsListResponse>;
-  update: (id: NonNullable<ProductsUpdateData["path"]>["id"], body: NonNullable<ProductsUpdateData["body"]>) => Promise<ProductsUpdateResponse>;
+  create: (
+    body: NonNullable<ProductsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductsCreateResponse>;
+  get: (
+    id: NonNullable<ProductsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductsGetResponse>;
+  list: (
+    query?: NonNullable<ProductsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductsListResponse>;
+  update: (
+    id: NonNullable<ProductsUpdateData["path"]>["id"],
+    body: NonNullable<ProductsUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<ProductsUpdateResponse>;
 }
 
 export interface RefundsResource {
-  create: (body?: NonNullable<RefundsCreateData["body"]>) => Promise<RefundsCreateResponse>;
-  get: (id: NonNullable<RefundsGetData["path"]>["id"]) => Promise<RefundsGetResponse>;
-  list: (query?: NonNullable<RefundsListData["query"]>) => Promise<RefundsListResponse>;
+  create: (
+    body?: NonNullable<RefundsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<RefundsCreateResponse>;
+  get: (
+    id: NonNullable<RefundsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<RefundsGetResponse>;
+  list: (
+    query?: NonNullable<RefundsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<RefundsListResponse>;
 }
 
 export interface StorefrontResource {
-  originsCreate: (body?: NonNullable<StorefrontOriginsCreateData["body"]>) => Promise<StorefrontOriginsCreateResponse>;
-  originsDelete: (id: NonNullable<StorefrontOriginsDeleteData["path"]>["originId"]) => Promise<StorefrontOriginsDeleteResponse>;
-  originsList: () => Promise<StorefrontOriginsListResponse>;
-  productsGet: (id: NonNullable<StorefrontProductsGetData["path"]>["productId"]) => Promise<StorefrontProductsGetResponse>;
-  productsList: (query?: NonNullable<StorefrontProductsListData["query"]>) => Promise<StorefrontProductsListResponse>;
-  statusGet: () => Promise<StorefrontStatusGetResponse>;
+  originsCreate: (
+    body?: NonNullable<StorefrontOriginsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<StorefrontOriginsCreateResponse>;
+  originsDelete: (
+    id: NonNullable<StorefrontOriginsDeleteData["path"]>["originId"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<StorefrontOriginsDeleteResponse>;
+  originsList: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<StorefrontOriginsListResponse>;
+  productsGet: (
+    id: NonNullable<StorefrontProductsGetData["path"]>["productId"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<StorefrontProductsGetResponse>;
+  productsList: (
+    query?: NonNullable<StorefrontProductsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<StorefrontProductsListResponse>;
+  statusGet: (
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<StorefrontStatusGetResponse>;
 }
 
 export interface SubscriptionsResource {
-  cancel: (id: NonNullable<SubscriptionsCancelData["path"]>["id"], body?: NonNullable<SubscriptionsCancelData["body"]>) => Promise<SubscriptionsCancelResponse>;
-  create: (body?: NonNullable<SubscriptionsCreateData["body"]>) => Promise<SubscriptionsCreateResponse>;
-  get: (id: NonNullable<SubscriptionsGetData["path"]>["id"]) => Promise<SubscriptionsGetResponse>;
-  list: (query?: NonNullable<SubscriptionsListData["query"]>) => Promise<SubscriptionsListResponse>;
-  update: (id: NonNullable<SubscriptionsUpdateData["path"]>["id"], body?: NonNullable<SubscriptionsUpdateData["body"]>) => Promise<SubscriptionsUpdateResponse>;
+  cancel: (
+    id: NonNullable<SubscriptionsCancelData["path"]>["id"],
+    body?: NonNullable<SubscriptionsCancelData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<SubscriptionsCancelResponse>;
+  create: (
+    body?: NonNullable<SubscriptionsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<SubscriptionsCreateResponse>;
+  get: (
+    id: NonNullable<SubscriptionsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<SubscriptionsGetResponse>;
+  list: (
+    query?: NonNullable<SubscriptionsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<SubscriptionsListResponse>;
+  update: (
+    id: NonNullable<SubscriptionsUpdateData["path"]>["id"],
+    body?: NonNullable<SubscriptionsUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<SubscriptionsUpdateResponse>;
 }
 
 export interface TransactionsResource {
-  get: (id: NonNullable<TransactionsGetData["path"]>["id"]) => Promise<TransactionsGetResponse>;
-  list: (query?: NonNullable<TransactionsListData["query"]>) => Promise<TransactionsListResponse>;
+  get: (
+    id: NonNullable<TransactionsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<TransactionsGetResponse>;
+  list: (
+    query?: NonNullable<TransactionsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<TransactionsListResponse>;
+}
+
+export interface UsageBalanceResource {
+  get: (
+    query?: NonNullable<UsageBalanceGetData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<UsageBalanceGetResponse>;
+}
+
+export interface UsageEventsResource {
+  get: (
+    id: NonNullable<UsageEventsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<UsageEventsGetResponse>;
+  ingest: (
+    body?: NonNullable<UsageEventsIngestData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<UsageEventsIngestResponse>;
+  list: (
+    query?: NonNullable<UsageEventsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<UsageEventsListResponse>;
 }
 
 export interface WebhookResource {
-  deliveriesGet: (id: NonNullable<WebhookDeliveriesGetData["path"]>["id"]) => Promise<WebhookDeliveriesGetResponse>;
-  deliveriesList: (query?: NonNullable<WebhookDeliveriesListData["query"]>) => Promise<WebhookDeliveriesListResponse>;
-  deliveriesRetry: (id: NonNullable<WebhookDeliveriesRetryData["path"]>["id"]) => Promise<WebhookDeliveriesRetryResponse>;
+  deliveriesGet: (
+    id: NonNullable<WebhookDeliveriesGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookDeliveriesGetResponse>;
+  deliveriesList: (
+    query?: NonNullable<WebhookDeliveriesListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookDeliveriesListResponse>;
+  deliveriesRetry: (
+    id: NonNullable<WebhookDeliveriesRetryData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookDeliveriesRetryResponse>;
 }
 
 export interface WebhookEndpointsResource {
-  create: (body?: NonNullable<WebhookEndpointsCreateData["body"]>) => Promise<WebhookEndpointsCreateResponse>;
-  delete: (id: NonNullable<WebhookEndpointsDeleteData["path"]>["id"]) => Promise<WebhookEndpointsDeleteResponse>;
-  get: (id: NonNullable<WebhookEndpointsGetData["path"]>["id"]) => Promise<WebhookEndpointsGetResponse>;
-  list: (query?: NonNullable<WebhookEndpointsListData["query"]>) => Promise<WebhookEndpointsListResponse>;
-  rotateSecret: (id: NonNullable<WebhookEndpointsRotateSecretData["path"]>["id"]) => Promise<WebhookEndpointsRotateSecretResponse>;
-  update: (id: NonNullable<WebhookEndpointsUpdateData["path"]>["id"], body?: NonNullable<WebhookEndpointsUpdateData["body"]>) => Promise<WebhookEndpointsUpdateResponse>;
+  create: (
+    body?: NonNullable<WebhookEndpointsCreateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookEndpointsCreateResponse>;
+  delete: (
+    id: NonNullable<WebhookEndpointsDeleteData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookEndpointsDeleteResponse>;
+  get: (
+    id: NonNullable<WebhookEndpointsGetData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookEndpointsGetResponse>;
+  list: (
+    query?: NonNullable<WebhookEndpointsListData["query"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookEndpointsListResponse>;
+  rotateSecret: (
+    id: NonNullable<WebhookEndpointsRotateSecretData["path"]>["id"],
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookEndpointsRotateSecretResponse>;
+  update: (
+    id: NonNullable<WebhookEndpointsUpdateData["path"]>["id"],
+    body?: NonNullable<WebhookEndpointsUpdateData["body"]>,
+    requestOptions?: RevKeenRequestOptions,
+  ) => Promise<WebhookEndpointsUpdateResponse>;
 }
 
 export interface GeneratedResources {
   accounting: AccountingResource;
   analytics: AnalyticsResource;
+  billing: BillingResource;
   cart: CartResource;
   checkoutSessions: CheckoutSessionsResource;
   creditNotes: CreditNotesResource;
@@ -209,184 +959,1755 @@ export interface GeneratedResources {
   dd: DdResource;
   entitlements: EntitlementsResource;
   events: EventsResource;
+  invoice: InvoiceResource;
   invoices: InvoicesResource;
   mandates: MandatesResource;
+  meters: MetersResource;
   paymentIntents: PaymentIntentsResource;
   paymentLinks: PaymentLinksResource;
   prices: PricesResource;
+  product: ProductResource;
   products: ProductsResource;
   refunds: RefundsResource;
   storefront: StorefrontResource;
   subscriptions: SubscriptionsResource;
   transactions: TransactionsResource;
+  usageBalance: UsageBalanceResource;
+  usageEvents: UsageEventsResource;
   webhook: WebhookResource;
   webhookEndpoints: WebhookEndpointsResource;
 }
 
 export function buildGeneratedResources(
-  runtime: GeneratedResourceRuntime
+  runtime: GeneratedResourceRuntime,
 ): GeneratedResources {
   return {
     accounting: {
-    invoicePaymentRequestsCreate: async (body) => runtime.requestData<AccountingInvoicePaymentRequestsCreateResponse>(operations.accountingInvoicePaymentRequestsCreate as (options: unknown) => Promise<{ data?: AccountingInvoicePaymentRequestsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    invoicePaymentRequestsGet: async (id) => runtime.requestData<AccountingInvoicePaymentRequestsGetResponse>(operations.accountingInvoicePaymentRequestsGet as (options: unknown) => Promise<{ data?: AccountingInvoicePaymentRequestsGetResponse; error?: unknown }>, { path: { id: id } }),
+      invoicePaymentRequestsCreate: async (body, requestOptions) =>
+        runtime.requestData<AccountingInvoicePaymentRequestsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "accounting_invoice_payment_requests_create",
+            path: "/integrations/accounting/invoice-payment-requests",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      invoicePaymentRequestsGet: async (id, requestOptions) =>
+        runtime.requestData<AccountingInvoicePaymentRequestsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "accounting_invoice_payment_requests_get",
+            path: "/integrations/accounting/invoice-payment-requests/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     analytics: {
-    revenueMrrSummary: async (query) => runtime.requestData<AnalyticsRevenueMrrSummaryResponse>(operations.analyticsRevenueMrrSummary as (options: unknown) => Promise<{ data?: AnalyticsRevenueMrrSummaryResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    revenueTimeSeries: async (query) => runtime.requestData<AnalyticsRevenueTimeSeriesResponse>(operations.analyticsRevenueTimeSeries as (options: unknown) => Promise<{ data?: AnalyticsRevenueTimeSeriesResponse; error?: unknown }>, query === undefined ? undefined : { query }),
+      revenueMrrSummary: async (query, requestOptions) =>
+        runtime.requestData<AnalyticsRevenueMrrSummaryResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "analytics_revenue_mrr_summary",
+            path: "/analytics/revenue/mrr-summary",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      revenueTimeSeries: async (query, requestOptions) =>
+        runtime.requestData<AnalyticsRevenueTimeSeriesResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "analytics_revenue_time_series",
+            path: "/analytics/revenue/time-series",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+    },
+    billing: {
+      overviewGet: async (requestOptions) =>
+        runtime.requestData<BillingOverviewGetResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "billing_overview_get",
+            path: "/billing/overview",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     cart: {
-    apiKeysEnsure: async () => runtime.requestData<CartApiKeysEnsureResponse>(operations.cartApiKeysEnsure as (options: unknown) => Promise<{ data?: CartApiKeysEnsureResponse; error?: unknown }>, undefined),
-    apiKeysRotate: async (id, body) => runtime.requestData<CartApiKeysRotateResponse>(operations.cartApiKeysRotate as (options: unknown) => Promise<{ data?: CartApiKeysRotateResponse; error?: unknown }>, body === undefined ? { path: { kind: id } } : { path: { kind: id }, body }),
-    apiKeysStatus: async () => runtime.requestData<CartApiKeysStatusResponse>(operations.cartApiKeysStatus as (options: unknown) => Promise<{ data?: CartApiKeysStatusResponse; error?: unknown }>, undefined),
-    sessionsAddLineItem: async (id, body) => runtime.requestData<CartSessionsAddLineItemResponse>(operations.cartSessionsAddLineItem as (options: unknown) => Promise<{ data?: CartSessionsAddLineItemResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    sessionsApplyDiscountCode: async (id, body) => runtime.requestData<CartSessionsApplyDiscountCodeResponse>(operations.cartSessionsApplyDiscountCode as (options: unknown) => Promise<{ data?: CartSessionsApplyDiscountCodeResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    sessionsConvert: async (id) => runtime.requestData<CartSessionsConvertResponse>(operations.cartSessionsConvert as (options: unknown) => Promise<{ data?: CartSessionsConvertResponse; error?: unknown }>, { path: { id: id } }),
-    sessionsCreate: async (body) => runtime.requestData<CartSessionsCreateResponse>(operations.cartSessionsCreate as (options: unknown) => Promise<{ data?: CartSessionsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    sessionsGet: async (id) => runtime.requestData<CartSessionsGetResponse>(operations.cartSessionsGet as (options: unknown) => Promise<{ data?: CartSessionsGetResponse; error?: unknown }>, { path: { id: id } }),
-    sessionsRemoveLineItem: async (path) => runtime.requestData<CartSessionsRemoveLineItemResponse>(operations.cartSessionsRemoveLineItem as (options: unknown) => Promise<{ data?: CartSessionsRemoveLineItemResponse; error?: unknown }>, { path }),
-    sessionsSetContact: async (id, body) => runtime.requestData<CartSessionsSetContactResponse>(operations.cartSessionsSetContact as (options: unknown) => Promise<{ data?: CartSessionsSetContactResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    sessionsToggleAddOn: async (id, body) => runtime.requestData<CartSessionsToggleAddOnResponse>(operations.cartSessionsToggleAddOn as (options: unknown) => Promise<{ data?: CartSessionsToggleAddOnResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    sessionsUpdateLineItem: async (params) => runtime.requestData<CartSessionsUpdateLineItemResponse>(operations.cartSessionsUpdateLineItem as (options: unknown) => Promise<{ data?: CartSessionsUpdateLineItemResponse; error?: unknown }>, { path: params.path, ...(params.body === undefined ? {} : { body: params.body }) }),
+      apiKeysEnsure: async (requestOptions) =>
+        runtime.requestData<CartApiKeysEnsureResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_api_keys_ensure",
+            path: "/cart-api-keys/ensure",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      apiKeysRotate: async (id, body, requestOptions) =>
+        runtime.requestData<CartApiKeysRotateResponse>(
+          body === undefined
+            ? { path: { kind: id } }
+            : { path: { kind: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_api_keys_rotate",
+            path: "/cart-api-keys/{kind}/rotate",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      apiKeysStatus: async (requestOptions) =>
+        runtime.requestData<CartApiKeysStatusResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "cart_api_keys_status",
+            path: "/cart-api-keys/status",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsAddLineItem: async (id, body, requestOptions) =>
+        runtime.requestData<CartSessionsAddLineItemResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_sessions_add_line_item",
+            path: "/cart-sessions/{id}/line-items",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsApplyDiscountCode: async (id, body, requestOptions) =>
+        runtime.requestData<CartSessionsApplyDiscountCodeResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_sessions_apply_discount_code",
+            path: "/cart-sessions/{id}/discount-code",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsConvert: async (id, requestOptions) =>
+        runtime.requestData<CartSessionsConvertResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_sessions_convert",
+            path: "/cart-sessions/{id}/convert",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsCreate: async (body, requestOptions) =>
+        runtime.requestData<CartSessionsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_sessions_create",
+            path: "/cart-sessions",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsGet: async (id, requestOptions) =>
+        runtime.requestData<CartSessionsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "cart_sessions_get",
+            path: "/cart-sessions/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsRemoveLineItem: async (path, requestOptions) =>
+        runtime.requestData<CartSessionsRemoveLineItemResponse>(
+          { path },
+          requestOptions,
+          {
+            method: "DELETE",
+            operationId: "cart_sessions_remove_line_item",
+            path: "/cart-sessions/{id}/line-items/{lineId}",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsSetContact: async (id, body, requestOptions) =>
+        runtime.requestData<CartSessionsSetContactResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_sessions_set_contact",
+            path: "/cart-sessions/{id}/contact",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsToggleAddOn: async (id, body, requestOptions) =>
+        runtime.requestData<CartSessionsToggleAddOnResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "cart_sessions_toggle_add_on",
+            path: "/cart-sessions/{id}/add-ons",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      sessionsUpdateLineItem: async (params, requestOptions) =>
+        runtime.requestData<CartSessionsUpdateLineItemResponse>(
+          {
+            path: params.path,
+            ...(params.body === undefined ? {} : { body: params.body }),
+          },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "cart_sessions_update_line_item",
+            path: "/cart-sessions/{id}/line-items/{lineId}",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     checkoutSessions: {
-    create: async (body) => runtime.requestData<CheckoutSessionsCreateResponse>(operations.checkoutSessionsCreate as (options: unknown) => Promise<{ data?: CheckoutSessionsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    expire: async (id) => runtime.requestData<CheckoutSessionsExpireResponse>(operations.checkoutSessionsExpire as (options: unknown) => Promise<{ data?: CheckoutSessionsExpireResponse; error?: unknown }>, { path: { id: id } }),
-    get: async (id) => runtime.requestData<CheckoutSessionsGetResponse>(operations.checkoutSessionsGet as (options: unknown) => Promise<{ data?: CheckoutSessionsGetResponse; error?: unknown }>, { path: { id: id } }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<CheckoutSessionsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "checkout_sessions_create",
+            path: "/checkout-sessions",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      expire: async (id, requestOptions) =>
+        runtime.requestData<CheckoutSessionsExpireResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "checkout_sessions_expire",
+            path: "/checkout-sessions/{id}/expire",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<CheckoutSessionsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "checkout_sessions_get",
+            path: "/checkout-sessions/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     creditNotes: {
-    create: async (body) => runtime.requestData<CreditNotesCreateResponse>(operations.creditNotesCreate as (options: unknown) => Promise<{ data?: CreditNotesCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    get: async (id) => runtime.requestData<CreditNotesGetResponse>(operations.creditNotesGet as (options: unknown) => Promise<{ data?: CreditNotesGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<CreditNotesListResponse>(operations.creditNotesList as (options: unknown) => Promise<{ data?: CreditNotesListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    listLines: async (id, query) => runtime.requestData<CreditNotesListLinesResponse>(operations.creditNotesListLines as (options: unknown) => Promise<{ data?: CreditNotesListLinesResponse; error?: unknown }>, query === undefined ? { path: { id: id } } : { path: { id: id }, query }),
-    preview: async (body) => runtime.requestData<CreditNotesPreviewResponse>(operations.creditNotesPreview as (options: unknown) => Promise<{ data?: CreditNotesPreviewResponse; error?: unknown }>, { body }),
-    void: async (id) => runtime.requestData<CreditNotesVoidResponse>(operations.creditNotesVoid as (options: unknown) => Promise<{ data?: CreditNotesVoidResponse; error?: unknown }>, { path: { id: id } }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<CreditNotesCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "credit_notes_create",
+            path: "/credit_notes",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<CreditNotesGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "credit_notes_get",
+            path: "/credit_notes/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<CreditNotesListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "credit_notes_list",
+            path: "/credit_notes",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      listLines: async (id, query, requestOptions) =>
+        runtime.requestData<CreditNotesListLinesResponse>(
+          query === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "credit_notes_list_lines",
+            path: "/credit_notes/{id}/lines",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      preview: async (body, requestOptions) =>
+        runtime.requestData<CreditNotesPreviewResponse>(
+          { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "credit_notes_preview",
+            path: "/credit_notes/preview",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      void: async (id, requestOptions) =>
+        runtime.requestData<CreditNotesVoidResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "credit_notes_void",
+            path: "/credit_notes/{id}/void",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     customer: {
-    metersGet: async (path) => runtime.requestData<CustomerMetersGetResponse>(operations.customerMetersGet as (options: unknown) => Promise<{ data?: CustomerMetersGetResponse; error?: unknown }>, { path }),
-    metersList: async (query) => runtime.requestData<CustomerMetersListResponse>(operations.customerMetersList as (options: unknown) => Promise<{ data?: CustomerMetersListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    portalCustomerGet: async () => runtime.requestData<CustomerPortalCustomerGetResponse>(operations.customerPortalCustomerGet as (options: unknown) => Promise<{ data?: CustomerPortalCustomerGetResponse; error?: unknown }>, undefined),
-    portalInvoicesGet: async (id) => runtime.requestData<CustomerPortalInvoicesGetResponse>(operations.customerPortalInvoicesGet as (options: unknown) => Promise<{ data?: CustomerPortalInvoicesGetResponse; error?: unknown }>, { path: { id: id } }),
-    portalInvoicesList: async (query) => runtime.requestData<CustomerPortalInvoicesListResponse>(operations.customerPortalInvoicesList as (options: unknown) => Promise<{ data?: CustomerPortalInvoicesListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    portalMandatesCancel: async (id, body) => runtime.requestData<CustomerPortalMandatesCancelResponse>(operations.customerPortalMandatesCancel as (options: unknown) => Promise<{ data?: CustomerPortalMandatesCancelResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    portalMandatesList: async () => runtime.requestData<CustomerPortalMandatesListResponse>(operations.customerPortalMandatesList as (options: unknown) => Promise<{ data?: CustomerPortalMandatesListResponse; error?: unknown }>, undefined),
-    portalMandatesReauthorize: async (id, body) => runtime.requestData<CustomerPortalMandatesReauthorizeResponse>(operations.customerPortalMandatesReauthorize as (options: unknown) => Promise<{ data?: CustomerPortalMandatesReauthorizeResponse; error?: unknown }>, { path: { id: id }, body }),
-    portalMandatesReauthorizeSendOtp: async (id) => runtime.requestData<CustomerPortalMandatesReauthorizeSendOtpResponse>(operations.customerPortalMandatesReauthorizeSendOtp as (options: unknown) => Promise<{ data?: CustomerPortalMandatesReauthorizeSendOtpResponse; error?: unknown }>, { path: { id: id } }),
-    portalMandatesReauthorizeVerifyOtp: async (id, body) => runtime.requestData<CustomerPortalMandatesReauthorizeVerifyOtpResponse>(operations.customerPortalMandatesReauthorizeVerifyOtp as (options: unknown) => Promise<{ data?: CustomerPortalMandatesReauthorizeVerifyOtpResponse; error?: unknown }>, { path: { id: id }, body }),
-    portalSessionsCreate: async (body) => runtime.requestData<CustomerPortalSessionsCreateResponse>(operations.customerPortalSessionsCreate as (options: unknown) => Promise<{ data?: CustomerPortalSessionsCreateResponse; error?: unknown }>, { body }),
-    portalSubscriptionsCancel: async (id, body) => runtime.requestData<CustomerPortalSubscriptionsCancelResponse>(operations.customerPortalSubscriptionsCancel as (options: unknown) => Promise<{ data?: CustomerPortalSubscriptionsCancelResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    portalSubscriptionsGet: async (id) => runtime.requestData<CustomerPortalSubscriptionsGetResponse>(operations.customerPortalSubscriptionsGet as (options: unknown) => Promise<{ data?: CustomerPortalSubscriptionsGetResponse; error?: unknown }>, { path: { id: id } }),
-    portalSubscriptionsList: async (query) => runtime.requestData<CustomerPortalSubscriptionsListResponse>(operations.customerPortalSubscriptionsList as (options: unknown) => Promise<{ data?: CustomerPortalSubscriptionsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
+      metersGet: async (path, requestOptions) =>
+        runtime.requestData<CustomerMetersGetResponse>(
+          { path },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_meters_get",
+            path: "/customer-meters/{customer_id}/{meter_id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      metersList: async (query, requestOptions) =>
+        runtime.requestData<CustomerMetersListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_meters_list",
+            path: "/customer-meters",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalCustomerGet: async (requestOptions) =>
+        runtime.requestData<CustomerPortalCustomerGetResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_portal_customer_get",
+            path: "/customer-portal/customer",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalInvoicesGet: async (id, requestOptions) =>
+        runtime.requestData<CustomerPortalInvoicesGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_portal_invoices_get",
+            path: "/customer-portal/invoices/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalInvoicesList: async (query, requestOptions) =>
+        runtime.requestData<CustomerPortalInvoicesListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_portal_invoices_list",
+            path: "/customer-portal/invoices",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalMandatesCancel: async (id, body, requestOptions) =>
+        runtime.requestData<CustomerPortalMandatesCancelResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customer_portal_mandates_cancel",
+            path: "/customer-portal/mandates/{id}/cancel",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalMandatesList: async (requestOptions) =>
+        runtime.requestData<CustomerPortalMandatesListResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_portal_mandates_list",
+            path: "/customer-portal/mandates",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalMandatesReauthorize: async (id, body, requestOptions) =>
+        runtime.requestData<CustomerPortalMandatesReauthorizeResponse>(
+          { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customer_portal_mandates_reauthorize",
+            path: "/customer-portal/mandates/{id}/re-authorize",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalMandatesReauthorizeSendOtp: async (id, requestOptions) =>
+        runtime.requestData<CustomerPortalMandatesReauthorizeSendOtpResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customer_portal_mandates_reauthorize_send_otp",
+            path: "/customer-portal/mandates/{id}/re-authorize/send-otp",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalMandatesReauthorizeVerifyOtp: async (id, body, requestOptions) =>
+        runtime.requestData<CustomerPortalMandatesReauthorizeVerifyOtpResponse>(
+          { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customer_portal_mandates_reauthorize_verify_otp",
+            path: "/customer-portal/mandates/{id}/re-authorize/verify-otp",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalSessionsCreate: async (body, requestOptions) =>
+        runtime.requestData<CustomerPortalSessionsCreateResponse>(
+          { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customer_portal_sessions_create",
+            path: "/customer-portal/sessions",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalSubscriptionsCancel: async (id, body, requestOptions) =>
+        runtime.requestData<CustomerPortalSubscriptionsCancelResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customer_portal_subscriptions_cancel",
+            path: "/customer-portal/subscriptions/{id}/cancel",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalSubscriptionsGet: async (id, requestOptions) =>
+        runtime.requestData<CustomerPortalSubscriptionsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_portal_subscriptions_get",
+            path: "/customer-portal/subscriptions/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      portalSubscriptionsList: async (query, requestOptions) =>
+        runtime.requestData<CustomerPortalSubscriptionsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_portal_subscriptions_list",
+            path: "/customer-portal/subscriptions",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      stateGet: async (id, requestOptions) =>
+        runtime.requestData<CustomerStateGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customer_state_get",
+            path: "/customers/{id}/state",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     customers: {
-    create: async (body) => runtime.requestData<CustomersCreateResponse>(operations.customersCreate as (options: unknown) => Promise<{ data?: CustomersCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    get: async (id) => runtime.requestData<CustomersGetResponse>(operations.customersGet as (options: unknown) => Promise<{ data?: CustomersGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<CustomersListResponse>(operations.customersList as (options: unknown) => Promise<{ data?: CustomersListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    paymentMethodsList: async (id) => runtime.requestData<CustomersPaymentMethodsListResponse>(operations.customersPaymentMethodsList as (options: unknown) => Promise<{ data?: CustomersPaymentMethodsListResponse; error?: unknown }>, { path: { id: id } }),
-    paymentRailsGet: async (id, query) => runtime.requestData<CustomersPaymentRailsGetResponse>(operations.customersPaymentRailsGet as (options: unknown) => Promise<{ data?: CustomersPaymentRailsGetResponse; error?: unknown }>, query === undefined ? { path: { id: id } } : { path: { id: id }, query }),
-    preferredRailsGet: async (id, query) => runtime.requestData<CustomersPreferredRailsGetResponse>(operations.customersPreferredRailsGet as (options: unknown) => Promise<{ data?: CustomersPreferredRailsGetResponse; error?: unknown }>, query === undefined ? { path: { id: id } } : { path: { id: id }, query }),
-    update: async (id, body) => runtime.requestData<CustomersUpdateResponse>(operations.customersUpdate as (options: unknown) => Promise<{ data?: CustomersUpdateResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<CustomersCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "customers_create",
+            path: "/customers",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<CustomersGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customers_get",
+            path: "/customers/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<CustomersListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customers_list",
+            path: "/customers",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      paymentMethodsList: async (id, requestOptions) =>
+        runtime.requestData<CustomersPaymentMethodsListResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customers_payment_methods_list",
+            path: "/customers/{id}/payment-methods",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      paymentRailsGet: async (id, query, requestOptions) =>
+        runtime.requestData<CustomersPaymentRailsGetResponse>(
+          query === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customers_payment_rails_get",
+            path: "/customers/{id}/payment-rails",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      preferredRailsGet: async (id, query, requestOptions) =>
+        runtime.requestData<CustomersPreferredRailsGetResponse>(
+          query === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "customers_preferred_rails_get",
+            path: "/customers/{id}/preferred-rails",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<CustomersUpdateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "customers_update",
+            path: "/customers/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     dd: {
-    mandateRequestsGet: async (id) => runtime.requestData<DdMandateRequestsGetResponse>(operations.ddMandateRequestsGet as (options: unknown) => Promise<{ data?: DdMandateRequestsGetResponse; error?: unknown }>, { path: { token: id } }),
-    preview: async (body) => runtime.requestData<DdPreviewResponse>(operations.ddPreview as (options: unknown) => Promise<{ data?: DdPreviewResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    validate: async (body) => runtime.requestData<DdValidateResponse>(operations.ddValidate as (options: unknown) => Promise<{ data?: DdValidateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
+      mandateRequestsGet: async (id, requestOptions) =>
+        runtime.requestData<DdMandateRequestsGetResponse>(
+          { path: { token: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "dd_mandate_requests_get",
+            path: "/dd/mandate-requests/{token}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      preview: async (body, requestOptions) =>
+        runtime.requestData<DdPreviewResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "dd_preview",
+            path: "/dd/preview",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      validate: async (body, requestOptions) =>
+        runtime.requestData<DdValidateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "dd_validate",
+            path: "/dd/validate",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     entitlements: {
-    check: async (query) => runtime.requestData<EntitlementsCheckResponse>(operations.entitlementsCheck as (options: unknown) => Promise<{ data?: EntitlementsCheckResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    list: async (query) => runtime.requestData<EntitlementsListResponse>(operations.entitlementsList as (options: unknown) => Promise<{ data?: EntitlementsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
+      check: async (query, requestOptions) =>
+        runtime.requestData<EntitlementsCheckResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "entitlements_check",
+            path: "/entitlements/check",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<EntitlementsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "entitlements_list",
+            path: "/entitlements",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     events: {
-    get: async (id) => runtime.requestData<EventsGetResponse>(operations.eventsGet as (options: unknown) => Promise<{ data?: EventsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<EventsListResponse>(operations.eventsList as (options: unknown) => Promise<{ data?: EventsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    resend: async (id) => runtime.requestData<EventsResendResponse>(operations.eventsResend as (options: unknown) => Promise<{ data?: EventsResendResponse; error?: unknown }>, { path: { id: id } }),
+      get: async (id, requestOptions) =>
+        runtime.requestData<EventsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "events_get",
+            path: "/events/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<EventsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "events_list",
+            path: "/events",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      resend: async (id, requestOptions) =>
+        runtime.requestData<EventsResendResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "events_resend",
+            path: "/events/{id}/resend",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+    },
+    invoice: {
+      lineItemsListUsageEvents: async (id, query, requestOptions) =>
+        runtime.requestData<InvoiceLineItemsListUsageEventsResponse>(
+          query === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "invoice_line_items_list_usage_events",
+            path: "/invoice-line-items/{id}/usage-events",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      usageExplain: async (id, requestOptions) =>
+        runtime.requestData<InvoiceUsageExplainResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "invoice_usage_explain",
+            path: "/invoices/{id}/usage-explain",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     invoices: {
-    create: async (body) => runtime.requestData<InvoicesCreateResponse>(operations.invoicesCreate as (options: unknown) => Promise<{ data?: InvoicesCreateResponse; error?: unknown }>, { body }),
-    finalize: async (id, body) => runtime.requestData<InvoicesFinalizeResponse>(operations.invoicesFinalize as (options: unknown) => Promise<{ data?: InvoicesFinalizeResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    get: async (id) => runtime.requestData<InvoicesGetResponse>(operations.invoicesGet as (options: unknown) => Promise<{ data?: InvoicesGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<InvoicesListResponse>(operations.invoicesList as (options: unknown) => Promise<{ data?: InvoicesListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    marginEstimate: async (id, body) => runtime.requestData<InvoicesMarginEstimateResponse>(operations.invoicesMarginEstimate as (options: unknown) => Promise<{ data?: InvoicesMarginEstimateResponse; error?: unknown }>, { path: { id: id }, body }),
-    send: async (id, body) => runtime.requestData<InvoicesSendResponse>(operations.invoicesSend as (options: unknown) => Promise<{ data?: InvoicesSendResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    update: async (id, body) => runtime.requestData<InvoicesUpdateResponse>(operations.invoicesUpdate as (options: unknown) => Promise<{ data?: InvoicesUpdateResponse; error?: unknown }>, { path: { id: id }, body }),
-    void: async (id, body) => runtime.requestData<InvoicesVoidResponse>(operations.invoicesVoid as (options: unknown) => Promise<{ data?: InvoicesVoidResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<InvoicesCreateResponse>({ body }, requestOptions, {
+          method: "POST",
+          operationId: "invoices_create",
+          path: "/invoices",
+          idempotent: true,
+          requiresIdempotencyKey: false,
+        }),
+      finalize: async (id, body, requestOptions) =>
+        runtime.requestData<InvoicesFinalizeResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "invoices_finalize",
+            path: "/invoices/{id}/finalize",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<InvoicesGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "invoices_get",
+            path: "/invoices/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<InvoicesListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "invoices_list",
+            path: "/invoices",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      marginEstimate: async (id, body, requestOptions) =>
+        runtime.requestData<InvoicesMarginEstimateResponse>(
+          { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "invoices_margin_estimate",
+            path: "/invoices/{id}/margin-estimate",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      send: async (id, body, requestOptions) =>
+        runtime.requestData<InvoicesSendResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "invoices_send",
+            path: "/invoices/{id}/send",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<InvoicesUpdateResponse>(
+          { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "invoices_update",
+            path: "/invoices/{id}",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      void: async (id, body, requestOptions) =>
+        runtime.requestData<InvoicesVoidResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "invoices_void",
+            path: "/invoices/{id}/void",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     mandates: {
-    cancel: async (id, body) => runtime.requestData<MandatesCancelResponse>(operations.mandatesCancel as (options: unknown) => Promise<{ data?: MandatesCancelResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    create: async (body) => runtime.requestData<MandatesCreateResponse>(operations.mandatesCreate as (options: unknown) => Promise<{ data?: MandatesCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    get: async (id) => runtime.requestData<MandatesGetResponse>(operations.mandatesGet as (options: unknown) => Promise<{ data?: MandatesGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<MandatesListResponse>(operations.mandatesList as (options: unknown) => Promise<{ data?: MandatesListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    reinstate: async (id, body) => runtime.requestData<MandatesReinstateResponse>(operations.mandatesReinstate as (options: unknown) => Promise<{ data?: MandatesReinstateResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    scheduleCollection: async (id, body) => runtime.requestData<MandatesScheduleCollectionResponse>(operations.mandatesScheduleCollection as (options: unknown) => Promise<{ data?: MandatesScheduleCollectionResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    suspend: async (id, body) => runtime.requestData<MandatesSuspendResponse>(operations.mandatesSuspend as (options: unknown) => Promise<{ data?: MandatesSuspendResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
+      cancel: async (id, body, requestOptions) =>
+        runtime.requestData<MandatesCancelResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "mandates_cancel",
+            path: "/mandates/{id}/cancel",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      create: async (body, requestOptions) =>
+        runtime.requestData<MandatesCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "mandates_create",
+            path: "/mandates",
+            idempotent: true,
+            requiresIdempotencyKey: true,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<MandatesGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "mandates_get",
+            path: "/mandates/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<MandatesListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "mandates_list",
+            path: "/mandates",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      reinstate: async (id, body, requestOptions) =>
+        runtime.requestData<MandatesReinstateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "mandates_reinstate",
+            path: "/mandates/{id}/reinstate",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      scheduleCollection: async (id, body, requestOptions) =>
+        runtime.requestData<MandatesScheduleCollectionResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "mandates_schedule_collection",
+            path: "/mandates/{id}/collections",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      suspend: async (id, body, requestOptions) =>
+        runtime.requestData<MandatesSuspendResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "mandates_suspend",
+            path: "/mandates/{id}/suspend",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+    },
+    meters: {
+      create: async (body, requestOptions) =>
+        runtime.requestData<MetersCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "meters_create",
+            path: "/meters",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<MetersGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "meters_get",
+            path: "/meters/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<MetersListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "meters_list",
+            path: "/meters",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      quantities: async (id, query, requestOptions) =>
+        runtime.requestData<MetersQuantitiesResponse>(
+          query === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "meters_quantities",
+            path: "/meters/{id}/quantities",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<MetersUpdateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "meters_update",
+            path: "/meters/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     paymentIntents: {
-    cancel: async (id, body) => runtime.requestData<PaymentIntentsCancelResponse>(operations.paymentIntentsCancel as (options: unknown) => Promise<{ data?: PaymentIntentsCancelResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    capture: async (id, body) => runtime.requestData<PaymentIntentsCaptureResponse>(operations.paymentIntentsCapture as (options: unknown) => Promise<{ data?: PaymentIntentsCaptureResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    confirm: async (id, body) => runtime.requestData<PaymentIntentsConfirmResponse>(operations.paymentIntentsConfirm as (options: unknown) => Promise<{ data?: PaymentIntentsConfirmResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    create: async (body) => runtime.requestData<PaymentIntentsCreateResponse>(operations.paymentIntentsCreate as (options: unknown) => Promise<{ data?: PaymentIntentsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    get: async (id) => runtime.requestData<PaymentIntentsGetResponse>(operations.paymentIntentsGet as (options: unknown) => Promise<{ data?: PaymentIntentsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<PaymentIntentsListResponse>(operations.paymentIntentsList as (options: unknown) => Promise<{ data?: PaymentIntentsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
+      cancel: async (id, body, requestOptions) =>
+        runtime.requestData<PaymentIntentsCancelResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_intents_cancel",
+            path: "/payment-intents/{id}/cancel",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      capture: async (id, body, requestOptions) =>
+        runtime.requestData<PaymentIntentsCaptureResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_intents_capture",
+            path: "/payment-intents/{id}/capture",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      confirm: async (id, body, requestOptions) =>
+        runtime.requestData<PaymentIntentsConfirmResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_intents_confirm",
+            path: "/payment-intents/{id}/confirm",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      create: async (body, requestOptions) =>
+        runtime.requestData<PaymentIntentsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_intents_create",
+            path: "/payment-intents",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<PaymentIntentsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "payment_intents_get",
+            path: "/payment-intents/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<PaymentIntentsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "payment_intents_list",
+            path: "/payment-intents",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     paymentLinks: {
-    activate: async (id) => runtime.requestData<PaymentLinksActivateResponse>(operations.paymentLinksActivate as (options: unknown) => Promise<{ data?: PaymentLinksActivateResponse; error?: unknown }>, { path: { id: id } }),
-    archive: async (id) => runtime.requestData<PaymentLinksArchiveResponse>(operations.paymentLinksArchive as (options: unknown) => Promise<{ data?: PaymentLinksArchiveResponse; error?: unknown }>, { path: { id: id } }),
-    create: async (body) => runtime.requestData<PaymentLinksCreateResponse>(operations.paymentLinksCreate as (options: unknown) => Promise<{ data?: PaymentLinksCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    deactivate: async (id) => runtime.requestData<PaymentLinksDeactivateResponse>(operations.paymentLinksDeactivate as (options: unknown) => Promise<{ data?: PaymentLinksDeactivateResponse; error?: unknown }>, { path: { id: id } }),
-    expire: async (id, body) => runtime.requestData<PaymentLinksExpireResponse>(operations.paymentLinksExpire as (options: unknown) => Promise<{ data?: PaymentLinksExpireResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    get: async (id) => runtime.requestData<PaymentLinksGetResponse>(operations.paymentLinksGet as (options: unknown) => Promise<{ data?: PaymentLinksGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<PaymentLinksListResponse>(operations.paymentLinksList as (options: unknown) => Promise<{ data?: PaymentLinksListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    update: async (id, body) => runtime.requestData<PaymentLinksUpdateResponse>(operations.paymentLinksUpdate as (options: unknown) => Promise<{ data?: PaymentLinksUpdateResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
+      activate: async (id, requestOptions) =>
+        runtime.requestData<PaymentLinksActivateResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_links_activate",
+            path: "/payment-links/{id}/activate",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      archive: async (id, requestOptions) =>
+        runtime.requestData<PaymentLinksArchiveResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_links_archive",
+            path: "/payment-links/{id}/archive",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      create: async (body, requestOptions) =>
+        runtime.requestData<PaymentLinksCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_links_create",
+            path: "/payment-links",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      deactivate: async (id, requestOptions) =>
+        runtime.requestData<PaymentLinksDeactivateResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_links_deactivate",
+            path: "/payment-links/{id}/deactivate",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      expire: async (id, body, requestOptions) =>
+        runtime.requestData<PaymentLinksExpireResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "payment_links_expire",
+            path: "/payment-links/{id}/expire",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<PaymentLinksGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "payment_links_get",
+            path: "/payment-links/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<PaymentLinksListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "payment_links_list",
+            path: "/payment-links",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<PaymentLinksUpdateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "payment_links_update",
+            path: "/payment-links/{id}/status",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     prices: {
-    archive: async (id) => runtime.requestData<PricesArchiveResponse>(operations.pricesArchive as (options: unknown) => Promise<{ data?: PricesArchiveResponse; error?: unknown }>, { path: { id: id } }),
-    create: async (body) => runtime.requestData<PricesCreateResponse>(operations.pricesCreate as (options: unknown) => Promise<{ data?: PricesCreateResponse; error?: unknown }>, { body }),
-    get: async (id) => runtime.requestData<PricesGetResponse>(operations.pricesGet as (options: unknown) => Promise<{ data?: PricesGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<PricesListResponse>(operations.pricesList as (options: unknown) => Promise<{ data?: PricesListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    update: async (id, body) => runtime.requestData<PricesUpdateResponse>(operations.pricesUpdate as (options: unknown) => Promise<{ data?: PricesUpdateResponse; error?: unknown }>, { path: { id: id }, body }),
+      archive: async (id, requestOptions) =>
+        runtime.requestData<PricesArchiveResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "DELETE",
+            operationId: "prices_archive",
+            path: "/prices/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      create: async (body, requestOptions) =>
+        runtime.requestData<PricesCreateResponse>({ body }, requestOptions, {
+          method: "POST",
+          operationId: "prices_create",
+          path: "/prices",
+          idempotent: false,
+          requiresIdempotencyKey: false,
+        }),
+      get: async (id, requestOptions) =>
+        runtime.requestData<PricesGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "prices_get",
+            path: "/prices/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<PricesListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "prices_list",
+            path: "/prices",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<PricesUpdateResponse>(
+          { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "prices_update",
+            path: "/prices/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+    },
+    product: {
+      collectionsCreate: async (body, requestOptions) =>
+        runtime.requestData<ProductCollectionsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "product_collections_create",
+            path: "/product-collections",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      collectionsDelete: async (id, requestOptions) =>
+        runtime.requestData<ProductCollectionsDeleteResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "DELETE",
+            operationId: "product_collections_delete",
+            path: "/product-collections/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      collectionsGet: async (id, requestOptions) =>
+        runtime.requestData<ProductCollectionsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "product_collections_get",
+            path: "/product-collections/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      collectionsList: async (requestOptions) =>
+        runtime.requestData<ProductCollectionsListResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "product_collections_list",
+            path: "/product-collections",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      collectionsUpdate: async (id, body, requestOptions) =>
+        runtime.requestData<ProductCollectionsUpdateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "product_collections_update",
+            path: "/product-collections/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     products: {
-    create: async (body) => runtime.requestData<ProductsCreateResponse>(operations.productsCreate as (options: unknown) => Promise<{ data?: ProductsCreateResponse; error?: unknown }>, { body }),
-    get: async (id) => runtime.requestData<ProductsGetResponse>(operations.productsGet as (options: unknown) => Promise<{ data?: ProductsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<ProductsListResponse>(operations.productsList as (options: unknown) => Promise<{ data?: ProductsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    update: async (id, body) => runtime.requestData<ProductsUpdateResponse>(operations.productsUpdate as (options: unknown) => Promise<{ data?: ProductsUpdateResponse; error?: unknown }>, { path: { id: id }, body }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<ProductsCreateResponse>({ body }, requestOptions, {
+          method: "POST",
+          operationId: "products_create",
+          path: "/products",
+          idempotent: false,
+          requiresIdempotencyKey: false,
+        }),
+      get: async (id, requestOptions) =>
+        runtime.requestData<ProductsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "products_get",
+            path: "/products/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<ProductsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "products_list",
+            path: "/products",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<ProductsUpdateResponse>(
+          { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "products_update",
+            path: "/products/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     refunds: {
-    create: async (body) => runtime.requestData<RefundsCreateResponse>(operations.refundsCreate as (options: unknown) => Promise<{ data?: RefundsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    get: async (id) => runtime.requestData<RefundsGetResponse>(operations.refundsGet as (options: unknown) => Promise<{ data?: RefundsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<RefundsListResponse>(operations.refundsList as (options: unknown) => Promise<{ data?: RefundsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<RefundsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "refunds_create",
+            path: "/refunds",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<RefundsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "refunds_get",
+            path: "/refunds/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<RefundsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "refunds_list",
+            path: "/refunds",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     storefront: {
-    originsCreate: async (body) => runtime.requestData<StorefrontOriginsCreateResponse>(operations.storefrontOriginsCreate as (options: unknown) => Promise<{ data?: StorefrontOriginsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    originsDelete: async (id) => runtime.requestData<StorefrontOriginsDeleteResponse>(operations.storefrontOriginsDelete as (options: unknown) => Promise<{ data?: StorefrontOriginsDeleteResponse; error?: unknown }>, { path: { originId: id } }),
-    originsList: async () => runtime.requestData<StorefrontOriginsListResponse>(operations.storefrontOriginsList as (options: unknown) => Promise<{ data?: StorefrontOriginsListResponse; error?: unknown }>, undefined),
-    productsGet: async (id) => runtime.requestData<StorefrontProductsGetResponse>(operations.storefrontProductsGet as (options: unknown) => Promise<{ data?: StorefrontProductsGetResponse; error?: unknown }>, { path: { productId: id } }),
-    productsList: async (query) => runtime.requestData<StorefrontProductsListResponse>(operations.storefrontProductsList as (options: unknown) => Promise<{ data?: StorefrontProductsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    statusGet: async () => runtime.requestData<StorefrontStatusGetResponse>(operations.storefrontStatusGet as (options: unknown) => Promise<{ data?: StorefrontStatusGetResponse; error?: unknown }>, undefined),
+      originsCreate: async (body, requestOptions) =>
+        runtime.requestData<StorefrontOriginsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "storefront_origins_create",
+            path: "/storefront/origins",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      originsDelete: async (id, requestOptions) =>
+        runtime.requestData<StorefrontOriginsDeleteResponse>(
+          { path: { originId: id } },
+          requestOptions,
+          {
+            method: "DELETE",
+            operationId: "storefront_origins_delete",
+            path: "/storefront/origins/{originId}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      originsList: async (requestOptions) =>
+        runtime.requestData<StorefrontOriginsListResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "storefront_origins_list",
+            path: "/storefront/origins",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      productsGet: async (id, requestOptions) =>
+        runtime.requestData<StorefrontProductsGetResponse>(
+          { path: { productId: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "storefront_products_get",
+            path: "/storefront/products/{productId}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      productsList: async (query, requestOptions) =>
+        runtime.requestData<StorefrontProductsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "storefront_products_list",
+            path: "/storefront/products",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      statusGet: async (requestOptions) =>
+        runtime.requestData<StorefrontStatusGetResponse>(
+          undefined,
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "storefront_status_get",
+            path: "/storefront/status",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     subscriptions: {
-    cancel: async (id, body) => runtime.requestData<SubscriptionsCancelResponse>(operations.subscriptionsCancel as (options: unknown) => Promise<{ data?: SubscriptionsCancelResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
-    create: async (body) => runtime.requestData<SubscriptionsCreateResponse>(operations.subscriptionsCreate as (options: unknown) => Promise<{ data?: SubscriptionsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    get: async (id) => runtime.requestData<SubscriptionsGetResponse>(operations.subscriptionsGet as (options: unknown) => Promise<{ data?: SubscriptionsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<SubscriptionsListResponse>(operations.subscriptionsList as (options: unknown) => Promise<{ data?: SubscriptionsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    update: async (id, body) => runtime.requestData<SubscriptionsUpdateResponse>(operations.subscriptionsUpdate as (options: unknown) => Promise<{ data?: SubscriptionsUpdateResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
+      cancel: async (id, body, requestOptions) =>
+        runtime.requestData<SubscriptionsCancelResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "subscriptions_cancel",
+            path: "/subscriptions/{id}/cancel",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      create: async (body, requestOptions) =>
+        runtime.requestData<SubscriptionsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "subscriptions_create",
+            path: "/subscriptions",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<SubscriptionsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "subscriptions_get",
+            path: "/subscriptions/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<SubscriptionsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "subscriptions_list",
+            path: "/subscriptions",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<SubscriptionsUpdateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "subscriptions_update",
+            path: "/subscriptions/{id}",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     transactions: {
-    get: async (id) => runtime.requestData<TransactionsGetResponse>(operations.transactionsGet as (options: unknown) => Promise<{ data?: TransactionsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<TransactionsListResponse>(operations.transactionsList as (options: unknown) => Promise<{ data?: TransactionsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
+      get: async (id, requestOptions) =>
+        runtime.requestData<TransactionsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "transactions_get",
+            path: "/transactions/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<TransactionsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "transactions_list",
+            path: "/transactions",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+    },
+    usageBalance: {
+      get: async (query, requestOptions) =>
+        runtime.requestData<UsageBalanceGetResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "usage_balance_get",
+            path: "/usage/balance",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+    },
+    usageEvents: {
+      get: async (id, requestOptions) =>
+        runtime.requestData<UsageEventsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "usage_events_get",
+            path: "/usage-events/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      ingest: async (body, requestOptions) =>
+        runtime.requestData<UsageEventsIngestResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "usage_events_ingest",
+            path: "/usage-events",
+            idempotent: true,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<UsageEventsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "usage_events_list",
+            path: "/usage-events",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     webhook: {
-    deliveriesGet: async (id) => runtime.requestData<WebhookDeliveriesGetResponse>(operations.webhookDeliveriesGet as (options: unknown) => Promise<{ data?: WebhookDeliveriesGetResponse; error?: unknown }>, { path: { id: id } }),
-    deliveriesList: async (query) => runtime.requestData<WebhookDeliveriesListResponse>(operations.webhookDeliveriesList as (options: unknown) => Promise<{ data?: WebhookDeliveriesListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    deliveriesRetry: async (id) => runtime.requestData<WebhookDeliveriesRetryResponse>(operations.webhookDeliveriesRetry as (options: unknown) => Promise<{ data?: WebhookDeliveriesRetryResponse; error?: unknown }>, { path: { id: id } }),
+      deliveriesGet: async (id, requestOptions) =>
+        runtime.requestData<WebhookDeliveriesGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "webhook_deliveries_get",
+            path: "/webhook-deliveries/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      deliveriesList: async (query, requestOptions) =>
+        runtime.requestData<WebhookDeliveriesListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "webhook_deliveries_list",
+            path: "/webhook-deliveries",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      deliveriesRetry: async (id, requestOptions) =>
+        runtime.requestData<WebhookDeliveriesRetryResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "webhook_deliveries_retry",
+            path: "/webhook-deliveries/{id}/retry",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
     webhookEndpoints: {
-    create: async (body) => runtime.requestData<WebhookEndpointsCreateResponse>(operations.webhookEndpointsCreate as (options: unknown) => Promise<{ data?: WebhookEndpointsCreateResponse; error?: unknown }>, body === undefined ? undefined : { body }),
-    delete: async (id) => runtime.requestData<WebhookEndpointsDeleteResponse>(operations.webhookEndpointsDelete as (options: unknown) => Promise<{ data?: WebhookEndpointsDeleteResponse; error?: unknown }>, { path: { id: id } }),
-    get: async (id) => runtime.requestData<WebhookEndpointsGetResponse>(operations.webhookEndpointsGet as (options: unknown) => Promise<{ data?: WebhookEndpointsGetResponse; error?: unknown }>, { path: { id: id } }),
-    list: async (query) => runtime.requestData<WebhookEndpointsListResponse>(operations.webhookEndpointsList as (options: unknown) => Promise<{ data?: WebhookEndpointsListResponse; error?: unknown }>, query === undefined ? undefined : { query }),
-    rotateSecret: async (id) => runtime.requestData<WebhookEndpointsRotateSecretResponse>(operations.webhookEndpointsRotateSecret as (options: unknown) => Promise<{ data?: WebhookEndpointsRotateSecretResponse; error?: unknown }>, { path: { id: id } }),
-    update: async (id, body) => runtime.requestData<WebhookEndpointsUpdateResponse>(operations.webhookEndpointsUpdate as (options: unknown) => Promise<{ data?: WebhookEndpointsUpdateResponse; error?: unknown }>, body === undefined ? { path: { id: id } } : { path: { id: id }, body }),
+      create: async (body, requestOptions) =>
+        runtime.requestData<WebhookEndpointsCreateResponse>(
+          body === undefined ? undefined : { body },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "webhook_endpoints_create",
+            path: "/webhook-endpoints",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      delete: async (id, requestOptions) =>
+        runtime.requestData<WebhookEndpointsDeleteResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "DELETE",
+            operationId: "webhook_endpoints_delete",
+            path: "/webhook-endpoints/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      get: async (id, requestOptions) =>
+        runtime.requestData<WebhookEndpointsGetResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "webhook_endpoints_get",
+            path: "/webhook-endpoints/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      list: async (query, requestOptions) =>
+        runtime.requestData<WebhookEndpointsListResponse>(
+          query === undefined ? undefined : { query },
+          requestOptions,
+          {
+            method: "GET",
+            operationId: "webhook_endpoints_list",
+            path: "/webhook-endpoints",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      rotateSecret: async (id, requestOptions) =>
+        runtime.requestData<WebhookEndpointsRotateSecretResponse>(
+          { path: { id: id } },
+          requestOptions,
+          {
+            method: "POST",
+            operationId: "webhook_endpoints_rotate_secret",
+            path: "/webhook-endpoints/{id}/rotate-secret",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
+      update: async (id, body, requestOptions) =>
+        runtime.requestData<WebhookEndpointsUpdateResponse>(
+          body === undefined
+            ? { path: { id: id } }
+            : { path: { id: id }, body },
+          requestOptions,
+          {
+            method: "PATCH",
+            operationId: "webhook_endpoints_update",
+            path: "/webhook-endpoints/{id}",
+            idempotent: false,
+            requiresIdempotencyKey: false,
+          },
+        ),
     },
   };
 }

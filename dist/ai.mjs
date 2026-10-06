@@ -15,7 +15,9 @@ function finiteNumber(value) {
   return typeof value === "number" && Number.isFinite(value) ? value : void 0;
 }
 function sumDefined(values) {
-  const defined = values.filter((value) => value !== void 0);
+  const defined = values.filter(
+    (value) => value !== void 0
+  );
   if (defined.length === 0) return void 0;
   return defined.reduce((total, value) => total + value, 0);
 }
@@ -40,10 +42,7 @@ function quantityFor(selection, context) {
     case "output_reasoning_tokens":
       return finiteNumber(usage.outputTokens?.reasoning);
     case "total_tokens":
-      return sumDefined([
-        usage.inputTokens?.total,
-        usage.outputTokens?.total
-      ]);
+      return sumDefined([usage.inputTokens?.total, usage.outputTokens?.total]);
   }
 }
 function normalizeUsage(usage) {
@@ -78,11 +77,18 @@ function valueFromOption(option, context) {
 }
 function buildAiUsageEvents(options, context) {
   if (options.meters.length === 0) {
-    throw new Error("RevKeen AI Meter Adapter requires at least one meter mapping");
+    throw new Error(
+      "RevKeen AI Meter Adapter requires at least one meter mapping"
+    );
   }
   const baseMetadata = valueFromOption(options.metadata, context);
   const timestamp = valueFromOption(options.timestamp, context);
   const baseIdempotencyKey = valueFromOption(options.idempotencyKey, context);
+  if (!baseIdempotencyKey) {
+    throw new Error(
+      "RevKeen AI Meter Adapter: idempotencyKey is required \u2014 every usage event carries one (REV-6490). Provide options.idempotencyKey (a stable per-response id such as the completion id)."
+    );
+  }
   const normalizedUsage = normalizeUsage(context.usage);
   return options.meters.flatMap((mapping) => {
     const quantity = quantityFor(mapping.quantity, context);
@@ -90,41 +96,45 @@ function buildAiUsageEvents(options, context) {
       return [];
     }
     const idempotencySuffix = mapping.idempotencyKeySuffix ?? (typeof mapping.quantity === "string" ? mapping.quantity : eventNameFor(mapping));
-    return [{
-      name: eventNameFor(mapping),
-      meter_id: mapping.meterId,
-      customer_id: options.customerId,
-      external_customer_id: options.externalCustomerId,
-      subscription_id: options.subscriptionId,
-      quantity,
-      timestamp: timestamp instanceof Date ? timestamp.toISOString() : timestamp,
-      idempotency_key: baseIdempotencyKey ? `${baseIdempotencyKey}:${idempotencySuffix}` : void 0,
-      metadata: {
-        ...isRecord(baseMetadata) ? baseMetadata : {},
-        ...isRecord(mapping.metadata) ? mapping.metadata : {},
-        revkeen: {
-          adapter: "@revkeen/sdk/ai",
-          schema_version: 1,
-          source: "ai_meter_adapter"
-        },
-        ai: {
-          provider: context.provider,
-          model: context.model,
-          operation: context.operation,
-          usage: normalizedUsage,
-          provider_hints: {
-            usage_raw: context.usage.raw ?? null,
-            provider_metadata: context.providerMetadata ?? null
+    return [
+      {
+        name: eventNameFor(mapping),
+        meter_id: mapping.meterId,
+        customer_id: options.customerId,
+        external_customer_id: options.externalCustomerId,
+        subscription_id: options.subscriptionId,
+        quantity,
+        timestamp: timestamp instanceof Date ? timestamp.toISOString() : timestamp,
+        idempotency_key: `${baseIdempotencyKey}:${idempotencySuffix}`,
+        metadata: {
+          ...isRecord(baseMetadata) ? baseMetadata : {},
+          ...isRecord(mapping.metadata) ? mapping.metadata : {},
+          revkeen: {
+            adapter: "@revkeen/sdk/ai",
+            schema_version: 1,
+            source: "ai_meter_adapter"
+          },
+          ai: {
+            provider: context.provider,
+            model: context.model,
+            operation: context.operation,
+            usage: normalizedUsage,
+            provider_hints: {
+              usage_raw: context.usage.raw ?? null,
+              provider_metadata: context.providerMetadata ?? null
+            }
           }
         }
       }
-    }];
+    ];
   });
 }
 async function emitUsage(options, context) {
   const events = buildAiUsageEvents(options, context);
   if (events.length === 0) return;
-  await options.revkeen.usage.ingest(events.length === 1 ? events[0] : { events });
+  await options.revkeen.usage.ingest(
+    events.length === 1 ? events[0] : { events }
+  );
 }
 function resolveProvider(model, fallback) {
   return fallback ?? (typeof model === "string" ? "unknown" : model.provider ?? "unknown");
@@ -155,26 +165,28 @@ function createMiddleware(options) {
     },
     wrapStream: async ({ doStream, model }) => {
       const result = await doStream();
-      const stream = result.stream.pipeThrough(new TransformStream({
-        async transform(part, controller) {
-          controller.enqueue(part);
-          if (part.type !== "finish") return;
-          const context = {
-            usage: part.usage,
-            provider: options.provider ?? model.provider ?? "unknown",
-            model: options.model ?? model.modelId ?? "unknown",
-            operation: "stream",
-            providerMetadata: part.providerMetadata
-          };
-          const ingest = emitUsage(options, context).catch(async (error) => {
-            await options.onIngestError?.(error, context);
-            if (options.awaitIngest !== false) throw error;
-          });
-          if (options.awaitIngest !== false) {
-            await ingest;
+      const stream = result.stream.pipeThrough(
+        new TransformStream({
+          async transform(part, controller) {
+            controller.enqueue(part);
+            if (part.type !== "finish") return;
+            const context = {
+              usage: part.usage,
+              provider: options.provider ?? model.provider ?? "unknown",
+              model: options.model ?? model.modelId ?? "unknown",
+              operation: "stream",
+              providerMetadata: part.providerMetadata
+            };
+            const ingest = emitUsage(options, context).catch(async (error) => {
+              await options.onIngestError?.(error, context);
+              if (options.awaitIngest !== false) throw error;
+            });
+            if (options.awaitIngest !== false) {
+              await ingest;
+            }
           }
-        }
-      }));
+        })
+      );
       return {
         ...result,
         stream
@@ -185,7 +197,9 @@ function createMiddleware(options) {
 function withRevKeenAiMetering(model, options) {
   assertServerSideRuntime();
   if (typeof model === "string") {
-    throw new Error("RevKeen AI Meter Adapter requires an AI SDK language model object, not a model id string.");
+    throw new Error(
+      "RevKeen AI Meter Adapter requires an AI SDK language model object, not a model id string."
+    );
   }
   return wrapLanguageModel({
     model,

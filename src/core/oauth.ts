@@ -25,7 +25,9 @@ const DEFAULT_TOKEN_ENDPOINT = "https://api.revkeen.com/api/auth/oauth2/token";
 const PRE_EXPIRY_BUFFER_MS = 60_000; // Refresh 60s before expiry
 
 export class OAuthTokenManager {
-  private config: Required<Pick<OAuthConfig, "clientId" | "clientSecret" | "tokenEndpoint">> &
+  private config: Required<
+    Pick<OAuthConfig, "clientId" | "clientSecret" | "tokenEndpoint">
+  > &
     Pick<OAuthConfig, "scopes">;
   private cachedToken: CachedToken | null = null;
   private inflightRequest: Promise<string> | null = null;
@@ -41,7 +43,10 @@ export class OAuthTokenManager {
 
   async getToken(): Promise<string> {
     // Return cached token if still valid
-    if (this.cachedToken && Date.now() < this.cachedToken.expiresAt - PRE_EXPIRY_BUFFER_MS) {
+    if (
+      this.cachedToken &&
+      Date.now() < this.cachedToken.expiresAt - PRE_EXPIRY_BUFFER_MS
+    ) {
       return this.cachedToken.accessToken;
     }
 
@@ -71,7 +76,9 @@ export class OAuthTokenManager {
     return await this.requestToken("client_credentials");
   }
 
-  private async requestToken(grantType: "client_credentials" | "refresh_token"): Promise<string> {
+  private async requestToken(
+    grantType: "client_credentials" | "refresh_token",
+  ): Promise<string> {
     const body = new URLSearchParams();
     body.set("grant_type", grantType);
 
@@ -81,7 +88,10 @@ export class OAuthTokenManager {
       if (this.config.scopes?.length) {
         body.set("scope", this.config.scopes.join(" "));
       }
-    } else if (grantType === "refresh_token" && this.cachedToken?.refreshToken) {
+    } else if (
+      grantType === "refresh_token" &&
+      this.cachedToken?.refreshToken
+    ) {
       body.set("refresh_token", this.cachedToken.refreshToken);
       body.set("client_id", this.config.clientId);
       body.set("client_secret", this.config.clientSecret);
@@ -96,7 +106,7 @@ export class OAuthTokenManager {
     if (!res.ok) {
       const errorBody = await res.text().catch(() => "");
       throw new RevKeenError(
-        `OAuth token request failed (${res.status}): ${errorBody || res.statusText}`
+        `OAuth token request failed (${res.status}): ${errorBody || res.statusText}`,
       );
     }
 

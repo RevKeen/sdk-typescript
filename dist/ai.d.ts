@@ -1,5 +1,5 @@
 import { LanguageModel } from 'ai';
-import { U as UsageEvent, B as BatchIngestResult } from './types.gen-g0C3o-UE.js';
+import { U as UsageEvent, B as BatchIngestResult } from './types.gen-ByS8P8Qb.js';
 
 type UsageEventsClient = {
     usage: {

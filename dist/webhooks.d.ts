@@ -80,7 +80,7 @@ declare const WEBHOOK_TOLERANCE_IN_SECONDS = 300;
 /**
  * All possible webhook event types
  */
-type WebhookEventType = "invoice.created" | "invoice.updated" | "invoice.finalized" | "invoice.sent" | "invoice.paid" | "invoice.voided" | "invoice.payment_failed" | "invoice.overdue" | "subscription.created" | "subscription.updated" | "subscription.renewed" | "subscription.canceled" | "subscription.paused" | "subscription.resumed" | "subscription.trial_ending" | "subscription.trial_ended" | "subscription.past_due" | "payment.succeeded" | "payment.failed" | "payment.refunded" | "payment.disputed" | "payment.captured" | "customer.created" | "customer.updated" | "customer.deleted" | "customer.payment_method.attached" | "customer.payment_method.detached" | "checkout.session.completed" | "checkout.session.expired" | "checkout.session.async_payment_succeeded" | "checkout.session.async_payment_failed" | "order.created" | "order.updated" | "order.paid" | "order.canceled" | "order.fulfilled" | "plan.created" | "plan.updated" | "plan.deleted" | "product.created" | "product.updated" | "product.deleted" | "price.created" | "price.updated" | "price.deleted" | "usage.threshold.reached" | "usage.period_finalized" | "usage.invoice.created" | "usage.event.ingested" | "usage.event.rejected" | "meter.created" | "meter.updated" | "meter.archived" | "meter_price.created" | "meter_price.updated" | "meter_price.deactivated" | "integration.product_mapping.created" | "integration.product_mapping.updated" | "integration.product_mapping.deleted" | "commerce.cart.created" | "commerce.cart.updated" | "commerce.cart.line_item_added" | "commerce.cart.line_item_removed" | "commerce.cart.addon_toggled" | "commerce.cart.discount_applied" | "commerce.cart.abandoned" | "commerce.cart.recovered" | "commerce.cart.converted" | "commerce.checkout.started" | "commerce.checkout.payment_method_attached" | "commerce.checkout.completed" | "commerce.checkout.failed";
+type WebhookEventType = "invoice.created" | "invoice.updated" | "invoice.finalized" | "invoice.sent" | "invoice.paid" | "invoice.voided" | "invoice.payment_failed" | "invoice.overdue" | "subscription.created" | "subscription.updated" | "subscription.renewed" | "subscription.canceled" | "subscription.paused" | "subscription.resumed" | "subscription.trial_ending" | "subscription.trial_ended" | "subscription.past_due" | "payment.succeeded" | "payment.failed" | "payment.refunded" | "payment.disputed" | "payment.captured" | "customer.created" | "customer.updated" | "customer.deleted" | "customer.payment_method.attached" | "customer.payment_method.detached" | "checkout.session.completed" | "checkout.session.expired" | "checkout.session.async_payment_succeeded" | "checkout.session.async_payment_failed" | "order.created" | "order.updated" | "order.paid" | "order.canceled" | "order.fulfilled" | "plan.created" | "plan.updated" | "plan.deleted" | "product.created" | "product.updated" | "product.deleted" | "price.created" | "price.updated" | "price.deleted" | "usage.threshold.reached" | "usage.period_finalized" | "usage.invoice.created" | "usage.event.ingested" | "usage.event.rejected" | "usage.event.excluded" | "usage.event.quarantined" | "usage.cap.exceeded" | "meter.created" | "meter.updated" | "meter.archived" | "meter_price.created" | "meter_price.updated" | "meter_price.deactivated" | "integration.product_mapping.created" | "integration.product_mapping.updated" | "integration.product_mapping.deleted" | "commerce.cart.created" | "commerce.cart.updated" | "commerce.cart.line_item_added" | "commerce.cart.line_item_removed" | "commerce.cart.addon_toggled" | "commerce.cart.discount_applied" | "commerce.cart.abandoned" | "commerce.cart.recovered" | "commerce.cart.converted" | "commerce.checkout.started" | "commerce.checkout.payment_method_attached" | "commerce.checkout.completed" | "commerce.checkout.failed";
 /**
  * Webhook event data structure
  */
@@ -120,8 +120,8 @@ interface WebhookEvent<T = unknown> {
  * Options for webhook signature verification
  */
 interface WebhookVerifyOptions {
-    /** The raw request body as a string */
-    payload: string;
+    /** The raw request body, before JSON parsing or re-serialization */
+    payload: string | Uint8Array;
     /** The signature header value (revkeen-signature) */
     signature: string;
     /** Your webhook secret (starts with rk_wh_) */
@@ -174,16 +174,17 @@ declare function extractWebhookHeaders(headers: Record<string, string | string[]
  * Error thrown when webhook signature verification fails
  */
 declare class WebhookSignatureVerificationError extends Error {
-    constructor(message: string);
+    readonly code: WebhookSignatureVerificationErrorCode;
+    constructor(code: WebhookSignatureVerificationErrorCode, message: string);
 }
+type WebhookSignatureVerificationErrorCode = "missing_signature" | "invalid_signature_header" | "invalid_timestamp" | "timestamp_outside_tolerance" | "invalid_signature_encoding" | "signature_mismatch" | "invalid_payload";
 /**
- * Verifies a webhook signature and returns whether it's valid
+ * Verifies a webhook signature.
  *
  * @param options - Verification options
- * @returns true if the signature is valid
  * @throws WebhookSignatureVerificationError if verification fails
  */
-declare function verifySignature(options: WebhookVerifyOptions): boolean;
+declare function verifySignature(options: WebhookVerifyOptions): void;
 /**
  * Constructs and verifies a webhook event from a raw payload
  *
@@ -223,7 +224,7 @@ declare function verifySignature(options: WebhookVerifyOptions): boolean;
  * }
  * ```
  */
-declare function constructEvent(payload: string, signature: string, secret: string, options?: {
+declare function constructEvent(payload: string | Uint8Array, signature: string, secret: string, options?: {
     tolerance?: number;
 }): WebhookEvent;
 /**
@@ -256,7 +257,7 @@ declare function constructEvent(payload: string, signature: string, secret: stri
  * });
  * ```
  */
-declare function constructEventWithHeaders(payload: string, headers: WebhookHeaders, secret: string, options?: {
+declare function constructEventWithHeaders(payload: string | Uint8Array, headers: WebhookHeaders, secret: string, options?: {
     tolerance?: number;
 }): WebhookEvent;
 /**
@@ -289,4 +290,4 @@ declare const webhooks: {
     TOLERANCE_IN_SECONDS: number;
 };
 
-export { WEBHOOK_TOLERANCE_IN_SECONDS, type WebhookEvent, type WebhookEventData, type WebhookEventType, type WebhookHeaders, WebhookSignatureVerificationError, type WebhookVerifyOptions, constructEvent, constructEventWithHeaders, webhooks as default, extractWebhookHeaders, verifySignature, webhooks };
+export { WEBHOOK_TOLERANCE_IN_SECONDS, type WebhookEvent, type WebhookEventData, type WebhookEventType, type WebhookHeaders, WebhookSignatureVerificationError, type WebhookSignatureVerificationErrorCode, type WebhookVerifyOptions, constructEvent, constructEventWithHeaders, webhooks as default, extractWebhookHeaders, verifySignature, webhooks };

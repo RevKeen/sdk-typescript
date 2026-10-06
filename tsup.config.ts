@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     ai: "src/ai.ts",
     auth: "src/auth.ts",
+    browser: "src/browser.ts",
     index: "src/index.ts",
     webhooks: "src/webhooks.ts",
   },
