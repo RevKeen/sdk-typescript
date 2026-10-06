@@ -1,7 +1,7 @@
 type ClientOptions = {
-    baseUrl: 'https://staging-api.revkeen.com/v2' | 'https://api.revkeen.com/v2' | 'https://mock-api.revkeen.com/v2' | (string & {});
+    baseUrl: "https://api.revkeen.com/v2" | "https://staging-api.revkeen.com/v2" | "https://mock-api.revkeen.com/v2" | (string & {});
 };
-type Webhooks = WebhooksPaymentSucceededWebhookRequest | WebhooksPaymentFailedWebhookRequest | WebhooksInvoiceCreatedWebhookRequest | WebhooksInvoicePaidWebhookRequest | WebhooksInvoiceOverdueWebhookRequest | WebhooksSubscriptionCreatedWebhookRequest | WebhooksSubscriptionActivatedWebhookRequest | WebhooksSubscriptionCanceledWebhookRequest | WebhooksSubscriptionRenewedWebhookRequest | WebhooksCustomerCreatedWebhookRequest | WebhooksCustomerUpdatedWebhookRequest | WebhooksRefundCreatedWebhookRequest | WebhooksRefundSucceededWebhookRequest | WebhooksVoidCreatedWebhookRequest | WebhooksVoidSucceededWebhookRequest | WebhooksVoidFailedWebhookRequest | WebhooksCreditNoteCreatedWebhookRequest | WebhooksCreditNoteIssuedWebhookRequest | WebhooksCreditNoteVoidedWebhookRequest | WebhooksCheckoutSessionCompletedWebhookRequest | WebhooksCheckoutSessionExpiredWebhookRequest | WebhooksOrderCreatedWebhookRequest | WebhooksOrderPaidWebhookRequest | WebhooksTerminalPaymentRequestedWebhookRequest | WebhooksTerminalPaymentSucceededWebhookRequest | WebhooksTerminalPaymentDeclinedWebhookRequest | WebhooksTerminalPaymentCancelledWebhookRequest | WebhooksTerminalPaymentErrorWebhookRequest | WebhooksTerminalRefundSucceededWebhookRequest | WebhooksTerminalVoidSucceededWebhookRequest | WebhooksOrderFulfilledWebhookRequest | WebhooksUsageThresholdReachedWebhookRequest | WebhooksUsagePeriodFinalizedWebhookRequest | WebhooksUsageInvoiceCreatedWebhookRequest | WebhooksUsageEventIngestedWebhookRequest | WebhooksUsageEventRejectedWebhookRequest | WebhooksMeterCreatedWebhookRequest | WebhooksMeterUpdatedWebhookRequest | WebhooksMeterArchivedWebhookRequest | WebhooksMeterPriceCreatedWebhookRequest | WebhooksMeterPriceUpdatedWebhookRequest | WebhooksMeterPriceDeactivatedWebhookRequest | WebhooksMandateCreatedWebhookRequest | WebhooksMandateActivatedWebhookRequest | WebhooksMandateAuddisRejectedWebhookRequest | WebhooksMandateSuspendedWebhookRequest | WebhooksMandateCancelledWebhookRequest | WebhooksCollectionScheduledWebhookRequest | WebhooksCollectionNoticeSentWebhookRequest | WebhooksCollectionSucceededWebhookRequest | WebhooksCollectionFailedWebhookRequest | WebhooksCollectionIndemnityClaimedWebhookRequest | WebhooksSettlementCreatedWebhookRequest;
+type Webhooks = WebhooksPaymentSucceededWebhookRequest | WebhooksPaymentFailedWebhookRequest | WebhooksInvoiceCreatedWebhookRequest | WebhooksInvoicePaidWebhookRequest | WebhooksInvoiceOverdueWebhookRequest | WebhooksSubscriptionCreatedWebhookRequest | WebhooksSubscriptionActivatedWebhookRequest | WebhooksSubscriptionCanceledWebhookRequest | WebhooksSubscriptionRenewedWebhookRequest | WebhooksCustomerCreatedWebhookRequest | WebhooksCustomerUpdatedWebhookRequest | WebhooksRefundCreatedWebhookRequest | WebhooksRefundSucceededWebhookRequest | WebhooksVoidCreatedWebhookRequest | WebhooksVoidSucceededWebhookRequest | WebhooksVoidFailedWebhookRequest | WebhooksCreditNoteCreatedWebhookRequest | WebhooksCreditNoteIssuedWebhookRequest | WebhooksCreditNoteVoidedWebhookRequest | WebhooksCheckoutSessionCompletedWebhookRequest | WebhooksCheckoutSessionExpiredWebhookRequest | WebhooksOrderCreatedWebhookRequest | WebhooksOrderPaidWebhookRequest | WebhooksTerminalPaymentRequestedWebhookRequest | WebhooksTerminalPaymentSucceededWebhookRequest | WebhooksTerminalPaymentDeclinedWebhookRequest | WebhooksTerminalPaymentCancelledWebhookRequest | WebhooksTerminalPaymentErrorWebhookRequest | WebhooksTerminalRefundSucceededWebhookRequest | WebhooksTerminalVoidSucceededWebhookRequest | WebhooksOrderFulfilledWebhookRequest | WebhooksUsageThresholdReachedWebhookRequest | WebhooksUsagePeriodFinalizedWebhookRequest | WebhooksUsageInvoiceCreatedWebhookRequest | WebhooksUsageEventIngestedWebhookRequest | WebhooksUsageEventRejectedWebhookRequest | WebhooksUsageEventExcludedWebhookRequest | WebhooksUsageEventQuarantinedWebhookRequest | WebhooksUsageCapExceededWebhookRequest | WebhooksMeterCreatedWebhookRequest | WebhooksMeterUpdatedWebhookRequest | WebhooksMeterArchivedWebhookRequest | WebhooksMeterPriceCreatedWebhookRequest | WebhooksMeterPriceUpdatedWebhookRequest | WebhooksMeterPriceDeactivatedWebhookRequest | WebhooksMandateSignedWebhookRequest | WebhooksMandateCreatedWebhookRequest | WebhooksMandateActivatedWebhookRequest | WebhooksMandateAuddisRejectedWebhookRequest | WebhooksMandateSuspendedWebhookRequest | WebhooksMandateCancelledWebhookRequest | WebhooksCollectionScheduledWebhookRequest | WebhooksCollectionNoticeSentWebhookRequest | WebhooksCollectionSucceededWebhookRequest | WebhooksCollectionFailedWebhookRequest | WebhooksCollectionIndemnityClaimedWebhookRequest | WebhooksSettlementCreatedWebhookRequest;
 /**
  * The envelope for all webhook event deliveries. Contains the event type, timestamp, and the affected object in the data field.
  */
@@ -41,17 +41,45 @@ type WebhookEvent = {
     };
 };
 /**
+ * Returned when the API key is missing, invalid, expired, or revoked. Verify your x-api-key header contains a valid key. A WWW-Authenticate: Bearer challenge header accompanies every 401.
+ */
+type AuthenticationError = {
+    error: {
+        type: "authentication_error";
+        code: "authentication_failed" | "invalid_api_key" | "expired_api_key" | "api_key_revoked" | "session_invalid" | "merchant_required";
+        message: string;
+        request_id?: string;
+    };
+};
+/**
+ * Returned when the authenticated caller lacks the required scopes or the operation is not permitted for this key, origin, or merchant state.
+ */
+type ForbiddenError = {
+    error: {
+        type: "authorization_error";
+        code: "insufficient_permissions" | "forbidden" | "ip_not_allowed" | "tenant_scope_mismatch" | "no_organization" | "no_merchant" | "merchant_mismatch" | "cart_disabled" | "origin_not_allowed" | "verification_required" | "read_only_impersonation_blocked" | "publishable_key_restricted" | "internal_only";
+        message: string;
+        request_id?: string;
+        /**
+         * Additional context (e.g. required scopes)
+         */
+        details?: {
+            [key: string]: unknown;
+        };
+    };
+};
+/**
  * Subscription billing terms for recurring invoices
  */
 type SubscriptionTerms = {
     /**
      * How to collect payment for recurring invoices
      */
-    collection_method: 'charge_automatically' | 'send_invoice';
+    collection_method: "charge_automatically" | "send_invoice";
     /**
      * When the subscription billing cycle starts
      */
-    start_mode: 'when_paid' | 'on_invoice_date' | 'first_of_next_month' | 'specific_date';
+    start_mode: "when_paid" | "on_invoice_date" | "first_of_next_month" | "specific_date";
     /**
      * Start date (ISO 8601) — required when start_mode is 'specific_date'
      */
@@ -59,7 +87,7 @@ type SubscriptionTerms = {
     /**
      * How the subscription duration is determined
      */
-    duration_type: 'until_cancelled' | 'fixed_cycles' | 'end_date';
+    duration_type: "until_cancelled" | "fixed_cycles" | "end_date";
     /**
      * Number of billing cycles — required when duration_type is 'fixed_cycles'
      */
@@ -71,7 +99,30 @@ type SubscriptionTerms = {
     /**
      * Whether to charge the first cycle immediately or defer to the start date
      */
-    first_payment_behavior: 'charge_first_cycle_now' | 'defer_first_cycle_to_start_date';
+    first_payment_behavior: "charge_first_cycle_now" | "defer_first_cycle_to_start_date";
+};
+/**
+ * Invoice usage explanation: totals, line attribution, and usage event counts.
+ */
+type InvoiceUsageExplainResponse = {
+    invoice: {
+        id: string;
+        customer_id: string | null;
+        status: string | null;
+        amount_due_minor: number | null;
+        currency: string | null;
+    };
+    lines: Array<{
+        id: string;
+        description: string | null;
+        kind: "usage" | "recurring" | "one_time";
+        amount_minor: number | null;
+        currency: string | null;
+        meter_id: string | null;
+        usage_quantity: string | null;
+        usage_event_count: number | null;
+    }>;
+    summary: string;
 };
 /**
  * A list of invoices matching the query filters.
@@ -141,11 +192,11 @@ type Invoice = {
         /**
          * How to collect payment for recurring invoices
          */
-        collection_method: 'charge_automatically' | 'send_invoice';
+        collection_method: "charge_automatically" | "send_invoice";
         /**
          * When the subscription billing cycle starts
          */
-        start_mode: 'when_paid' | 'on_invoice_date' | 'first_of_next_month' | 'specific_date';
+        start_mode: "when_paid" | "on_invoice_date" | "first_of_next_month" | "specific_date";
         /**
          * Start date (ISO 8601) — required when start_mode is 'specific_date'
          */
@@ -153,7 +204,7 @@ type Invoice = {
         /**
          * How the subscription duration is determined
          */
-        duration_type: 'until_cancelled' | 'fixed_cycles' | 'end_date';
+        duration_type: "until_cancelled" | "fixed_cycles" | "end_date";
         /**
          * Number of billing cycles — required when duration_type is 'fixed_cycles'
          */
@@ -165,7 +216,7 @@ type Invoice = {
         /**
          * Whether to charge the first cycle immediately or defer to the start date
          */
-        first_payment_behavior: 'charge_first_cycle_now' | 'defer_first_cycle_to_start_date';
+        first_payment_behavior: "charge_first_cycle_now" | "defer_first_cycle_to_start_date";
     } | null;
     /**
      * When the invoice was created (ISO 8601)
@@ -246,7 +297,7 @@ type ExternalUpsertResponse = {
  */
 type StaleUpdateResponse = {
     ignored: true;
-    reason: 'stale_update';
+    reason: "stale_update";
     stored_timestamp: string;
     incoming_timestamp: string;
     requestId: string;
@@ -256,7 +307,7 @@ type StaleUpdateResponse = {
  */
 type UnchangedContentResponse = {
     ignored: true;
-    reason: 'unchanged_content';
+    reason: "unchanged_content";
     content_hash: string;
     requestId: string;
 };
@@ -367,45 +418,38 @@ type CreditNoteResponse = {
     data: CreditNote;
     requestId: string;
 };
+type CreditNoteLineAllocationInputV1 = {
+    /**
+     * Invoice line item receiving the credit
+     */
+    invoice_line_item_id: string;
+    /**
+     * Credited quantity from the source invoice line
+     */
+    quantity: number;
+    /**
+     * Credited unit amount in minor units
+     */
+    unit_amount_minor: number;
+    /**
+     * Pre-tax credited subtotal in minor units
+     */
+    total_amount_minor: number;
+    /**
+     * Credited tax amount in minor units
+     */
+    tax_amount_minor: number;
+};
 /**
  * Returned when request parameters or body fail schema validation. The details.fields object maps each invalid parameter to its validation errors.
  */
 type ValidationError = {
     error: {
-        type: 'invalid_request_error';
-        code: 'validation_error';
+        type: "invalid_request_error";
+        code: "validation_error";
         message: string;
         param?: string;
-        details?: {
-            /**
-             * Field-specific validation errors
-             */
-            fields?: {
-                [key: string]: Array<string>;
-            };
-        };
-        request_id?: string;
-    };
-};
-/**
- * Returned when the API key is missing, invalid, or expired. Verify your x-api-key header contains a valid key.
- */
-type AuthenticationError = {
-    error: {
-        type: 'authentication_error';
-        code: 'authentication_failed' | 'invalid_api_key' | 'expired_api_key';
-        message: string;
-        request_id?: string;
-    };
-};
-/**
- * Returned when the authenticated API key lacks the required scopes for the requested operation.
- */
-type ForbiddenError = {
-    error: {
-        type: 'authentication_error';
-        code: 'insufficient_permissions' | 'forbidden';
-        message: string;
+        details?: ValidationErrorErrorDetails;
         request_id?: string;
     };
 };
@@ -414,8 +458,8 @@ type ForbiddenError = {
  */
 type NotFoundError = {
     error: {
-        type: 'invalid_request_error';
-        code: 'resource_not_found';
+        type: "invalid_request_error";
+        code: "resource_not_found";
         message: string;
         param?: string;
         request_id?: string;
@@ -439,7 +483,7 @@ type Product = {
     /**
      * Object type
      */
-    object: 'product';
+    object: "product";
     /**
      * User-facing product identifier
      */
@@ -455,11 +499,11 @@ type Product = {
     /**
      * Product kind
      */
-    kind: 'subscription' | 'one_time' | 'usage';
+    kind: "subscription" | "one_time" | "usage";
     /**
      * How the product is priced
      */
-    pricing_model: 'one_time' | 'recurring' | 'usage';
+    pricing_model: "one_time" | "recurring" | "usage";
     /**
      * Price in minor units (cents/pence)
      */
@@ -483,19 +527,25 @@ type Product = {
     /**
      * Fulfillment type
      */
-    fulfillment_type: 'none' | 'digital' | 'physical';
+    fulfillment_type: "none" | "digital" | "physical";
     /**
-     * Whether a finite purchase cap is enforced
+     * Whether stock is tracked for this product (read from its availability record)
      */
     track_inventory?: boolean;
     /**
-     * Remaining purchasable units (null when not tracked)
+     * Deprecated, read-only view: units available to sell, computed from the product's availability record (null when not tracked).
+     *
+     * @deprecated
      */
     stock_quantity?: number | null;
     /**
+     * Tags for Storefront filters and search
+     */
+    tags?: Array<string>;
+    /**
      * Billing date calculation rule
      */
-    billing_anchor_rule?: 'same_day' | 'day_of_month' | 'last_day' | null;
+    billing_anchor_rule?: "same_day" | "day_of_month" | "last_day" | null;
     /**
      * Day of month for billing (1-31)
      */
@@ -503,11 +553,11 @@ type Product = {
     /**
      * First payment timing
      */
-    first_charge_behavior?: 'immediate' | 'next_anchor' | 'prorate' | null;
+    first_charge_behavior?: "immediate" | "next_anchor" | "prorate" | null;
     /**
      * Subscription end behavior
      */
-    end_behavior?: 'until_canceled' | 'fixed_payments' | null;
+    end_behavior?: "until_canceled" | "fixed_payments" | null;
     /**
      * Max billing cycles for fixed-payment subscriptions
      */
@@ -517,7 +567,7 @@ type Product = {
      */
     usage_meter_id?: string | null;
     /**
-     * URL-friendly slug
+     * URL handle, unique among this merchant's products
      */
     slug?: string | null;
     /**
@@ -529,9 +579,29 @@ type Product = {
      */
     is_archived: boolean;
     /**
-     * Product image URL
+     * Main product image (storage key or URL)
      */
     image_url?: string | null;
+    /**
+     * Extra product images, in display order
+     */
+    images?: Array<ProductImageResponse>;
+    /**
+     * Search and social title
+     */
+    seo_title?: string | null;
+    /**
+     * Meta description
+     */
+    seo_description?: string | null;
+    /**
+     * Whether the product is listed on the Storefront. hidden: only payment links and invoices. scheduled: listed from store_visible_from.
+     */
+    store_visibility?: "visible" | "hidden" | "scheduled";
+    /**
+     * When a scheduled product appears on the Storefront (ISO 8601)
+     */
+    store_visible_from?: string | null;
     /**
      * Tax behavior (exclusive, inclusive, location)
      */
@@ -554,6 +624,35 @@ type Product = {
      * Last update timestamp (ISO 8601)
      */
     updated_at: string;
+};
+/**
+ * One extra product image, in display order.
+ */
+type ProductImageResponse = {
+    /**
+     * Storage key or https URL
+     */
+    key: string;
+    /**
+     * Media library asset ID
+     */
+    asset_id: string | null;
+    /**
+     * Alt text
+     */
+    alt: string | null;
+    /**
+     * Where the image came from
+     */
+    source: "merchant" | "pexels" | "canva" | "gemini";
+    /**
+     * Photographer credit
+     */
+    photographer: string | null;
+    /**
+     * Link for the credit
+     */
+    attribution_url: string | null;
 };
 type Pagination = {
     /**
@@ -602,31 +701,63 @@ type CreateProductRequest = {
     product_id: string;
     name: string;
     description?: string | null;
-    kind: 'subscription' | 'one_time' | 'usage';
-    pricing_model: 'one_time' | 'recurring' | 'usage';
+    kind: "subscription" | "one_time" | "usage";
+    pricing_model: "one_time" | "recurring" | "usage";
     amount_minor: number;
+    /**
+     * Three-letter ISO currency code. Defaults to the merchant's default currency.
+     */
     currency?: string;
     interval?: string | null;
     interval_count?: number | null;
     trial_days?: number;
     usage_meter_id?: string | null;
+    /**
+     * URL handle, unique among this merchant's products. Normalised to lower-case letters, digits and hyphens. Derived from product_id when omitted.
+     */
     slug?: string;
+    /**
+     * Ordered extra images (at most 20). Replaces the list. The main image stays in image_url.
+     */
+    images?: Array<ProductImage>;
+    /**
+     * Search and social title (at most 70 characters). Defaults to the name.
+     */
+    seo_title?: string | null;
+    /**
+     * Meta description (at most 320 characters).
+     */
+    seo_description?: string | null;
+    /**
+     * Whether the product is listed on the Storefront. hidden: only payment links and invoices. scheduled: listed from store_visible_from.
+     */
+    store_visibility?: "visible" | "hidden" | "scheduled";
+    /**
+     * When a scheduled product appears on the Storefront (ISO 8601). Required when store_visibility is scheduled.
+     */
+    store_visible_from?: string | null;
     /**
      * Fulfillment type for the product. Defaults to 'none' (service).
      */
-    fulfillment_type?: 'none' | 'digital' | 'physical';
+    fulfillment_type?: "none" | "digital" | "physical";
     /**
-     * Enable a finite purchase cap that blocks purchase once stock reaches zero. One-time products only; requires stock_quantity.
+     * Track stock for this product (one-time products only; requires stock_quantity). Stock is stored in the product's availability record, not on the product.
      */
     track_inventory?: boolean;
     /**
-     * Remaining units that can be purchased. Required (non-negative) when track_inventory is true; ignored otherwise.
+     * Deprecated. Sets the units available to sell in the product's availability record. Required (non-negative) when track_inventory is true.
+     *
+     * @deprecated
      */
     stock_quantity?: number | null;
     /**
+     * Tags for Storefront filters and search. Replaces the product's tags. At most 50, each up to 50 characters.
+     */
+    tags?: Array<string>;
+    /**
      * How billing dates are calculated. same_day: Bill on same day as start. day_of_month: Bill on specific day (1-31). last_day: Bill on last day of month.
      */
-    billing_anchor_rule?: 'same_day' | 'day_of_month' | 'last_day';
+    billing_anchor_rule?: "same_day" | "day_of_month" | "last_day";
     /**
      * Day of month (1-31) when billing_anchor_rule is 'day_of_month'
      */
@@ -634,11 +765,11 @@ type CreateProductRequest = {
     /**
      * When first payment is collected. immediate: Charge on start. next_anchor: Charge on first scheduled date. prorate: Prorate until first date.
      */
-    first_charge_behavior?: 'immediate' | 'next_anchor' | 'prorate';
+    first_charge_behavior?: "immediate" | "next_anchor" | "prorate";
     /**
      * How subscription ends. until_canceled: Runs forever. fixed_payments: Ends after N billing cycles.
      */
-    end_behavior?: 'until_canceled' | 'fixed_payments';
+    end_behavior?: "until_canceled" | "fixed_payments";
     /**
      * Max billing cycles when end_behavior is 'fixed_payments'
      */
@@ -653,6 +784,35 @@ type CreateProductRequest = {
      * Product image S3 key or public URL (upload via /internal/storage first)
      */
     image_url?: string | null;
+};
+/**
+ * One extra product image. The main image is image_url and is never repeated in images.
+ */
+type ProductImage = {
+    /**
+     * Storage key returned by the upload (product-images/<merchant>/...) or an https URL.
+     */
+    key: string;
+    /**
+     * Media library asset ID, when the image came from an upload.
+     */
+    asset_id?: string | null;
+    /**
+     * Alt text for shoppers using screen readers.
+     */
+    alt?: string | null;
+    /**
+     * Where the image came from. Defaults to merchant. Pexels images must keep photographer and attribution_url.
+     */
+    source?: "merchant" | "pexels" | "canva" | "gemini";
+    /**
+     * Photographer credit (required for Pexels).
+     */
+    photographer?: string | null;
+    /**
+     * https link for the credit (required for Pexels).
+     */
+    attribution_url?: string | null;
 };
 /**
  * The updated product object reflecting the changes.
@@ -674,30 +834,60 @@ type UpdateProductRequest = {
     is_active?: boolean;
     is_archived?: boolean;
     /**
+     * URL handle, unique among this merchant's products. Pass null to clear it.
+     */
+    slug?: string | null;
+    /**
+     * Ordered extra images (at most 20). Replaces the list. The main image stays in image_url.
+     */
+    images?: Array<ProductImage>;
+    /**
+     * Search and social title (at most 70 characters). Defaults to the name.
+     */
+    seo_title?: string | null;
+    /**
+     * Meta description (at most 320 characters).
+     */
+    seo_description?: string | null;
+    /**
+     * Whether the product is listed on the Storefront. hidden: only payment links and invoices. scheduled: listed from store_visible_from.
+     */
+    store_visibility?: "visible" | "hidden" | "scheduled";
+    /**
+     * When a scheduled product appears on the Storefront (ISO 8601). Required when store_visibility is scheduled.
+     */
+    store_visible_from?: string | null;
+    /**
      * Fulfillment type for the product.
      */
-    fulfillment_type?: 'none' | 'digital' | 'physical';
+    fulfillment_type?: "none" | "digital" | "physical";
     /**
-     * Enable/disable the finite purchase cap (one-time products only). Requires stock_quantity when enabled.
+     * Turn stock tracking on (requires stock_quantity) or off. One-time products only. Stock is stored in the product's availability record.
      */
     track_inventory?: boolean;
     /**
-     * Remaining units that can be purchased. Required (non-negative) when track_inventory is true.
+     * Deprecated. Sets the units available to sell in the product's availability record. Required (non-negative) when track_inventory is true.
+     *
+     * @deprecated
      */
     stock_quantity?: number | null;
     /**
+     * Tags for Storefront filters and search. Replaces the product's tags. At most 50, each up to 50 characters.
+     */
+    tags?: Array<string>;
+    /**
      * How billing dates are calculated. same_day: Bill on same day as start. day_of_month: Bill on specific day (1-31). last_day: Bill on last day of month.
      */
-    billing_anchor_rule?: 'same_day' | 'day_of_month' | 'last_day';
+    billing_anchor_rule?: "same_day" | "day_of_month" | "last_day";
     billing_anchor_day?: number | null;
     /**
      * When first payment is collected. immediate: Charge on start. next_anchor: Charge on first scheduled date. prorate: Prorate until first date.
      */
-    first_charge_behavior?: 'immediate' | 'next_anchor' | 'prorate';
+    first_charge_behavior?: "immediate" | "next_anchor" | "prorate";
     /**
      * How subscription ends. until_canceled: Runs forever. fixed_payments: Ends after N billing cycles.
      */
-    end_behavior?: 'until_canceled' | 'fixed_payments';
+    end_behavior?: "until_canceled" | "fixed_payments";
     max_payments?: number | null;
     /**
      * Arbitrary key-value metadata for the product
@@ -709,6 +899,97 @@ type UpdateProductRequest = {
      * Product image S3 key or public URL. Pass null to remove.
      */
     image_url?: string | null;
+};
+type ProductCollectionListResponse = {
+    data: Array<ProductCollection>;
+};
+/**
+ * A merchant-defined group of products, shown on the Storefront.
+ */
+type ProductCollection = {
+    id: string;
+    object: "product_collection";
+    name: string;
+    /**
+     * URL handle, unique per merchant.
+     */
+    slug: string;
+    description: string | null;
+    image_asset_id: string | null;
+    position: number;
+    /**
+     * Increments on every change. Send it back as expected_version to avoid overwriting someone else's edit.
+     */
+    version: number;
+    /**
+     * Member product ids, in display order.
+     */
+    product_ids: Array<string>;
+    created_at: string;
+    updated_at: string;
+};
+type ProductCollectionError = {
+    error: string;
+    code?: string;
+    product_ids?: Array<string>;
+};
+type ProductCollectionResponse = {
+    data: ProductCollection;
+};
+type ProductCollectionCreateResponse = {
+    data: ProductCollection;
+};
+type ProductCollectionCreateRequest = {
+    name: string;
+    slug: string;
+    description?: string | null;
+    image_asset_id?: string | null;
+    position?: number;
+    /**
+     * Member product ids, in display order. Replaces the membership when present.
+     */
+    product_ids?: Array<string>;
+};
+type ProductCollectionUpdateResponse = {
+    data: ProductCollection;
+};
+type ProductCollectionUpdateRequest = {
+    name?: string;
+    slug?: string;
+    description?: string | null;
+    image_asset_id?: string | null;
+    position?: number;
+    /**
+     * Member product ids, in display order. Replaces the membership when present.
+     */
+    product_ids?: Array<string>;
+    expected_version?: number;
+};
+type ProductCollectionDeletedResponse = {
+    data: ProductCollectionDeleted;
+};
+type ProductCollectionDeleted = {
+    id: string;
+    object: "product_collection";
+    deleted: true;
+};
+type MerchantActionForbiddenError = ForbiddenError | MerchantAuthorizationDeniedError;
+/**
+ * Returned when the merchant authorization policy denies this action for the caller.
+ */
+type MerchantAuthorizationDeniedError = {
+    success: false;
+    error: string;
+    action: string;
+    resourceType: string;
+    reason?: string;
+};
+/**
+ * Returned when a required audit row (an authorization decision, or a lifecycle row written before the effect) could not be written. The action was not performed; retry later.
+ */
+type AuthorizationAuditUnavailableError = {
+    success: false;
+    error: string;
 };
 /**
  * The created checkout session with the URL to redirect the customer to.
@@ -734,19 +1015,29 @@ type CheckoutSessionErrorResponse = {
     error: string;
 };
 /**
+ * Returned when the merchant has no online payment method available for this checkout (none enabled and live, or none valid in the requested currency). Configure a payment method, or use a currency an enabled method supports, then retry.
+ */
+type NoPaymentMethodsAvailableError = {
+    error: string;
+    code: "NO_PAYMENT_METHODS_AVAILABLE";
+};
+/**
  * Parameters for creating a hosted checkout session. Customers are redirected to complete payment on a RevKeen-hosted page.
  */
 type CreateCheckoutSessionInput = {
     invoiceId?: string;
     productId?: string;
     amountMinor?: number;
+    /**
+     * Three-letter ISO currency code. Defaults to the merchant's default currency.
+     */
     currency?: string;
     successUrl?: string;
     cancelUrl?: string;
     /**
      * Payment methods to offer. Intersected with merchant capabilities. Defaults to merchant config.
      */
-    allowedMethods?: Array<'card' | 'direct_debit' | 'pay_by_bank' | 'in_store'>;
+    allowedMethods?: Array<"card" | "direct_debit" | "in_store">;
     /**
      * Target a registered companion device. Session is pushed via SSE to the device.
      */
@@ -761,7 +1052,7 @@ type CheckoutSessionRetrieveResponse = {
  */
 type CheckoutSession = {
     id: string;
-    object: 'checkout_session';
+    object: "checkout_session";
     status: string;
     mode: string | null;
     amount_total: number | null;
@@ -781,7 +1072,7 @@ type CheckoutSession = {
 type CheckoutSessionExpireResponse = {
     data: {
         id: string;
-        status: 'expired';
+        status: "expired";
         expired_at: string;
     };
     requestId: string;
@@ -791,7 +1082,7 @@ type CartSessionResponse = {
 };
 type CartSession = {
     id: string;
-    object: 'cart_session';
+    object: "cart_session";
     merchant_id: string;
     customer_id: string | null;
     currency: string;
@@ -821,7 +1112,7 @@ type CartSession = {
     updated_at: string;
     expires_at: string;
 };
-type CartSessionStatus = 'open' | 'converted' | 'abandoned' | 'expired';
+type CartSessionStatus = "open" | "converted" | "abandoned" | "expired";
 type CartLineItem = {
     id: string;
     product_id: string;
@@ -844,18 +1135,18 @@ type CartLineItem = {
     } | null;
 };
 type CartLineItemRecurring = {
-    interval: 'day' | 'week' | 'month' | 'year';
+    interval: "day" | "week" | "month" | "year";
     interval_count: number;
 } | null;
-type CartStartRule = 'immediate' | 'next_anchor' | 'prorate' | null;
-type CartBillingAnchorRule = 'same_day' | 'day_of_month' | 'last_day' | null;
+type CartStartRule = "immediate" | "next_anchor" | "prorate" | null;
+type CartBillingAnchorRule = "same_day" | "day_of_month" | "last_day" | null;
 type CartSessionErrorResponse = {
     error: string;
-    code?: 'CART_SESSION_NOT_FOUND' | 'CART_LINE_ITEM_NOT_FOUND' | 'CART_SESSION_CLOSED' | 'CART_SESSION_EMPTY';
+    code?: "CART_SESSION_NOT_FOUND" | "CART_LINE_ITEM_NOT_FOUND" | "CART_SESSION_CLOSED" | "CART_SESSION_EMPTY";
 };
 type CreateCartSessionInput = {
     currency: string;
-    mode?: 'payment' | 'subscription' | 'mixed';
+    mode?: "payment" | "subscription" | "mixed";
     customer_id?: string;
     line_items?: Array<CartLineItemInput>;
     add_ons_offered?: Array<string>;
@@ -916,10 +1207,14 @@ type CartConversionResponse = {
 };
 type CartCheckoutSession = {
     id: string;
-    object: 'checkout_session';
+    object: "checkout_session";
     merchant_id: string;
     customer_id: string | null;
     session_token: string | null;
+    /**
+     * Hosted checkout URL for this session, built server-side from the configured RevKeen checkout origin. Redirect the customer here. Null when the session has no token.
+     */
+    checkout_url?: string | null;
     status: string;
     mode: string | null;
     amount_minor: number | null;
@@ -940,7 +1235,7 @@ type StorefrontProductListResponse = {
  */
 type StorefrontProduct = {
     id: string;
-    object: 'product';
+    object: "product";
     product_id: string | null;
     slug: string | null;
     name: string;
@@ -956,6 +1251,22 @@ type StorefrontProduct = {
     tax_behavior: string | null;
     tax_code: string | null;
     availability: StorefrontAvailability;
+    /**
+     * Merchant tags for store filters and search.
+     */
+    tags: Array<string>;
+    /**
+     * Extra images in display order. image_url stays the main image.
+     */
+    images: Array<StorefrontProductImage>;
+    /**
+     * Page title for search and social. Null means use the name.
+     */
+    seo_title: string | null;
+    /**
+     * Meta description. Null means use the description.
+     */
+    seo_description: string | null;
 };
 /**
  * Active price summary for storefront display. Amounts are minor units.
@@ -973,15 +1284,39 @@ type StorefrontPrice = {
     usage_type: string | null;
     package_size: number | null;
     trial_period_days: number | null;
+    /**
+     * The variant's options, e.g. {"Size":"M"}. Null when the price is not a variant.
+     */
+    option_values?: {
+        [key: string]: string;
+    } | null;
+    /**
+     * The variant's SKU. Null when not set.
+     */
+    sku?: string | null;
+    /**
+     * The variant's image as a browser URL. Null when not set.
+     */
+    image_url?: string | null;
 };
 /**
  * Derived availability (capacity + oversell − reserved − confirmed). `unknown` when the product does not track availability.
  */
 type StorefrontAvailability = {
-    status: 'unknown' | 'plenty' | 'low' | 'soldout';
+    status: "unknown" | "plenty" | "low" | "soldout";
     remaining: number | null;
     display_mode: string;
     low_stock_threshold: number | null;
+};
+/**
+ * An extra product image as a browser URL. Show the photographer credit and link when present (required for Pexels images).
+ */
+type StorefrontProductImage = {
+    url: string;
+    alt: string | null;
+    source: string;
+    photographer: string | null;
+    attribution_url: string | null;
 };
 type StorefrontProductError = {
     error: string;
@@ -998,7 +1333,7 @@ type StorefrontOriginListResponse = {
  */
 type StorefrontOrigin = {
     id: string;
-    object: 'storefront_origin';
+    object: "storefront_origin";
     origin: string;
     created_at: string;
 };
@@ -1025,7 +1360,7 @@ type StorefrontStatusResponse = {
     data: StorefrontStatus;
 };
 type StorefrontStatus = {
-    object: 'storefront_status';
+    object: "storefront_status";
     ready: boolean;
     checks: Array<StorefrontStatusCheck>;
     cart: {
@@ -1051,13 +1386,13 @@ type StorefrontStatus = {
     };
     availability: {
         tracked_products: number;
-        mode: 'enabled' | 'not_configured';
+        mode: "enabled" | "not_configured";
     };
 };
 type StorefrontStatusCheck = {
-    id: 'cart_enabled' | 'keys' | 'origins' | 'product_read' | 'webhooks' | 'availability';
-    status: 'pass' | 'warn' | 'fail';
-    code?: 'CART_DISABLED' | 'KEYS_MISSING' | 'ORIGIN_MISSING' | 'PRODUCT_READ_UNAVAILABLE' | 'WEBHOOK_MISSING' | 'WEBHOOK_UNREACHABLE';
+    id: "cart_enabled" | "keys" | "origins" | "product_read" | "webhooks" | "availability";
+    status: "pass" | "warn" | "fail";
+    code?: "CART_DISABLED" | "KEYS_MISSING" | "ORIGIN_MISSING" | "PRODUCT_READ_UNAVAILABLE" | "WEBHOOK_MISSING" | "WEBHOOK_UNREACHABLE";
     message: string;
     next_action?: string;
 };
@@ -1085,7 +1420,7 @@ type Business = {
     /**
      * Object type
      */
-    object: 'business';
+    object: "business";
     /**
      * Associated customer ID
      */
@@ -1144,6 +1479,30 @@ type Business = {
      * Last update timestamp (ISO 8601)
      */
     updated_at: string;
+};
+/**
+ * One-call customer snapshot: identity, subscriptions, and recent invoices.
+ */
+type CustomerStateResponse = {
+    customer: {
+        [key: string]: unknown;
+    };
+    subscriptions: {
+        active: Array<{
+            [key: string]: unknown;
+        }>;
+        all: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    invoices: {
+        overdue: Array<{
+            [key: string]: unknown;
+        }>;
+        recent: Array<{
+            [key: string]: unknown;
+        }>;
+    };
 };
 /**
  * An invoice belonging to a specific customer, with summarized billing details.
@@ -1567,7 +1926,7 @@ type PaymentMethod = {
     /**
      * Object type, always 'payment_method'
      */
-    object: 'payment_method';
+    object: "payment_method";
     /**
      * Public ID visible in API responses (pm_xxx format)
      */
@@ -1575,11 +1934,11 @@ type PaymentMethod = {
     /**
      * The type of payment method
      */
-    type: 'card' | 'bank_account' | 'us_bank_account' | 'bacs_direct_debit';
+    type: "card" | "bank_account" | "us_bank_account" | "bacs_direct_debit";
     /**
      * The status of the payment method
      */
-    status: 'active' | 'inactive' | 'expired';
+    status: "active" | "inactive" | "expired";
     /**
      * ID of the customer this payment method belongs to
      */
@@ -1614,7 +1973,7 @@ type CardDetails = {
     /**
      * The card brand
      */
-    brand: 'visa' | 'mastercard' | 'amex' | 'discover' | 'diners' | 'jcb' | 'unionpay' | 'unknown' | null;
+    brand: "visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | "unknown" | null;
     /**
      * The last 4 digits of the card number
      */
@@ -1630,7 +1989,7 @@ type CardDetails = {
     /**
      * The card funding type
      */
-    funding: 'credit' | 'debit' | 'prepaid' | 'unknown' | null;
+    funding: "credit" | "debit" | "prepaid" | "unknown" | null;
 } | null;
 /**
  * Bank account details (if type is 'us_bank_account')
@@ -1651,7 +2010,7 @@ type BankAccountDetails = {
     /**
      * The type of bank account
      */
-    account_type: 'checking' | 'savings' | null;
+    account_type: "checking" | "savings" | null;
 } | null;
 /**
  * Bacs Direct Debit details (if type is 'bacs_direct_debit')
@@ -1808,13 +2167,25 @@ type Subscription = {
         is_in_dunning: boolean;
         phase: number | null;
         phase_label: string | null;
-        phase_severity: 'info' | 'warning' | 'critical' | null;
+        phase_severity: "info" | "warning" | "critical" | null;
         retry_count: number;
         total_possible_retries: number;
         next_retry_at: string | null;
         days_in_dunning: number;
         access_restricted: boolean;
     } | null;
+    /**
+     * How the subscription is collected, for example `card` or `direct_debit`. Null when it follows the payment method.
+     */
+    payment_rail?: string | null;
+    /**
+     * The Direct Debit mandate the subscription collects against
+     */
+    mandate_id?: string | null;
+    /**
+     * The saved payment method the subscription charges
+     */
+    payment_method_id?: string | null;
 };
 /**
  * A paginated list of subscriptions matching the query filters.
@@ -1839,6 +2210,14 @@ type SubscriptionRetrieveResponse = {
  */
 type SubscriptionUpdateResponse = {
     data: Subscription;
+    dd_collection_stopped?: DdCollectionStopped;
+};
+/**
+ * Direct Debit collection was stopped. These invoices remain open and will not be collected automatically.
+ */
+type DdCollectionStopped = {
+    open_invoice_ids: Array<string>;
+    message: string;
 };
 /**
  * The subscription after a plan change, with proration details and updated billing schedule.
@@ -1873,6 +2252,7 @@ type SubscriptionChangeQuantityResponse = {
  */
 type SubscriptionCancelResponse = {
     success: boolean;
+    dd_collection_stopped?: DdCollectionStopped;
 };
 /**
  * A preview of the next renewal charge, including line items, amounts, and billing date.
@@ -1881,17 +2261,7 @@ type SubscriptionPreviewRenewalResponse = {
     data: {
         subscriptionId: string;
         currentPeriodEnd: string;
-        upcomingRenewals: Array<{
-            sequence: number;
-            date: string;
-            formattedDate: string;
-            dayName: string;
-            amountMinor: number;
-            formattedAmount: string;
-            isTrialEnd?: boolean;
-            isFirstCharge?: boolean;
-            isFinalPayment?: boolean;
-        }>;
+        upcomingRenewals: Array<SubscriptionPreviewRenewalResponseDataUpcomingRenewalsInner>;
         nextInvoiceAmountMinor: number;
         currency: string;
     };
@@ -1901,6 +2271,7 @@ type SubscriptionPreviewRenewalResponse = {
  */
 type SubscriptionPauseResponse = {
     data: Subscription;
+    dd_collection_stopped?: DdCollectionStopped;
 };
 /**
  * Parameters for pausing an active subscription. Specify when billing should resume.
@@ -1909,7 +2280,7 @@ type PauseSubscriptionInput = {
     /**
      * How to handle invoices during the pause period
      */
-    behavior?: 'keep_as_draft' | 'mark_uncollectible' | 'void';
+    behavior?: "keep_as_draft" | "mark_uncollectible" | "void";
     /**
      * ISO 8601 date when the subscription should automatically resume. If not provided, subscription stays paused until manually resumed.
      */
@@ -1926,6 +2297,7 @@ type SubscriptionResumeResponse = {
  */
 type SubscriptionCancelSubscriptionResponse = {
     data: Subscription;
+    dd_collection_stopped?: DdCollectionStopped;
 };
 /**
  * Parameters for canceling a subscription, including whether to cancel immediately or at period end.
@@ -1934,7 +2306,7 @@ type CancelSubscriptionInput = {
     /**
      * Cancel mode: "immediately" revokes access now, "period_end" schedules cancellation at billing period end
      */
-    mode: 'immediately' | 'period_end';
+    mode: "immediately" | "period_end";
     /**
      * Optional reason for cancellation
      */
@@ -1979,7 +2351,7 @@ type SubscriptionItem = {
     /**
      * none: service (no order), physical: creates shipping order, digital: creates download order
      */
-    fulfillment_type: 'none' | 'physical' | 'digital';
+    fulfillment_type: "none" | "physical" | "digital";
     /**
      * Custom key-value metadata
      */
@@ -2026,7 +2398,7 @@ type CreateSubscriptionItemInput = {
     /**
      * Determines if orders are created on renewal
      */
-    fulfillment_type?: 'none' | 'physical' | 'digital';
+    fulfillment_type?: "none" | "physical" | "digital";
     /**
      * Custom key-value metadata
      */
@@ -2059,7 +2431,7 @@ type UpdateSubscriptionItemInput = {
     /**
      * Determines if orders are created on renewal
      */
-    fulfillment_type?: 'none' | 'physical' | 'digital';
+    fulfillment_type?: "none" | "physical" | "digital";
     /**
      * Custom key-value metadata
      */
@@ -2105,7 +2477,7 @@ type Payout = {
     charges_count: number | null;
     refunds_count: number | null;
     chargebacks_count: number | null;
-    status: 'pending' | 'in_transit' | 'paid' | 'failed' | 'canceled';
+    status: "pending" | "in_transit" | "paid" | "failed" | "canceled";
     arrival_date: string | null;
     settled_at: string | null;
     created_at: string;
@@ -2172,9 +2544,9 @@ type Refund = {
      */
     amount_minor: number;
     currency: string;
-    reason: 'customer_request' | 'duplicate' | 'fraudulent' | 'product_not_received' | 'product_unacceptable' | 'subscription_canceled' | 'other' | null;
+    reason: "customer_request" | "duplicate" | "fraudulent" | "product_not_received" | "product_unacceptable" | "subscription_canceled" | "other" | null;
     reason_details: string | null;
-    status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'canceled';
+    status: "pending" | "processing" | "succeeded" | "failed" | "canceled";
     failure_reason: string | null;
     failure_code: string | null;
     processed_at: string | null;
@@ -2207,11 +2579,24 @@ type CreateRefundInput = {
     /**
      * Reason for the refund
      */
-    reason?: 'customer_request' | 'duplicate' | 'fraudulent' | 'product_not_received' | 'product_unacceptable' | 'subscription_canceled' | 'other';
+    reason?: "customer_request" | "duplicate" | "fraudulent" | "product_not_received" | "product_unacceptable" | "subscription_canceled" | "other";
     /**
      * Additional details about the refund reason
      */
     reason_details?: string;
+    /**
+     * Units to put back on sale once the refund succeeds, by invoice line. Omit to restock nothing: an amount alone never restocks.
+     */
+    restock_line_items?: Array<{
+        /**
+         * An invoice line of the refunded payment
+         */
+        invoice_line_item_id: string;
+        /**
+         * Units of that line to put back on sale
+         */
+        quantity: number;
+    }>;
 };
 /**
  * A paginated list of voids matching the query filters.
@@ -2263,8 +2648,8 @@ type Void = {
     amount_minor: number;
     currency: string;
     reason: string | null;
-    reason_code: 'customer_request' | 'duplicate' | 'fraudulent' | 'error' | 'other' | null;
-    status: 'pending' | 'processing' | 'succeeded' | 'failed';
+    reason_code: "customer_request" | "duplicate" | "fraudulent" | "error" | "other" | null;
+    status: "pending" | "processing" | "succeeded" | "failed";
     failure_reason: string | null;
     failure_code: string | null;
     voided_at: string | null;
@@ -2297,7 +2682,7 @@ type CreateVoidInput = {
     /**
      * Standardized reason code for the void
      */
-    reason_code?: 'customer_request' | 'duplicate' | 'fraudulent' | 'error' | 'other';
+    reason_code?: "customer_request" | "duplicate" | "fraudulent" | "error" | "other";
 };
 /**
  * A single credit note with full details including the associated invoice and refund.
@@ -2328,9 +2713,17 @@ type CreateCreditNoteInput = {
      */
     tax_amount_minor?: number;
     /**
+     * Version of the explicit credit-note line allocation contract
+     */
+    line_allocation_version?: "v1";
+    /**
+     * Exact source invoice lines and amounts being credited
+     */
+    line_allocations?: Array<CreditNoteLineAllocationInputV1>;
+    /**
      * How the credit should be applied
      */
-    credit_method?: 'refund_to_payment_method' | 'customer_balance' | 'external';
+    credit_method?: "refund_to_payment_method" | "customer_balance" | "external";
     /**
      * Reason for the credit note
      */
@@ -2338,7 +2731,7 @@ type CreateCreditNoteInput = {
     /**
      * Standardized reason code
      */
-    reason_code?: 'customer_request' | 'duplicate_charge' | 'service_issue' | 'billing_error' | 'subscription_cancellation' | 'proration' | 'other';
+    reason_code?: "customer_request" | "duplicate_charge" | "service_issue" | "billing_error" | "subscription_cancellation" | "proration" | "other";
     /**
      * Whether to cancel the associated subscription after issuing
      */
@@ -2397,11 +2790,7 @@ type CreditNoteEligibilityResponse = {
         card_last4: string | null;
         terminal_serial: string | null;
         available_operations: Array<string>;
-        constraints: {
-            partial_supported: boolean;
-            requires_card_present: boolean;
-            requires_terminal_online: boolean;
-        };
+        constraints: CreditNoteEligibilityResponsePaymentsInnerConstraints;
     }>;
 };
 /**
@@ -2427,7 +2816,7 @@ type TransactionReversalEligibilityResponse = {
     terminal_uti: string | null;
 };
 type CreditNoteLineList = {
-    object: 'list';
+    object: "list";
     data: Array<CreditNoteLine>;
     has_more: boolean;
     url: string;
@@ -2437,7 +2826,7 @@ type CreditNoteLineList = {
  */
 type CreditNoteLine = {
     id: string;
-    object: 'credit_note_line';
+    object: "credit_note_line";
     credit_note_id: string;
     /**
      * The invoice line item this credit line applies to, when the credit was scoped to a specific line. Null for invoice-level credits.
@@ -2465,7 +2854,7 @@ type CreditNotePreviewResponse = {
  * A non-persistent preview of a credit note. Use this to show a customer (or merchant operator) what the credit would do before committing to creating it.
  */
 type CreditNotePreview = {
-    object: 'credit_note_preview';
+    object: "credit_note_preview";
     invoice_id: string;
     proposed_amount_minor: number;
     proposed_tax_amount_minor: number | null;
@@ -2511,8 +2900,8 @@ type PreviewCreditNoteInput = {
     /**
      * Planned credit method. Defaults to refund_to_payment_method.
      */
-    credit_method?: 'refund_to_payment_method' | 'customer_balance' | 'external';
-    reason_code?: 'customer_request' | 'duplicate_charge' | 'service_issue' | 'billing_error' | 'subscription_cancellation' | 'proration' | 'other';
+    credit_method?: "refund_to_payment_method" | "customer_balance" | "external";
+    reason_code?: "customer_request" | "duplicate_charge" | "service_issue" | "billing_error" | "subscription_cancellation" | "proration" | "other";
 };
 /**
  * A dispute (chargeback) represents a customer's challenge to a charge with their card issuer. Track lifecycle stages and submit evidence to contest.
@@ -2605,11 +2994,11 @@ type Dispute = {
     /**
      * Current status of the dispute lifecycle
      */
-    status: 'needs_response' | 'under_review' | 'won' | 'lost' | 'warning_closed' | 'warning_needs_response';
+    status: "needs_response" | "under_review" | "won" | "lost" | "warning_closed" | "warning_needs_response";
     /**
      * Final resolution outcome of the dispute
      */
-    resolution: 'won' | 'lost' | 'withdrawn' | null;
+    resolution: "won" | "lost" | "withdrawn" | null;
     /**
      * Timestamp when the dispute was resolved
      */
@@ -2765,7 +3154,7 @@ type CreateDiscountInput = {
     /**
      * Type of discount
      */
-    discount_type: 'percentage' | 'fixed_amount';
+    discount_type: "percentage" | "fixed_amount";
     /**
      * Discount value - percentage (1-100) or amount in cents
      */
@@ -2773,11 +3162,11 @@ type CreateDiscountInput = {
     /**
      * Which products the discount applies to
      */
-    applies_to?: 'all' | 'specific_products';
+    applies_to?: "all" | "specific_products";
     /**
      * Scope of where discount can be applied
      */
-    scope?: 'entire_order' | 'specific_products' | 'subscription_only' | 'one_time_only';
+    scope?: "entire_order" | "specific_products" | "subscription_only" | "one_time_only";
     /**
      * Product IDs if applies_to is 'specific_products'
      */
@@ -2801,7 +3190,7 @@ type CreateDiscountInput = {
     /**
      * How the discount applies to recurring payments
      */
-    recurring_type?: 'once' | 'forever' | 'repeating';
+    recurring_type?: "once" | "forever" | "repeating";
     /**
      * Number of billing cycles (only if recurring_type is 'repeating')
      */
@@ -2824,8 +3213,8 @@ type UpdateDiscountInput = {
     name?: string;
     description?: string | null;
     discount_value?: number;
-    applies_to?: 'all' | 'specific_products';
-    scope?: 'entire_order' | 'specific_products' | 'subscription_only' | 'one_time_only';
+    applies_to?: "all" | "specific_products";
+    scope?: "entire_order" | "specific_products" | "subscription_only" | "one_time_only";
     product_ids?: Array<string> | null;
     max_redemptions?: number | null;
     max_redemptions_per_user?: number;
@@ -2833,7 +3222,7 @@ type UpdateDiscountInput = {
     valid_until?: string | null;
     is_active?: boolean;
     is_archived?: boolean;
-    recurring_type?: 'once' | 'forever' | 'repeating' | null;
+    recurring_type?: "once" | "forever" | "repeating" | null;
     recurring_cycles?: number | null;
     first_time_customer?: boolean;
 };
@@ -2914,27 +3303,27 @@ type PaymentAttempt = {
     /**
      * Normalized error category for the payment attempt
      */
-    category: 'approved' | 'generic_decline' | 'insufficient_funds' | 'over_limit' | 'expired_card' | 'invalid_card_number' | 'invalid_cvv' | 'invalid_expiry' | 'invalid_pin' | 'transaction_not_allowed' | 'call_issuer' | 'incorrect_payment_info' | 'lost_or_stolen' | 'pickup_card' | 'suspected_fraud' | 'restricted_card' | 'stop_all_recurring' | 'stop_this_program' | 'update_cardholder_data' | 'processor_error' | 'gateway_error' | 'communication_error' | 'merchant_config_error' | 'merchant_inactive' | 'issuer_unavailable' | 'duplicate_transaction' | 'invalid_transaction' | 'unsupported_card' | 'feature_not_available' | 'authentication_required';
+    category: "approved" | "generic_decline" | "insufficient_funds" | "over_limit" | "expired_card" | "invalid_card_number" | "invalid_cvv" | "invalid_expiry" | "invalid_pin" | "transaction_not_allowed" | "call_issuer" | "incorrect_payment_info" | "lost_or_stolen" | "pickup_card" | "suspected_fraud" | "restricted_card" | "stop_all_recurring" | "stop_this_program" | "update_cardholder_data" | "processor_error" | "gateway_error" | "communication_error" | "merchant_config_error" | "merchant_inactive" | "issuer_unavailable" | "duplicate_transaction" | "invalid_transaction" | "unsupported_card" | "feature_not_available" | "authentication_required";
     /**
      * Severity level for logging/monitoring
      */
-    severity: 'info' | 'warn' | 'error';
+    severity: "info" | "warn" | "error";
     /**
      * Retry behavior recommendation. retry_now: Safe to retry immediately. retry_later: Retry after delay. do_not_retry: Hard decline, don't retry.
      */
-    retryability: 'retry_now' | 'retry_later' | 'do_not_retry';
+    retryability: "retry_now" | "retry_later" | "do_not_retry";
     /**
      * Recommended action for the customer
      */
-    customer_action: 'try_again' | 'use_other_method' | 'update_card' | 'contact_bank' | 'contact_merchant' | 'none';
+    customer_action: "try_again" | "use_other_method" | "update_card" | "contact_bank" | "contact_merchant" | "none";
     /**
      * Recommended action for the merchant
      */
-    merchant_action: 'none' | 'collect_new_pm' | 'fix_config' | 'contact_support' | 'fraud_review' | 'schedule_retry' | 'contact_bank' | 'stop_recurring';
+    merchant_action: "none" | "collect_new_pm" | "fix_config" | "contact_support" | "fraud_review" | "schedule_retry" | "contact_bank" | "stop_recurring";
     /**
      * Directive for subscription handling after decline
      */
-    subscription_directive: 'none' | 'stop_all' | 'stop_program' | 'update_cardholder_data';
+    subscription_directive: "none" | "stop_all" | "stop_program" | "update_cardholder_data";
     /**
      * Template key for customer-facing message
      */
@@ -2942,11 +3331,11 @@ type PaymentAttempt = {
     /**
      * Decline classification. soft: May succeed on retry. hard: Will not succeed on retry.
      */
-    decline_type: 'soft' | 'hard' | null;
+    decline_type: "soft" | "hard" | null;
     /**
      * Final outcome status of the attempt
      */
-    attempt_status: 'pending' | 'succeeded' | 'failed' | 'canceled';
+    attempt_status: "pending" | "succeeded" | "failed" | "canceled";
     /**
      * Payment amount in cents
      */
@@ -2997,6 +3386,12 @@ type PaymentAttempt = {
     updated_at: string;
 };
 /**
+ * A single payment attempt with full gateway response details.
+ */
+type PaymentAttemptSingleResponse = {
+    data: PaymentAttempt;
+};
+/**
  * Error response returned when a payment attempt lookup fails.
  */
 type PaymentAttemptErrorResponse = {
@@ -3004,12 +3399,6 @@ type PaymentAttemptErrorResponse = {
      * Error message
      */
     error: string;
-};
-/**
- * A single payment attempt with full gateway response details.
- */
-type PaymentAttemptSingleResponse = {
-    data: PaymentAttempt;
 };
 /**
  * Assessment of whether a failed payment attempt is eligible for retry, including recommended retry strategy.
@@ -3040,19 +3429,12 @@ type DeclineAnalyticsResponse = {
         approval_rate: number;
         soft_decline_count: number;
         hard_decline_count: number;
-        top_decline_categories: Array<{
-            category: string;
-            count: number;
-        }>;
+        top_decline_categories: Array<DeclineAnalyticsResponseDataTopDeclineCategoriesInner>;
         /**
          * Breakdown by gateway
          */
         by_gateway: {
-            [key: string]: {
-                total?: number;
-                approved?: number;
-                declined?: number;
-            };
+            [key: string]: DeclineAnalyticsResponseDataByGatewayValue;
         };
     };
 };
@@ -3071,11 +3453,11 @@ type PaymentSecurityResult = {
     /**
      * Combined risk level from AVS + CVV checks
      */
-    overall_risk_level: 'low' | 'medium' | 'high' | 'unknown';
+    overall_risk_level: "low" | "medium" | "high" | "unknown";
     /**
      * Recommended action based on security checks
      */
-    recommendation: 'accept' | 'review' | 'decline';
+    recommendation: "accept" | "review" | "decline";
 };
 /**
  * AVS verification result
@@ -3088,7 +3470,7 @@ type AvsCodeInterpretation = {
     /**
      * Type of address match
      */
-    match_type: 'full_match' | 'partial_match' | 'no_match' | 'not_supported' | 'not_available' | 'error';
+    match_type: "full_match" | "partial_match" | "no_match" | "not_supported" | "not_available" | "error";
     /**
      * Whether the street address matched
      */
@@ -3104,7 +3486,7 @@ type AvsCodeInterpretation = {
     /**
      * Risk level based on AVS result. low: full match, medium: partial match, high: no match
      */
-    risk_level: 'low' | 'medium' | 'high' | 'unknown';
+    risk_level: "low" | "medium" | "high" | "unknown";
 } | null;
 /**
  * CVV verification result
@@ -3117,7 +3499,7 @@ type CvvCodeInterpretation = {
     /**
      * Type of CVV match
      */
-    match_type: 'match' | 'no_match' | 'not_processed' | 'not_provided' | 'issuer_not_certified' | 'error';
+    match_type: "match" | "no_match" | "not_processed" | "not_provided" | "issuer_not_certified" | "error";
     /**
      * Human-readable description of the CVV result
      */
@@ -3125,7 +3507,7 @@ type CvvCodeInterpretation = {
     /**
      * Risk level based on CVV result. low: match, medium: not processed, high: no match
      */
-    risk_level: 'low' | 'medium' | 'high' | 'unknown';
+    risk_level: "low" | "medium" | "high" | "unknown";
 } | null;
 /**
  * The newly created charge object with gateway response details.
@@ -3140,7 +3522,7 @@ type ChargeCreateResponse = {
         amountCapturedMinor: number;
         amountRefundedMinor: number;
         currency: string;
-        status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded' | 'partially_refunded' | 'voided';
+        status: "pending" | "processing" | "succeeded" | "failed" | "refunded" | "partially_refunded" | "voided";
         description: string;
         statementDescriptor: string | null;
         failureCode: string | null;
@@ -3182,7 +3564,7 @@ type ChargeListResponse = {
         amountCapturedMinor: number;
         amountRefundedMinor: number;
         currency: string;
-        status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded' | 'partially_refunded' | 'voided';
+        status: "pending" | "processing" | "succeeded" | "failed" | "refunded" | "partially_refunded" | "voided";
         description: string;
         statementDescriptor: string | null;
         failureCode: string | null;
@@ -3228,7 +3610,7 @@ type ChargeRetrieveResponse = {
         amountCapturedMinor: number;
         amountRefundedMinor: number;
         currency: string;
-        status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded' | 'partially_refunded' | 'voided';
+        status: "pending" | "processing" | "succeeded" | "failed" | "refunded" | "partially_refunded" | "voided";
         description: string;
         statementDescriptor: string | null;
         failureCode: string | null;
@@ -3256,7 +3638,7 @@ type ChargeCaptureResponse = {
         amountCapturedMinor: number;
         amountRefundedMinor: number;
         currency: string;
-        status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded' | 'partially_refunded' | 'voided';
+        status: "pending" | "processing" | "succeeded" | "failed" | "refunded" | "partially_refunded" | "voided";
         description: string;
         statementDescriptor: string | null;
         failureCode: string | null;
@@ -3284,7 +3666,7 @@ type ChargeRefundResponse = {
         amountCapturedMinor: number;
         amountRefundedMinor: number;
         currency: string;
-        status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded' | 'partially_refunded' | 'voided';
+        status: "pending" | "processing" | "succeeded" | "failed" | "refunded" | "partially_refunded" | "voided";
         description: string;
         statementDescriptor: string | null;
         failureCode: string | null;
@@ -3300,21 +3682,35 @@ type ChargeRefundResponse = {
     };
 };
 /**
+ * Merchant billing snapshot: overdue invoices, dunning subscriptions, and usage invoices.
+ */
+type BillingOverviewResponse = {
+    overdue_invoices: {
+        count: number;
+        totals: Array<BillingOverviewResponseOverdueInvoicesTotalsInner>;
+        items: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    dunning: {
+        count: number;
+        items: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    usage: {
+        count: number;
+        items: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+};
+/**
  * A preview of upcoming billing charges for a subscription, showing line items, amounts, and billing dates.
  */
 type BillingPreviewResponse = {
     data: {
-        items: Array<{
-            sequence: number;
-            date: string;
-            formattedDate: string;
-            dayName: string;
-            amountMinor: number;
-            formattedAmount: string;
-            isTrialEnd?: boolean;
-            isFirstCharge?: boolean;
-            isFinalPayment?: boolean;
-        }>;
+        items: Array<SubscriptionPreviewRenewalResponseDataUpcomingRenewalsInner>;
         summary: string;
         totalAmountMinor: number;
         firstChargeDate: string;
@@ -3355,7 +3751,7 @@ type BillingAnchorRulesResponse = {
  * A paginated list of prices matching the query filters.
  */
 type PriceListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<Price>;
     has_more: boolean;
     total_count?: number;
@@ -3371,7 +3767,7 @@ type Price = {
     /**
      * Object type
      */
-    object: 'price';
+    object: "price";
     /**
      * ID of the product this price belongs to
      */
@@ -3395,15 +3791,15 @@ type Price = {
     /**
      * Price type
      */
-    type: 'one_time' | 'recurring';
+    type: "one_time" | "recurring";
     /**
      * Pricing model
      */
-    pricing_model: 'fixed' | 'pay_what_you_want' | 'free';
+    pricing_model: "fixed" | "pay_what_you_want" | "free";
     /**
      * Billing interval (recurring only)
      */
-    interval?: 'day' | 'week' | 'month' | 'year' | null;
+    interval?: "day" | "week" | "month" | "year" | null;
     /**
      * Number of intervals between billings
      */
@@ -3415,7 +3811,7 @@ type Price = {
     /**
      * First-charge behavior for recurring checkout. `immediate`: full first period now. `next_anchor`: first charge on the billing anchor. `prorate`: prorated stub now, then full charge on the billing anchor.
      */
-    start_rule?: 'immediate' | 'next_anchor' | 'prorate' | null;
+    start_rule?: "immediate" | "next_anchor" | "prorate" | null;
     /**
      * PWYW: minimum amount in cents
      */
@@ -3455,11 +3851,11 @@ type Price = {
     /**
      * Billing scheme. Defaults to `per_unit`. Set to `tiered` along with `tiers_mode` + `tiers` to use graduated or volume pricing.
      */
-    billing_scheme: 'per_unit' | 'tiered' | 'percentage';
+    billing_scheme: "per_unit" | "tiered" | "percentage";
     /**
      * Tiered pricing mode. Required when `billing_scheme` is `tiered`, must be null otherwise.
      */
-    tiers_mode?: 'graduated' | 'volume' | null;
+    tiers_mode?: "graduated" | "volume" | null;
     /**
      * Price tiers (ordered by `up_to`). Present only when `billing_scheme` is `tiered`. At least 2 tiers, final tier MUST have `up_to: null`. Immutable after creation.
      */
@@ -3475,7 +3871,7 @@ type Price = {
         /**
          * Rounding mode when quantity is not an exact multiple of `divide_by`.
          */
-        round: 'up' | 'down';
+        round: "up" | "down";
     } | null;
     /**
      * Rate in basis points (70 = 0.7%). Present only when `billing_scheme` is `percentage`. Null for `per_unit` and `tiered` prices.
@@ -3489,6 +3885,20 @@ type Price = {
      * Minimum minor-unit amount applied to each pay-in-advance usage drawdown when set.
      */
     spending_minimum_cents?: number | null;
+    /**
+     * The variant's options, e.g. {"Colour":"Navy","Size":"M"}. Null when the price is not a variant.
+     */
+    option_values?: {
+        [key: string]: string;
+    } | null;
+    /**
+     * The variant's SKU (what to pack). Unique per merchant among active prices.
+     */
+    sku?: string | null;
+    /**
+     * The variant's image (storage key or URL), one of the product's images.
+     */
+    image_url?: string | null;
     /**
      * Custom key-value metadata
      */
@@ -3510,7 +3920,7 @@ type PriceTier = {
      */
     up_to: number | null;
     /**
-     * Per-unit charge in minor currency units (cents). May be null if the tier charges only a flat fee, or (REV-6249) when the rate is sub-penny and carried by `unit_amount_decimal`.
+     * Per-unit charge in minor currency units (cents). May be null if the tier charges only a flat fee, or when the rate is sub-penny and carried by `unit_amount_decimal`.
      */
     unit_amount_minor: number | null;
     /**
@@ -3552,15 +3962,15 @@ type CreatePriceRequest = {
     /**
      * Price type
      */
-    type?: 'one_time' | 'recurring';
+    type?: "one_time" | "recurring";
     /**
      * Pricing model
      */
-    pricing_model?: 'fixed' | 'pay_what_you_want' | 'free';
+    pricing_model?: "fixed" | "pay_what_you_want" | "free";
     /**
      * Billing interval (required for recurring)
      */
-    interval?: 'day' | 'week' | 'month' | 'year';
+    interval?: "day" | "week" | "month" | "year";
     /**
      * Number of intervals between billings (1-12)
      */
@@ -3572,7 +3982,7 @@ type CreatePriceRequest = {
     /**
      * First-charge behavior for recurring checkout. `immediate`: full first period now. `next_anchor`: first charge on the billing anchor. `prorate`: prorated stub now, then full charge on the billing anchor.
      */
-    start_rule?: 'immediate' | 'next_anchor' | 'prorate';
+    start_rule?: "immediate" | "next_anchor" | "prorate";
     /**
      * PWYW: minimum amount in cents
      */
@@ -3608,11 +4018,11 @@ type CreatePriceRequest = {
     /**
      * Billing scheme. Defaults to `per_unit`. Set to `tiered` with `tiers_mode` + `tiers` for graduated or volume pricing.
      */
-    billing_scheme?: 'per_unit' | 'tiered' | 'percentage';
+    billing_scheme?: "per_unit" | "tiered" | "percentage";
     /**
      * Tiered pricing mode. Required when `billing_scheme` is `tiered`, must be omitted otherwise.
      */
-    tiers_mode?: 'graduated' | 'volume';
+    tiers_mode?: "graduated" | "volume";
     /**
      * Price tiers (ordered by `up_to`, min 2, max 50). Required when `billing_scheme` is `tiered`. Final tier MUST have `up_to: null`.
      */
@@ -3640,7 +4050,7 @@ type TransformQuantity = {
     /**
      * Rounding mode when quantity is not an exact multiple of `divide_by`.
      */
-    round: 'up' | 'down';
+    round: "up" | "down";
 };
 /**
  * Parameters for updating an existing price. Amounts cannot be changed — archive and create a new price instead.
@@ -3690,6 +4100,20 @@ type MeterListResponse = {
     };
 };
 /**
+ * Bucketed meter quantities over the requested window.
+ */
+type MeterQuantitiesResponse = {
+    object: "meter_quantities";
+    meter_id: string;
+    start_timestamp: string;
+    end_timestamp: string;
+    interval: "hour" | "day" | "week" | "month" | "year";
+    quantities: Array<{
+        timestamp: string;
+        quantity: number;
+    }>;
+};
+/**
  * Error response returned when a meter operation fails.
  */
 type MeterError = {
@@ -3735,7 +4159,7 @@ type CreateMeterRequest = {
     /**
      * Aggregation method
      */
-    aggregation?: 'sum' | 'count' | 'count_unique' | 'max' | 'last';
+    aggregation?: "sum" | "count" | "count_unique" | "max" | "last";
     /**
      * URL-safe identifier
      */
@@ -3766,6 +4190,10 @@ type CreateMeterRequest = {
      * Display unit name
      */
     unit_name?: string;
+    /**
+     * UN/ECE Rec 20 code. Omitted => C62. unit_name remains the display label.
+     */
+    unit_of_measure_code?: "C62" | "E48" | "HUR" | "DAY" | "MON" | "ANN" | "GB" | "MB" | "KGM" | "LTR";
     /**
      * Carry forward last value across periods
      */
@@ -3811,7 +4239,7 @@ type UpdateMeterRequest = {
     /**
      * Meter status
      */
-    status?: 'active' | 'archived' | 'draft';
+    status?: "active" | "archived" | "draft";
     /**
      * Updated value key
      */
@@ -3834,6 +4262,10 @@ type UpdateMeterRequest = {
      * Updated unit name
      */
     unit_name?: string;
+    /**
+     * Updated UN/ECE Rec 20 code. Does not rewrite historical match/line snapshots.
+     */
+    unit_of_measure_code?: "C62" | "E48" | "HUR" | "DAY" | "MON" | "ANN" | "GB" | "MB" | "KGM" | "LTR";
     /**
      * Updated carry forward setting
      */
@@ -3876,7 +4308,7 @@ type CreateMeterPriceRequest = {
     /**
      * Pricing model. 'percentage' charges a basis-points percentage of the metered amount (REV-3465); other models charge per unit, graduated tiers, volume tiers, or packages.
      */
-    pricing_model: 'per_unit' | 'graduated' | 'volume' | 'package' | 'percentage';
+    pricing_model: "per_unit" | "graduated" | "volume" | "package" | "percentage";
     /**
      * ISO 4217 currency code. A usage-based subscription has one currency; metered events attributed to it are assumed to be in this currency and are not FX-converted by RevKeen.
      */
@@ -3994,178 +4426,72 @@ type UpdateMeterPriceRequest = {
      */
     percentage_rate_bps?: number;
 };
-/**
- * A paginated list of tax rates.
- */
-type TaxRateListResponse = {
-    object: 'list';
-    data: Array<TaxRate>;
+type InvoiceLineUsageEventsList = {
+    object?: "list";
+    data: Array<InvoiceLineUsageEventProvenanceItem>;
     has_more: boolean;
-    total_count?: number;
-};
-/**
- * A manually configured tax rate applied to invoices and charges. For automatic tax calculation, use the Quaderno integration instead.
- */
-type TaxRate = {
-    /**
-     * Unique identifier for the tax rate
-     */
-    id: string;
-    /**
-     * Object type
-     */
-    object: 'tax_rate';
-    /**
-     * Display name for the tax rate
-     */
-    display_name: string;
-    /**
-     * Description of the tax rate
-     */
-    description?: string | null;
-    /**
-     * Tax jurisdiction (e.g., 'US-CA', 'DE', 'GB')
-     */
-    jurisdiction?: string | null;
-    /**
-     * Tax percentage (e.g., 8.25 for 8.25%)
-     */
-    percentage: number;
-    /**
-     * Whether tax is included in displayed price (EU style)
-     */
-    inclusive: boolean;
-    /**
-     * Type of tax
-     */
-    tax_type: 'vat' | 'sales_tax' | 'gst' | 'other';
-    /**
-     * ISO country code
-     */
-    country?: string | null;
-    /**
-     * State/province code
-     */
-    state?: string | null;
-    /**
-     * Whether the tax rate is active
-     */
-    active: boolean;
-    /**
-     * Custom key-value metadata
-     */
-    metadata?: {
-        [key: string]: unknown;
+    url?: string;
+    line: {
+        id: string;
+        invoice_id: string;
+        meter_id: string | null;
+        usage_record_id: string | null;
+        unit_amount_minor: number;
+        total_amount_minor: number;
+        currency: string;
+        usage_quantity: string | null;
+        billed_amount_minor_sum: number;
     };
-    /**
-     * Creation timestamp
-     */
-    created_at: string;
-    /**
-     * Last update timestamp
-     */
-    updated_at: string;
 };
-/**
- * Error response returned when a tax rate operation fails.
- */
-type TaxRateErrorResponse = {
-    error: {
-        type: string;
-        code: string;
+type InvoiceLineUsageEventProvenanceItem = {
+    outcome: "matched" | "excluded";
+    exclusion_reason?: string | null;
+    entry?: {
+        id: string;
+        amount_minor: number;
+        /**
+         * Unrounded amount in minor units as a decimal string (REV-6211). Not integer cents; sub-penny rates stay exact. Null means not computable for this pricing scheme; never coerce to 0.
+         */
+        precise_amount_minor: string | null;
+        quantity: string;
+        currency: string | null;
+        rating_version: number;
+        price_id: string;
+        price_terms_hash: string | null;
+    } | null;
+    match?: {
+        id: string;
+        meter_id: string;
+        meter_definition_version: number;
+        aggregation: string;
+        resolved_quantity: string;
+        unit_of_measure_code: string | null;
+    } | null;
+    event: {
+        id: string;
+        event_name: string | null;
+        event_time: string | null;
+        quantity: string;
+        idempotency_key: string | null;
+    };
+};
+type InvoiceLineUsageEventsError = {
+    error: string | {
         message: string;
-        param?: string;
-    };
-};
-/**
- * Parameters for creating a new tax rate with a percentage and jurisdiction details.
- */
-type CreateTaxRateRequest = {
-    /**
-     * Display name for the tax rate
-     */
-    display_name: string;
-    /**
-     * Description of the tax rate
-     */
-    description?: string;
-    /**
-     * Tax jurisdiction (e.g., 'US-CA', 'DE', 'GB')
-     */
-    jurisdiction?: string;
-    /**
-     * Tax percentage (e.g., 8.25 for 8.25%)
-     */
-    percentage: number;
-    /**
-     * Whether tax is included in displayed price
-     */
-    inclusive?: boolean;
-    /**
-     * Type of tax
-     */
-    tax_type?: 'vat' | 'sales_tax' | 'gst' | 'other';
-    /**
-     * ISO 2-letter country code
-     */
-    country?: string;
-    /**
-     * State/province code
-     */
-    state?: string;
-    /**
-     * Custom key-value metadata
-     */
-    metadata?: {
-        [key: string]: unknown;
-    };
-};
-/**
- * Parameters for updating a tax rate. Active tax rates on existing invoices are not retroactively changed.
- */
-type UpdateTaxRateRequest = {
-    /**
-     * Display name for the tax rate
-     */
-    display_name?: string;
-    /**
-     * Description of the tax rate
-     */
-    description?: string | null;
-    /**
-     * Tax jurisdiction
-     */
-    jurisdiction?: string | null;
-    /**
-     * ISO 2-letter country code
-     */
-    country?: string | null;
-    /**
-     * State/province code
-     */
-    state?: string | null;
-    /**
-     * Whether the tax rate is active
-     */
-    active?: boolean;
-    /**
-     * Custom key-value metadata
-     */
-    metadata?: {
-        [key: string]: unknown;
+        type: string;
     };
 };
 /**
  * A paginated list of orders matching the query filters.
  */
 type OrderListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<Order>;
     has_more: boolean;
     total_count?: number;
 };
 /**
- * An order represents a one-off purchase with lifecycle operations: create, pay, cancel, and fulfill.
+ * An order represents a one-off purchase, created when a checkout is fulfilled, with lifecycle operations: update, cancel, and fulfill.
  */
 type Order = {
     /**
@@ -4175,7 +4501,7 @@ type Order = {
     /**
      * Object type
      */
-    object: 'order';
+    object: "order";
     /**
      * Public-facing order ID
      */
@@ -4187,15 +4513,15 @@ type Order = {
     /**
      * Order status. draft: Being built. pending: Awaiting payment. paid: Fully paid. partially_paid: Partial payment received. refunded: Refunded. canceled: Canceled. fulfilled: Shipped/delivered.
      */
-    status: 'draft' | 'pending' | 'paid' | 'partially_paid' | 'refunded' | 'canceled' | 'fulfilled';
+    status: "draft" | "pending" | "paid" | "partially_paid" | "refunded" | "canceled" | "fulfilled";
     /**
      * Billing type. one_time: Single purchase. recurring: Subscription-based.
      */
-    billing_type: 'one_time' | 'recurring';
+    billing_type: "one_time" | "recurring";
     /**
      * Fulfillment status for physical goods.
      */
-    fulfillment_status?: 'unfulfilled' | 'partial' | 'fulfilled' | 'returned' | null;
+    fulfillment_status?: "unfulfilled" | "partial" | "fulfilled" | "returned" | null;
     /**
      * Three-letter ISO currency code
      */
@@ -4286,6 +4612,23 @@ type OrderLineItem = {
         [key: string]: unknown;
     };
     position?: number;
+    /**
+     * How this line is fulfilled
+     */
+    fulfillment_type?: "none" | "physical" | "digital";
+    /**
+     * Fulfilment state of this line; processing means partly shipped
+     */
+    fulfillment_status?: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+    /**
+     * Units of this line shipped so far
+     */
+    fulfilled_quantity?: number;
+    tracking_number?: string | null;
+    tracking_url?: string | null;
+    carrier?: string | null;
+    shipped_at?: string | null;
+    delivered_at?: string | null;
 };
 /**
  * Error response returned when an order operation fails.
@@ -4299,63 +4642,6 @@ type OrderErrorResponse = {
     };
 };
 /**
- * Parameters for creating a new order with line items and customer association.
- */
-type CreateOrderRequest = {
-    /**
-     * Customer ID (optional for guest orders)
-     */
-    customer_id?: string;
-    /**
-     * Three-letter ISO currency code
-     */
-    currency?: string;
-    /**
-     * Billing type. one_time: Single purchase. recurring: Subscription-based.
-     */
-    billing_type?: 'one_time' | 'recurring';
-    /**
-     * Order line items (at least one required)
-     */
-    line_items: Array<{
-        /**
-         * Product ID (optional for ad-hoc items)
-         */
-        product_id?: string;
-        description: string;
-        quantity?: number;
-        /**
-         * Unit price in cents
-         */
-        unit_price: number;
-        /**
-         * Custom key-value metadata
-         */
-        metadata?: {
-            [key: string]: unknown;
-        };
-    }>;
-    /**
-     * Custom key-value metadata
-     */
-    metadata?: {
-        [key: string]: unknown;
-    };
-    notes?: string;
-    /**
-     * Expiration timestamp for the order
-     */
-    expires_at?: string;
-    /**
-     * ID of the linked invoice (Commercial Truth)
-     */
-    invoice_id?: string;
-    /**
-     * ID of the linked subscription (for recurring fulfillment)
-     */
-    subscription_id?: string;
-};
-/**
  * Parameters for updating order metadata or notes before fulfillment.
  */
 type UpdateOrderRequest = {
@@ -4367,23 +4653,6 @@ type UpdateOrderRequest = {
         [key: string]: unknown;
     };
     notes?: string | null;
-};
-/**
- * Parameters for paying an order, specifying the payment method and optional partial amount.
- */
-type PayOrderRequest = {
-    /**
-     * Saved payment method ID
-     */
-    payment_method_id?: string;
-    /**
-     * One-time payment token
-     */
-    payment_token?: string;
-    /**
-     * Partial payment amount in cents (defaults to full amount_due)
-     */
-    amount?: number;
 };
 /**
  * Parameters for canceling an order before fulfillment.
@@ -4407,9 +4676,17 @@ type FulfillOrderRequest = {
      */
     carrier?: string;
     /**
-     * Specific line items to fulfill (defaults to all)
+     * Specific line items to fulfill, each in full (defaults to every unfulfilled line)
      */
     line_item_ids?: Array<string>;
+    /**
+     * Carrier tracking link
+     */
+    tracking_url?: string;
+    /**
+     * Mark the lines shipped (default) or delivered
+     */
+    status?: "shipped" | "delivered";
     /**
      * Send fulfillment notification to customer
      */
@@ -4419,7 +4696,7 @@ type FulfillOrderRequest = {
  * A paginated list of payments matching the query filters.
  */
 type PaymentListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<Payment>;
     has_more: boolean;
     total_count?: number;
@@ -4435,7 +4712,7 @@ type Payment = {
     /**
      * Object type
      */
-    object: 'payment';
+    object: "payment";
     /**
      * Associated invoice ID
      */
@@ -4447,7 +4724,7 @@ type Payment = {
     /**
      * Payment status. pending: Processing. authorized: Funds reserved. captured/succeeded: Funds collected. failed: Payment failed. voided: Canceled before capture. refunded/partially_refunded: Returned to customer.
      */
-    status: 'pending' | 'authorized' | 'captured' | 'succeeded' | 'failed' | 'voided' | 'refunded' | 'partially_refunded';
+    status: "pending" | "authorized" | "captured" | "succeeded" | "failed" | "voided" | "refunded" | "partially_refunded";
     /**
      * Three-letter ISO currency code
      */
@@ -4495,11 +4772,11 @@ type Payment = {
     /**
      * Payment channel. card_present: terminal/POS payment. card_not_present: online or recurring payment. bank_transfer: ACH/direct debit. manual: manually recorded.
      */
-    payment_channel?: 'card_present' | 'card_not_present' | 'bank_transfer' | 'manual' | null;
+    payment_channel?: "card_present" | "card_not_present" | "bank_transfer" | "manual" | null;
     /**
      * Card entry mode for card-present (terminal) payments. null for online payments.
      */
-    entry_mode?: 'emv_chip' | 'contactless' | 'magnetic_stripe' | 'manual_entry' | 'fallback' | null;
+    entry_mode?: "emv_chip" | "contactless" | "magnetic_stripe" | "manual_entry" | "fallback" | null;
     /**
      * Custom key-value metadata
      */
@@ -4542,9 +4819,54 @@ type CancelPaymentRequest = {
      */
     reason?: string;
 };
+/**
+ * The standard error response envelope. All API errors follow this structure with a machine-readable type and code for programmatic handling, and a human-readable message for debugging.
+ */
+type ApiError = {
+    error: {
+        /**
+         * The type of error returned
+         */
+        type: "invalid_request_error" | "authentication_error" | "authorization_error" | "card_error" | "rate_limit_error" | "api_error" | "idempotency_error";
+        /**
+         * Machine-readable error code for programmatic handling
+         */
+        code: string;
+        /**
+         * Human-readable error message
+         */
+        message: string;
+        /**
+         * The parameter that caused the error
+         */
+        param?: string;
+        /**
+         * HTTP status code
+         */
+        status_code?: number;
+        /**
+         * Unique request identifier for debugging
+         */
+        request_id?: string;
+        /**
+         * Additional context about the error
+         */
+        details?: {
+            [key: string]: unknown;
+        };
+        /**
+         * Card decline code from the payment processor
+         */
+        decline_code?: string;
+        /**
+         * URL to documentation about this error
+         */
+        doc_url?: string;
+    };
+};
 type AccountingInvoicePaymentRequest = {
     id: string;
-    object: 'accounting_invoice_payment_request';
+    object: "accounting_invoice_payment_request";
     merchant_id: string;
     provider: string;
     connection_id: string;
@@ -4581,7 +4903,7 @@ type AccountingInvoicePaymentRequest = {
  * Create an accounting-led invoice payment request and mint/reuse a checkout session.
  */
 type CreateAccountingInvoicePaymentRequestInput = {
-    provider: 'quickbooks_online' | 'xero';
+    provider: "quickbooks_online" | "xero";
     connection_id: string;
     provider_account_id: string;
     external_invoice: {
@@ -4606,7 +4928,7 @@ type CreateAccountingInvoicePaymentRequestInput = {
     checkout?: {
         success_url?: string | null;
         cancel_url?: string | null;
-        allowed_methods?: Array<'card' | 'direct_debit' | 'pay_by_bank' | 'in_store'> | null;
+        allowed_methods?: Array<"card" | "direct_debit" | "in_store"> | null;
     } | null;
     payload_fingerprint?: string | null;
     provider_metadata?: {
@@ -4636,7 +4958,7 @@ type WebhookEndpoint = {
     /**
      * Whether the endpoint is currently receiving events
      */
-    status: 'enabled' | 'disabled';
+    status: "enabled" | "disabled";
     /**
      * Signing secret. Returned only on create or secret rotation.
      */
@@ -4644,7 +4966,7 @@ type WebhookEndpoint = {
     /**
      * Circuit breaker status. Opens after repeated delivery failures.
      */
-    circuit_breaker_state: 'closed' | 'open' | 'half_open';
+    circuit_breaker_state: "closed" | "open" | "half_open";
     /**
      * Total number of delivery attempts
      */
@@ -4671,7 +4993,7 @@ type WebhookEndpoint = {
     updated_at: string;
 };
 type WebhookDeliveryListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<WebhookDelivery>;
     has_more: boolean;
     url: string;
@@ -4681,7 +5003,7 @@ type WebhookDeliveryListResponse = {
  */
 type WebhookDelivery = {
     id: string;
-    object: 'webhook_delivery';
+    object: "webhook_delivery";
     endpoint_id: string;
     /**
      * The event this delivery attempted to send.
@@ -4691,7 +5013,7 @@ type WebhookDelivery = {
     /**
      * Delivery state. pending: queued or retrying. succeeded: 2xx response received. failed: last attempt failed, may retry based on attempts/max_attempts. dead_lettered: max attempts exhausted, will not retry automatically.
      */
-    status: 'pending' | 'succeeded' | 'failed' | 'dead_lettered';
+    status: "pending" | "succeeded" | "failed" | "dead_lettered";
     attempts: number;
     max_attempts: number;
     /**
@@ -4753,7 +5075,7 @@ type PortalCustomerResponse = {
  */
 type PortalCustomer = {
     id: string;
-    object: 'customer';
+    object: "customer";
     email: string | null;
     name: string | null;
     phone: string | null;
@@ -4763,7 +5085,7 @@ type PortalCustomer = {
     created_at: string;
 };
 type PortalSubscriptionList = {
-    object: 'list';
+    object: "list";
     data: Array<PortalSubscription>;
     has_more: boolean;
     url: string;
@@ -4773,7 +5095,7 @@ type PortalSubscriptionList = {
  */
 type PortalSubscription = {
     id: string;
-    object: 'subscription';
+    object: "subscription";
     status: string;
     currency: string | null;
     amount_minor: number | null;
@@ -4806,7 +5128,7 @@ type CancelSubscriptionRequest = {
     reason?: string;
 };
 type PortalInvoiceList = {
-    object: 'list';
+    object: "list";
     data: Array<PortalInvoice>;
     has_more: boolean;
     url: string;
@@ -4816,7 +5138,7 @@ type PortalInvoiceList = {
  */
 type PortalInvoice = {
     id: string;
-    object: 'invoice';
+    object: "invoice";
     invoice_number: string | null;
     status: string;
     currency: string | null;
@@ -4835,7 +5157,7 @@ type PortalInvoiceResponse = {
     data: PortalInvoice;
 };
 type PortalMandateList = {
-    object: 'list';
+    object: "list";
     data: Array<PortalMandate>;
     has_more: boolean;
     url: string;
@@ -4845,7 +5167,7 @@ type PortalMandateList = {
  */
 type PortalMandate = {
     id: string;
-    object: 'mandate';
+    object: "mandate";
     status: string;
     account_holder_name: string | null;
     account_number_last4: string | null;
@@ -4877,7 +5199,7 @@ type PortalReauthorizeVerifyOtpRequest = {
     code: string;
 };
 type CustomerMeterList = {
-    object: 'list';
+    object: "list";
     data: Array<CustomerMeter>;
     /**
      * Customer-meter list responses are not paginated — every meter the merchant has is returned for the specified customer.
@@ -4889,7 +5211,7 @@ type CustomerMeterList = {
  * An on-the-fly aggregate of a customer's consumption for a single meter. RevKeen computes this live from `usage_events` — there is no separate `customer_meters` table to keep in sync.
  */
 type CustomerMeter = {
-    object: 'customer_meter';
+    object: "customer_meter";
     customer_id: string;
     meter_id: string;
     meter_name: string;
@@ -4939,7 +5261,7 @@ type PaymentIntent = {
     /**
      * Object type
      */
-    object: 'payment_intent';
+    object: "payment_intent";
     /**
      * Amount in cents
      */
@@ -4980,19 +5302,7 @@ type PaymentIntent = {
          * Card decline code if applicable
          */
         decline_code?: string;
-        /**
-         * Payment method that caused the error
-         */
-        payment_method?: {
-            /**
-             * Payment method ID
-             */
-            id: string;
-            /**
-             * Payment method type
-             */
-            type: string;
-        };
+        payment_method?: PaymentIntentLastPaymentErrorPaymentMethod;
     } | null;
     /**
      * Custom key-value metadata
@@ -5007,20 +5317,8 @@ type PaymentIntent = {
         /**
          * Type of action required
          */
-        type: 'redirect_to_url' | 'use_stripe_sdk' | 'display_bank_transfer_instructions';
-        /**
-         * Present when type is redirect_to_url
-         */
-        redirect_to_url?: {
-            /**
-             * URL to redirect customer for 3DS authentication
-             */
-            url: string;
-            /**
-             * URL to return to after 3DS
-             */
-            return_url: string;
-        };
+        type: "redirect_to_url" | "use_stripe_sdk" | "display_bank_transfer_instructions";
+        redirect_to_url?: PaymentIntentNextActionRedirectToUrl;
     } | null;
     /**
      * Payment method ID
@@ -5041,11 +5339,11 @@ type PaymentIntent = {
     /**
      * Payment intent status. requires_payment_method: Needs payment method. requires_confirmation: Ready to confirm. requires_action: Requires customer action (3DS). processing: Being processed. succeeded: Payment complete. canceled: Canceled.
      */
-    status: 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'processing' | 'succeeded' | 'canceled';
+    status: "requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "succeeded" | "canceled";
     /**
      * Capture method. automatic: Capture immediately on confirmation. manual: Authorize then capture separately.
      */
-    capture_method: 'automatic' | 'manual';
+    capture_method: "automatic" | "manual";
     /**
      * Client secret for frontend confirmation
      */
@@ -5057,7 +5355,7 @@ type PaymentIntent = {
     /**
      * Why the intent was canceled
      */
-    cancellation_reason?: 'duplicate' | 'fraudulent' | 'requested_by_customer' | 'abandoned' | 'failed_invoice' | null;
+    cancellation_reason?: "duplicate" | "fraudulent" | "requested_by_customer" | "abandoned" | "failed_invoice" | null;
     /**
      * Unix timestamp of creation
      */
@@ -5099,7 +5397,7 @@ type CreatePaymentIntentRequest = {
      */
     amount: number;
     /**
-     * Three-letter ISO currency code. Defaults to USD.
+     * Three-letter ISO currency code. Defaults to the merchant's default currency.
      */
     currency?: string;
     /**
@@ -5113,7 +5411,7 @@ type CreatePaymentIntentRequest = {
     /**
      * Capture method. Defaults to automatic.
      */
-    capture_method?: 'automatic' | 'manual';
+    capture_method?: "automatic" | "manual";
     /**
      * Description for merchant reference
      */
@@ -5145,7 +5443,7 @@ type CreatePaymentIntentRequest = {
  * A paginated list of payment intents matching the query filters.
  */
 type PaymentIntentListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<PaymentIntent>;
     has_more: boolean;
     /**
@@ -5221,7 +5519,7 @@ type CancelPaymentIntentRequest = {
     /**
      * Reason for cancellation
      */
-    cancellation_reason?: 'duplicate' | 'fraudulent' | 'requested_by_customer' | 'abandoned' | 'failed_invoice';
+    cancellation_reason?: "duplicate" | "fraudulent" | "requested_by_customer" | "abandoned" | "failed_invoice";
 };
 /**
  * A SetupIntent saves a payment method for future use WITHOUT charging the customer. Use it to collect and verify card details before storing them.
@@ -5234,7 +5532,7 @@ type SetupIntent = {
     /**
      * Object type, always 'setup_intent'
      */
-    object: 'setup_intent';
+    object: "setup_intent";
     /**
      * Public ID visible in API responses (seti_xxx format)
      */
@@ -5242,7 +5540,7 @@ type SetupIntent = {
     /**
      * The status of the setup intent
      */
-    status: 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'processing' | 'succeeded' | 'canceled';
+    status: "requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "succeeded" | "canceled";
     /**
      * ID of the customer this setup intent is for
      */
@@ -5258,7 +5556,7 @@ type SetupIntent = {
     /**
      * Indicates how the payment method will be used
      */
-    usage: 'on_session' | 'off_session';
+    usage: "on_session" | "off_session";
     next_action: SetupIntentNextAction;
     /**
      * Client secret for frontend confirmation
@@ -5272,7 +5570,7 @@ type SetupIntent = {
     /**
      * Reason for cancellation if canceled
      */
-    cancellation_reason: 'abandoned' | 'requested_by_customer' | 'duplicate' | null;
+    cancellation_reason: "abandoned" | "requested_by_customer" | "duplicate" | null;
     /**
      * Merchant description for reference
      */
@@ -5307,7 +5605,7 @@ type SetupIntentNextAction = {
     /**
      * The type of action to take
      */
-    type: 'redirect_to_url' | 'use_stripe_sdk';
+    type: "redirect_to_url" | "use_stripe_sdk";
     /**
      * Redirect details for 3DS authentication
      */
@@ -5367,7 +5665,7 @@ type CreateSetupIntentRequest = {
     /**
      * How the payment method will be used
      */
-    usage?: 'on_session' | 'off_session';
+    usage?: "on_session" | "off_session";
     /**
      * Merchant description for reference
      */
@@ -5386,7 +5684,7 @@ type SetupIntentList = {
     /**
      * Object type, always 'list'
      */
-    object: 'list';
+    object: "list";
     /**
      * Array of setup intents
      */
@@ -5447,7 +5745,7 @@ type CancelSetupIntentRequest = {
     /**
      * Reason for cancellation
      */
-    cancellation_reason?: 'abandoned' | 'requested_by_customer' | 'duplicate';
+    cancellation_reason?: "abandoned" | "requested_by_customer" | "duplicate";
 };
 /**
  * A list of payment methods attached to a customer, with optional type filtering.
@@ -5456,7 +5754,7 @@ type PaymentMethodList = {
     /**
      * Object type, always 'list'
      */
-    object: 'list';
+    object: "list";
     /**
      * Array of payment methods
      */
@@ -5495,7 +5793,7 @@ type AttachPaymentMethodRequest = {
  * A paginated list of events matching the query filters.
  */
 type EventListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<Event>;
     has_more: boolean;
     /**
@@ -5514,7 +5812,7 @@ type Event = {
     /**
      * Object type
      */
-    object: 'event';
+    object: "event";
     /**
      * Event type (e.g., invoice.paid, payment.succeeded)
      */
@@ -5624,7 +5922,7 @@ type CreateTestEventRequest = {
     /**
      * The type of test event to create
      */
-    type: 'checkout.session.completed' | 'checkout.session.expired' | 'checkout.session.async_payment_succeeded' | 'checkout.session.async_payment_failed' | 'invoice.created' | 'invoice.finalized' | 'invoice.paid' | 'invoice.payment_failed' | 'invoice.voided' | 'invoice.marked_uncollectible' | 'invoice.upcoming' | 'invoice.sent' | 'payment.succeeded' | 'payment.failed' | 'payment.refunded' | 'payment.disputed' | 'payment_intent.created' | 'payment_intent.succeeded' | 'payment_intent.payment_failed' | 'payment_intent.canceled' | 'payment_intent.requires_action' | 'payment_method.attached' | 'payment_method.detached' | 'payment_method.updated' | 'subscription.created' | 'subscription.updated' | 'subscription.canceled' | 'subscription.paused' | 'subscription.resumed' | 'subscription.trial_will_end' | 'subscription.renewed' | 'customer.created' | 'customer.updated' | 'customer.deleted' | 'refund.created' | 'refund.updated' | 'refund.failed' | 'dispute.created' | 'dispute.updated' | 'dispute.closed' | 'order.created' | 'order.paid' | 'order.canceled';
+    type: "checkout.session.completed" | "checkout.session.expired" | "checkout.session.async_payment_succeeded" | "checkout.session.async_payment_failed" | "invoice.created" | "invoice.finalized" | "invoice.paid" | "invoice.payment_failed" | "invoice.voided" | "invoice.marked_uncollectible" | "invoice.upcoming" | "invoice.sent" | "payment.succeeded" | "payment.failed" | "payment.refunded" | "payment.disputed" | "payment_intent.created" | "payment_intent.succeeded" | "payment_intent.payment_failed" | "payment_intent.canceled" | "payment_intent.requires_action" | "payment_method.attached" | "payment_method.detached" | "payment_method.updated" | "subscription.created" | "subscription.updated" | "subscription.canceled" | "subscription.paused" | "subscription.resumed" | "subscription.trial_will_end" | "subscription.renewed" | "customer.created" | "customer.updated" | "customer.deleted" | "refund.created" | "refund.updated" | "refund.failed" | "dispute.created" | "dispute.updated" | "dispute.closed" | "order.created" | "order.paid" | "order.canceled";
 };
 /**
  * A subscription schedule defines future changes to a subscription. Each phase specifies different pricing, quantities, or plans that take effect at specified dates.
@@ -5637,11 +5935,11 @@ type SubscriptionSchedule = {
     /**
      * Object type
      */
-    object: 'subscription_schedule';
+    object: "subscription_schedule";
     /**
      * Schedule status. not_started: Scheduled for future. active: Currently executing phases. completed: All phases finished. canceled: Manually canceled. released: Detached from subscription.
      */
-    status: 'not_started' | 'active' | 'completed' | 'canceled' | 'released';
+    status: "not_started" | "active" | "completed" | "canceled" | "released";
     /**
      * Customer ID
      */
@@ -5670,7 +5968,7 @@ type SubscriptionSchedule = {
     /**
      * What happens when the schedule completes. cancel: Cancel the subscription. release: Make subscription standalone.
      */
-    end_behavior: 'cancel' | 'release';
+    end_behavior: "cancel" | "release";
     /**
      * When released (Unix timestamp)
      */
@@ -5713,7 +6011,7 @@ type SchedulePhase = {
     /**
      * How to handle prorations when entering this phase
      */
-    proration_behavior?: 'create_prorations' | 'none' | 'always_invoice';
+    proration_behavior?: "create_prorations" | "none" | "always_invoice";
     /**
      * Override billing cycle anchor for this phase
      */
@@ -5725,7 +6023,7 @@ type SchedulePhase = {
     /**
      * How to collect payment for this phase
      */
-    collection_method?: 'charge_automatically' | 'send_invoice';
+    collection_method?: "charge_automatically" | "send_invoice";
     /**
      * Coupon code to apply during this phase
      */
@@ -5792,7 +6090,7 @@ type CreateSubscriptionScheduleRequest = {
     /**
      * When schedule starts. 'now', ISO date, or Unix timestamp. Defaults to now.
      */
-    start_date?: 'now' | string | number;
+    start_date?: "now" | string | number;
     /**
      * Phases defining the schedule (at least one required)
      */
@@ -5800,7 +6098,7 @@ type CreateSubscriptionScheduleRequest = {
     /**
      * What happens when all phases complete
      */
-    end_behavior?: 'cancel' | 'release';
+    end_behavior?: "cancel" | "release";
     /**
      * Custom metadata
      */
@@ -5812,7 +6110,7 @@ type CreateSubscriptionScheduleRequest = {
  * A paginated list of subscription schedules matching the query filters.
  */
 type SubscriptionScheduleListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<SubscriptionSchedule>;
     has_more: boolean;
     /**
@@ -5831,11 +6129,11 @@ type UpdateSubscriptionScheduleRequest = {
     /**
      * What happens when all phases complete
      */
-    end_behavior?: 'cancel' | 'release';
+    end_behavior?: "cancel" | "release";
     /**
      * Proration behavior when updating phases
      */
-    proration_behavior?: 'create_prorations' | 'none' | 'always_invoice';
+    proration_behavior?: "create_prorations" | "none" | "always_invoice";
     /**
      * Custom metadata
      */
@@ -5890,11 +6188,11 @@ type TerminalPayment = {
     /**
      * Transaction type. sale: original charge. refund: money returned. void: pre-settlement cancellation.
      */
-    type: 'sale' | 'refund' | 'void';
+    type: "sale" | "refund" | "void";
     /**
      * Payment lifecycle status. requested: command sent, awaiting card. in_progress: terminal processing. approved: payment succeeded. declined: issuer declined. cancelled: merchant cancelled. error: terminal error. timed_out: no response within 3 minutes.
      */
-    status: 'requested' | 'in_progress' | 'approved' | 'declined' | 'cancelled' | 'error' | 'timed_out' | 'standalone_approved' | 'standalone_declined';
+    status: "requested" | "in_progress" | "approved" | "declined" | "cancelled" | "error" | "timed_out" | "standalone_approved" | "standalone_declined";
     /**
      * Amount in minor units (e.g., pence for GBP, cents for USD)
      */
@@ -6007,6 +6305,19 @@ type RefundTerminalPaymentRequest = {
      * Reason for the refund
      */
     reason?: string;
+    /**
+     * Units to put back on sale once the refund is approved, by invoice line. Omit to restock nothing.
+     */
+    restock_line_items?: Array<{
+        /**
+         * An invoice line of the refunded payment
+         */
+        invoice_line_item_id: string;
+        /**
+         * Units of that line to put back on sale
+         */
+        quantity: number;
+    }>;
 };
 /**
  * Parameters for voiding an unsettled terminal payment before end-of-day settlement.
@@ -6049,11 +6360,11 @@ type TerminalDevice = {
     /**
      * Operating system of the machine running the Terminal Connector application
      */
-    platform: 'macos' | 'windows' | 'linux' | null;
+    platform: "macos" | "windows" | "linux" | null;
     /**
      * Device connectivity status. online: connector connected and heartbeat within 5 minutes. offline: heartbeat stale or connector disconnected. pairing: connector registered but terminal not yet paired.
      */
-    status: 'online' | 'offline' | 'pairing';
+    status: "online" | "offline" | "pairing";
     /**
      * Whether a PAX terminal has been paired to this connector device. Must be true to accept payments.
      */
@@ -6088,7 +6399,7 @@ type TerminalDeviceResponse = {
  * Result of a batch ingest operation showing how many events were accepted, skipped, duplicated, or rejected. duplicate means the event's idempotency_key has already been seen for this merchant.
  */
 type BatchIngestResult = {
-    object: 'usage_event_batch_result';
+    object: "usage_event_batch_result";
     summary: {
         ingested: number;
         duplicate: number;
@@ -6097,7 +6408,7 @@ type BatchIngestResult = {
     };
     data: Array<{
         index: number;
-        status: 'ingested' | 'duplicate' | 'skipped' | 'failed';
+        status: "ingested" | "duplicate" | "skipped" | "failed";
         id?: string;
         reason?: string;
     }>;
@@ -6148,9 +6459,9 @@ type UsageEvent = {
      */
     timestamp?: string;
     /**
-     * Merchant-scoped deduplication key. Reusing the same key returns duplicate status and does not create another billable event.
+     * REQUIRED merchant-scoped deduplication key. Reusing the same key returns duplicate status and does not create another billable event. Compose it from stable business identifiers (entity ids, types), never from timestamps.
      */
-    idempotency_key?: string;
+    idempotency_key: string;
     /**
      * Arbitrary properties for filtering and aggregation
      */
@@ -6171,7 +6482,7 @@ type BatchIngestRequest = {
  * Result of a dry-run ingest showing how events would be matched to meters without persisting them.
  */
 type DryRunResult = {
-    object: 'usage_event_dry_run_result';
+    object: "usage_event_dry_run_result";
     summary: {
         would_ingest: number;
         would_skip: number;
@@ -6179,13 +6490,8 @@ type DryRunResult = {
     };
     data: Array<{
         index: number;
-        status: 'would_ingest' | 'would_skip' | 'would_fail';
-        validationDetails: {
-            meterMatched: boolean;
-            customerMatched: boolean;
-            billableQuantity: number;
-            filtersPassed: boolean;
-        };
+        status: "would_ingest" | "would_skip" | "would_fail";
+        validationDetails: DryRunResultDataInnerValidationDetails;
         reason?: string;
     }>;
 };
@@ -6193,7 +6499,7 @@ type DryRunResult = {
  * A paginated list of usage events matching the query filters.
  */
 type UsageEventListResponse = {
-    object: 'list';
+    object: "list";
     /**
      * Array of usage event objects
      */
@@ -6224,6 +6530,14 @@ type UsageEventRecord = {
      * Meter ID
      */
     meter_id: string | null;
+    /**
+     * Event name (Polar-compatible alias of event_name)
+     */
+    name?: string | null;
+    /**
+     * Event name that matched the meter
+     */
+    event_name?: string | null;
     /**
      * Event quantity
      */
@@ -6269,7 +6583,7 @@ type UsageEventRecord = {
  * Aggregated usage totals grouped by meter and time period.
  */
 type UsageAggregateResponse = {
-    object: 'usage_aggregate';
+    object: "usage_aggregate";
     meter_id: string;
     start_time: string;
     end_time: string;
@@ -6283,10 +6597,16 @@ type UsageAggregateResponse = {
     event_count: number;
 };
 /**
+ * A single persisted usage event.
+ */
+type UsageEventGetResponse = {
+    data: UsageEventRecord;
+};
+/**
  * Current-period usage balance across all meters for a customer, with per-meter breakdowns and estimated totals.
  */
 type UsageBalanceResponse = {
-    object: 'usage_balance';
+    object: "usage_balance";
     meters: Array<UsageBalanceMeter>;
     /**
      * Total estimated charge across all meters
@@ -6410,13 +6730,13 @@ type UsageBalanceMeter = {
      */
     last_event_at: string | null;
 };
+type UsageBalanceGet400ResponseError = {
+    message: string;
+    type: string;
+};
 type EntitlementListResponse = {
     data: Array<Entitlement>;
-    pagination: {
-        limit: number;
-        offset: number;
-        total: number;
-    };
+    pagination: PaymentLinksList200ResponsePagination;
     customer: {
         id: string;
         email: string;
@@ -6433,9 +6753,9 @@ type Entitlement = {
     metadata: {
         [key: string]: unknown;
     };
-    status: 'active' | 'trialing' | 'grace' | 'past_due' | 'restricted' | 'suspended' | 'canceled';
+    status: "active" | "trialing" | "grace" | "past_due" | "restricted" | "suspended" | "canceled";
     has_access: boolean;
-    access_level: 'full' | 'partial' | 'none';
+    access_level: "full" | "partial" | "none";
     subscription_id: string | null;
     subscription_status: string | null;
 };
@@ -6458,8 +6778,8 @@ type EntitlementCheckResponse = {
 type EntitlementCheck = {
     benefit_key: string;
     has_access: boolean;
-    access_level: 'full' | 'partial' | 'none';
-    status: 'active' | 'trialing' | 'grace' | 'past_due' | 'restricted' | 'suspended' | 'canceled' | null;
+    access_level: "full" | "partial" | "none";
+    status: "active" | "trialing" | "grace" | "past_due" | "restricted" | "suspended" | "canceled" | null;
     benefit: Benefit;
     reason: string | null;
 };
@@ -6467,7 +6787,7 @@ type EntitlementCheck = {
  * A paginated list of transactions matching the query filters.
  */
 type TransactionListResponse = {
-    object: 'list';
+    object: "list";
     data: Array<Transaction>;
     has_more: boolean;
     total_count?: number;
@@ -6483,15 +6803,15 @@ type Transaction = {
     /**
      * Object type
      */
-    object: 'transaction';
+    object: "transaction";
     /**
      * Transaction type. sale: original payment. refund: money returned. void: cancel before settlement. capture: capture a previous auth. dispute: chargeback. adjustment: manual correction.
      */
-    type: 'sale' | 'refund' | 'void' | 'capture' | 'dispute' | 'adjustment';
+    type: "sale" | "refund" | "void" | "capture" | "dispute" | "adjustment";
     /**
      * Transaction status. pending: processing. succeeded: completed. failed: declined or errored. voided: canceled.
      */
-    status: 'pending' | 'succeeded' | 'failed' | 'voided';
+    status: "pending" | "succeeded" | "failed" | "voided";
     /**
      * Associated invoice ID
      */
@@ -6582,19 +6902,19 @@ type Export = {
     /**
      * Object type
      */
-    object: 'export';
+    object: "export";
     /**
      * Export job status. pending: queued. processing: generating file. completed: ready for download. failed: export failed.
      */
-    status: 'pending' | 'processing' | 'completed' | 'failed';
+    status: "pending" | "processing" | "completed" | "failed";
     /**
      * The type of resource to export.
      */
-    resource_type: 'customers' | 'invoices' | 'transactions' | 'subscriptions' | 'products' | 'payment_methods';
+    resource_type: "customers" | "invoices" | "transactions" | "subscriptions" | "products" | "payment_methods";
     /**
      * Output file format. csv: Comma-separated values. xlsx: Excel workbook.
      */
-    format: 'csv' | 'xlsx';
+    format: "csv" | "xlsx";
     /**
      * Presigned download URL (available when status is 'completed'). Expires after 1 hour.
      */
@@ -6627,11 +6947,11 @@ type CreateExportRequest = {
     /**
      * The type of resource to export.
      */
-    resource_type: 'customers' | 'invoices' | 'transactions' | 'subscriptions' | 'products' | 'payment_methods';
+    resource_type: "customers" | "invoices" | "transactions" | "subscriptions" | "products" | "payment_methods";
     /**
      * Output file format. csv: Comma-separated values. xlsx: Excel workbook.
      */
-    format?: 'csv' | 'xlsx';
+    format?: "csv" | "xlsx";
     /**
      * Filters to apply (e.g., { status: 'paid', created_gte: '2024-01-01' })
      */
@@ -6641,7 +6961,7 @@ type CreateExportRequest = {
     /**
      * Column set to include. standard: common fields. full: all fields. minimal: IDs and key fields only.
      */
-    column_set?: 'standard' | 'full' | 'minimal';
+    column_set?: "standard" | "full" | "minimal";
 };
 /**
  * Export job status and details.
@@ -6666,15 +6986,15 @@ type Import = {
     /**
      * Object type
      */
-    object: 'import';
+    object: "import";
     /**
      * Import job status. pending: queued. validating: checking data. processing: creating records. completed: all rows imported. completed_with_errors: some rows failed. failed: import aborted.
      */
-    status: 'pending' | 'validating' | 'processing' | 'completed' | 'completed_with_errors' | 'failed';
+    status: "pending" | "validating" | "processing" | "completed" | "completed_with_errors" | "failed";
     /**
      * The type of resource to import.
      */
-    resource_type: 'customers' | 'products' | 'invoices';
+    resource_type: "customers" | "products" | "invoices";
     /**
      * Total rows in the uploaded file
      */
@@ -6724,7 +7044,7 @@ type CreateImportRequest = {
     /**
      * The type of resource to import.
      */
-    resource_type: 'customers' | 'products' | 'invoices';
+    resource_type: "customers" | "products" | "invoices";
     /**
      * URL to the CSV file to import (if not using multipart upload)
      */
@@ -6738,7 +7058,7 @@ type CreateImportRequest = {
     /**
      * Behavior when a duplicate record is found. skip: ignore the row. update: merge new data. error: fail the row.
      */
-    on_duplicate?: 'skip' | 'update' | 'error';
+    on_duplicate?: "skip" | "update" | "error";
 };
 /**
  * Import job status and progress.
@@ -6770,7 +7090,27 @@ type DdMandateRequestCreateResponse = {
     };
 };
 type DdMandateRequestActiveResponse = {
-    data: DdMandateRequestLifecycleItem;
+    data: DdMandateRequestActiveItem;
+};
+type DdMandateRequestActiveItem = DdMandateRequestLifecycleItem & ({
+    /**
+     * When the customer first opened the request link (its first capture session). Null until opened.
+     */
+    opened_at: string | null;
+} | null);
+type DdMandateRequestLifecycleStatus = "draft" | "pending_signature" | "consumed" | "expired" | "cancelled" | "failed";
+type DdMandatePdfReference = {
+    id: string;
+    mandate_request_id: string | null;
+    mandate_id: string;
+    customer_id: string;
+    merchant_id: string;
+    pdf_type: string;
+    storage_key: string;
+    pdf_url: string | null;
+    generated_at: string;
+    template_version: string;
+    compliance_version: string;
 };
 type DdMandateRequestLifecycleItem = {
     id: string;
@@ -6798,20 +7138,6 @@ type DdMandateRequestLifecycleItem = {
     notification_delivery_error: string | null;
     notification_delivery_updated_at: string | null;
     pdf_documents: Array<DdMandatePdfReference>;
-} | null;
-type DdMandateRequestLifecycleStatus = 'draft' | 'pending_signature' | 'consumed' | 'expired' | 'cancelled' | 'failed';
-type DdMandatePdfReference = {
-    id: string;
-    mandate_request_id: string | null;
-    mandate_id: string;
-    customer_id: string;
-    merchant_id: string;
-    pdf_type: string;
-    storage_key: string;
-    pdf_url: string | null;
-    generated_at: string;
-    template_version: string;
-    compliance_version: string;
 };
 type DdMandateRequestHistoryResponse = {
     data: Array<DdMandateRequestLifecycleItem>;
@@ -6849,35 +7175,21 @@ type MandateRequestLookupResponse = {
          * Mandate request status
          */
         status: string;
-        /**
-         * Merchant display details
-         */
-        merchant: {
-            id: string;
-            slug: string;
-            name: string;
-        };
-        /**
-         * Customer details for prefilling the mandate form
-         */
-        customer: {
-            id: string;
-            name: string | null;
-            first_name: string;
-            last_name: string;
-            email: string | null;
-            phone: string | null;
-        };
-        /**
-         * Invoice details, if the request is tied to an invoice
-         */
-        invoice: {
-            id: string;
-            invoice_number: string | null;
-            total: string | null;
-            amount_due: string | null;
-            currency: string | null;
-        } | null;
+        merchant: MandateRequestLookupResponseDataMerchant;
+        customer: MandateRequestLookupResponseDataCustomer;
+        invoice: MandateRequestLookupResponseDataInvoice;
+    };
+};
+/**
+ * Returned when the request rate exceeds the allowed limit. Retry after the period specified in details.retry_after.
+ */
+type RateLimitError = {
+    error: {
+        type: "rate_limit_error";
+        code: "rate_limit_exceeded";
+        message: string;
+        request_id?: string;
+        details?: RateLimitErrorErrorDetails;
     };
 };
 type DdMandateRequestConsumeResponse = {
@@ -7304,7 +7616,7 @@ type ScheduleCollectionRequest = {
     /**
      * What the collection settles. The settlement webhook resolves invoices by this reference.
      */
-    sourceType: 'invoice' | 'payment_link';
+    sourceType: "invoice" | "payment_link";
     /**
      * Invoice or payment-link ID the collection is for
      */
@@ -7314,6 +7626,453 @@ type ScheduleCollectionRequest = {
      */
     requestedCollectionDate?: string;
 };
+/**
+ * Subscription billing terms — set to null to remove
+ */
+type InvoicesUpdateRequestSubscriptionTerms = {
+    /**
+     * How to collect payment for recurring invoices
+     */
+    collection_method: "charge_automatically" | "send_invoice";
+    /**
+     * When the subscription billing cycle starts
+     */
+    start_mode: "when_paid" | "on_invoice_date" | "first_of_next_month" | "specific_date";
+    /**
+     * Start date (ISO 8601) — required when start_mode is 'specific_date'
+     */
+    start_date?: string;
+    /**
+     * How the subscription duration is determined
+     */
+    duration_type: "until_cancelled" | "fixed_cycles" | "end_date";
+    /**
+     * Number of billing cycles — required when duration_type is 'fixed_cycles'
+     */
+    duration_count?: number;
+    /**
+     * End date (ISO 8601) — required when duration_type is 'end_date'
+     */
+    end_date?: string;
+    /**
+     * Whether to charge the first cycle immediately or defer to the start date
+     */
+    first_payment_behavior: "charge_first_cycle_now" | "defer_first_cycle_to_start_date";
+} | null;
+type InvoicesMarginEstimate200ResponseData = {
+    invoice_id: string;
+    amount_minor: number;
+    currency: string;
+    estimates: Array<{
+        rail: "card" | "direct_debit" | "pay_by_bank" | "in_store";
+        card_scheme: string | null;
+        gross_minor: number;
+        estimated_fee_minor: number;
+        net_after_fees_minor: number;
+        fee_breakdown: InvoicesMarginEstimate200ResponseDataEstimatesInnerFeeBreakdown;
+        pricing_source: "matrix";
+        matrix_version: string;
+    }>;
+};
+type InvoicesMarginEstimate200ResponseDataEstimatesInnerFeeBreakdown = {
+    percentage_fee_minor: number;
+    fixed_fee_minor: number;
+    minimum_fee_adjustment_minor: number;
+};
+type CartApiKeysStatus200ResponseData = {
+    publishable: {
+        kind: "publishable" | "secret";
+        present: boolean;
+        active: boolean;
+        id: string | null;
+        scopes: Array<string>;
+        created_at: string | null;
+        last_used_at: string | null;
+        revoked_at: string | null;
+    };
+    secret: {
+        kind: "publishable" | "secret";
+        present: boolean;
+        active: boolean;
+        id: string | null;
+        scopes: Array<string>;
+        created_at: string | null;
+        last_used_at: string | null;
+        revoked_at: string | null;
+    };
+    ready: boolean;
+    created?: Array<"publishable" | "secret">;
+    publishable_api_key?: string;
+    secret_api_key?: string;
+};
+type CartApiKeysRotate200ResponseData = {
+    api_key: string;
+    id: string;
+    key_kind: "publishable" | "secret";
+    rolled_from: string | null;
+    old_key_expires_at: string | null;
+    grace_hours: number;
+};
+type CustomersPaymentRailsGet200ResponseData = {
+    customer_id: string;
+    invoice_id?: string | null;
+    rails: Array<{
+        rail: "card" | "direct_debit" | "pay_by_bank" | "in_store";
+        available: boolean;
+        reason_if_not: string | null;
+        last_used_at: string | null;
+        mandate_id?: string;
+        mandate_ref?: string | null;
+    }>;
+};
+type CustomersPreferredRailsGet200ResponseData = {
+    customer_id: string;
+    invoice_id: string | null;
+    amount_minor: number | null;
+    currency: string | null;
+    preferred_rails: Array<{
+        rail: "card" | "direct_debit" | "pay_by_bank" | "in_store";
+        available: boolean;
+        reason_if_not: string | null;
+        last_used_at: string | null;
+        mandate_id?: string;
+        mandate_ref?: string | null;
+        rank: number;
+        score: number;
+        reason: string;
+        reasons: Array<string>;
+        estimated_fee_minor?: number;
+        net_after_fees_minor?: number;
+        mandate?: CustomersPreferredRailsGet200ResponseDataPreferredRailsInnerMandate;
+    }>;
+};
+type CustomersPreferredRailsGet200ResponseDataPreferredRailsInnerMandate = {
+    id: string;
+    status: "PENDING_LODGEMENT" | "ACTIVE" | "SUSPENDED" | "CANCELLED" | "FAILED";
+    created_at: string;
+    bureau_suspend_confirmed?: boolean | null;
+};
+type AnalyticsRevenueTimeSeries200ResponseDataPointsInner = {
+    /**
+     * Bucket date (ISO 8601)
+     */
+    date: string;
+    /**
+     * Revenue for the bucket in minor units
+     */
+    revenue: number;
+    /**
+     * Number of invoices in the bucket
+     */
+    invoice_count: number;
+    /**
+     * Average invoice value in the bucket
+     */
+    avg_invoice_value: number;
+};
+type PaymentLinksList200ResponseDataInner = {
+    id: string;
+    merchant_id: string;
+    public_id: string;
+    name?: string;
+    slug?: string | null;
+    mode: "invoice" | "subscription" | "custom";
+    status: "draft" | "active" | "expired" | "completed";
+    amount_minor?: number | null;
+    /**
+     * Three-letter ISO currency code, taken from the link's products.
+     */
+    currency?: string;
+    invoice_id?: string | null;
+    subscription_id?: string | null;
+    product_ids?: Array<string>;
+    line_items?: Array<{
+        product_id: string;
+        price_id?: string | null;
+        quantity: number;
+        merchant_reference?: string | null;
+        is_adhoc: boolean;
+        product_details?: PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetails;
+    }>;
+    /**
+     * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}, {CHECKOUT_STATUS_TOKEN}. If not set, redirects to RevKeen's default success page.
+     */
+    success_url?: string | null;
+    /**
+     * Custom URL to redirect if customer cancels the checkout. If not set, no cancel redirect is configured.
+     */
+    cancel_url?: string | null;
+    redirect_url?: string | null;
+    collect_shipping?: boolean;
+    allow_promotion_codes?: boolean;
+    tax_behavior?: "exclusive" | "inclusive" | "unspecified";
+    metadata?: {
+        [key: string]: unknown;
+    } | null;
+    expires_at?: string | null;
+    /**
+     * Customer-facing checkout shape. bundle=all products together; single_select=radio picker; multi_select=cart with quantity per line.
+     */
+    selection_mode?: "bundle" | "single_select" | "multi_select";
+    /**
+     * For single_select only — option pre-selected when checkout loads. Must reference a product attached to this payment link.
+     */
+    default_product_id?: string | null;
+    /**
+     * For single_select only — option shown with a 'Popular' badge.
+     */
+    highlighted_product_id?: string | null;
+    created_at: string;
+    updated_at: string;
+};
+type PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetails = {
+    name: string;
+    description?: string | null;
+    unit_amount: number;
+    currency: string;
+    recurring?: PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetailsRecurring;
+};
+type PaymentLinksList200ResponsePagination = {
+    limit: number;
+    offset: number;
+    total: number;
+};
+type PaymentLinksCreateRequestLineItemsInner = {
+    price?: string;
+    price_data?: {
+        /**
+         * Three-letter ISO currency code. Defaults to the merchant's default currency.
+         */
+        currency?: string;
+        unit_amount: number;
+        product_data?: PaymentLinksCreateRequestLineItemsInnerPriceDataProductData;
+        product?: string;
+        recurring?: PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetailsRecurring;
+        tax_behavior?: "inclusive" | "exclusive" | null;
+    };
+    quantity?: number;
+    merchant_reference?: string | null;
+};
+type PaymentLinksCreateRequestLineItemsInnerPriceDataProductData = {
+    name: string;
+    description?: string | null;
+    images?: Array<string> | null;
+    metadata?: {
+        [key: string]: unknown;
+    } | null;
+};
+type PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetailsRecurring = {
+    interval: "day" | "week" | "month" | "year";
+    interval_count?: number;
+} | null;
+type WebhookEndpointsList200ResponseDataInner = {
+    /**
+     * Unique identifier for the webhook endpoint
+     */
+    id: string;
+    /**
+     * The URL that receives webhook POST requests
+     */
+    url: string;
+    /**
+     * Optional human-readable description
+     */
+    description: string | null;
+    /**
+     * Event types this endpoint subscribes to
+     */
+    enabled_events: Array<string>;
+    /**
+     * Whether the endpoint is currently receiving events
+     */
+    status: "enabled" | "disabled";
+    /**
+     * Circuit breaker status. Opens after repeated delivery failures.
+     */
+    circuit_breaker_state: "closed" | "open" | "half_open";
+    /**
+     * Total number of delivery attempts
+     */
+    total_deliveries: number;
+    /**
+     * Number of successful deliveries
+     */
+    successful_deliveries: number;
+    /**
+     * Number of failed deliveries
+     */
+    failed_deliveries: number;
+    /**
+     * Timestamp of the most recent delivery attempt
+     */
+    last_delivery_at: string | null;
+    /**
+     * When the endpoint was created
+     */
+    created_at: string;
+    /**
+     * When the endpoint was last modified
+     */
+    updated_at: string;
+};
+type WebhookEndpointsList200ResponseMeta = {
+    /**
+     * Total number of results
+     */
+    total: number;
+    /**
+     * Page size
+     */
+    limit: number;
+    /**
+     * Number of results skipped
+     */
+    offset: number;
+    /**
+     * Whether more results exist beyond this page
+     */
+    has_more: boolean;
+};
+type WebhookEndpointsDelete200ResponseData = {
+    id: string;
+    deleted: true;
+};
+type ValidationErrorErrorDetails = {
+    /**
+     * Field-specific validation errors
+     */
+    fields?: {
+        [key: string]: Array<string>;
+    };
+};
+type SubscriptionPreviewRenewalResponseDataUpcomingRenewalsInner = {
+    sequence: number;
+    date: string;
+    formattedDate: string;
+    dayName: string;
+    amountMinor: number;
+    formattedAmount: string;
+    isTrialEnd?: boolean;
+    isFirstCharge?: boolean;
+    isFinalPayment?: boolean;
+};
+type CreditNoteEligibilityResponsePaymentsInnerConstraints = {
+    partial_supported: boolean;
+    requires_card_present: boolean;
+    requires_terminal_online: boolean;
+};
+type DeclineAnalyticsResponseDataTopDeclineCategoriesInner = {
+    category: string;
+    count: number;
+};
+type DeclineAnalyticsResponseDataByGatewayValue = {
+    total?: number;
+    approved?: number;
+    declined?: number;
+};
+type BillingOverviewResponseOverdueInvoicesTotalsInner = {
+    currency: string;
+    count: number;
+    amount_due_minor: number;
+};
+/**
+ * Payment method that caused the error
+ */
+type PaymentIntentLastPaymentErrorPaymentMethod = {
+    /**
+     * Payment method ID
+     */
+    id: string;
+    /**
+     * Payment method type
+     */
+    type: string;
+};
+/**
+ * Present when type is redirect_to_url
+ */
+type PaymentIntentNextActionRedirectToUrl = {
+    /**
+     * URL to redirect customer for 3DS authentication
+     */
+    url: string;
+    /**
+     * URL to return to after 3DS
+     */
+    return_url: string;
+};
+type DryRunResultDataInnerValidationDetails = {
+    meterMatched: boolean;
+    customerMatched: boolean;
+    billableQuantity: number;
+    filtersPassed: boolean;
+};
+/**
+ * Merchant display details
+ */
+type MandateRequestLookupResponseDataMerchant = {
+    id: string;
+    slug: string;
+    name: string;
+};
+/**
+ * Customer details for prefilling the mandate form
+ */
+type MandateRequestLookupResponseDataCustomer = {
+    id: string;
+    name: string | null;
+    first_name: string;
+    last_name: string;
+    email: string | null;
+    phone: string | null;
+};
+/**
+ * Invoice details, if the request is tied to an invoice
+ */
+type MandateRequestLookupResponseDataInvoice = {
+    id: string;
+    invoice_number: string | null;
+    total: string | null;
+    amount_due: string | null;
+    currency: string | null;
+} | null;
+type RateLimitErrorErrorDetails = {
+    retry_after?: number;
+};
+type InvoiceUsageExplainData = {
+    body?: never;
+    path: {
+        /**
+         * Invoice UUID
+         */
+        id: string;
+    };
+    query?: never;
+    url: "/invoices/{id}/usage-explain";
+};
+type InvoiceUsageExplainErrors = {
+    /**
+     * Unauthorized
+     */
+    401: unknown;
+    /**
+     * Invoice not found
+     */
+    404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type InvoiceUsageExplainResponses = {
+    /**
+     * Invoice usage explanation
+     */
+    200: {
+        data: InvoiceUsageExplainResponse;
+    };
+};
+type InvoiceUsageExplainResponse2 = InvoiceUsageExplainResponses[keyof InvoiceUsageExplainResponses];
 type InvoicesListData = {
     body?: never;
     path?: never;
@@ -7335,8 +8094,23 @@ type InvoicesListData = {
          */
         offset?: number | null;
     };
-    url: '/invoices';
+    url: "/invoices";
 };
+type InvoicesListErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * Error response
+     */
+    default: ErrorResponse;
+};
+type InvoicesListError = InvoicesListErrors[keyof InvoicesListErrors];
 type InvoicesListResponses = {
     /**
      * List of invoices
@@ -7352,7 +8126,7 @@ type InvoicesCreateData = {
         customer_uuid: string;
         invoice_number?: string;
         total_minor: number;
-        currency?: string;
+        currency: string;
         due_date?: string;
         status?: string;
         /**
@@ -7365,12 +8139,33 @@ type InvoicesCreateData = {
         /**
          * Restrict checkout payment methods for this invoice. When set, narrows available rails for checkout sessions created against this invoice. Omit to use merchant default.
          */
-        allowed_methods?: Array<'card' | 'direct_debit' | 'pay_by_bank' | 'in_store'>;
+        allowed_methods?: Array<"card" | "direct_debit" | "in_store">;
+    };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
     };
     path?: never;
     query?: never;
-    url: '/invoices';
+    url: "/invoices";
 };
+type InvoicesCreateErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * Error response
+     */
+    default: ErrorResponse;
+};
+type InvoicesCreateError = InvoicesCreateErrors[keyof InvoicesCreateErrors];
 type InvoicesCreateResponses = {
     /**
      * Invoice created
@@ -7384,8 +8179,23 @@ type InvoicesGetData = {
         id: string;
     };
     query?: never;
-    url: '/invoices/{id}';
+    url: "/invoices/{id}";
 };
+type InvoicesGetErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * Error response
+     */
+    default: ErrorResponse;
+};
+type InvoicesGetError = InvoicesGetErrors[keyof InvoicesGetErrors];
 type InvoicesGetResponses = {
     /**
      * Invoice details
@@ -7404,47 +8214,36 @@ type InvoicesUpdateData = {
         /**
          * Update the invoice's restricted payment methods. Empty array clears restriction (merchant defaults apply); omit to leave unchanged.
          */
-        allowed_methods?: Array<'card' | 'direct_debit' | 'pay_by_bank' | 'in_store'>;
+        allowed_methods?: Array<"card" | "direct_debit" | "in_store">;
+        subscription_terms?: InvoicesUpdateRequestSubscriptionTerms;
+    };
+    headers?: {
         /**
-         * Subscription billing terms — set to null to remove
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
          */
-        subscription_terms?: {
-            /**
-             * How to collect payment for recurring invoices
-             */
-            collection_method: 'charge_automatically' | 'send_invoice';
-            /**
-             * When the subscription billing cycle starts
-             */
-            start_mode: 'when_paid' | 'on_invoice_date' | 'first_of_next_month' | 'specific_date';
-            /**
-             * Start date (ISO 8601) — required when start_mode is 'specific_date'
-             */
-            start_date?: string;
-            /**
-             * How the subscription duration is determined
-             */
-            duration_type: 'until_cancelled' | 'fixed_cycles' | 'end_date';
-            /**
-             * Number of billing cycles — required when duration_type is 'fixed_cycles'
-             */
-            duration_count?: number;
-            /**
-             * End date (ISO 8601) — required when duration_type is 'end_date'
-             */
-            end_date?: string;
-            /**
-             * Whether to charge the first cycle immediately or defer to the start date
-             */
-            first_payment_behavior: 'charge_first_cycle_now' | 'defer_first_cycle_to_start_date';
-        } | null;
+        "Idempotency-Key"?: string;
     };
     path: {
         id: string;
     };
     query?: never;
-    url: '/invoices/{id}';
+    url: "/invoices/{id}";
 };
+type InvoicesUpdateErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * Error response
+     */
+    default: ErrorResponse;
+};
+type InvoicesUpdateError = InvoicesUpdateErrors[keyof InvoicesUpdateErrors];
 type InvoicesUpdateResponses = {
     /**
      * Invoice updated
@@ -7464,7 +8263,7 @@ type InvoicesMarginEstimateData = {
         /**
          * Rails to estimate. Defaults to invoice allowed_methods or all rails.
          */
-        rails?: Array<'card' | 'direct_debit' | 'pay_by_bank' | 'in_store'>;
+        rails?: Array<"card" | "direct_debit" | "pay_by_bank" | "in_store">;
         /**
          * Single card scheme to estimate for card rail, e.g. visa or mastercard.
          */
@@ -7474,6 +8273,12 @@ type InvoicesMarginEstimateData = {
          */
         card_schemes?: Array<string>;
     };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Invoice ID.
@@ -7481,38 +8286,28 @@ type InvoicesMarginEstimateData = {
         id: string;
     };
     query?: never;
-    url: '/invoices/{id}/margin-estimate';
+    url: "/invoices/{id}/margin-estimate";
 };
 type InvoicesMarginEstimateErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
     /**
      * Invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type InvoicesMarginEstimateResponses = {
     /**
      * Margin estimates by rail
      */
     200: {
-        data: {
-            invoice_id: string;
-            amount_minor: number;
-            currency: string;
-            estimates: Array<{
-                rail: 'card' | 'direct_debit' | 'pay_by_bank' | 'in_store';
-                card_scheme: string | null;
-                gross_minor: number;
-                estimated_fee_minor: number;
-                net_after_fees_minor: number;
-                fee_breakdown: {
-                    percentage_fee_minor: number;
-                    fixed_fee_minor: number;
-                    minimum_fee_adjustment_minor: number;
-                };
-                pricing_source: 'matrix';
-                matrix_version: string;
-            }>;
-        };
+        data: InvoicesMarginEstimate200ResponseData;
     };
 };
 type InvoicesMarginEstimateResponse = InvoicesMarginEstimateResponses[keyof InvoicesMarginEstimateResponses];
@@ -7526,11 +8321,17 @@ type InvoicesFinalizeData = {
          */
         auto_advance?: boolean;
     };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/invoices/{id}/finalize';
+    url: "/invoices/{id}/finalize";
 };
 type InvoicesFinalizeErrors = {
     /**
@@ -7538,9 +8339,17 @@ type InvoicesFinalizeErrors = {
      */
     400: unknown;
     /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
      * Invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type InvoicesFinalizeResponses = {
     /**
@@ -7559,11 +8368,17 @@ type InvoicesVoidData = {
          */
         reason?: string;
     };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/invoices/{id}/void';
+    url: "/invoices/{id}/void";
 };
 type InvoicesVoidErrors = {
     /**
@@ -7571,9 +8386,17 @@ type InvoicesVoidErrors = {
      */
     400: unknown;
     /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
      * Invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type InvoicesVoidResponses = {
     /**
@@ -7590,17 +8413,23 @@ type InvoicesSendData = {
         /**
          * Communication channel to send the invoice through
          */
-        channel?: 'email' | 'sms' | 'whatsapp';
+        channel?: "email" | "sms" | "whatsapp";
         /**
          * Optional custom template ID to use for the notification
          */
         template_id?: string;
     };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/invoices/{id}/send';
+    url: "/invoices/{id}/send";
 };
 type InvoicesSendErrors = {
     /**
@@ -7608,9 +8437,17 @@ type InvoicesSendErrors = {
      */
     400: unknown;
     /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
      * Invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type InvoicesSendResponses = {
     /**
@@ -7636,7 +8473,7 @@ type ProductsListData = {
          */
         search?: string;
     };
-    url: '/products';
+    url: "/products";
 };
 type ProductsListErrors = {
     /**
@@ -7649,6 +8486,10 @@ type ProductsListErrors = {
     401: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type ProductsListError = ProductsListErrors[keyof ProductsListErrors];
 type ProductsListResponses = {
@@ -7665,7 +8506,7 @@ type ProductsCreateData = {
     body: CreateProductRequest;
     path?: never;
     query?: never;
-    url: '/products';
+    url: "/products";
 };
 type ProductsCreateErrors = {
     /**
@@ -7680,6 +8521,10 @@ type ProductsCreateErrors = {
     401: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type ProductsCreateError = ProductsCreateErrors[keyof ProductsCreateErrors];
 type ProductsCreateResponses = {
@@ -7695,7 +8540,7 @@ type ProductsGetData = {
         id: string;
     };
     query?: never;
-    url: '/products/{id}';
+    url: "/products/{id}";
 };
 type ProductsGetErrors = {
     /**
@@ -7710,6 +8555,10 @@ type ProductsGetErrors = {
     404: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type ProductsGetError = ProductsGetErrors[keyof ProductsGetErrors];
 type ProductsGetResponses = {
@@ -7728,7 +8577,7 @@ type ProductsUpdateData = {
         id: string;
     };
     query?: never;
-    url: '/products/{id}';
+    url: "/products/{id}";
 };
 type ProductsUpdateErrors = {
     /**
@@ -7749,6 +8598,10 @@ type ProductsUpdateErrors = {
     404: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type ProductsUpdateError = ProductsUpdateErrors[keyof ProductsUpdateErrors];
 type ProductsUpdateResponses = {
@@ -7758,11 +8611,194 @@ type ProductsUpdateResponses = {
     200: ProductUpdateResponse;
 };
 type ProductsUpdateResponse = ProductsUpdateResponses[keyof ProductsUpdateResponses];
-type CheckoutSessionsCreateData = {
-    body?: CreateCheckoutSessionInput;
+type ProductCollectionsListData = {
+    body?: never;
     path?: never;
     query?: never;
-    url: '/checkout-sessions';
+    url: "/product-collections";
+};
+type ProductCollectionsListErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Forbidden
+     */
+    403: ProductCollectionError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type ProductCollectionsListError = ProductCollectionsListErrors[keyof ProductCollectionsListErrors];
+type ProductCollectionsListResponses = {
+    /**
+     * Product collections
+     */
+    200: ProductCollectionListResponse;
+};
+type ProductCollectionsListResponse = ProductCollectionsListResponses[keyof ProductCollectionsListResponses];
+type ProductCollectionsCreateData = {
+    body?: ProductCollectionCreateRequest;
+    path?: never;
+    query?: never;
+    url: "/product-collections";
+};
+type ProductCollectionsCreateErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Forbidden
+     */
+    403: ProductCollectionError;
+    /**
+     * URL handle already used
+     */
+    409: ProductCollectionError;
+    /**
+     * Unknown product ids
+     */
+    422: ProductCollectionError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type ProductCollectionsCreateError = ProductCollectionsCreateErrors[keyof ProductCollectionsCreateErrors];
+type ProductCollectionsCreateResponses = {
+    /**
+     * Created
+     */
+    201: ProductCollectionCreateResponse;
+};
+type ProductCollectionsCreateResponse = ProductCollectionsCreateResponses[keyof ProductCollectionsCreateResponses];
+type ProductCollectionsDeleteData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: "/product-collections/{id}";
+};
+type ProductCollectionsDeleteErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Forbidden
+     */
+    403: ProductCollectionError;
+    /**
+     * Not found
+     */
+    404: ProductCollectionError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type ProductCollectionsDeleteError = ProductCollectionsDeleteErrors[keyof ProductCollectionsDeleteErrors];
+type ProductCollectionsDeleteResponses = {
+    /**
+     * Deleted
+     */
+    200: ProductCollectionDeletedResponse;
+};
+type ProductCollectionsDeleteResponse = ProductCollectionsDeleteResponses[keyof ProductCollectionsDeleteResponses];
+type ProductCollectionsGetData = {
+    body?: never;
+    path: {
+        /**
+         * Collection id or URL handle.
+         */
+        id: string;
+    };
+    query?: never;
+    url: "/product-collections/{id}";
+};
+type ProductCollectionsGetErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Forbidden
+     */
+    403: ProductCollectionError;
+    /**
+     * Not found
+     */
+    404: ProductCollectionError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type ProductCollectionsGetError = ProductCollectionsGetErrors[keyof ProductCollectionsGetErrors];
+type ProductCollectionsGetResponses = {
+    /**
+     * Product collection
+     */
+    200: ProductCollectionResponse;
+};
+type ProductCollectionsGetResponse = ProductCollectionsGetResponses[keyof ProductCollectionsGetResponses];
+type ProductCollectionsUpdateData = {
+    body?: ProductCollectionUpdateRequest;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: "/product-collections/{id}";
+};
+type ProductCollectionsUpdateErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Forbidden
+     */
+    403: ProductCollectionError;
+    /**
+     * Not found
+     */
+    404: ProductCollectionError;
+    /**
+     * Version conflict or URL handle already used
+     */
+    409: ProductCollectionError;
+    /**
+     * Unknown product ids
+     */
+    422: ProductCollectionError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type ProductCollectionsUpdateError = ProductCollectionsUpdateErrors[keyof ProductCollectionsUpdateErrors];
+type ProductCollectionsUpdateResponses = {
+    /**
+     * Updated
+     */
+    200: ProductCollectionUpdateResponse;
+};
+type ProductCollectionsUpdateResponse = ProductCollectionsUpdateResponses[keyof ProductCollectionsUpdateResponses];
+type CheckoutSessionsCreateData = {
+    body?: CreateCheckoutSessionInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
+    path?: never;
+    query?: never;
+    url: "/checkout-sessions";
 };
 type CheckoutSessionsCreateErrors = {
     /**
@@ -7781,6 +8817,14 @@ type CheckoutSessionsCreateErrors = {
     404: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * No payment method available — the merchant has no online payment method enabled and live for this checkout, or none valid in the requested currency. `code` is `NO_PAYMENT_METHODS_AVAILABLE`.
+     */
+    503: NoPaymentMethodsAvailableError;
 };
 type CheckoutSessionsCreateError = CheckoutSessionsCreateErrors[keyof CheckoutSessionsCreateErrors];
 type CheckoutSessionsCreateResponses = {
@@ -7799,7 +8843,7 @@ type CheckoutSessionsGetData = {
         id: string;
     };
     query?: never;
-    url: '/checkout-sessions/{id}';
+    url: "/checkout-sessions/{id}";
 };
 type CheckoutSessionsGetErrors = {
     /**
@@ -7814,6 +8858,10 @@ type CheckoutSessionsGetErrors = {
     404: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal Server Error
      */
@@ -7831,6 +8879,12 @@ type CheckoutSessionsGetResponses = {
 type CheckoutSessionsGetResponse = CheckoutSessionsGetResponses[keyof CheckoutSessionsGetResponses];
 type CheckoutSessionsExpireData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Checkout session ID to expire.
@@ -7838,7 +8892,7 @@ type CheckoutSessionsExpireData = {
         id: string;
     };
     query?: never;
-    url: '/checkout-sessions/{id}/expire';
+    url: "/checkout-sessions/{id}/expire";
 };
 type CheckoutSessionsExpireErrors = {
     /**
@@ -7859,6 +8913,10 @@ type CheckoutSessionsExpireErrors = {
     409: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CheckoutSessionsExpireError = CheckoutSessionsExpireErrors[keyof CheckoutSessionsExpireErrors];
 type CheckoutSessionsExpireResponses = {
@@ -7870,9 +8928,15 @@ type CheckoutSessionsExpireResponses = {
 type CheckoutSessionsExpireResponse = CheckoutSessionsExpireResponses[keyof CheckoutSessionsExpireResponses];
 type CartSessionsCreateData = {
     body?: CreateCartSessionInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/cart-sessions';
+    url: "/cart-sessions";
 };
 type CartSessionsCreateErrors = {
     /**
@@ -7893,6 +8957,10 @@ type CartSessionsCreateErrors = {
      * Unprocessable — seed payment link is not cart-enabled (CART_NOT_ENABLED_FOR_LINK).
      */
     422: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsCreateError = CartSessionsCreateErrors[keyof CartSessionsCreateErrors];
 type CartSessionsCreateResponses = {
@@ -7908,7 +8976,7 @@ type CartSessionsGetData = {
         id: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}';
+    url: "/cart-sessions/{id}";
 };
 type CartSessionsGetErrors = {
     /**
@@ -7921,6 +8989,10 @@ type CartSessionsGetErrors = {
      * Not Found — cart or line item not found, or not visible to your key.
      */
     404: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsGetError = CartSessionsGetErrors[keyof CartSessionsGetErrors];
 type CartSessionsGetResponses = {
@@ -7932,11 +9004,17 @@ type CartSessionsGetResponses = {
 type CartSessionsGetResponse = CartSessionsGetResponses[keyof CartSessionsGetResponses];
 type CartSessionsAddLineItemData = {
     body?: CartLineItemInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/line-items';
+    url: "/cart-sessions/{id}/line-items";
 };
 type CartSessionsAddLineItemErrors = {
     /**
@@ -7957,6 +9035,10 @@ type CartSessionsAddLineItemErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsAddLineItemError = CartSessionsAddLineItemErrors[keyof CartSessionsAddLineItemErrors];
 type CartSessionsAddLineItemResponses = {
@@ -7968,6 +9050,12 @@ type CartSessionsAddLineItemResponses = {
 type CartSessionsAddLineItemResponse = CartSessionsAddLineItemResponses[keyof CartSessionsAddLineItemResponses];
 type CartSessionsRemoveLineItemData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
         /**
@@ -7976,7 +9064,7 @@ type CartSessionsRemoveLineItemData = {
         lineId: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/line-items/{lineId}';
+    url: "/cart-sessions/{id}/line-items/{lineId}";
 };
 type CartSessionsRemoveLineItemErrors = {
     /**
@@ -7993,6 +9081,10 @@ type CartSessionsRemoveLineItemErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsRemoveLineItemError = CartSessionsRemoveLineItemErrors[keyof CartSessionsRemoveLineItemErrors];
 type CartSessionsRemoveLineItemResponses = {
@@ -8004,6 +9096,12 @@ type CartSessionsRemoveLineItemResponses = {
 type CartSessionsRemoveLineItemResponse = CartSessionsRemoveLineItemResponses[keyof CartSessionsRemoveLineItemResponses];
 type CartSessionsUpdateLineItemData = {
     body?: UpdateCartLineItemInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
         /**
@@ -8012,7 +9110,7 @@ type CartSessionsUpdateLineItemData = {
         lineId: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/line-items/{lineId}';
+    url: "/cart-sessions/{id}/line-items/{lineId}";
 };
 type CartSessionsUpdateLineItemErrors = {
     /**
@@ -8033,6 +9131,10 @@ type CartSessionsUpdateLineItemErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsUpdateLineItemError = CartSessionsUpdateLineItemErrors[keyof CartSessionsUpdateLineItemErrors];
 type CartSessionsUpdateLineItemResponses = {
@@ -8044,11 +9146,17 @@ type CartSessionsUpdateLineItemResponses = {
 type CartSessionsUpdateLineItemResponse = CartSessionsUpdateLineItemResponses[keyof CartSessionsUpdateLineItemResponses];
 type CartSessionsToggleAddOnData = {
     body?: ToggleCartAddOnInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/add-ons';
+    url: "/cart-sessions/{id}/add-ons";
 };
 type CartSessionsToggleAddOnErrors = {
     /**
@@ -8069,6 +9177,10 @@ type CartSessionsToggleAddOnErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsToggleAddOnError = CartSessionsToggleAddOnErrors[keyof CartSessionsToggleAddOnErrors];
 type CartSessionsToggleAddOnResponses = {
@@ -8080,11 +9192,17 @@ type CartSessionsToggleAddOnResponses = {
 type CartSessionsToggleAddOnResponse = CartSessionsToggleAddOnResponses[keyof CartSessionsToggleAddOnResponses];
 type CartSessionsApplyDiscountCodeData = {
     body?: ApplyCartDiscountCodeInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/discount-code';
+    url: "/cart-sessions/{id}/discount-code";
 };
 type CartSessionsApplyDiscountCodeErrors = {
     /**
@@ -8105,6 +9223,10 @@ type CartSessionsApplyDiscountCodeErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsApplyDiscountCodeError = CartSessionsApplyDiscountCodeErrors[keyof CartSessionsApplyDiscountCodeErrors];
 type CartSessionsApplyDiscountCodeResponses = {
@@ -8116,11 +9238,17 @@ type CartSessionsApplyDiscountCodeResponses = {
 type CartSessionsApplyDiscountCodeResponse = CartSessionsApplyDiscountCodeResponses[keyof CartSessionsApplyDiscountCodeResponses];
 type CartSessionsSetContactData = {
     body?: SetCartContactInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/contact';
+    url: "/cart-sessions/{id}/contact";
 };
 type CartSessionsSetContactErrors = {
     /**
@@ -8141,6 +9269,10 @@ type CartSessionsSetContactErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartSessionsSetContactError = CartSessionsSetContactErrors[keyof CartSessionsSetContactErrors];
 type CartSessionsSetContactResponses = {
@@ -8152,11 +9284,17 @@ type CartSessionsSetContactResponses = {
 type CartSessionsSetContactResponse = CartSessionsSetContactResponses[keyof CartSessionsSetContactResponses];
 type CartSessionsConvertData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         id: string;
     };
     query?: never;
-    url: '/cart-sessions/{id}/convert';
+    url: "/cart-sessions/{id}/convert";
 };
 type CartSessionsConvertErrors = {
     /**
@@ -8173,6 +9311,14 @@ type CartSessionsConvertErrors = {
      * Conflict — cart is closed, empty (on convert), or has a pending discount code that blocks convert.
      */
     409: CartSessionErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * No payment method available — the merchant has no online payment method enabled and live for this checkout, or none valid in the requested currency. `code` is `NO_PAYMENT_METHODS_AVAILABLE`.
+     */
+    503: NoPaymentMethodsAvailableError;
 };
 type CartSessionsConvertError = CartSessionsConvertErrors[keyof CartSessionsConvertErrors];
 type CartSessionsConvertResponses = {
@@ -8186,21 +9332,21 @@ type CartApiKeysStatusData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/cart-api-keys/status';
+    url: "/cart-api-keys/status";
 };
 type CartApiKeysStatusErrors = {
     /**
      * Unauthorized
      */
-    401: {
-        error: string;
-    };
+    401: AuthenticationError;
     /**
      * Forbidden
      */
-    403: {
-        error: string;
-    };
+    403: ForbiddenError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CartApiKeysStatusError = CartApiKeysStatusErrors[keyof CartApiKeysStatusErrors];
 type CartApiKeysStatusResponses = {
@@ -8209,34 +9355,7 @@ type CartApiKeysStatusResponses = {
      */
     200: {
         success: boolean;
-        data: {
-            publishable: {
-                kind: 'publishable' | 'secret';
-                present: boolean;
-                active: boolean;
-                id: string | null;
-                unkey_key_id: string | null;
-                scopes: Array<string>;
-                created_at: string | null;
-                last_used_at: string | null;
-                revoked_at: string | null;
-            };
-            secret: {
-                kind: 'publishable' | 'secret';
-                present: boolean;
-                active: boolean;
-                id: string | null;
-                unkey_key_id: string | null;
-                scopes: Array<string>;
-                created_at: string | null;
-                last_used_at: string | null;
-                revoked_at: string | null;
-            };
-            ready: boolean;
-            created?: Array<'publishable' | 'secret'>;
-            publishable_api_key?: string;
-            secret_api_key?: string;
-        };
+        data: CartApiKeysStatus200ResponseData;
     };
 };
 type CartApiKeysStatusResponse = CartApiKeysStatusResponses[keyof CartApiKeysStatusResponses];
@@ -8244,21 +9363,25 @@ type CartApiKeysEnsureData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/cart-api-keys/ensure';
+    url: "/cart-api-keys/ensure";
 };
 type CartApiKeysEnsureErrors = {
     /**
      * Unauthorized
      */
-    401: {
-        error: string;
-    };
+    401: AuthenticationError;
     /**
-     * Forbidden
+     * Forbidden. Either the API's standard authorization error, or the merchant authorization seam's denial.
      */
-    403: {
-        error: string;
-    };
+    403: MerchantActionForbiddenError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * A required audit row (the authorization decision, or the key lifecycle row written before the mint) could not be written, so no key was created.
+     */
+    503: AuthorizationAuditUnavailableError;
 };
 type CartApiKeysEnsureError = CartApiKeysEnsureErrors[keyof CartApiKeysEnsureErrors];
 type CartApiKeysEnsureResponses = {
@@ -8267,34 +9390,7 @@ type CartApiKeysEnsureResponses = {
      */
     200: {
         success: boolean;
-        data: {
-            publishable: {
-                kind: 'publishable' | 'secret';
-                present: boolean;
-                active: boolean;
-                id: string | null;
-                unkey_key_id: string | null;
-                scopes: Array<string>;
-                created_at: string | null;
-                last_used_at: string | null;
-                revoked_at: string | null;
-            };
-            secret: {
-                kind: 'publishable' | 'secret';
-                present: boolean;
-                active: boolean;
-                id: string | null;
-                unkey_key_id: string | null;
-                scopes: Array<string>;
-                created_at: string | null;
-                last_used_at: string | null;
-                revoked_at: string | null;
-            };
-            ready: boolean;
-            created?: Array<'publishable' | 'secret'>;
-            publishable_api_key?: string;
-            secret_api_key?: string;
-        };
+        data: CartApiKeysStatus200ResponseData;
     };
 };
 type CartApiKeysEnsureResponse = CartApiKeysEnsureResponses[keyof CartApiKeysEnsureResponses];
@@ -8303,10 +9399,10 @@ type CartApiKeysRotateData = {
         grace_hours?: number;
     };
     path: {
-        kind: 'publishable' | 'secret';
+        kind: "publishable" | "secret";
     };
     query?: never;
-    url: '/cart-api-keys/{kind}/rotate';
+    url: "/cart-api-keys/{kind}/rotate";
 };
 type CartApiKeysRotateErrors = {
     /**
@@ -8318,15 +9414,19 @@ type CartApiKeysRotateErrors = {
     /**
      * Unauthorized
      */
-    401: {
-        error: string;
-    };
+    401: AuthenticationError;
     /**
-     * Forbidden
+     * Forbidden. Either the API's standard authorization error, or the merchant authorization seam's denial.
      */
-    403: {
-        error: string;
-    };
+    403: MerchantActionForbiddenError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * A required audit row (the authorization decision, or the key lifecycle row written before the mint) could not be written, so the key was not rotated.
+     */
+    503: AuthorizationAuditUnavailableError;
 };
 type CartApiKeysRotateError = CartApiKeysRotateErrors[keyof CartApiKeysRotateErrors];
 type CartApiKeysRotateResponses = {
@@ -8335,15 +9435,7 @@ type CartApiKeysRotateResponses = {
      */
     200: {
         success: boolean;
-        data: {
-            api_key: string;
-            id: string;
-            unkey_key_id: string;
-            key_kind: 'publishable' | 'secret';
-            rolled_from: string | null;
-            old_key_expires_at: string | null;
-            grace_hours: number;
-        };
+        data: CartApiKeysRotate200ResponseData;
     };
 };
 type CartApiKeysRotateResponse = CartApiKeysRotateResponses[keyof CartApiKeysRotateResponses];
@@ -8355,8 +9447,28 @@ type StorefrontProductsListData = {
          * Maximum products to return (default 50, max 100).
          */
         limit?: number;
+        /**
+         * Products to skip, for pagination.
+         */
+        offset?: number | null;
+        /**
+         * Only products in this product collection (id or URL handle).
+         */
+        collection?: string;
+        /**
+         * Only products carrying this tag.
+         */
+        tag?: string;
+        /**
+         * Case-insensitive match on product name or description.
+         */
+        search?: string;
+        /**
+         * featured (collection order, else newest), newest, name, price_asc or price_desc.
+         */
+        sort?: "featured" | "newest" | "name" | "price_asc" | "price_desc";
     };
-    url: '/storefront/products';
+    url: "/storefront/products";
 };
 type StorefrontProductsListErrors = {
     /**
@@ -8367,6 +9479,10 @@ type StorefrontProductsListErrors = {
      * Cart not enabled for this merchant (CART_DISABLED)
      */
     403: StorefrontProductError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type StorefrontProductsListError = StorefrontProductsListErrors[keyof StorefrontProductsListErrors];
 type StorefrontProductsListResponses = {
@@ -8380,12 +9496,12 @@ type StorefrontProductsGetData = {
     body?: never;
     path: {
         /**
-         * Product UUID, merchant product reference, or slug.
+         * Product UUID, URL handle (slug), or merchant product reference.
          */
         productId: string;
     };
     query?: never;
-    url: '/storefront/products/{productId}';
+    url: "/storefront/products/{productId}";
 };
 type StorefrontProductsGetErrors = {
     /**
@@ -8400,6 +9516,10 @@ type StorefrontProductsGetErrors = {
      * Product not found, inactive, or archived
      */
     404: StorefrontProductError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type StorefrontProductsGetError = StorefrontProductsGetErrors[keyof StorefrontProductsGetErrors];
 type StorefrontProductsGetResponses = {
@@ -8413,7 +9533,7 @@ type StorefrontOriginsListData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/storefront/origins';
+    url: "/storefront/origins";
 };
 type StorefrontOriginsListErrors = {
     /**
@@ -8424,6 +9544,10 @@ type StorefrontOriginsListErrors = {
      * Forbidden
      */
     403: StorefrontOriginError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type StorefrontOriginsListError = StorefrontOriginsListErrors[keyof StorefrontOriginsListErrors];
 type StorefrontOriginsListResponses = {
@@ -8437,7 +9561,7 @@ type StorefrontOriginsCreateData = {
     body?: StorefrontOriginCreateRequest;
     path?: never;
     query?: never;
-    url: '/storefront/origins';
+    url: "/storefront/origins";
 };
 type StorefrontOriginsCreateErrors = {
     /**
@@ -8456,6 +9580,10 @@ type StorefrontOriginsCreateErrors = {
      * Origin already registered
      */
     409: StorefrontOriginError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type StorefrontOriginsCreateError = StorefrontOriginsCreateErrors[keyof StorefrontOriginsCreateErrors];
 type StorefrontOriginsCreateResponses = {
@@ -8474,7 +9602,7 @@ type StorefrontOriginsDeleteData = {
         originId: string;
     };
     query?: never;
-    url: '/storefront/origins/{originId}';
+    url: "/storefront/origins/{originId}";
 };
 type StorefrontOriginsDeleteErrors = {
     /**
@@ -8489,6 +9617,10 @@ type StorefrontOriginsDeleteErrors = {
      * Origin not found
      */
     404: StorefrontOriginError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type StorefrontOriginsDeleteError = StorefrontOriginsDeleteErrors[keyof StorefrontOriginsDeleteErrors];
 type StorefrontOriginsDeleteResponses = {
@@ -8502,7 +9634,7 @@ type StorefrontStatusGetData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/storefront/status';
+    url: "/storefront/status";
 };
 type StorefrontStatusGetErrors = {
     /**
@@ -8513,6 +9645,10 @@ type StorefrontStatusGetErrors = {
      * Forbidden
      */
     403: StorefrontStatusError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type StorefrontStatusGetError = StorefrontStatusGetErrors[keyof StorefrontStatusGetErrors];
 type StorefrontStatusGetResponses = {
@@ -8522,6 +9658,40 @@ type StorefrontStatusGetResponses = {
     200: StorefrontStatusResponse;
 };
 type StorefrontStatusGetResponse = StorefrontStatusGetResponses[keyof StorefrontStatusGetResponses];
+type CustomerStateGetData = {
+    body?: never;
+    path: {
+        /**
+         * Customer UUID
+         */
+        id: string;
+    };
+    query?: never;
+    url: "/customers/{id}/state";
+};
+type CustomerStateGetErrors = {
+    /**
+     * Unauthorized
+     */
+    401: unknown;
+    /**
+     * Customer not found
+     */
+    404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type CustomerStateGetResponses = {
+    /**
+     * Customer state snapshot
+     */
+    200: {
+        data: CustomerStateResponse;
+    };
+};
+type CustomerStateGetResponse = CustomerStateGetResponses[keyof CustomerStateGetResponses];
 type CustomersListData = {
     body?: never;
     path?: never;
@@ -8539,13 +9709,17 @@ type CustomersListData = {
          */
         search?: string;
     };
-    url: '/customers';
+    url: "/customers";
 };
 type CustomersListErrors = {
     /**
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersListResponses = {
     /**
@@ -8611,7 +9785,7 @@ type CustomersCreateData = {
     };
     path?: never;
     query?: never;
-    url: '/customers';
+    url: "/customers";
 };
 type CustomersCreateErrors = {
     /**
@@ -8622,6 +9796,10 @@ type CustomersCreateErrors = {
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersCreateResponses = {
     /**
@@ -8639,7 +9817,7 @@ type CustomersGetData = {
         id: string;
     };
     query?: never;
-    url: '/customers/{id}';
+    url: "/customers/{id}";
 };
 type CustomersGetErrors = {
     /**
@@ -8650,6 +9828,10 @@ type CustomersGetErrors = {
      * Customer not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersGetResponses = {
     /**
@@ -8720,7 +9902,7 @@ type CustomersUpdateData = {
         id: string;
     };
     query?: never;
-    url: '/customers/{id}';
+    url: "/customers/{id}";
 };
 type CustomersUpdateErrors = {
     /**
@@ -8731,6 +9913,10 @@ type CustomersUpdateErrors = {
      * Customer not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersUpdateResponses = {
     /**
@@ -8753,7 +9939,7 @@ type CustomersPaymentRailsGetData = {
          */
         invoice_id?: string;
     };
-    url: '/customers/{id}/payment-rails';
+    url: "/customers/{id}/payment-rails";
 };
 type CustomersPaymentRailsGetErrors = {
     /**
@@ -8768,24 +9954,17 @@ type CustomersPaymentRailsGetErrors = {
      * Customer or invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersPaymentRailsGetResponses = {
     /**
      * Payment rail availability
      */
     200: {
-        data: {
-            customer_id: string;
-            invoice_id?: string | null;
-            rails: Array<{
-                rail: 'card' | 'direct_debit' | 'pay_by_bank' | 'in_store';
-                available: boolean;
-                reason_if_not: string | null;
-                last_used_at: string | null;
-                mandate_id?: string;
-                mandate_ref?: string | null;
-            }>;
-        };
+        data: CustomersPaymentRailsGet200ResponseData;
     };
 };
 type CustomersPaymentRailsGetResponse = CustomersPaymentRailsGetResponses[keyof CustomersPaymentRailsGetResponses];
@@ -8811,7 +9990,7 @@ type CustomersPreferredRailsGetData = {
          */
         amount_minor?: number | null;
     };
-    url: '/customers/{id}/preferred-rails';
+    url: "/customers/{id}/preferred-rails";
 };
 type CustomersPreferredRailsGetErrors = {
     /**
@@ -8826,38 +10005,17 @@ type CustomersPreferredRailsGetErrors = {
      * Customer or invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersPreferredRailsGetResponses = {
     /**
      * Preferred rails
      */
     200: {
-        data: {
-            customer_id: string;
-            invoice_id: string | null;
-            amount_minor: number | null;
-            currency: string | null;
-            preferred_rails: Array<{
-                rail: 'card' | 'direct_debit' | 'pay_by_bank' | 'in_store';
-                available: boolean;
-                reason_if_not: string | null;
-                last_used_at: string | null;
-                mandate_id?: string;
-                mandate_ref?: string | null;
-                rank: number;
-                score: number;
-                reason: string;
-                reasons: Array<string>;
-                estimated_fee_minor?: number;
-                net_after_fees_minor?: number;
-                mandate?: {
-                    id: string;
-                    status: 'PENDING_LODGEMENT' | 'ACTIVE' | 'SUSPENDED' | 'CANCELLED' | 'FAILED';
-                    created_at: string;
-                    bureau_suspend_confirmed?: boolean | null;
-                };
-            }>;
-        };
+        data: CustomersPreferredRailsGet200ResponseData;
     };
 };
 type CustomersPreferredRailsGetResponse = CustomersPreferredRailsGetResponses[keyof CustomersPreferredRailsGetResponses];
@@ -8870,7 +10028,7 @@ type CustomersPaymentMethodsListData = {
         id: string;
     };
     query?: never;
-    url: '/customers/{id}/payment-methods';
+    url: "/customers/{id}/payment-methods";
 };
 type CustomersPaymentMethodsListErrors = {
     /**
@@ -8881,6 +10039,10 @@ type CustomersPaymentMethodsListErrors = {
      * Customer not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomersPaymentMethodsListResponses = {
     /**
@@ -8904,19 +10066,23 @@ type SubscriptionsListData = {
         /**
          * Filter by subscription status
          */
-        status?: 'active' | 'canceled' | 'past_due' | 'trialing' | 'paused' | 'incomplete' | 'incomplete_expired';
+        status?: "active" | "canceled" | "past_due" | "trialing" | "paused" | "incomplete" | "incomplete_expired";
         /**
          * Filter by customer UUID
          */
         customerId?: string;
     };
-    url: '/subscriptions';
+    url: "/subscriptions";
 };
 type SubscriptionsListErrors = {
     /**
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type SubscriptionsListResponses = {
     /**
@@ -8934,6 +10100,9 @@ type SubscriptionsCreateData = {
         priceId?: string;
         paymentMethodId?: string;
         startDate?: string;
+        /**
+         * Defaults to the price's currency
+         */
         currency?: string;
         quantity?: number;
         trialEnd?: string;
@@ -8941,17 +10110,31 @@ type SubscriptionsCreateData = {
         pauseAtPeriodEnd?: boolean;
         cancelAtPeriodEnd?: boolean;
         billingStartsOn?: string;
-        billingEndStrategy?: 'indefinite' | 'on_date' | 'after_cycles';
+        billingEndStrategy?: "indefinite" | "on_date" | "after_cycles";
         billingEndsOn?: string;
         billingMaxCycles?: number;
-        prorationMode?: 'immediate' | 'next_invoice' | 'none';
+        prorationMode?: "immediate" | "next_invoice" | "none";
         metadata?: {
             [key: string]: unknown;
         };
+        /**
+         * How the subscription is collected. `direct_debit` needs `mandateId` and a GBP price, and cannot be combined with `paymentMethodId`. It is available to signed-in team members and OAuth apps; API keys are refused with 403.
+         */
+        paymentRail?: "card" | "direct_debit";
+        /**
+         * An active Direct Debit mandate belonging to this customer. Only with `paymentRail: direct_debit`.
+         */
+        mandateId?: string;
+    };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
     };
     path?: never;
     query?: never;
-    url: '/subscriptions';
+    url: "/subscriptions";
 };
 type SubscriptionsCreateErrors = {
     /**
@@ -8962,6 +10145,22 @@ type SubscriptionsCreateErrors = {
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Not allowed. A Direct Debit subscription needs a signed-in team member or OAuth app with access to mandates; API keys are refused. Also returned when Direct Debit is not enabled.
+     */
+    403: unknown;
+    /**
+     * The mandate, payment method or product was not found for this customer
+     */
+    404: unknown;
+    /**
+     * The Direct Debit mandate cannot collect yet, or Direct Debit is not configured
+     */
+    422: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type SubscriptionsCreateResponses = {
     /**
@@ -8979,7 +10178,7 @@ type SubscriptionsGetData = {
         id: string;
     };
     query?: never;
-    url: '/subscriptions/{id}';
+    url: "/subscriptions/{id}";
 };
 type SubscriptionsGetErrors = {
     /**
@@ -8990,6 +10189,10 @@ type SubscriptionsGetErrors = {
      * Subscription not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type SubscriptionsGetResponses = {
     /**
@@ -9000,7 +10203,7 @@ type SubscriptionsGetResponses = {
 type SubscriptionsGetResponse = SubscriptionsGetResponses[keyof SubscriptionsGetResponses];
 type SubscriptionsUpdateData = {
     body?: {
-        status?: 'trialing' | 'active' | 'past_due' | 'paused' | 'canceled' | 'expired';
+        status?: "trialing" | "active" | "past_due" | "paused" | "canceled" | "expired";
         amountMinor?: number;
         quantity?: number;
         nextBillingDate?: string;
@@ -9011,6 +10214,12 @@ type SubscriptionsUpdateData = {
             [key: string]: unknown;
         };
     };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Subscription UUID
@@ -9018,7 +10227,7 @@ type SubscriptionsUpdateData = {
         id: string;
     };
     query?: never;
-    url: '/subscriptions/{id}';
+    url: "/subscriptions/{id}";
 };
 type SubscriptionsUpdateErrors = {
     /**
@@ -9029,6 +10238,10 @@ type SubscriptionsUpdateErrors = {
      * Subscription not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type SubscriptionsUpdateResponses = {
     /**
@@ -9039,6 +10252,12 @@ type SubscriptionsUpdateResponses = {
 type SubscriptionsUpdateResponse = SubscriptionsUpdateResponses[keyof SubscriptionsUpdateResponses];
 type SubscriptionsCancelData = {
     body?: CancelSubscriptionInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Subscription UUID
@@ -9046,7 +10265,7 @@ type SubscriptionsCancelData = {
         id: string;
     };
     query?: never;
-    url: '/subscriptions/{id}/cancel';
+    url: "/subscriptions/{id}/cancel";
 };
 type SubscriptionsCancelErrors = {
     /**
@@ -9061,6 +10280,10 @@ type SubscriptionsCancelErrors = {
      * Subscription not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type SubscriptionsCancelResponses = {
     /**
@@ -9078,8 +10301,23 @@ type AnalyticsRevenueMrrSummaryData = {
          */
         asOfDate?: string;
     };
-    url: '/analytics/revenue/mrr-summary';
+    url: "/analytics/revenue/mrr-summary";
 };
+type AnalyticsRevenueMrrSummaryErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * Error response
+     */
+    default: ErrorResponse;
+};
+type AnalyticsRevenueMrrSummaryError = AnalyticsRevenueMrrSummaryErrors[keyof AnalyticsRevenueMrrSummaryErrors];
 type AnalyticsRevenueMrrSummaryResponses = {
     /**
      * MRR metrics
@@ -9135,33 +10373,31 @@ type AnalyticsRevenueTimeSeriesData = {
         /**
          * Time granularity for data points
          */
-        granularity?: 'day' | 'week' | 'month' | 'quarter' | 'year';
+        granularity?: "day" | "week" | "month" | "quarter" | "year";
     };
-    url: '/analytics/revenue/time-series';
+    url: "/analytics/revenue/time-series";
 };
+type AnalyticsRevenueTimeSeriesErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
+     * Error response
+     */
+    default: ErrorResponse;
+};
+type AnalyticsRevenueTimeSeriesError = AnalyticsRevenueTimeSeriesErrors[keyof AnalyticsRevenueTimeSeriesErrors];
 type AnalyticsRevenueTimeSeriesResponses = {
     /**
      * Revenue time series data
      */
     200: {
-        data_points: Array<{
-            /**
-             * Bucket date (ISO 8601)
-             */
-            date: string;
-            /**
-             * Revenue for the bucket in minor units
-             */
-            revenue: number;
-            /**
-             * Number of invoices in the bucket
-             */
-            invoice_count: number;
-            /**
-             * Average invoice value in the bucket
-             */
-            avg_invoice_value: number;
-        }>;
+        data_points: Array<AnalyticsRevenueTimeSeries200ResponseDataPointsInner>;
         /**
          * Total revenue across the period in minor units
          */
@@ -9188,7 +10424,7 @@ type RefundsListData = {
         /**
          * Filter by refund status
          */
-        status?: 'pending' | 'processing' | 'succeeded' | 'failed' | 'canceled';
+        status?: "pending" | "processing" | "succeeded" | "failed" | "canceled";
         /**
          * Filter by original payment ID
          */
@@ -9200,7 +10436,7 @@ type RefundsListData = {
         /**
          * Filter by refund reason
          */
-        reason?: 'customer_request' | 'duplicate' | 'fraudulent' | 'product_not_received' | 'product_unacceptable' | 'subscription_canceled' | 'other';
+        reason?: "customer_request" | "duplicate" | "fraudulent" | "product_not_received" | "product_unacceptable" | "subscription_canceled" | "other";
         /**
          * ISO 8601 date - only refunds created after this date
          */
@@ -9218,13 +10454,17 @@ type RefundsListData = {
          */
         offset?: number | null;
     };
-    url: '/refunds';
+    url: "/refunds";
 };
 type RefundsListErrors = {
     /**
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9239,9 +10479,15 @@ type RefundsListResponses = {
 type RefundsListResponse = RefundsListResponses[keyof RefundsListResponses];
 type RefundsCreateData = {
     body?: CreateRefundInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/refunds';
+    url: "/refunds";
 };
 type RefundsCreateErrors = {
     /**
@@ -9252,6 +10498,10 @@ type RefundsCreateErrors = {
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9273,7 +10523,7 @@ type RefundsGetData = {
         id: string;
     };
     query?: never;
-    url: '/refunds/{id}';
+    url: "/refunds/{id}";
 };
 type RefundsGetErrors = {
     /**
@@ -9284,6 +10534,10 @@ type RefundsGetErrors = {
      * Refund not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9303,7 +10557,7 @@ type CreditNotesListData = {
         /**
          * Filter by credit note status
          */
-        status?: 'draft' | 'pending' | 'issued' | 'applied' | 'voided';
+        status?: "draft" | "pending" | "issued" | "applied" | "voided";
         /**
          * Filter by invoice ID
          */
@@ -9315,7 +10569,7 @@ type CreditNotesListData = {
         /**
          * Filter by credit method
          */
-        credit_method?: 'refund_to_payment_method' | 'customer_balance' | 'external';
+        credit_method?: "refund_to_payment_method" | "customer_balance" | "external";
         /**
          * ISO 8601 date - only credit notes created after this date
          */
@@ -9333,13 +10587,17 @@ type CreditNotesListData = {
          */
         offset?: number | null;
     };
-    url: '/credit_notes';
+    url: "/credit_notes";
 };
 type CreditNotesListErrors = {
     /**
      * Unauthorized
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9354,9 +10612,15 @@ type CreditNotesListResponses = {
 type CreditNotesListResponse = CreditNotesListResponses[keyof CreditNotesListResponses];
 type CreditNotesCreateData = {
     body?: CreateCreditNoteInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/credit_notes';
+    url: "/credit_notes";
 };
 type CreditNotesCreateErrors = {
     /**
@@ -9371,6 +10635,10 @@ type CreditNotesCreateErrors = {
      * Duplicate idempotency key
      */
     409: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9392,7 +10660,7 @@ type CreditNotesGetData = {
         id: string;
     };
     query?: never;
-    url: '/credit_notes/{id}';
+    url: "/credit_notes/{id}";
 };
 type CreditNotesGetErrors = {
     /**
@@ -9403,6 +10671,10 @@ type CreditNotesGetErrors = {
      * Credit note not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9417,6 +10689,12 @@ type CreditNotesGetResponses = {
 type CreditNotesGetResponse = CreditNotesGetResponses[keyof CreditNotesGetResponses];
 type CreditNotesVoidData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Credit note UUID
@@ -9424,7 +10702,7 @@ type CreditNotesVoidData = {
         id: string;
     };
     query?: never;
-    url: '/credit_notes/{id}/void';
+    url: "/credit_notes/{id}/void";
 };
 type CreditNotesVoidErrors = {
     /**
@@ -9439,6 +10717,10 @@ type CreditNotesVoidErrors = {
      * Credit note not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Internal server error
      */
@@ -9465,7 +10747,7 @@ type CreditNotesListLinesData = {
          */
         limit?: number;
     };
-    url: '/credit_notes/{id}/lines';
+    url: "/credit_notes/{id}/lines";
 };
 type CreditNotesListLinesErrors = {
     /**
@@ -9476,6 +10758,10 @@ type CreditNotesListLinesErrors = {
      * Credit note not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CreditNotesListLinesResponses = {
     /**
@@ -9486,9 +10772,15 @@ type CreditNotesListLinesResponses = {
 type CreditNotesListLinesResponse = CreditNotesListLinesResponses[keyof CreditNotesListLinesResponses];
 type CreditNotesPreviewData = {
     body: PreviewCreditNoteInput;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/credit_notes/preview';
+    url: "/credit_notes/preview";
 };
 type CreditNotesPreviewErrors = {
     /**
@@ -9503,6 +10795,10 @@ type CreditNotesPreviewErrors = {
      * Invoice not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CreditNotesPreviewResponses = {
     /**
@@ -9517,11 +10813,11 @@ type PaymentLinksListData = {
     query?: {
         limit?: number;
         offset?: number | null;
-        status?: 'draft' | 'active' | 'expired' | 'completed';
-        mode?: 'invoice' | 'subscription' | 'custom';
+        status?: "draft" | "active" | "expired" | "completed";
+        mode?: "invoice" | "subscription" | "custom";
         search?: string;
     };
-    url: '/payment-links';
+    url: "/payment-links";
 };
 type PaymentLinksListErrors = {
     /**
@@ -9535,6 +10831,10 @@ type PaymentLinksListErrors = {
      * Unauthorized - missing or invalid authentication
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksListError = PaymentLinksListErrors[keyof PaymentLinksListErrors];
 type PaymentLinksListResponses = {
@@ -9542,120 +10842,66 @@ type PaymentLinksListResponses = {
      * Payment links retrieved successfully
      */
     200: {
-        data: Array<{
-            id: string;
-            merchant_id: string;
-            public_id: string;
-            name?: string;
-            slug?: string | null;
-            mode: 'invoice' | 'subscription' | 'custom';
-            status: 'draft' | 'active' | 'expired' | 'completed';
-            amount_minor?: number | null;
-            currency?: string;
-            invoice_id?: string | null;
-            subscription_id?: string | null;
-            product_ids?: Array<string>;
-            line_items?: Array<{
-                product_id: string;
-                price_id?: string | null;
-                quantity: number;
-                merchant_reference?: string | null;
-                is_adhoc: boolean;
-                product_details?: {
-                    name: string;
-                    description?: string | null;
-                    unit_amount: number;
-                    currency: string;
-                    recurring?: {
-                        interval: 'day' | 'week' | 'month' | 'year';
-                        interval_count?: number;
-                    } | null;
-                };
-            }>;
-            /**
-             * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page.
-             */
-            success_url?: string | null;
-            /**
-             * Custom URL to redirect if customer cancels the checkout. If not set, no cancel redirect is configured.
-             */
-            cancel_url?: string | null;
-            redirect_url?: string | null;
-            collect_shipping?: boolean;
-            allow_promotion_codes?: boolean;
-            tax_behavior?: 'exclusive' | 'inclusive' | 'unspecified';
-            metadata?: {
-                [key: string]: unknown;
-            } | null;
-            expires_at?: string | null;
-            /**
-             * Customer-facing checkout shape. bundle=all products together; single_select=radio picker; multi_select=cart with quantity per line.
-             */
-            selection_mode?: 'bundle' | 'single_select' | 'multi_select';
-            /**
-             * For single_select only — option pre-selected when checkout loads. Must reference a product attached to this payment link.
-             */
-            default_product_id?: string | null;
-            /**
-             * For single_select only — option shown with a 'Popular' badge.
-             */
-            highlighted_product_id?: string | null;
-            created_at: string;
-            updated_at: string;
-        }>;
-        pagination: {
-            limit: number;
-            offset: number;
-            total: number;
-        };
+        data: Array<PaymentLinksList200ResponseDataInner>;
+        pagination: PaymentLinksList200ResponsePagination;
     };
 };
 type PaymentLinksListResponse = PaymentLinksListResponses[keyof PaymentLinksListResponses];
 type PaymentLinksCreateData = {
     body?: {
         product_ids?: Array<string>;
-        line_items?: Array<{
-            price?: string;
-            price_data?: {
-                currency?: string;
-                unit_amount: number;
-                product_data?: {
-                    name: string;
-                    description?: string | null;
-                    images?: Array<string> | null;
-                    metadata?: {
-                        [key: string]: unknown;
-                    } | null;
-                };
-                product?: string;
-                recurring?: {
-                    interval: 'day' | 'week' | 'month' | 'year';
-                    interval_count?: number;
-                } | null;
-                tax_behavior?: 'inclusive' | 'exclusive' | null;
-            };
-            quantity?: number;
-            merchant_reference?: string | null;
-        }>;
+        line_items?: Array<PaymentLinksCreateRequestLineItemsInner>;
         name?: string;
         slug?: string;
-        mode?: 'invoice' | 'subscription' | 'custom';
+        mode?: "invoice" | "subscription" | "custom";
+        /**
+         * Deprecated and ignored. A payment link charges the prices of its products or line_items; an amount sent here is never charged.
+         *
+         * @deprecated
+         */
         amount_minor?: number;
+        /**
+         * Not used: a payment link takes its currency from its products. For an ad-hoc line item, set line_items[].price_data.currency.
+         */
         currency?: string;
+        /**
+         * Deprecated and ignored. This endpoint does not create a payment link for an invoice.
+         *
+         * @deprecated
+         */
         invoice_id?: string;
+        /**
+         * Deprecated and ignored. This endpoint does not attach a payment link to an existing subscription.
+         *
+         * @deprecated
+         */
         subscription_id?: string;
         /**
-         * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page.
+         * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}, {CHECKOUT_STATUS_TOKEN}. If not set, redirects to RevKeen's default success page.
          */
         success_url?: string;
         /**
          * Custom URL to redirect if customer cancels the checkout. If not set, no cancel redirect is configured.
          */
         cancel_url?: string;
+        /**
+         * Deprecated and ignored. Use success_url.
+         *
+         * @deprecated
+         */
         redirect_url?: string;
+        /**
+         * When true, checkout asks the customer for a delivery address before payment.
+         */
         collect_shipping?: boolean;
+        /**
+         * Not applied yet: links created through this endpoint do not accept discount codes, whatever this is set to.
+         */
         allow_promotion_codes?: boolean;
-        tax_behavior?: 'exclusive' | 'inclusive' | 'unspecified';
+        /**
+         * Whether the link's prices include tax. inclusive or exclusive is saved on the link; unspecified keeps the default (exclusive). Tax is only calculated when the link's tax mode is manual or auto, which this endpoint does not set.
+         */
+        tax_behavior?: "exclusive" | "inclusive" | "unspecified";
         metadata?: {
             [key: string]: unknown;
         };
@@ -9663,7 +10909,7 @@ type PaymentLinksCreateData = {
         /**
          * Customer-facing checkout shape. bundle=all products together (default); single_select=radio picker; multi_select=cart with quantity per line. Companion FKs (default_product_id, highlighted_product_id) are only valid when selection_mode='single_select'.
          */
-        selection_mode?: 'bundle' | 'single_select' | 'multi_select';
+        selection_mode?: "bundle" | "single_select" | "multi_select";
         /**
          * For single_select only — option pre-selected when checkout loads. Must reference a product attached to this payment link.
          */
@@ -9674,9 +10920,15 @@ type PaymentLinksCreateData = {
         highlighted_product_id?: string | null;
         idempotency_key?: string;
     };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/payment-links';
+    url: "/payment-links";
 };
 type PaymentLinksCreateErrors = {
     /**
@@ -9697,73 +10949,17 @@ type PaymentLinksCreateErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksCreateError = PaymentLinksCreateErrors[keyof PaymentLinksCreateErrors];
 type PaymentLinksCreateResponses = {
     /**
      * Payment link created successfully
      */
-    201: {
-        id: string;
-        merchant_id: string;
-        public_id: string;
-        name?: string;
-        slug?: string | null;
-        mode: 'invoice' | 'subscription' | 'custom';
-        status: 'draft' | 'active' | 'expired' | 'completed';
-        amount_minor?: number | null;
-        currency?: string;
-        invoice_id?: string | null;
-        subscription_id?: string | null;
-        product_ids?: Array<string>;
-        line_items?: Array<{
-            product_id: string;
-            price_id?: string | null;
-            quantity: number;
-            merchant_reference?: string | null;
-            is_adhoc: boolean;
-            product_details?: {
-                name: string;
-                description?: string | null;
-                unit_amount: number;
-                currency: string;
-                recurring?: {
-                    interval: 'day' | 'week' | 'month' | 'year';
-                    interval_count?: number;
-                } | null;
-            };
-        }>;
-        /**
-         * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page.
-         */
-        success_url?: string | null;
-        /**
-         * Custom URL to redirect if customer cancels the checkout. If not set, no cancel redirect is configured.
-         */
-        cancel_url?: string | null;
-        redirect_url?: string | null;
-        collect_shipping?: boolean;
-        allow_promotion_codes?: boolean;
-        tax_behavior?: 'exclusive' | 'inclusive' | 'unspecified';
-        metadata?: {
-            [key: string]: unknown;
-        } | null;
-        expires_at?: string | null;
-        /**
-         * Customer-facing checkout shape. bundle=all products together; single_select=radio picker; multi_select=cart with quantity per line.
-         */
-        selection_mode?: 'bundle' | 'single_select' | 'multi_select';
-        /**
-         * For single_select only — option pre-selected when checkout loads. Must reference a product attached to this payment link.
-         */
-        default_product_id?: string | null;
-        /**
-         * For single_select only — option shown with a 'Popular' badge.
-         */
-        highlighted_product_id?: string | null;
-        created_at: string;
-        updated_at: string;
-    };
+    201: PaymentLinksList200ResponseDataInner;
 };
 type PaymentLinksCreateResponse = PaymentLinksCreateResponses[keyof PaymentLinksCreateResponses];
 type PaymentLinksGetData = {
@@ -9775,7 +10971,7 @@ type PaymentLinksGetData = {
         id: string;
     };
     query?: never;
-    url: '/payment-links/{id}';
+    url: "/payment-links/{id}";
 };
 type PaymentLinksGetErrors = {
     /**
@@ -9789,78 +10985,28 @@ type PaymentLinksGetErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksGetError = PaymentLinksGetErrors[keyof PaymentLinksGetErrors];
 type PaymentLinksGetResponses = {
     /**
      * Payment link retrieved successfully
      */
-    200: {
-        id: string;
-        merchant_id: string;
-        public_id: string;
-        name?: string;
-        slug?: string | null;
-        mode: 'invoice' | 'subscription' | 'custom';
-        status: 'draft' | 'active' | 'expired' | 'completed';
-        amount_minor?: number | null;
-        currency?: string;
-        invoice_id?: string | null;
-        subscription_id?: string | null;
-        product_ids?: Array<string>;
-        line_items?: Array<{
-            product_id: string;
-            price_id?: string | null;
-            quantity: number;
-            merchant_reference?: string | null;
-            is_adhoc: boolean;
-            product_details?: {
-                name: string;
-                description?: string | null;
-                unit_amount: number;
-                currency: string;
-                recurring?: {
-                    interval: 'day' | 'week' | 'month' | 'year';
-                    interval_count?: number;
-                } | null;
-            };
-        }>;
-        /**
-         * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page.
-         */
-        success_url?: string | null;
-        /**
-         * Custom URL to redirect if customer cancels the checkout. If not set, no cancel redirect is configured.
-         */
-        cancel_url?: string | null;
-        redirect_url?: string | null;
-        collect_shipping?: boolean;
-        allow_promotion_codes?: boolean;
-        tax_behavior?: 'exclusive' | 'inclusive' | 'unspecified';
-        metadata?: {
-            [key: string]: unknown;
-        } | null;
-        expires_at?: string | null;
-        /**
-         * Customer-facing checkout shape. bundle=all products together; single_select=radio picker; multi_select=cart with quantity per line.
-         */
-        selection_mode?: 'bundle' | 'single_select' | 'multi_select';
-        /**
-         * For single_select only — option pre-selected when checkout loads. Must reference a product attached to this payment link.
-         */
-        default_product_id?: string | null;
-        /**
-         * For single_select only — option shown with a 'Popular' badge.
-         */
-        highlighted_product_id?: string | null;
-        created_at: string;
-        updated_at: string;
-    };
+    200: PaymentLinksList200ResponseDataInner;
 };
 type PaymentLinksGetResponse = PaymentLinksGetResponses[keyof PaymentLinksGetResponses];
 type PaymentLinksExpireData = {
     body?: {
         reason?: string;
+    };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
     };
     path: {
         /**
@@ -9869,7 +11015,7 @@ type PaymentLinksExpireData = {
         id: string;
     };
     query?: never;
-    url: '/payment-links/{id}/expire';
+    url: "/payment-links/{id}/expire";
 };
 type PaymentLinksExpireErrors = {
     /**
@@ -9890,73 +11036,17 @@ type PaymentLinksExpireErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksExpireError = PaymentLinksExpireErrors[keyof PaymentLinksExpireErrors];
 type PaymentLinksExpireResponses = {
     /**
      * Payment link expired successfully
      */
-    200: {
-        id: string;
-        merchant_id: string;
-        public_id: string;
-        name?: string;
-        slug?: string | null;
-        mode: 'invoice' | 'subscription' | 'custom';
-        status: 'draft' | 'active' | 'expired' | 'completed';
-        amount_minor?: number | null;
-        currency?: string;
-        invoice_id?: string | null;
-        subscription_id?: string | null;
-        product_ids?: Array<string>;
-        line_items?: Array<{
-            product_id: string;
-            price_id?: string | null;
-            quantity: number;
-            merchant_reference?: string | null;
-            is_adhoc: boolean;
-            product_details?: {
-                name: string;
-                description?: string | null;
-                unit_amount: number;
-                currency: string;
-                recurring?: {
-                    interval: 'day' | 'week' | 'month' | 'year';
-                    interval_count?: number;
-                } | null;
-            };
-        }>;
-        /**
-         * Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page.
-         */
-        success_url?: string | null;
-        /**
-         * Custom URL to redirect if customer cancels the checkout. If not set, no cancel redirect is configured.
-         */
-        cancel_url?: string | null;
-        redirect_url?: string | null;
-        collect_shipping?: boolean;
-        allow_promotion_codes?: boolean;
-        tax_behavior?: 'exclusive' | 'inclusive' | 'unspecified';
-        metadata?: {
-            [key: string]: unknown;
-        } | null;
-        expires_at?: string | null;
-        /**
-         * Customer-facing checkout shape. bundle=all products together; single_select=radio picker; multi_select=cart with quantity per line.
-         */
-        selection_mode?: 'bundle' | 'single_select' | 'multi_select';
-        /**
-         * For single_select only — option pre-selected when checkout loads. Must reference a product attached to this payment link.
-         */
-        default_product_id?: string | null;
-        /**
-         * For single_select only — option shown with a 'Popular' badge.
-         */
-        highlighted_product_id?: string | null;
-        created_at: string;
-        updated_at: string;
-    };
+    200: PaymentLinksList200ResponseDataInner;
 };
 type PaymentLinksExpireResponse = PaymentLinksExpireResponses[keyof PaymentLinksExpireResponses];
 type PaymentLinksUpdateData = {
@@ -9964,7 +11054,13 @@ type PaymentLinksUpdateData = {
         /**
          * New status for the payment link
          */
-        status: 'active' | 'inactive' | 'archived';
+        status: "active" | "inactive" | "archived";
+    };
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
     };
     path: {
         /**
@@ -9973,7 +11069,7 @@ type PaymentLinksUpdateData = {
         id: string;
     };
     query?: never;
-    url: '/payment-links/{id}/status';
+    url: "/payment-links/{id}/status";
 };
 type PaymentLinksUpdateErrors = {
     /**
@@ -9994,6 +11090,10 @@ type PaymentLinksUpdateErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksUpdateError = PaymentLinksUpdateErrors[keyof PaymentLinksUpdateErrors];
 type PaymentLinksUpdateResponses = {
@@ -10002,7 +11102,7 @@ type PaymentLinksUpdateResponses = {
      */
     200: {
         id: string;
-        status: 'active' | 'inactive' | 'archived';
+        status: "active" | "inactive" | "archived";
         status_changed_at: string;
         is_active: boolean;
         updated_at: string;
@@ -10011,6 +11111,12 @@ type PaymentLinksUpdateResponses = {
 type PaymentLinksUpdateResponse = PaymentLinksUpdateResponses[keyof PaymentLinksUpdateResponses];
 type PaymentLinksDeactivateData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Payment link UUID or public_id
@@ -10018,7 +11124,7 @@ type PaymentLinksDeactivateData = {
         id: string;
     };
     query?: never;
-    url: '/payment-links/{id}/deactivate';
+    url: "/payment-links/{id}/deactivate";
 };
 type PaymentLinksDeactivateErrors = {
     /**
@@ -10039,6 +11145,10 @@ type PaymentLinksDeactivateErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksDeactivateError = PaymentLinksDeactivateErrors[keyof PaymentLinksDeactivateErrors];
 type PaymentLinksDeactivateResponses = {
@@ -10047,7 +11157,7 @@ type PaymentLinksDeactivateResponses = {
      */
     200: {
         id: string;
-        status: 'active' | 'inactive' | 'archived';
+        status: "active" | "inactive" | "archived";
         status_changed_at: string;
         is_active: boolean;
         updated_at: string;
@@ -10056,6 +11166,12 @@ type PaymentLinksDeactivateResponses = {
 type PaymentLinksDeactivateResponse = PaymentLinksDeactivateResponses[keyof PaymentLinksDeactivateResponses];
 type PaymentLinksActivateData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Payment link UUID or public_id
@@ -10063,7 +11179,7 @@ type PaymentLinksActivateData = {
         id: string;
     };
     query?: never;
-    url: '/payment-links/{id}/activate';
+    url: "/payment-links/{id}/activate";
 };
 type PaymentLinksActivateErrors = {
     /**
@@ -10084,6 +11200,10 @@ type PaymentLinksActivateErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksActivateError = PaymentLinksActivateErrors[keyof PaymentLinksActivateErrors];
 type PaymentLinksActivateResponses = {
@@ -10092,7 +11212,7 @@ type PaymentLinksActivateResponses = {
      */
     200: {
         id: string;
-        status: 'active' | 'inactive' | 'archived';
+        status: "active" | "inactive" | "archived";
         status_changed_at: string;
         is_active: boolean;
         updated_at: string;
@@ -10101,6 +11221,12 @@ type PaymentLinksActivateResponses = {
 type PaymentLinksActivateResponse = PaymentLinksActivateResponses[keyof PaymentLinksActivateResponses];
 type PaymentLinksArchiveData = {
     body?: never;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Payment link UUID or public_id
@@ -10108,7 +11234,7 @@ type PaymentLinksArchiveData = {
         id: string;
     };
     query?: never;
-    url: '/payment-links/{id}/archive';
+    url: "/payment-links/{id}/archive";
 };
 type PaymentLinksArchiveErrors = {
     /**
@@ -10122,6 +11248,10 @@ type PaymentLinksArchiveErrors = {
         error: string;
         details?: unknown;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentLinksArchiveError = PaymentLinksArchiveErrors[keyof PaymentLinksArchiveErrors];
 type PaymentLinksArchiveResponses = {
@@ -10130,13 +11260,38 @@ type PaymentLinksArchiveResponses = {
      */
     200: {
         id: string;
-        status: 'active' | 'inactive' | 'archived';
+        status: "active" | "inactive" | "archived";
         status_changed_at: string;
         is_active: boolean;
         updated_at: string;
     };
 };
 type PaymentLinksArchiveResponse = PaymentLinksArchiveResponses[keyof PaymentLinksArchiveResponses];
+type BillingOverviewGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: "/billing/overview";
+};
+type BillingOverviewGetErrors = {
+    /**
+     * Unauthorized
+     */
+    401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type BillingOverviewGetResponses = {
+    /**
+     * Billing overview snapshot
+     */
+    200: {
+        data: BillingOverviewResponse;
+    };
+};
+type BillingOverviewGetResponse = BillingOverviewGetResponses[keyof BillingOverviewGetResponses];
 type PricesListData = {
     body?: never;
     path?: never;
@@ -10148,15 +11303,15 @@ type PricesListData = {
         /**
          * Filter by price type
          */
-        type?: 'one_time' | 'recurring';
+        type?: "one_time" | "recurring";
         /**
          * Filter by pricing model
          */
-        pricing_model?: 'fixed' | 'pay_what_you_want' | 'free';
+        pricing_model?: "fixed" | "pay_what_you_want" | "free";
         /**
          * Filter by active status
          */
-        active?: 'true' | 'false';
+        active?: "true" | "false";
         /**
          * Filter by currency
          */
@@ -10178,13 +11333,17 @@ type PricesListData = {
          */
         ending_before?: string;
     };
-    url: '/prices';
+    url: "/prices";
 };
 type PricesListErrors = {
     /**
      * Unauthorized
      */
     401: PriceErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PricesListError = PricesListErrors[keyof PricesListErrors];
 type PricesListResponses = {
@@ -10201,7 +11360,7 @@ type PricesCreateData = {
     body: CreatePriceRequest;
     path?: never;
     query?: never;
-    url: '/prices';
+    url: "/prices";
 };
 type PricesCreateErrors = {
     /**
@@ -10216,6 +11375,10 @@ type PricesCreateErrors = {
      * Product not found
      */
     404: PriceErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PricesCreateError = PricesCreateErrors[keyof PricesCreateErrors];
 type PricesCreateResponses = {
@@ -10234,7 +11397,7 @@ type PricesArchiveData = {
         id: string;
     };
     query?: never;
-    url: '/prices/{id}';
+    url: "/prices/{id}";
 };
 type PricesArchiveErrors = {
     /**
@@ -10245,6 +11408,10 @@ type PricesArchiveErrors = {
      * Price not found
      */
     404: PriceErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PricesArchiveError = PricesArchiveErrors[keyof PricesArchiveErrors];
 type PricesArchiveResponses = {
@@ -10263,7 +11430,7 @@ type PricesGetData = {
         id: string;
     };
     query?: never;
-    url: '/prices/{id}';
+    url: "/prices/{id}";
 };
 type PricesGetErrors = {
     /**
@@ -10274,6 +11441,10 @@ type PricesGetErrors = {
      * Price not found
      */
     404: PriceErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PricesGetError = PricesGetErrors[keyof PricesGetErrors];
 type PricesGetResponses = {
@@ -10295,7 +11466,7 @@ type PricesUpdateData = {
         id: string;
     };
     query?: never;
-    url: '/prices/{id}';
+    url: "/prices/{id}";
 };
 type PricesUpdateErrors = {
     /**
@@ -10310,6 +11481,10 @@ type PricesUpdateErrors = {
      * Price not found
      */
     404: PriceErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PricesUpdateError = PricesUpdateErrors[keyof PricesUpdateErrors];
 type PricesUpdateResponses = {
@@ -10319,11 +11494,258 @@ type PricesUpdateResponses = {
     200: Price;
 };
 type PricesUpdateResponse = PricesUpdateResponses[keyof PricesUpdateResponses];
+type MetersListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Include archived meters
+         */
+        include_archived?: string;
+        /**
+         * Max results (default 50, max 100)
+         */
+        limit?: string;
+        /**
+         * Pagination offset
+         */
+        offset?: string;
+    };
+    url: "/meters";
+};
+type MetersListErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type MetersListError = MetersListErrors[keyof MetersListErrors];
+type MetersListResponses = {
+    /**
+     * List of meters
+     */
+    200: MeterListResponse;
+};
+type MetersListResponse = MetersListResponses[keyof MetersListResponses];
+type MetersCreateData = {
+    body?: CreateMeterRequest;
+    path?: never;
+    query?: never;
+    url: "/meters";
+};
+type MetersCreateErrors = {
+    /**
+     * Validation error
+     */
+    400: MeterError;
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type MetersCreateError = MetersCreateErrors[keyof MetersCreateErrors];
+type MetersCreateResponses = {
+    /**
+     * Meter created
+     */
+    201: CreateMeterResponse;
+};
+type MetersCreateResponse = MetersCreateResponses[keyof MetersCreateResponses];
+type MetersQuantitiesData = {
+    body?: never;
+    path: {
+        /**
+         * Meter ID
+         */
+        id: string;
+    };
+    query: {
+        /**
+         * Start timestamp (ISO 8601, UTC)
+         */
+        start_timestamp: string;
+        /**
+         * End timestamp (ISO 8601, UTC)
+         */
+        end_timestamp: string;
+        /**
+         * Bucket width. UTC date_trunc semantics; week is ISO (Monday).
+         */
+        interval: "hour" | "day" | "week" | "month" | "year";
+        /**
+         * Filter by customer ID
+         */
+        customer_id?: string;
+        /**
+         * Filter by the merchant's external customer ID
+         */
+        external_customer_id?: string;
+        /**
+         * Filter by subscription ID
+         */
+        subscription_id?: string;
+        /**
+         * Only UTC is supported. Omit or pass UTC.
+         */
+        timezone?: string;
+    };
+    url: "/meters/{id}/quantities";
+};
+type MetersQuantitiesErrors = {
+    /**
+     * Missing or invalid range
+     */
+    400: MeterError;
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: AuthenticationError;
+    /**
+     * Meter not found
+     */
+    404: MeterError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type MetersQuantitiesError = MetersQuantitiesErrors[keyof MetersQuantitiesErrors];
+type MetersQuantitiesResponses = {
+    /**
+     * Meter quantities
+     */
+    200: MeterQuantitiesResponse;
+};
+type MetersQuantitiesResponse = MetersQuantitiesResponses[keyof MetersQuantitiesResponses];
+type MetersGetData = {
+    body?: never;
+    path: {
+        /**
+         * Meter ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: "/meters/{id}";
+};
+type MetersGetErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: AuthenticationError;
+    /**
+     * Meter not found
+     */
+    404: MeterError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type MetersGetError = MetersGetErrors[keyof MetersGetErrors];
+type MetersGetResponses = {
+    /**
+     * Meter details
+     */
+    200: MeterGetResponse;
+};
+type MetersGetResponse = MetersGetResponses[keyof MetersGetResponses];
+type MetersUpdateData = {
+    body?: UpdateMeterRequest;
+    path: {
+        /**
+         * Meter ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: "/meters/{id}";
+};
+type MetersUpdateErrors = {
+    /**
+     * Validation error or immutable field changed
+     */
+    400: MeterError;
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type MetersUpdateError = MetersUpdateErrors[keyof MetersUpdateErrors];
+type MetersUpdateResponses = {
+    /**
+     * Meter updated
+     */
+    200: UpdateMeterResponse;
+};
+type MetersUpdateResponse = MetersUpdateResponses[keyof MetersUpdateResponses];
+type InvoiceLineItemsListUsageEventsData = {
+    body?: never;
+    path: {
+        /**
+         * Invoice line item ID
+         */
+        id: string;
+    };
+    query?: {
+        /**
+         * Cursor: return entries with id greater than this value
+         */
+        starting_after?: string;
+        /**
+         * Max billed entries to return (default 50, max 100)
+         */
+        limit?: string;
+        /**
+         * When true, also return excluded-but-considered decisions for the line period
+         */
+        include_excluded?: string;
+    };
+    url: "/invoice-line-items/{id}/usage-events";
+};
+type InvoiceLineItemsListUsageEventsErrors = {
+    /**
+     * Validation error
+     */
+    400: InvoiceLineUsageEventsError;
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: AuthenticationError;
+    /**
+     * Line not found
+     */
+    404: InvoiceLineUsageEventsError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type InvoiceLineItemsListUsageEventsError = InvoiceLineItemsListUsageEventsErrors[keyof InvoiceLineItemsListUsageEventsErrors];
+type InvoiceLineItemsListUsageEventsResponses = {
+    /**
+     * Paginated usage provenance for the line
+     */
+    200: InvoiceLineUsageEventsList;
+};
+type InvoiceLineItemsListUsageEventsResponse = InvoiceLineItemsListUsageEventsResponses[keyof InvoiceLineItemsListUsageEventsResponses];
 type AccountingInvoicePaymentRequestsCreateData = {
     body?: CreateAccountingInvoicePaymentRequestInput;
     path?: never;
     query?: never;
-    url: '/integrations/accounting/invoice-payment-requests';
+    url: "/integrations/accounting/invoice-payment-requests";
 };
 type AccountingInvoicePaymentRequestsCreateErrors = {
     /**
@@ -10332,6 +11754,10 @@ type AccountingInvoicePaymentRequestsCreateErrors = {
     400: {
         error: string;
     };
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
     /**
      * Not found
      */
@@ -10344,6 +11770,10 @@ type AccountingInvoicePaymentRequestsCreateErrors = {
     409: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type AccountingInvoicePaymentRequestsCreateError = AccountingInvoicePaymentRequestsCreateErrors[keyof AccountingInvoicePaymentRequestsCreateErrors];
 type AccountingInvoicePaymentRequestsCreateResponses = {
@@ -10369,15 +11799,23 @@ type AccountingInvoicePaymentRequestsGetData = {
         id: string;
     };
     query?: never;
-    url: '/integrations/accounting/invoice-payment-requests/{id}';
+    url: "/integrations/accounting/invoice-payment-requests/{id}";
 };
 type AccountingInvoicePaymentRequestsGetErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
     /**
      * Not found
      */
     404: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type AccountingInvoicePaymentRequestsGetError = AccountingInvoicePaymentRequestsGetErrors[keyof AccountingInvoicePaymentRequestsGetErrors];
 type AccountingInvoicePaymentRequestsGetResponses = {
@@ -10397,7 +11835,7 @@ type WebhookEndpointsListData = {
         /**
          * Filter by endpoint status
          */
-        status?: 'enabled' | 'disabled';
+        status?: "enabled" | "disabled";
         /**
          * Maximum number of results to return (1-100, default 20)
          */
@@ -10407,87 +11845,25 @@ type WebhookEndpointsListData = {
          */
         offset?: number | null;
     };
-    url: '/webhook-endpoints';
+    url: "/webhook-endpoints";
 };
 type WebhookEndpointsListErrors = {
     /**
      * Authentication required
      */
     401: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookEndpointsListResponses = {
     /**
      * List of webhook endpoints
      */
     200: {
-        data: Array<{
-            /**
-             * Unique identifier for the webhook endpoint
-             */
-            id: string;
-            /**
-             * The URL that receives webhook POST requests
-             */
-            url: string;
-            /**
-             * Optional human-readable description
-             */
-            description: string | null;
-            /**
-             * Event types this endpoint subscribes to
-             */
-            enabled_events: Array<string>;
-            /**
-             * Whether the endpoint is currently receiving events
-             */
-            status: 'enabled' | 'disabled';
-            /**
-             * Circuit breaker status. Opens after repeated delivery failures.
-             */
-            circuit_breaker_state: 'closed' | 'open' | 'half_open';
-            /**
-             * Total number of delivery attempts
-             */
-            total_deliveries: number;
-            /**
-             * Number of successful deliveries
-             */
-            successful_deliveries: number;
-            /**
-             * Number of failed deliveries
-             */
-            failed_deliveries: number;
-            /**
-             * Timestamp of the most recent delivery attempt
-             */
-            last_delivery_at: string | null;
-            /**
-             * When the endpoint was created
-             */
-            created_at: string;
-            /**
-             * When the endpoint was last modified
-             */
-            updated_at: string;
-        }>;
-        meta: {
-            /**
-             * Total number of results
-             */
-            total: number;
-            /**
-             * Page size
-             */
-            limit: number;
-            /**
-             * Number of results skipped
-             */
-            offset: number;
-            /**
-             * Whether more results exist beyond this page
-             */
-            has_more: boolean;
-        };
+        data: Array<WebhookEndpointsList200ResponseDataInner>;
+        meta: WebhookEndpointsList200ResponseMeta;
     };
 };
 type WebhookEndpointsListResponse = WebhookEndpointsListResponses[keyof WebhookEndpointsListResponses];
@@ -10508,7 +11884,7 @@ type WebhookEndpointsCreateData = {
     };
     path?: never;
     query?: never;
-    url: '/webhook-endpoints';
+    url: "/webhook-endpoints";
 };
 type WebhookEndpointsCreateErrors = {
     /**
@@ -10523,6 +11899,10 @@ type WebhookEndpointsCreateErrors = {
      * Webhook endpoint already exists for this URL
      */
     409: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookEndpointsCreateResponses = {
     /**
@@ -10542,7 +11922,7 @@ type WebhookEndpointsDeleteData = {
         id: string;
     };
     query?: never;
-    url: '/webhook-endpoints/{id}';
+    url: "/webhook-endpoints/{id}";
 };
 type WebhookEndpointsDeleteErrors = {
     /**
@@ -10553,16 +11933,17 @@ type WebhookEndpointsDeleteErrors = {
      * Webhook endpoint not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookEndpointsDeleteResponses = {
     /**
      * Deleted webhook endpoint
      */
     200: {
-        data: {
-            id: string;
-            deleted: true;
-        };
+        data: WebhookEndpointsDelete200ResponseData;
     };
 };
 type WebhookEndpointsDeleteResponse = WebhookEndpointsDeleteResponses[keyof WebhookEndpointsDeleteResponses];
@@ -10575,7 +11956,7 @@ type WebhookEndpointsGetData = {
         id: string;
     };
     query?: never;
-    url: '/webhook-endpoints/{id}';
+    url: "/webhook-endpoints/{id}";
 };
 type WebhookEndpointsGetErrors = {
     /**
@@ -10586,62 +11967,17 @@ type WebhookEndpointsGetErrors = {
      * Webhook endpoint not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookEndpointsGetResponses = {
     /**
      * Webhook endpoint details
      */
     200: {
-        data: {
-            /**
-             * Unique identifier for the webhook endpoint
-             */
-            id: string;
-            /**
-             * The URL that receives webhook POST requests
-             */
-            url: string;
-            /**
-             * Optional human-readable description
-             */
-            description: string | null;
-            /**
-             * Event types this endpoint subscribes to
-             */
-            enabled_events: Array<string>;
-            /**
-             * Whether the endpoint is currently receiving events
-             */
-            status: 'enabled' | 'disabled';
-            /**
-             * Circuit breaker status. Opens after repeated delivery failures.
-             */
-            circuit_breaker_state: 'closed' | 'open' | 'half_open';
-            /**
-             * Total number of delivery attempts
-             */
-            total_deliveries: number;
-            /**
-             * Number of successful deliveries
-             */
-            successful_deliveries: number;
-            /**
-             * Number of failed deliveries
-             */
-            failed_deliveries: number;
-            /**
-             * Timestamp of the most recent delivery attempt
-             */
-            last_delivery_at: string | null;
-            /**
-             * When the endpoint was created
-             */
-            created_at: string;
-            /**
-             * When the endpoint was last modified
-             */
-            updated_at: string;
-        };
+        data: WebhookEndpointsList200ResponseDataInner;
     };
 };
 type WebhookEndpointsGetResponse = WebhookEndpointsGetResponses[keyof WebhookEndpointsGetResponses];
@@ -10671,7 +12007,7 @@ type WebhookEndpointsUpdateData = {
         id: string;
     };
     query?: never;
-    url: '/webhook-endpoints/{id}';
+    url: "/webhook-endpoints/{id}";
 };
 type WebhookEndpointsUpdateErrors = {
     /**
@@ -10686,62 +12022,17 @@ type WebhookEndpointsUpdateErrors = {
      * Webhook endpoint not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookEndpointsUpdateResponses = {
     /**
      * Updated webhook endpoint
      */
     200: {
-        data: {
-            /**
-             * Unique identifier for the webhook endpoint
-             */
-            id: string;
-            /**
-             * The URL that receives webhook POST requests
-             */
-            url: string;
-            /**
-             * Optional human-readable description
-             */
-            description: string | null;
-            /**
-             * Event types this endpoint subscribes to
-             */
-            enabled_events: Array<string>;
-            /**
-             * Whether the endpoint is currently receiving events
-             */
-            status: 'enabled' | 'disabled';
-            /**
-             * Circuit breaker status. Opens after repeated delivery failures.
-             */
-            circuit_breaker_state: 'closed' | 'open' | 'half_open';
-            /**
-             * Total number of delivery attempts
-             */
-            total_deliveries: number;
-            /**
-             * Number of successful deliveries
-             */
-            successful_deliveries: number;
-            /**
-             * Number of failed deliveries
-             */
-            failed_deliveries: number;
-            /**
-             * Timestamp of the most recent delivery attempt
-             */
-            last_delivery_at: string | null;
-            /**
-             * When the endpoint was created
-             */
-            created_at: string;
-            /**
-             * When the endpoint was last modified
-             */
-            updated_at: string;
-        };
+        data: WebhookEndpointsList200ResponseDataInner;
     };
 };
 type WebhookEndpointsUpdateResponse = WebhookEndpointsUpdateResponses[keyof WebhookEndpointsUpdateResponses];
@@ -10754,7 +12045,7 @@ type WebhookEndpointsRotateSecretData = {
         id: string;
     };
     query?: never;
-    url: '/webhook-endpoints/{id}/rotate-secret';
+    url: "/webhook-endpoints/{id}/rotate-secret";
 };
 type WebhookEndpointsRotateSecretErrors = {
     /**
@@ -10765,6 +12056,10 @@ type WebhookEndpointsRotateSecretErrors = {
      * Webhook endpoint not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookEndpointsRotateSecretResponses = {
     /**
@@ -10790,7 +12085,7 @@ type WebhookDeliveriesListData = {
         /**
          * Filter by delivery status
          */
-        status?: 'pending' | 'succeeded' | 'failed' | 'dead_lettered';
+        status?: "pending" | "succeeded" | "failed" | "dead_lettered";
         /**
          * Maximum number of deliveries to return (1-100, default 20).
          */
@@ -10804,13 +12099,17 @@ type WebhookDeliveriesListData = {
          */
         ending_before?: string;
     };
-    url: '/webhook-deliveries';
+    url: "/webhook-deliveries";
 };
 type WebhookDeliveriesListErrors = {
     /**
      * Unauthorized
      */
     401: WebhookDeliveryErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookDeliveriesListError = WebhookDeliveriesListErrors[keyof WebhookDeliveriesListErrors];
 type WebhookDeliveriesListResponses = {
@@ -10829,13 +12128,21 @@ type WebhookDeliveriesGetData = {
         id: string;
     };
     query?: never;
-    url: '/webhook-deliveries/{id}';
+    url: "/webhook-deliveries/{id}";
 };
 type WebhookDeliveriesGetErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
     /**
      * Webhook delivery not found
      */
     404: WebhookDeliveryErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookDeliveriesGetError = WebhookDeliveriesGetErrors[keyof WebhookDeliveriesGetErrors];
 type WebhookDeliveriesGetResponses = {
@@ -10854,9 +12161,13 @@ type WebhookDeliveriesRetryData = {
         id: string;
     };
     query?: never;
-    url: '/webhook-deliveries/{id}/retry';
+    url: "/webhook-deliveries/{id}/retry";
 };
 type WebhookDeliveriesRetryErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
     /**
      * Webhook delivery not found
      */
@@ -10865,6 +12176,10 @@ type WebhookDeliveriesRetryErrors = {
      * Delivery already succeeded and cannot be retried.
      */
     409: WebhookDeliveryErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type WebhookDeliveriesRetryError = WebhookDeliveriesRetryErrors[keyof WebhookDeliveriesRetryErrors];
 type WebhookDeliveriesRetryResponses = {
@@ -10878,17 +12193,21 @@ type CustomerPortalSessionsCreateData = {
     body: CreateCustomerPortalSessionRequest;
     path?: never;
     query?: never;
-    url: '/customer-portal/sessions';
+    url: "/customer-portal/sessions";
 };
 type CustomerPortalSessionsCreateErrors = {
     /**
-     * Invalid or missing merchant API key.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
      * Customer not found for this merchant.
      */
     404: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalSessionsCreateError = CustomerPortalSessionsCreateErrors[keyof CustomerPortalSessionsCreateErrors];
 type CustomerPortalSessionsCreateResponses = {
@@ -10902,17 +12221,21 @@ type CustomerPortalCustomerGetData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/customer-portal/customer';
+    url: "/customer-portal/customer";
 };
 type CustomerPortalCustomerGetErrors = {
     /**
-     * Missing or invalid customer-portal session token.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
      * Customer record no longer exists.
      */
     404: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalCustomerGetError = CustomerPortalCustomerGetErrors[keyof CustomerPortalCustomerGetErrors];
 type CustomerPortalCustomerGetResponses = {
@@ -10939,13 +12262,17 @@ type CustomerPortalSubscriptionsListData = {
          */
         ending_before?: string;
     };
-    url: '/customer-portal/subscriptions';
+    url: "/customer-portal/subscriptions";
 };
 type CustomerPortalSubscriptionsListErrors = {
     /**
-     * Missing or invalid customer-portal session token.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalSubscriptionsListError = CustomerPortalSubscriptionsListErrors[keyof CustomerPortalSubscriptionsListErrors];
 type CustomerPortalSubscriptionsListResponses = {
@@ -10964,17 +12291,21 @@ type CustomerPortalSubscriptionsGetData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/subscriptions/{id}';
+    url: "/customer-portal/subscriptions/{id}";
 };
 type CustomerPortalSubscriptionsGetErrors = {
     /**
-     * Unauthorized.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
      * Subscription not found.
      */
     404: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalSubscriptionsGetError = CustomerPortalSubscriptionsGetErrors[keyof CustomerPortalSubscriptionsGetErrors];
 type CustomerPortalSubscriptionsGetResponses = {
@@ -10993,17 +12324,21 @@ type CustomerPortalSubscriptionsCancelData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/subscriptions/{id}/cancel';
+    url: "/customer-portal/subscriptions/{id}/cancel";
 };
 type CustomerPortalSubscriptionsCancelErrors = {
     /**
-     * Unauthorized.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
      * Subscription not found.
      */
     404: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalSubscriptionsCancelError = CustomerPortalSubscriptionsCancelErrors[keyof CustomerPortalSubscriptionsCancelErrors];
 type CustomerPortalSubscriptionsCancelResponses = {
@@ -11030,13 +12365,17 @@ type CustomerPortalInvoicesListData = {
          */
         ending_before?: string;
     };
-    url: '/customer-portal/invoices';
+    url: "/customer-portal/invoices";
 };
 type CustomerPortalInvoicesListErrors = {
     /**
-     * Unauthorized.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalInvoicesListError = CustomerPortalInvoicesListErrors[keyof CustomerPortalInvoicesListErrors];
 type CustomerPortalInvoicesListResponses = {
@@ -11055,17 +12394,21 @@ type CustomerPortalInvoicesGetData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/invoices/{id}';
+    url: "/customer-portal/invoices/{id}";
 };
 type CustomerPortalInvoicesGetErrors = {
     /**
-     * Unauthorized.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
      * Invoice not found.
      */
     404: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalInvoicesGetError = CustomerPortalInvoicesGetErrors[keyof CustomerPortalInvoicesGetErrors];
 type CustomerPortalInvoicesGetResponses = {
@@ -11079,17 +12422,21 @@ type CustomerPortalMandatesListData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/customer-portal/mandates';
+    url: "/customer-portal/mandates";
 };
 type CustomerPortalMandatesListErrors = {
     /**
-     * Unauthorized.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
-     * Direct Debit self-service is not enabled.
+     * Forbidden - Insufficient permissions
      */
-    403: CustomerPortalErrorResponse;
+    403: ForbiddenError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalMandatesListError = CustomerPortalMandatesListErrors[keyof CustomerPortalMandatesListErrors];
 type CustomerPortalMandatesListResponses = {
@@ -11108,7 +12455,7 @@ type CustomerPortalMandatesReauthorizeData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/mandates/{id}/re-authorize';
+    url: "/customer-portal/mandates/{id}/re-authorize";
 };
 type CustomerPortalMandatesReauthorizeErrors = {
     /**
@@ -11116,13 +12463,13 @@ type CustomerPortalMandatesReauthorizeErrors = {
      */
     400: CustomerPortalErrorResponse;
     /**
-     * Unauthorized.
+     * Unauthorized - Invalid or missing API key
      */
-    401: CustomerPortalErrorResponse;
+    401: AuthenticationError;
     /**
-     * Direct Debit self-service is not enabled.
+     * Forbidden - Insufficient permissions
      */
-    403: CustomerPortalErrorResponse;
+    403: ForbiddenError;
     /**
      * Mandate not found.
      */
@@ -11135,6 +12482,10 @@ type CustomerPortalMandatesReauthorizeErrors = {
      * Customer record is missing required Direct Debit fields.
      */
     422: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * The provider accepted the amendment but local persistence requires reconciliation.
      */
@@ -11167,7 +12518,7 @@ type CustomerPortalMandatesCancelData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/mandates/{id}/cancel';
+    url: "/customer-portal/mandates/{id}/cancel";
 };
 type CustomerPortalMandatesCancelErrors = {
     /**
@@ -11175,13 +12526,21 @@ type CustomerPortalMandatesCancelErrors = {
      */
     400: CustomerPortalErrorResponse;
     /**
-     * Self-service not enabled.
+     * Unauthorized - Invalid or missing API key
      */
-    403: CustomerPortalErrorResponse;
+    401: unknown;
+    /**
+     * Forbidden - Insufficient permissions
+     */
+    403: ForbiddenError;
     /**
      * Not found or not owned.
      */
     404: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalMandatesCancelError = CustomerPortalMandatesCancelErrors[keyof CustomerPortalMandatesCancelErrors];
 type CustomerPortalMandatesCancelResponses = {
@@ -11199,7 +12558,7 @@ type CustomerPortalMandatesReauthorizeSendOtpData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/mandates/{id}/re-authorize/send-otp';
+    url: "/customer-portal/mandates/{id}/re-authorize/send-otp";
 };
 type CustomerPortalMandatesReauthorizeSendOtpErrors = {
     /**
@@ -11207,9 +12566,13 @@ type CustomerPortalMandatesReauthorizeSendOtpErrors = {
      */
     400: CustomerPortalErrorResponse;
     /**
-     * DD self-service not enabled.
+     * Unauthorized - Invalid or missing API key
      */
-    403: CustomerPortalErrorResponse;
+    401: unknown;
+    /**
+     * Forbidden - Insufficient permissions
+     */
+    403: ForbiddenError;
     /**
      * Mandate not found.
      */
@@ -11222,6 +12585,10 @@ type CustomerPortalMandatesReauthorizeSendOtpErrors = {
      * Customer record is missing an email.
      */
     422: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalMandatesReauthorizeSendOtpError = CustomerPortalMandatesReauthorizeSendOtpErrors[keyof CustomerPortalMandatesReauthorizeSendOtpErrors];
 type CustomerPortalMandatesReauthorizeSendOtpResponses = {
@@ -11237,7 +12604,7 @@ type CustomerPortalMandatesReauthorizeVerifyOtpData = {
         id: string;
     };
     query?: never;
-    url: '/customer-portal/mandates/{id}/re-authorize/verify-otp';
+    url: "/customer-portal/mandates/{id}/re-authorize/verify-otp";
 };
 type CustomerPortalMandatesReauthorizeVerifyOtpErrors = {
     /**
@@ -11245,9 +12612,13 @@ type CustomerPortalMandatesReauthorizeVerifyOtpErrors = {
      */
     400: CustomerPortalErrorResponse;
     /**
-     * DD self-service not enabled.
+     * Unauthorized - Invalid or missing API key
      */
-    403: CustomerPortalErrorResponse;
+    401: unknown;
+    /**
+     * Forbidden - Insufficient permissions
+     */
+    403: ForbiddenError;
     /**
      * Mandate not found.
      */
@@ -11256,6 +12627,10 @@ type CustomerPortalMandatesReauthorizeVerifyOtpErrors = {
      * Customer record is missing an email.
      */
     422: CustomerPortalErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerPortalMandatesReauthorizeVerifyOtpError = CustomerPortalMandatesReauthorizeVerifyOtpErrors[keyof CustomerPortalMandatesReauthorizeVerifyOtpErrors];
 type CustomerPortalMandatesReauthorizeVerifyOtpResponses = {
@@ -11278,7 +12653,7 @@ type CustomerMetersListData = {
          */
         meter_id?: string;
     };
-    url: '/customer-meters';
+    url: "/customer-meters";
 };
 type CustomerMetersListErrors = {
     /**
@@ -11289,6 +12664,10 @@ type CustomerMetersListErrors = {
      * Unauthorized.
      */
     401: CustomerMeterErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerMetersListError = CustomerMetersListErrors[keyof CustomerMetersListErrors];
 type CustomerMetersListResponses = {
@@ -11311,7 +12690,7 @@ type CustomerMetersGetData = {
         meter_id: string;
     };
     query?: never;
-    url: '/customer-meters/{customer_id}/{meter_id}';
+    url: "/customer-meters/{customer_id}/{meter_id}";
 };
 type CustomerMetersGetErrors = {
     /**
@@ -11322,6 +12701,10 @@ type CustomerMetersGetErrors = {
      * Meter not found.
      */
     404: CustomerMeterErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type CustomerMetersGetError = CustomerMetersGetErrors[keyof CustomerMetersGetErrors];
 type CustomerMetersGetResponses = {
@@ -11342,7 +12725,7 @@ type PaymentIntentsListData = {
         /**
          * Filter by status
          */
-        status?: 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'processing' | 'succeeded' | 'canceled';
+        status?: "requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "succeeded" | "canceled";
         /**
          * Filter by created_at >= (Unix timestamp)
          */
@@ -11364,13 +12747,17 @@ type PaymentIntentsListData = {
          */
         ending_before?: string;
     };
-    url: '/payment-intents';
+    url: "/payment-intents";
 };
 type PaymentIntentsListErrors = {
     /**
      * Unauthorized
      */
     401: PaymentIntentErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentIntentsListError = PaymentIntentsListErrors[keyof PaymentIntentsListErrors];
 type PaymentIntentsListResponses = {
@@ -11382,9 +12769,15 @@ type PaymentIntentsListResponses = {
 type PaymentIntentsListResponse = PaymentIntentsListResponses[keyof PaymentIntentsListResponses];
 type PaymentIntentsCreateData = {
     body?: CreatePaymentIntentRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/payment-intents';
+    url: "/payment-intents";
 };
 type PaymentIntentsCreateErrors = {
     /**
@@ -11395,6 +12788,10 @@ type PaymentIntentsCreateErrors = {
      * Unauthorized
      */
     401: PaymentIntentErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentIntentsCreateError = PaymentIntentsCreateErrors[keyof PaymentIntentsCreateErrors];
 type PaymentIntentsCreateResponses = {
@@ -11413,13 +12810,21 @@ type PaymentIntentsGetData = {
         id: string;
     };
     query?: never;
-    url: '/payment-intents/{id}';
+    url: "/payment-intents/{id}";
 };
 type PaymentIntentsGetErrors = {
+    /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
     /**
      * Payment intent not found
      */
     404: PaymentIntentErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentIntentsGetError = PaymentIntentsGetErrors[keyof PaymentIntentsGetErrors];
 type PaymentIntentsGetResponses = {
@@ -11431,6 +12836,12 @@ type PaymentIntentsGetResponses = {
 type PaymentIntentsGetResponse = PaymentIntentsGetResponses[keyof PaymentIntentsGetResponses];
 type PaymentIntentsConfirmData = {
     body?: ConfirmPaymentIntentRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Payment intent ID (pi_xxx)
@@ -11438,7 +12849,7 @@ type PaymentIntentsConfirmData = {
         id: string;
     };
     query?: never;
-    url: '/payment-intents/{id}/confirm';
+    url: "/payment-intents/{id}/confirm";
 };
 type PaymentIntentsConfirmErrors = {
     /**
@@ -11446,9 +12857,17 @@ type PaymentIntentsConfirmErrors = {
      */
     400: PaymentIntentErrorResponse;
     /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
      * Payment intent not found
      */
     404: PaymentIntentErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentIntentsConfirmError = PaymentIntentsConfirmErrors[keyof PaymentIntentsConfirmErrors];
 type PaymentIntentsConfirmResponses = {
@@ -11460,6 +12879,12 @@ type PaymentIntentsConfirmResponses = {
 type PaymentIntentsConfirmResponse = PaymentIntentsConfirmResponses[keyof PaymentIntentsConfirmResponses];
 type PaymentIntentsCaptureData = {
     body?: CapturePaymentIntentRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Payment intent ID (pi_xxx)
@@ -11467,7 +12892,7 @@ type PaymentIntentsCaptureData = {
         id: string;
     };
     query?: never;
-    url: '/payment-intents/{id}/capture';
+    url: "/payment-intents/{id}/capture";
 };
 type PaymentIntentsCaptureErrors = {
     /**
@@ -11475,9 +12900,17 @@ type PaymentIntentsCaptureErrors = {
      */
     400: PaymentIntentErrorResponse;
     /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
      * Payment intent not found
      */
     404: PaymentIntentErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentIntentsCaptureError = PaymentIntentsCaptureErrors[keyof PaymentIntentsCaptureErrors];
 type PaymentIntentsCaptureResponses = {
@@ -11489,6 +12922,12 @@ type PaymentIntentsCaptureResponses = {
 type PaymentIntentsCaptureResponse = PaymentIntentsCaptureResponses[keyof PaymentIntentsCaptureResponses];
 type PaymentIntentsCancelData = {
     body?: CancelPaymentIntentRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Payment intent ID (pi_xxx)
@@ -11496,7 +12935,7 @@ type PaymentIntentsCancelData = {
         id: string;
     };
     query?: never;
-    url: '/payment-intents/{id}/cancel';
+    url: "/payment-intents/{id}/cancel";
 };
 type PaymentIntentsCancelErrors = {
     /**
@@ -11504,9 +12943,17 @@ type PaymentIntentsCancelErrors = {
      */
     400: PaymentIntentErrorResponse;
     /**
+     * Unauthorized - Invalid or missing API key
+     */
+    401: unknown;
+    /**
      * Payment intent not found
      */
     404: PaymentIntentErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type PaymentIntentsCancelError = PaymentIntentsCancelErrors[keyof PaymentIntentsCancelErrors];
 type PaymentIntentsCancelResponses = {
@@ -11565,13 +13012,17 @@ type EventsListData = {
          */
         ending_before?: string;
     };
-    url: '/events';
+    url: "/events";
 };
 type EventsListErrors = {
     /**
      * Unauthorized
      */
     401: EventErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type EventsListError = EventsListErrors[keyof EventsListErrors];
 type EventsListResponses = {
@@ -11590,7 +13041,7 @@ type EventsGetData = {
         id: string;
     };
     query?: never;
-    url: '/events/{id}';
+    url: "/events/{id}";
 };
 type EventsGetErrors = {
     /**
@@ -11601,6 +13052,10 @@ type EventsGetErrors = {
      * Event not found
      */
     404: EventErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type EventsGetError = EventsGetErrors[keyof EventsGetErrors];
 type EventsGetResponses = {
@@ -11619,7 +13074,7 @@ type EventsResendData = {
         id: string;
     };
     query?: never;
-    url: '/events/{id}/resend';
+    url: "/events/{id}/resend";
 };
 type EventsResendErrors = {
     /**
@@ -11630,6 +13085,10 @@ type EventsResendErrors = {
      * Event not found
      */
     404: EventErrorResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type EventsResendError = EventsResendErrors[keyof EventsResendErrors];
 type EventsResendResponses = {
@@ -11639,6 +13098,183 @@ type EventsResendResponses = {
     200: ResendWebhookResponse;
 };
 type EventsResendResponse = EventsResendResponses[keyof EventsResendResponses];
+type UsageEventsListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter by meter ID
+         */
+        meter_id?: string;
+        /**
+         * Filter by customer ID
+         */
+        customer_id?: string;
+        /**
+         * Filter by external customer ID
+         */
+        external_customer_id?: string;
+        /**
+         * Filter by subscription ID
+         */
+        subscription_id?: string;
+        /**
+         * Start of time range (ISO 8601)
+         */
+        start_time?: string;
+        /**
+         * End of time range (ISO 8601)
+         */
+        end_time?: string;
+        /**
+         * Max results (default 100, max 100)
+         */
+        limit?: string;
+    };
+    url: "/usage-events";
+};
+type UsageEventsListErrors = {
+    /**
+     * Unauthorized
+     */
+    401: UsageEventError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type UsageEventsListError = UsageEventsListErrors[keyof UsageEventsListErrors];
+type UsageEventsListResponses = {
+    /**
+     * List of usage events
+     */
+    200: UsageEventListResponse;
+};
+type UsageEventsListResponse = UsageEventsListResponses[keyof UsageEventsListResponses];
+type UsageEventsIngestData = {
+    body?: UsageIngestRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
+    path?: never;
+    query?: never;
+    url: "/usage-events";
+};
+type UsageEventsIngestErrors = {
+    /**
+     * Validation error or all events failed
+     */
+    400: UsageEventError;
+    /**
+     * Unauthorized
+     */
+    401: UsageEventError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type UsageEventsIngestError = UsageEventsIngestErrors[keyof UsageEventsIngestErrors];
+type UsageEventsIngestResponses = {
+    /**
+     * Events deduplicated or skipped
+     */
+    200: BatchIngestResult;
+    /**
+     * All events ingested
+     */
+    201: BatchIngestResult;
+    /**
+     * Mixed results (partial success)
+     */
+    207: BatchIngestResult;
+};
+type UsageEventsIngestResponse = UsageEventsIngestResponses[keyof UsageEventsIngestResponses];
+type UsageEventsGetData = {
+    body?: never;
+    path: {
+        /**
+         * Usage event ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: "/usage-events/{id}";
+};
+type UsageEventsGetErrors = {
+    /**
+     * Unauthorized
+     */
+    401: UsageEventError;
+    /**
+     * Event not found
+     */
+    404: UsageEventError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type UsageEventsGetError = UsageEventsGetErrors[keyof UsageEventsGetErrors];
+type UsageEventsGetResponses = {
+    /**
+     * Usage event
+     */
+    200: UsageEventGetResponse;
+};
+type UsageEventsGetResponse = UsageEventsGetResponses[keyof UsageEventsGetResponses];
+type UsageBalanceGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter to a specific subscription
+         */
+        subscription_id?: string;
+        /**
+         * Filter to a specific customer by RevKeen ID
+         */
+        customer_id?: string;
+        /**
+         * Filter to a customer by your external identifier
+         */
+        external_customer_id?: string;
+        /**
+         * Filter to a single meter
+         */
+        meter_id?: string;
+    };
+    url: "/usage/balance";
+};
+type UsageBalanceGetErrors = {
+    /**
+     * Invalid request — at least one identifier is required
+     */
+    400: {
+        error: UsageBalanceGet400ResponseError;
+    };
+    /**
+     * Authentication required
+     */
+    401: {
+        error: UsageBalanceGet400ResponseError;
+    };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+};
+type UsageBalanceGetError = UsageBalanceGetErrors[keyof UsageBalanceGetErrors];
+type UsageBalanceGetResponses = {
+    /**
+     * Usage balance retrieved successfully
+     */
+    200: UsageBalanceResponse;
+};
+type UsageBalanceGetResponse = UsageBalanceGetResponses[keyof UsageBalanceGetResponses];
 type EntitlementsListData = {
     body?: never;
     path?: never;
@@ -11668,7 +13304,7 @@ type EntitlementsListData = {
          */
         offset?: number | null;
     };
-    url: '/entitlements';
+    url: "/entitlements";
 };
 type EntitlementsListErrors = {
     /**
@@ -11683,6 +13319,10 @@ type EntitlementsListErrors = {
      * Customer not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type EntitlementsListResponses = {
     /**
@@ -11704,7 +13344,7 @@ type EntitlementsCheckData = {
          */
         benefit_key: string;
     };
-    url: '/entitlements/check';
+    url: "/entitlements/check";
 };
 type EntitlementsCheckErrors = {
     /**
@@ -11715,6 +13355,10 @@ type EntitlementsCheckErrors = {
      * Customer not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type EntitlementsCheckResponses = {
     /**
@@ -11730,11 +13374,11 @@ type TransactionsListData = {
         /**
          * Filter by transaction type
          */
-        type?: 'sale' | 'refund' | 'void' | 'capture' | 'dispute' | 'adjustment';
+        type?: "sale" | "refund" | "void" | "capture" | "dispute" | "adjustment";
         /**
          * Filter by status
          */
-        status?: 'pending' | 'succeeded' | 'failed' | 'voided';
+        status?: "pending" | "succeeded" | "failed" | "voided";
         /**
          * Filter by customer ID
          */
@@ -11764,13 +13408,17 @@ type TransactionsListData = {
          */
         ending_before?: string;
     };
-    url: '/transactions';
+    url: "/transactions";
 };
 type TransactionsListErrors = {
     /**
      * Unauthorized
      */
     401: TransactionListResponse;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type TransactionsListError = TransactionsListErrors[keyof TransactionsListErrors];
 type TransactionsListResponses = {
@@ -11789,7 +13437,7 @@ type TransactionsGetData = {
         id: string;
     };
     query?: never;
-    url: '/transactions/{id}';
+    url: "/transactions/{id}";
 };
 type TransactionsGetErrors = {
     /**
@@ -11804,6 +13452,10 @@ type TransactionsGetErrors = {
     404: {
         error: string;
     };
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
 type TransactionsGetError = TransactionsGetErrors[keyof TransactionsGetErrors];
 type TransactionsGetResponses = {
@@ -11822,7 +13474,7 @@ type DdMandateRequestsGetData = {
         token: string;
     };
     query?: never;
-    url: '/dd/mandate-requests/{token}';
+    url: "/dd/mandate-requests/{token}";
 };
 type DdMandateRequestsGetErrors = {
     /**
@@ -11830,10 +13482,11 @@ type DdMandateRequestsGetErrors = {
      */
     404: unknown;
     /**
-     * Too many mandate request lookups
+     * Too Many Requests - Rate limit exceeded
      */
-    429: unknown;
+    429: RateLimitError;
 };
+type DdMandateRequestsGetError = DdMandateRequestsGetErrors[keyof DdMandateRequestsGetErrors];
 type DdMandateRequestsGetResponses = {
     /**
      * Mandate request details
@@ -11843,9 +13496,15 @@ type DdMandateRequestsGetResponses = {
 type DdMandateRequestsGetResponse = DdMandateRequestsGetResponses[keyof DdMandateRequestsGetResponses];
 type DdValidateData = {
     body?: ValidateBankAccountRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/dd/validate';
+    url: "/dd/validate";
 };
 type DdValidateErrors = {
     /**
@@ -11853,14 +13512,19 @@ type DdValidateErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Validation failed
      */
     500: unknown;
 };
+type DdValidateError = DdValidateErrors[keyof DdValidateErrors];
 type DdValidateResponses = {
     /**
      * Validation result
@@ -11870,9 +13534,15 @@ type DdValidateResponses = {
 type DdValidateResponse = DdValidateResponses[keyof DdValidateResponses];
 type DdPreviewData = {
     body?: PreviewCollectionRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path?: never;
     query?: never;
-    url: '/dd/preview';
+    url: "/dd/preview";
 };
 type DdPreviewErrors = {
     /**
@@ -11880,14 +13550,19 @@ type DdPreviewErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
     /**
      * Preview failed
      */
     500: unknown;
 };
+type DdPreviewError = DdPreviewErrors[keyof DdPreviewErrors];
 type DdPreviewResponses = {
     /**
      * Collection date chain
@@ -11908,14 +13583,19 @@ type MandatesListData = {
          */
         status?: string;
     };
-    url: '/mandates';
+    url: "/mandates";
 };
 type MandatesListErrors = {
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
+type MandatesListError = MandatesListErrors[keyof MandatesListErrors];
 type MandatesListResponses = {
     /**
      * List of mandates
@@ -11929,11 +13609,11 @@ type MandatesCreateData = {
         /**
          * Required stable key for this logical mandate submission. Reuse the same key only with an identical request.
          */
-        'Idempotency-Key': string;
+        "Idempotency-Key": string;
     };
     path?: never;
     query?: never;
-    url: '/mandates';
+    url: "/mandates";
 };
 type MandatesCreateErrors = {
     /**
@@ -11941,9 +13621,9 @@ type MandatesCreateErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
     /**
      * Customer or mandate-request not found
      */
@@ -11961,6 +13641,10 @@ type MandatesCreateErrors = {
      */
     422: unknown;
     /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
      * Bureau submission failed
      */
     502: unknown;
@@ -11969,6 +13653,7 @@ type MandatesCreateErrors = {
      */
     503: unknown;
 };
+type MandatesCreateError = MandatesCreateErrors[keyof MandatesCreateErrors];
 type MandatesCreateResponses = {
     /**
      * Mandate created
@@ -11985,18 +13670,23 @@ type MandatesGetData = {
         id: string;
     };
     query?: never;
-    url: '/mandates/{id}';
+    url: "/mandates/{id}";
 };
 type MandatesGetErrors = {
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
     /**
      * Mandate not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
+type MandatesGetError = MandatesGetErrors[keyof MandatesGetErrors];
 type MandatesGetResponses = {
     /**
      * Mandate
@@ -12006,6 +13696,12 @@ type MandatesGetResponses = {
 type MandatesGetResponse = MandatesGetResponses[keyof MandatesGetResponses];
 type MandatesCancelData = {
     body?: MandateActionRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Mandate ID
@@ -12013,7 +13709,7 @@ type MandatesCancelData = {
         id: string;
     };
     query?: never;
-    url: '/mandates/{id}/cancel';
+    url: "/mandates/{id}/cancel";
 };
 type MandatesCancelErrors = {
     /**
@@ -12021,14 +13717,19 @@ type MandatesCancelErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
     /**
      * Mandate not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
+type MandatesCancelError = MandatesCancelErrors[keyof MandatesCancelErrors];
 type MandatesCancelResponses = {
     /**
      * Mandate cancelled
@@ -12038,6 +13739,12 @@ type MandatesCancelResponses = {
 type MandatesCancelResponse = MandatesCancelResponses[keyof MandatesCancelResponses];
 type MandatesSuspendData = {
     body?: MandateActionRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Mandate ID
@@ -12045,7 +13752,7 @@ type MandatesSuspendData = {
         id: string;
     };
     query?: never;
-    url: '/mandates/{id}/suspend';
+    url: "/mandates/{id}/suspend";
 };
 type MandatesSuspendErrors = {
     /**
@@ -12053,14 +13760,19 @@ type MandatesSuspendErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
     /**
      * Mandate not found
      */
     404: unknown;
+    /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
 };
+type MandatesSuspendError = MandatesSuspendErrors[keyof MandatesSuspendErrors];
 type MandatesSuspendResponses = {
     /**
      * Mandate suspended
@@ -12070,6 +13782,12 @@ type MandatesSuspendResponses = {
 type MandatesSuspendResponse = MandatesSuspendResponses[keyof MandatesSuspendResponses];
 type MandatesReinstateData = {
     body?: MandateActionRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Mandate ID
@@ -12077,7 +13795,7 @@ type MandatesReinstateData = {
         id: string;
     };
     query?: never;
-    url: '/mandates/{id}/reinstate';
+    url: "/mandates/{id}/reinstate";
 };
 type MandatesReinstateErrors = {
     /**
@@ -12085,9 +13803,9 @@ type MandatesReinstateErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
     /**
      * Mandate or customer not found
      */
@@ -12101,6 +13819,10 @@ type MandatesReinstateErrors = {
      */
     422: unknown;
     /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
      * Bureau reinstatement failed
      */
     502: unknown;
@@ -12109,6 +13831,7 @@ type MandatesReinstateErrors = {
      */
     503: unknown;
 };
+type MandatesReinstateError = MandatesReinstateErrors[keyof MandatesReinstateErrors];
 type MandatesReinstateResponses = {
     /**
      * Mandate re-lodged (pending_lodgement)
@@ -12118,6 +13841,12 @@ type MandatesReinstateResponses = {
 type MandatesReinstateResponse = MandatesReinstateResponses[keyof MandatesReinstateResponses];
 type MandatesScheduleCollectionData = {
     body?: ScheduleCollectionRequest;
+    headers?: {
+        /**
+         * Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+         */
+        "Idempotency-Key"?: string;
+    };
     path: {
         /**
          * Mandate ID
@@ -12125,7 +13854,7 @@ type MandatesScheduleCollectionData = {
         id: string;
     };
     query?: never;
-    url: '/mandates/{id}/collections';
+    url: "/mandates/{id}/collections";
 };
 type MandatesScheduleCollectionErrors = {
     /**
@@ -12133,19 +13862,19 @@ type MandatesScheduleCollectionErrors = {
      */
     400: unknown;
     /**
-     * Authentication required
+     * Unauthorized - Invalid or missing API key
      */
-    401: unknown;
+    401: AuthenticationError;
     /**
-     * Missing mandates:write scope
+     * Forbidden - Insufficient permissions
      */
-    403: unknown;
+    403: ForbiddenError;
     /**
      * Mandate not found
      */
     404: unknown;
     /**
-     * Mandate is not active, or a collection for this source is already in flight
+     * Mandate is not active, a collection for this source is already in flight, or the invoice is not collectable (draft, pending approval, paid, void or otherwise closed)
      */
     409: unknown;
     /**
@@ -12153,10 +13882,15 @@ type MandatesScheduleCollectionErrors = {
      */
     422: unknown;
     /**
+     * Too Many Requests - Rate limit exceeded
+     */
+    429: unknown;
+    /**
      * Bureau submission or advance-notice dispatch failed
      */
     502: unknown;
 };
+type MandatesScheduleCollectionError = MandatesScheduleCollectionErrors[keyof MandatesScheduleCollectionErrors];
 type MandatesScheduleCollectionResponses = {
     /**
      * An existing schedule for this source was returned (idempotent retry)
@@ -12171,373 +13905,401 @@ type MandatesScheduleCollectionResponse = MandatesScheduleCollectionResponses[ke
 type WebhooksPaymentSucceededWebhookPayload = WebhookEvent;
 type WebhooksPaymentSucceededWebhookRequest = {
     body: WebhooksPaymentSucceededWebhookPayload;
-    key: 'payment.succeeded';
+    key: "payment.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksPaymentFailedWebhookPayload = WebhookEvent;
 type WebhooksPaymentFailedWebhookRequest = {
     body: WebhooksPaymentFailedWebhookPayload;
-    key: 'payment.failed';
+    key: "payment.failed";
     path?: never;
     query?: never;
 };
 type WebhooksInvoiceCreatedWebhookPayload = WebhookEvent;
 type WebhooksInvoiceCreatedWebhookRequest = {
     body: WebhooksInvoiceCreatedWebhookPayload;
-    key: 'invoice.created';
+    key: "invoice.created";
     path?: never;
     query?: never;
 };
 type WebhooksInvoicePaidWebhookPayload = WebhookEvent;
 type WebhooksInvoicePaidWebhookRequest = {
     body: WebhooksInvoicePaidWebhookPayload;
-    key: 'invoice.paid';
+    key: "invoice.paid";
     path?: never;
     query?: never;
 };
 type WebhooksInvoiceOverdueWebhookPayload = WebhookEvent;
 type WebhooksInvoiceOverdueWebhookRequest = {
     body: WebhooksInvoiceOverdueWebhookPayload;
-    key: 'invoice.overdue';
+    key: "invoice.overdue";
     path?: never;
     query?: never;
 };
 type WebhooksSubscriptionCreatedWebhookPayload = WebhookEvent;
 type WebhooksSubscriptionCreatedWebhookRequest = {
     body: WebhooksSubscriptionCreatedWebhookPayload;
-    key: 'subscription.created';
+    key: "subscription.created";
     path?: never;
     query?: never;
 };
 type WebhooksSubscriptionActivatedWebhookPayload = WebhookEvent;
 type WebhooksSubscriptionActivatedWebhookRequest = {
     body: WebhooksSubscriptionActivatedWebhookPayload;
-    key: 'subscription.activated';
+    key: "subscription.activated";
     path?: never;
     query?: never;
 };
 type WebhooksSubscriptionCanceledWebhookPayload = WebhookEvent;
 type WebhooksSubscriptionCanceledWebhookRequest = {
     body: WebhooksSubscriptionCanceledWebhookPayload;
-    key: 'subscription.canceled';
+    key: "subscription.canceled";
     path?: never;
     query?: never;
 };
 type WebhooksSubscriptionRenewedWebhookPayload = WebhookEvent;
 type WebhooksSubscriptionRenewedWebhookRequest = {
     body: WebhooksSubscriptionRenewedWebhookPayload;
-    key: 'subscription.renewed';
+    key: "subscription.renewed";
     path?: never;
     query?: never;
 };
 type WebhooksCustomerCreatedWebhookPayload = WebhookEvent;
 type WebhooksCustomerCreatedWebhookRequest = {
     body: WebhooksCustomerCreatedWebhookPayload;
-    key: 'customer.created';
+    key: "customer.created";
     path?: never;
     query?: never;
 };
 type WebhooksCustomerUpdatedWebhookPayload = WebhookEvent;
 type WebhooksCustomerUpdatedWebhookRequest = {
     body: WebhooksCustomerUpdatedWebhookPayload;
-    key: 'customer.updated';
+    key: "customer.updated";
     path?: never;
     query?: never;
 };
 type WebhooksRefundCreatedWebhookPayload = WebhookEvent;
 type WebhooksRefundCreatedWebhookRequest = {
     body: WebhooksRefundCreatedWebhookPayload;
-    key: 'refund.created';
+    key: "refund.created";
     path?: never;
     query?: never;
 };
 type WebhooksRefundSucceededWebhookPayload = WebhookEvent;
 type WebhooksRefundSucceededWebhookRequest = {
     body: WebhooksRefundSucceededWebhookPayload;
-    key: 'refund.succeeded';
+    key: "refund.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksVoidCreatedWebhookPayload = WebhookEvent;
 type WebhooksVoidCreatedWebhookRequest = {
     body: WebhooksVoidCreatedWebhookPayload;
-    key: 'void.created';
+    key: "void.created";
     path?: never;
     query?: never;
 };
 type WebhooksVoidSucceededWebhookPayload = WebhookEvent;
 type WebhooksVoidSucceededWebhookRequest = {
     body: WebhooksVoidSucceededWebhookPayload;
-    key: 'void.succeeded';
+    key: "void.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksVoidFailedWebhookPayload = WebhookEvent;
 type WebhooksVoidFailedWebhookRequest = {
     body: WebhooksVoidFailedWebhookPayload;
-    key: 'void.failed';
+    key: "void.failed";
     path?: never;
     query?: never;
 };
 type WebhooksCreditNoteCreatedWebhookPayload = WebhookEvent;
 type WebhooksCreditNoteCreatedWebhookRequest = {
     body: WebhooksCreditNoteCreatedWebhookPayload;
-    key: 'credit_note.created';
+    key: "credit_note.created";
     path?: never;
     query?: never;
 };
 type WebhooksCreditNoteIssuedWebhookPayload = WebhookEvent;
 type WebhooksCreditNoteIssuedWebhookRequest = {
     body: WebhooksCreditNoteIssuedWebhookPayload;
-    key: 'credit_note.issued';
+    key: "credit_note.issued";
     path?: never;
     query?: never;
 };
 type WebhooksCreditNoteVoidedWebhookPayload = WebhookEvent;
 type WebhooksCreditNoteVoidedWebhookRequest = {
     body: WebhooksCreditNoteVoidedWebhookPayload;
-    key: 'credit_note.voided';
+    key: "credit_note.voided";
     path?: never;
     query?: never;
 };
 type WebhooksCheckoutSessionCompletedWebhookPayload = WebhookEvent;
 type WebhooksCheckoutSessionCompletedWebhookRequest = {
     body: WebhooksCheckoutSessionCompletedWebhookPayload;
-    key: 'checkout.session.completed';
+    key: "checkout.session.completed";
     path?: never;
     query?: never;
 };
 type WebhooksCheckoutSessionExpiredWebhookPayload = WebhookEvent;
 type WebhooksCheckoutSessionExpiredWebhookRequest = {
     body: WebhooksCheckoutSessionExpiredWebhookPayload;
-    key: 'checkout.session.expired';
+    key: "checkout.session.expired";
     path?: never;
     query?: never;
 };
 type WebhooksOrderCreatedWebhookPayload = WebhookEvent;
 type WebhooksOrderCreatedWebhookRequest = {
     body: WebhooksOrderCreatedWebhookPayload;
-    key: 'order.created';
+    key: "order.created";
     path?: never;
     query?: never;
 };
 type WebhooksOrderPaidWebhookPayload = WebhookEvent;
 type WebhooksOrderPaidWebhookRequest = {
     body: WebhooksOrderPaidWebhookPayload;
-    key: 'order.paid';
+    key: "order.paid";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalPaymentRequestedWebhookPayload = WebhookEvent;
 type WebhooksTerminalPaymentRequestedWebhookRequest = {
     body: WebhooksTerminalPaymentRequestedWebhookPayload;
-    key: 'terminal_payment.requested';
+    key: "terminal_payment.requested";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalPaymentSucceededWebhookPayload = WebhookEvent;
 type WebhooksTerminalPaymentSucceededWebhookRequest = {
     body: WebhooksTerminalPaymentSucceededWebhookPayload;
-    key: 'terminal_payment.succeeded';
+    key: "terminal_payment.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalPaymentDeclinedWebhookPayload = WebhookEvent;
 type WebhooksTerminalPaymentDeclinedWebhookRequest = {
     body: WebhooksTerminalPaymentDeclinedWebhookPayload;
-    key: 'terminal_payment.declined';
+    key: "terminal_payment.declined";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalPaymentCancelledWebhookPayload = WebhookEvent;
 type WebhooksTerminalPaymentCancelledWebhookRequest = {
     body: WebhooksTerminalPaymentCancelledWebhookPayload;
-    key: 'terminal_payment.cancelled';
+    key: "terminal_payment.cancelled";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalPaymentErrorWebhookPayload = WebhookEvent;
 type WebhooksTerminalPaymentErrorWebhookRequest = {
     body: WebhooksTerminalPaymentErrorWebhookPayload;
-    key: 'terminal_payment.error';
+    key: "terminal_payment.error";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalRefundSucceededWebhookPayload = WebhookEvent;
 type WebhooksTerminalRefundSucceededWebhookRequest = {
     body: WebhooksTerminalRefundSucceededWebhookPayload;
-    key: 'terminal_refund.succeeded';
+    key: "terminal_refund.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksTerminalVoidSucceededWebhookPayload = WebhookEvent;
 type WebhooksTerminalVoidSucceededWebhookRequest = {
     body: WebhooksTerminalVoidSucceededWebhookPayload;
-    key: 'terminal_void.succeeded';
+    key: "terminal_void.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksOrderFulfilledWebhookPayload = WebhookEvent;
 type WebhooksOrderFulfilledWebhookRequest = {
     body: WebhooksOrderFulfilledWebhookPayload;
-    key: 'order.fulfilled';
+    key: "order.fulfilled";
     path?: never;
     query?: never;
 };
 type WebhooksUsageThresholdReachedWebhookPayload = WebhookEvent;
 type WebhooksUsageThresholdReachedWebhookRequest = {
     body: WebhooksUsageThresholdReachedWebhookPayload;
-    key: 'usage.threshold.reached';
+    key: "usage.threshold.reached";
     path?: never;
     query?: never;
 };
 type WebhooksUsagePeriodFinalizedWebhookPayload = WebhookEvent;
 type WebhooksUsagePeriodFinalizedWebhookRequest = {
     body: WebhooksUsagePeriodFinalizedWebhookPayload;
-    key: 'usage.period_finalized';
+    key: "usage.period_finalized";
     path?: never;
     query?: never;
 };
 type WebhooksUsageInvoiceCreatedWebhookPayload = WebhookEvent;
 type WebhooksUsageInvoiceCreatedWebhookRequest = {
     body: WebhooksUsageInvoiceCreatedWebhookPayload;
-    key: 'usage.invoice.created';
+    key: "usage.invoice.created";
     path?: never;
     query?: never;
 };
 type WebhooksUsageEventIngestedWebhookPayload = WebhookEvent;
 type WebhooksUsageEventIngestedWebhookRequest = {
     body: WebhooksUsageEventIngestedWebhookPayload;
-    key: 'usage.event.ingested';
+    key: "usage.event.ingested";
     path?: never;
     query?: never;
 };
 type WebhooksUsageEventRejectedWebhookPayload = WebhookEvent;
 type WebhooksUsageEventRejectedWebhookRequest = {
     body: WebhooksUsageEventRejectedWebhookPayload;
-    key: 'usage.event.rejected';
+    key: "usage.event.rejected";
+    path?: never;
+    query?: never;
+};
+type WebhooksUsageEventExcludedWebhookPayload = WebhookEvent;
+type WebhooksUsageEventExcludedWebhookRequest = {
+    body: WebhooksUsageEventExcludedWebhookPayload;
+    key: "usage.event.excluded";
+    path?: never;
+    query?: never;
+};
+type WebhooksUsageEventQuarantinedWebhookPayload = WebhookEvent;
+type WebhooksUsageEventQuarantinedWebhookRequest = {
+    body: WebhooksUsageEventQuarantinedWebhookPayload;
+    key: "usage.event.quarantined";
+    path?: never;
+    query?: never;
+};
+type WebhooksUsageCapExceededWebhookPayload = WebhookEvent;
+type WebhooksUsageCapExceededWebhookRequest = {
+    body: WebhooksUsageCapExceededWebhookPayload;
+    key: "usage.cap.exceeded";
     path?: never;
     query?: never;
 };
 type WebhooksMeterCreatedWebhookPayload = WebhookEvent;
 type WebhooksMeterCreatedWebhookRequest = {
     body: WebhooksMeterCreatedWebhookPayload;
-    key: 'meter.created';
+    key: "meter.created";
     path?: never;
     query?: never;
 };
 type WebhooksMeterUpdatedWebhookPayload = WebhookEvent;
 type WebhooksMeterUpdatedWebhookRequest = {
     body: WebhooksMeterUpdatedWebhookPayload;
-    key: 'meter.updated';
+    key: "meter.updated";
     path?: never;
     query?: never;
 };
 type WebhooksMeterArchivedWebhookPayload = WebhookEvent;
 type WebhooksMeterArchivedWebhookRequest = {
     body: WebhooksMeterArchivedWebhookPayload;
-    key: 'meter.archived';
+    key: "meter.archived";
     path?: never;
     query?: never;
 };
 type WebhooksMeterPriceCreatedWebhookPayload = WebhookEvent;
 type WebhooksMeterPriceCreatedWebhookRequest = {
     body: WebhooksMeterPriceCreatedWebhookPayload;
-    key: 'meter_price.created';
+    key: "meter_price.created";
     path?: never;
     query?: never;
 };
 type WebhooksMeterPriceUpdatedWebhookPayload = WebhookEvent;
 type WebhooksMeterPriceUpdatedWebhookRequest = {
     body: WebhooksMeterPriceUpdatedWebhookPayload;
-    key: 'meter_price.updated';
+    key: "meter_price.updated";
     path?: never;
     query?: never;
 };
 type WebhooksMeterPriceDeactivatedWebhookPayload = WebhookEvent;
 type WebhooksMeterPriceDeactivatedWebhookRequest = {
     body: WebhooksMeterPriceDeactivatedWebhookPayload;
-    key: 'meter_price.deactivated';
+    key: "meter_price.deactivated";
+    path?: never;
+    query?: never;
+};
+type WebhooksMandateSignedWebhookPayload = WebhookEvent;
+type WebhooksMandateSignedWebhookRequest = {
+    body: WebhooksMandateSignedWebhookPayload;
+    key: "mandate.signed";
     path?: never;
     query?: never;
 };
 type WebhooksMandateCreatedWebhookPayload = WebhookEvent;
 type WebhooksMandateCreatedWebhookRequest = {
     body: WebhooksMandateCreatedWebhookPayload;
-    key: 'mandate.created';
+    key: "mandate.created";
     path?: never;
     query?: never;
 };
 type WebhooksMandateActivatedWebhookPayload = WebhookEvent;
 type WebhooksMandateActivatedWebhookRequest = {
     body: WebhooksMandateActivatedWebhookPayload;
-    key: 'mandate.activated';
+    key: "mandate.activated";
     path?: never;
     query?: never;
 };
 type WebhooksMandateAuddisRejectedWebhookPayload = WebhookEvent;
 type WebhooksMandateAuddisRejectedWebhookRequest = {
     body: WebhooksMandateAuddisRejectedWebhookPayload;
-    key: 'mandate.auddis_rejected';
+    key: "mandate.auddis_rejected";
     path?: never;
     query?: never;
 };
 type WebhooksMandateSuspendedWebhookPayload = WebhookEvent;
 type WebhooksMandateSuspendedWebhookRequest = {
     body: WebhooksMandateSuspendedWebhookPayload;
-    key: 'mandate.suspended';
+    key: "mandate.suspended";
     path?: never;
     query?: never;
 };
 type WebhooksMandateCancelledWebhookPayload = WebhookEvent;
 type WebhooksMandateCancelledWebhookRequest = {
     body: WebhooksMandateCancelledWebhookPayload;
-    key: 'mandate.cancelled';
+    key: "mandate.cancelled";
     path?: never;
     query?: never;
 };
 type WebhooksCollectionScheduledWebhookPayload = WebhookEvent;
 type WebhooksCollectionScheduledWebhookRequest = {
     body: WebhooksCollectionScheduledWebhookPayload;
-    key: 'collection.scheduled';
+    key: "collection.scheduled";
     path?: never;
     query?: never;
 };
 type WebhooksCollectionNoticeSentWebhookPayload = WebhookEvent;
 type WebhooksCollectionNoticeSentWebhookRequest = {
     body: WebhooksCollectionNoticeSentWebhookPayload;
-    key: 'collection.notice_sent';
+    key: "collection.notice_sent";
     path?: never;
     query?: never;
 };
 type WebhooksCollectionSucceededWebhookPayload = WebhookEvent;
 type WebhooksCollectionSucceededWebhookRequest = {
     body: WebhooksCollectionSucceededWebhookPayload;
-    key: 'collection.succeeded';
+    key: "collection.succeeded";
     path?: never;
     query?: never;
 };
 type WebhooksCollectionFailedWebhookPayload = WebhookEvent;
 type WebhooksCollectionFailedWebhookRequest = {
     body: WebhooksCollectionFailedWebhookPayload;
-    key: 'collection.failed';
+    key: "collection.failed";
     path?: never;
     query?: never;
 };
 type WebhooksCollectionIndemnityClaimedWebhookPayload = WebhookEvent;
 type WebhooksCollectionIndemnityClaimedWebhookRequest = {
     body: WebhooksCollectionIndemnityClaimedWebhookPayload;
-    key: 'collection.indemnity_claimed';
+    key: "collection.indemnity_claimed";
     path?: never;
     query?: never;
 };
 type WebhooksSettlementCreatedWebhookPayload = WebhookEvent;
 type WebhooksSettlementCreatedWebhookRequest = {
     body: WebhooksSettlementCreatedWebhookPayload;
-    key: 'settlement.created';
+    key: "settlement.created";
     path?: never;
     query?: never;
 };
 
-export type { CustomerMetersListResponse as $, AccountingInvoicePaymentRequestsCreateData as A, BatchIngestResult as B, CartApiKeysEnsureResponse as C, CartSessionsUpdateLineItemData as D, CartSessionsUpdateLineItemResponse as E, CheckoutSessionsCreateData as F, CheckoutSessionsCreateResponse as G, CheckoutSessionsExpireData as H, CheckoutSessionsExpireResponse as I, CheckoutSessionsGetData as J, CheckoutSessionsGetResponse as K, CreditNotesCreateData as L, CreditNotesCreateResponse as M, CreditNotesGetData as N, CreditNotesGetResponse as O, CreditNotesListData as P, CreditNotesListResponse as Q, CreditNotesListLinesData as R, CreditNotesListLinesResponse as S, CreditNotesPreviewData as T, UsageEvent as U, CreditNotesPreviewResponse as V, CreditNotesVoidData as W, CreditNotesVoidResponse as X, CustomerMetersGetData as Y, CustomerMetersGetResponse as Z, CustomerMetersListData as _, AccountingInvoicePaymentRequestsCreateResponse as a, InvoicesSendResponse as a$, CustomerPortalCustomerGetResponse as a0, CustomerPortalInvoicesGetData as a1, CustomerPortalInvoicesGetResponse as a2, CustomerPortalInvoicesListData as a3, CustomerPortalInvoicesListResponse as a4, CustomerPortalMandatesCancelData as a5, CustomerPortalMandatesCancelResponse as a6, CustomerPortalMandatesListResponse as a7, CustomerPortalMandatesReauthorizeData as a8, CustomerPortalMandatesReauthorizeResponse as a9, DdMandateRequestsGetData as aA, DdMandateRequestsGetResponse as aB, DdPreviewData as aC, DdPreviewResponse as aD, DdValidateData as aE, DdValidateResponse as aF, EntitlementsCheckData as aG, EntitlementsCheckResponse as aH, EntitlementsListData as aI, EntitlementsListResponse as aJ, EventsGetData as aK, EventsGetResponse as aL, EventsListData as aM, EventsListResponse as aN, EventsResendData as aO, EventsResendResponse as aP, InvoicesCreateData as aQ, InvoicesCreateResponse as aR, InvoicesFinalizeData as aS, InvoicesFinalizeResponse as aT, InvoicesGetData as aU, InvoicesGetResponse as aV, InvoicesListData as aW, InvoicesListResponse as aX, InvoicesMarginEstimateData as aY, InvoicesMarginEstimateResponse as aZ, InvoicesSendData as a_, CustomerPortalMandatesReauthorizeSendOtpData as aa, CustomerPortalMandatesReauthorizeSendOtpResponse as ab, CustomerPortalMandatesReauthorizeVerifyOtpData as ac, CustomerPortalMandatesReauthorizeVerifyOtpResponse as ad, CustomerPortalSessionsCreateData as ae, CustomerPortalSessionsCreateResponse as af, CustomerPortalSubscriptionsCancelData as ag, CustomerPortalSubscriptionsCancelResponse as ah, CustomerPortalSubscriptionsGetData as ai, CustomerPortalSubscriptionsGetResponse as aj, CustomerPortalSubscriptionsListData as ak, CustomerPortalSubscriptionsListResponse as al, CustomersCreateData as am, CustomersCreateResponse as an, CustomersGetData as ao, CustomersGetResponse as ap, CustomersListData as aq, CustomersListResponse as ar, CustomersPaymentMethodsListData as as, CustomersPaymentMethodsListResponse as at, CustomersPaymentRailsGetData as au, CustomersPaymentRailsGetResponse as av, CustomersPreferredRailsGetData as aw, CustomersPreferredRailsGetResponse as ax, CustomersUpdateData as ay, CustomersUpdateResponse as az, AccountingInvoicePaymentRequestsGetData as b, ProductsUpdateResponse as b$, InvoicesUpdateData as b0, InvoicesUpdateResponse as b1, InvoicesVoidData as b2, InvoicesVoidResponse as b3, MandatesCancelData as b4, MandatesCancelResponse as b5, MandatesCreateData as b6, MandatesCreateResponse as b7, MandatesGetData as b8, MandatesGetResponse as b9, PaymentLinksDeactivateData as bA, PaymentLinksDeactivateResponse as bB, PaymentLinksExpireData as bC, PaymentLinksExpireResponse as bD, PaymentLinksGetData as bE, PaymentLinksGetResponse as bF, PaymentLinksListData as bG, PaymentLinksListResponse as bH, PaymentLinksUpdateData as bI, PaymentLinksUpdateResponse as bJ, PricesArchiveData as bK, PricesArchiveResponse as bL, PricesCreateData as bM, PricesCreateResponse as bN, PricesGetData as bO, PricesGetResponse as bP, PricesListData as bQ, PricesListResponse as bR, PricesUpdateData as bS, PricesUpdateResponse as bT, ProductsCreateData as bU, ProductsCreateResponse as bV, ProductsGetData as bW, ProductsGetResponse as bX, ProductsListData as bY, ProductsListResponse as bZ, ProductsUpdateData as b_, MandatesListData as ba, MandatesListResponse as bb, MandatesReinstateData as bc, MandatesReinstateResponse as bd, MandatesScheduleCollectionData as be, MandatesScheduleCollectionResponse as bf, MandatesSuspendData as bg, MandatesSuspendResponse as bh, PaymentIntentsCancelData as bi, PaymentIntentsCancelResponse as bj, PaymentIntentsCaptureData as bk, PaymentIntentsCaptureResponse as bl, PaymentIntentsConfirmData as bm, PaymentIntentsConfirmResponse as bn, PaymentIntentsCreateData as bo, PaymentIntentsCreateResponse as bp, PaymentIntentsGetData as bq, PaymentIntentsGetResponse as br, PaymentIntentsListData as bs, PaymentIntentsListResponse as bt, PaymentLinksActivateData as bu, PaymentLinksActivateResponse as bv, PaymentLinksArchiveData as bw, PaymentLinksArchiveResponse as bx, PaymentLinksCreateData as by, PaymentLinksCreateResponse as bz, AccountingInvoicePaymentRequestsGetResponse as c, CartApiKeysStatusErrors as c$, RefundsCreateData as c0, RefundsCreateResponse as c1, RefundsGetData as c2, RefundsGetResponse as c3, RefundsListData as c4, RefundsListResponse as c5, StorefrontOriginsCreateData as c6, StorefrontOriginsCreateResponse as c7, StorefrontOriginsDeleteData as c8, StorefrontOriginsDeleteResponse as c9, WebhookEndpointsCreateData as cA, WebhookEndpointsCreateResponse as cB, WebhookEndpointsDeleteData as cC, WebhookEndpointsDeleteResponse as cD, WebhookEndpointsGetData as cE, WebhookEndpointsGetResponse as cF, WebhookEndpointsListData as cG, WebhookEndpointsListResponse as cH, WebhookEndpointsRotateSecretData as cI, WebhookEndpointsRotateSecretResponse as cJ, WebhookEndpointsUpdateData as cK, WebhookEndpointsUpdateResponse as cL, UsageIngestRequest as cM, DryRunResult as cN, AccountingInvoicePaymentRequestsCreateResponses as cO, AccountingInvoicePaymentRequestsCreateErrors as cP, AccountingInvoicePaymentRequestsGetResponses as cQ, AccountingInvoicePaymentRequestsGetErrors as cR, AnalyticsRevenueMrrSummaryResponses as cS, AnalyticsRevenueTimeSeriesResponses as cT, CartApiKeysEnsureData as cU, CartApiKeysEnsureResponses as cV, CartApiKeysEnsureErrors as cW, CartApiKeysRotateResponses as cX, CartApiKeysRotateErrors as cY, CartApiKeysStatusData as cZ, CartApiKeysStatusResponses as c_, StorefrontOriginsListResponse as ca, StorefrontProductsGetData as cb, StorefrontProductsGetResponse as cc, StorefrontProductsListData as cd, StorefrontProductsListResponse as ce, StorefrontStatusGetResponse as cf, SubscriptionsCancelData as cg, SubscriptionsCancelResponse as ch, SubscriptionsCreateData as ci, SubscriptionsCreateResponse as cj, SubscriptionsGetData as ck, SubscriptionsGetResponse as cl, SubscriptionsListData as cm, SubscriptionsListResponse as cn, SubscriptionsUpdateData as co, SubscriptionsUpdateResponse as cp, TransactionsGetData as cq, TransactionsGetResponse as cr, TransactionsListData as cs, TransactionsListResponse as ct, WebhookDeliveriesGetData as cu, WebhookDeliveriesGetResponse as cv, WebhookDeliveriesListData as cw, WebhookDeliveriesListResponse as cx, WebhookDeliveriesRetryData as cy, WebhookDeliveriesRetryResponse as cz, AnalyticsRevenueMrrSummaryData as d, CustomerPortalSubscriptionsGetResponses as d$, CartSessionsAddLineItemResponses as d0, CartSessionsAddLineItemErrors as d1, CartSessionsApplyDiscountCodeResponses as d2, CartSessionsApplyDiscountCodeErrors as d3, CartSessionsConvertResponses as d4, CartSessionsConvertErrors as d5, CartSessionsCreateResponses as d6, CartSessionsCreateErrors as d7, CartSessionsGetResponses as d8, CartSessionsGetErrors as d9, CreditNotesVoidErrors as dA, CustomerMetersGetResponses as dB, CustomerMetersGetErrors as dC, CustomerMetersListResponses as dD, CustomerMetersListErrors as dE, CustomerPortalCustomerGetData as dF, CustomerPortalCustomerGetResponses as dG, CustomerPortalCustomerGetErrors as dH, CustomerPortalInvoicesGetResponses as dI, CustomerPortalInvoicesGetErrors as dJ, CustomerPortalInvoicesListResponses as dK, CustomerPortalInvoicesListErrors as dL, CustomerPortalMandatesCancelResponses as dM, CustomerPortalMandatesCancelErrors as dN, CustomerPortalMandatesListData as dO, CustomerPortalMandatesListResponses as dP, CustomerPortalMandatesListErrors as dQ, CustomerPortalMandatesReauthorizeResponses as dR, CustomerPortalMandatesReauthorizeErrors as dS, CustomerPortalMandatesReauthorizeSendOtpResponses as dT, CustomerPortalMandatesReauthorizeSendOtpErrors as dU, CustomerPortalMandatesReauthorizeVerifyOtpResponses as dV, CustomerPortalMandatesReauthorizeVerifyOtpErrors as dW, CustomerPortalSessionsCreateResponses as dX, CustomerPortalSessionsCreateErrors as dY, CustomerPortalSubscriptionsCancelResponses as dZ, CustomerPortalSubscriptionsCancelErrors as d_, CartSessionsRemoveLineItemResponses as da, CartSessionsRemoveLineItemErrors as db, CartSessionsSetContactResponses as dc, CartSessionsSetContactErrors as dd, CartSessionsToggleAddOnResponses as de, CartSessionsToggleAddOnErrors as df, CartSessionsUpdateLineItemResponses as dg, CartSessionsUpdateLineItemErrors as dh, CheckoutSessionsCreateResponses as di, CheckoutSessionsCreateErrors as dj, CheckoutSessionsExpireResponses as dk, CheckoutSessionsExpireErrors as dl, CheckoutSessionsGetResponses as dm, CheckoutSessionsGetErrors as dn, CreditNotesCreateResponses as dp, CreditNotesCreateErrors as dq, CreditNotesGetResponses as dr, CreditNotesGetErrors as ds, CreditNotesListResponses as dt, CreditNotesListErrors as du, CreditNotesListLinesResponses as dv, CreditNotesListLinesErrors as dw, CreditNotesPreviewResponses as dx, CreditNotesPreviewErrors as dy, CreditNotesVoidResponses as dz, AnalyticsRevenueMrrSummaryResponse as e, PaymentIntentsConfirmResponses as e$, CustomerPortalSubscriptionsGetErrors as e0, CustomerPortalSubscriptionsListResponses as e1, CustomerPortalSubscriptionsListErrors as e2, CustomersCreateResponses as e3, CustomersCreateErrors as e4, CustomersGetResponses as e5, CustomersGetErrors as e6, CustomersListResponses as e7, CustomersListErrors as e8, CustomersPaymentMethodsListResponses as e9, InvoicesGetResponses as eA, InvoicesListResponses as eB, InvoicesMarginEstimateResponses as eC, InvoicesMarginEstimateErrors as eD, InvoicesSendResponses as eE, InvoicesSendErrors as eF, InvoicesUpdateResponses as eG, InvoicesVoidResponses as eH, InvoicesVoidErrors as eI, MandatesCancelResponses as eJ, MandatesCancelErrors as eK, MandatesCreateResponses as eL, MandatesCreateErrors as eM, MandatesGetResponses as eN, MandatesGetErrors as eO, MandatesListResponses as eP, MandatesListErrors as eQ, MandatesReinstateResponses as eR, MandatesReinstateErrors as eS, MandatesScheduleCollectionResponses as eT, MandatesScheduleCollectionErrors as eU, MandatesSuspendResponses as eV, MandatesSuspendErrors as eW, PaymentIntentsCancelResponses as eX, PaymentIntentsCancelErrors as eY, PaymentIntentsCaptureResponses as eZ, PaymentIntentsCaptureErrors as e_, CustomersPaymentMethodsListErrors as ea, CustomersPaymentRailsGetResponses as eb, CustomersPaymentRailsGetErrors as ec, CustomersPreferredRailsGetResponses as ed, CustomersPreferredRailsGetErrors as ee, CustomersUpdateResponses as ef, CustomersUpdateErrors as eg, DdMandateRequestsGetResponses as eh, DdMandateRequestsGetErrors as ei, DdPreviewResponses as ej, DdPreviewErrors as ek, DdValidateResponses as el, DdValidateErrors as em, EntitlementsCheckResponses as en, EntitlementsCheckErrors as eo, EntitlementsListResponses as ep, EntitlementsListErrors as eq, EventsGetResponses as er, EventsGetErrors as es, EventsListResponses as et, EventsListErrors as eu, EventsResendResponses as ev, EventsResendErrors as ew, InvoicesCreateResponses as ex, InvoicesFinalizeResponses as ey, InvoicesFinalizeErrors as ez, AnalyticsRevenueTimeSeriesData as f, SubscriptionsCreateResponses as f$, PaymentIntentsConfirmErrors as f0, PaymentIntentsCreateResponses as f1, PaymentIntentsCreateErrors as f2, PaymentIntentsGetResponses as f3, PaymentIntentsGetErrors as f4, PaymentIntentsListResponses as f5, PaymentIntentsListErrors as f6, PaymentLinksActivateResponses as f7, PaymentLinksActivateErrors as f8, PaymentLinksArchiveResponses as f9, ProductsGetErrors as fA, ProductsListResponses as fB, ProductsListErrors as fC, ProductsUpdateResponses as fD, ProductsUpdateErrors as fE, RefundsCreateResponses as fF, RefundsCreateErrors as fG, RefundsGetResponses as fH, RefundsGetErrors as fI, RefundsListResponses as fJ, RefundsListErrors as fK, StorefrontOriginsCreateResponses as fL, StorefrontOriginsCreateErrors as fM, StorefrontOriginsDeleteResponses as fN, StorefrontOriginsDeleteErrors as fO, StorefrontOriginsListData as fP, StorefrontOriginsListResponses as fQ, StorefrontOriginsListErrors as fR, StorefrontProductsGetResponses as fS, StorefrontProductsGetErrors as fT, StorefrontProductsListResponses as fU, StorefrontProductsListErrors as fV, StorefrontStatusGetData as fW, StorefrontStatusGetResponses as fX, StorefrontStatusGetErrors as fY, SubscriptionsCancelResponses as fZ, SubscriptionsCancelErrors as f_, PaymentLinksArchiveErrors as fa, PaymentLinksCreateResponses as fb, PaymentLinksCreateErrors as fc, PaymentLinksDeactivateResponses as fd, PaymentLinksDeactivateErrors as fe, PaymentLinksExpireResponses as ff, PaymentLinksExpireErrors as fg, PaymentLinksGetResponses as fh, PaymentLinksGetErrors as fi, PaymentLinksListResponses as fj, PaymentLinksListErrors as fk, PaymentLinksUpdateResponses as fl, PaymentLinksUpdateErrors as fm, PricesArchiveResponses as fn, PricesArchiveErrors as fo, PricesCreateResponses as fp, PricesCreateErrors as fq, PricesGetResponses as fr, PricesGetErrors as fs, PricesListResponses as ft, PricesListErrors as fu, PricesUpdateResponses as fv, PricesUpdateErrors as fw, ProductsCreateResponses as fx, ProductsCreateErrors as fy, ProductsGetResponses as fz, AnalyticsRevenueTimeSeriesResponse as g, CartLineItemInput as g$, SubscriptionsCreateErrors as g0, SubscriptionsGetResponses as g1, SubscriptionsGetErrors as g2, SubscriptionsListResponses as g3, SubscriptionsListErrors as g4, SubscriptionsUpdateResponses as g5, SubscriptionsUpdateErrors as g6, TransactionsGetResponses as g7, TransactionsGetErrors as g8, TransactionsListResponses as g9, BacsDirectDebitDetails as gA, BankAccountDetails as gB, BatchIngestRequest as gC, Benefit as gD, BillingAnchorRulesResponse as gE, BillingDetails as gF, BillingIntervalsResponse as gG, BillingPreviewErrorResponse as gH, BillingPreviewResponse as gI, Business as gJ, CancelOrderRequest as gK, CancelPaymentIntentRequest as gL, CancelPaymentRequest as gM, CancelSetupIntentRequest as gN, CancelSubscriptionInput as gO, CancelSubscriptionRequest as gP, CancelSubscriptionScheduleRequest as gQ, CapturePaymentIntentRequest as gR, CapturePaymentRequest as gS, CardDetails as gT, CartApiKeysEnsureError as gU, CartApiKeysRotateError as gV, CartApiKeysStatusError as gW, CartBillingAnchorRule as gX, CartCheckoutSession as gY, CartConversionResponse as gZ, CartLineItem as g_, TransactionsListErrors as ga, WebhookDeliveriesGetResponses as gb, WebhookDeliveriesGetErrors as gc, WebhookDeliveriesListResponses as gd, WebhookDeliveriesListErrors as ge, WebhookDeliveriesRetryResponses as gf, WebhookDeliveriesRetryErrors as gg, WebhookEndpointsCreateResponses as gh, WebhookEndpointsCreateErrors as gi, WebhookEndpointsDeleteResponses as gj, WebhookEndpointsDeleteErrors as gk, WebhookEndpointsGetResponses as gl, WebhookEndpointsGetErrors as gm, WebhookEndpointsListResponses as gn, WebhookEndpointsListErrors as go, WebhookEndpointsRotateSecretResponses as gp, WebhookEndpointsRotateSecretErrors as gq, WebhookEndpointsUpdateResponses as gr, WebhookEndpointsUpdateErrors as gs, AccountingInvoicePaymentRequest as gt, AccountingInvoicePaymentRequestsCreateError as gu, AccountingInvoicePaymentRequestsGetError as gv, ApplyCartDiscountCodeInput as gw, AttachPaymentMethodRequest as gx, AuthenticationError as gy, AvsCodeInterpretation as gz, CartApiKeysRotateData as h, CreditNoteLineList as h$, CartLineItemRecurring as h0, CartSession as h1, CartSessionErrorResponse as h2, CartSessionResponse as h3, CartSessionStatus as h4, CartSessionsAddLineItemError as h5, CartSessionsApplyDiscountCodeError as h6, CartSessionsConvertError as h7, CartSessionsCreateError as h8, CartSessionsGetError as h9, CreateCheckoutSessionInput as hA, CreateCreditNoteInput as hB, CreateCustomerPortalSessionRequest as hC, CreateDiscountInput as hD, CreateExportRequest as hE, CreateImportRequest as hF, CreateMandateRequest as hG, CreateMeterPriceRequest as hH, CreateMeterRequest as hI, CreateMeterResponse as hJ, CreateOrderRequest as hK, CreatePaymentIntentRequest as hL, CreatePriceRequest as hM, CreateProductRequest as hN, CreateRefundInput as hO, CreateSetupIntentRequest as hP, CreateSubscriptionItemInput as hQ, CreateSubscriptionScheduleRequest as hR, CreateTaxRateRequest as hS, CreateTerminalPaymentRequest as hT, CreateTestEventRequest as hU, CreateVoidInput as hV, CreditEligibilityResponse as hW, CreditNote as hX, CreditNoteCreateResponse as hY, CreditNoteEligibilityResponse as hZ, CreditNoteLine as h_, CartSessionsRemoveLineItemError as ha, CartSessionsSetContactError as hb, CartSessionsToggleAddOnError as hc, CartSessionsUpdateLineItemError as hd, CartStartRule as he, ChargeCaptureResponse as hf, ChargeCreateResponse as hg, ChargeDuplicateErrorResponse as hh, ChargeErrorResponse as hi, ChargeListResponse as hj, ChargeRefundResponse as hk, ChargeRetrieveResponse as hl, CheckoutSession as hm, CheckoutSessionCreateResponse as hn, CheckoutSessionErrorResponse as ho, CheckoutSessionExpireResponse as hp, CheckoutSessionRetrieveResponse as hq, CheckoutSessionsCreateError as hr, CheckoutSessionsExpireError as hs, CheckoutSessionsGetError as ht, ClientOptions as hu, CollectionSchedule as hv, ConfirmPaymentIntentRequest as hw, ConfirmSetupIntentRequest as hx, CreateAccountingInvoicePaymentRequestInput as hy, CreateCartSessionInput as hz, CartApiKeysRotateResponse as i, EventListResponse as i$, CreditNoteListResponse as i0, CreditNotePreview as i1, CreditNotePreviewResponse as i2, CreditNoteResponse as i3, CreditNoteRetrieveResponse as i4, CreditNoteVoidResponse as i5, CustomerCreateResponse as i6, CustomerInvoice as i7, CustomerListResponse as i8, CustomerMeter as i9, CustomerUpdateResponse as iA, CvvCodeInterpretation as iB, DdCaptureSession as iC, DdCaptureSessionResponse as iD, DdMandatePdfReference as iE, DdMandateRequestActiveResponse as iF, DdMandateRequestCancelResponse as iG, DdMandateRequestConsumeResponse as iH, DdMandateRequestCreateResponse as iI, DdMandateRequestHistoryResponse as iJ, DdMandateRequestLifecycleItem as iK, DdMandateRequestLifecycleStatus as iL, DeclineAnalyticsResponse as iM, Discount as iN, DiscountCreateResponse as iO, DiscountDeleteResponse as iP, DiscountListResponse as iQ, DiscountRetrieveResponse as iR, DiscountUpdateResponse as iS, Dispute as iT, Entitlement as iU, EntitlementCheck as iV, EntitlementCheckResponse as iW, EntitlementListResponse as iX, ErrorResponse as iY, Event as iZ, EventErrorResponse as i_, CustomerMeterErrorResponse as ia, CustomerMeterList as ib, CustomerMeterResponse as ic, CustomerMetersGetError as id, CustomerMetersListError as ie, CustomerOrder as ig, CustomerPayment as ih, CustomerPaymentMethodsListResponse as ii, CustomerPortalCustomerGetError as ij, CustomerPortalErrorResponse as ik, CustomerPortalInvoicesGetError as il, CustomerPortalInvoicesListError as im, CustomerPortalMandatesCancelError as io, CustomerPortalMandatesListError as ip, CustomerPortalMandatesReauthorizeError as iq, CustomerPortalMandatesReauthorizeSendOtpError as ir, CustomerPortalMandatesReauthorizeVerifyOtpError as is, CustomerPortalSessionCreateResponse as it, CustomerPortalSessionsCreateError as iu, CustomerPortalSubscriptionsCancelError as iv, CustomerPortalSubscriptionsGetError as iw, CustomerPortalSubscriptionsListError as ix, CustomerRetrieveResponse as iy, CustomerSubscription as iz, CartApiKeysStatusResponse as j, PaymentLinksGetError as j$, EventRequest as j0, EventsGetError as j1, EventsListError as j2, EventsResendError as j3, Export as j4, ExportCreateResponse as j5, ExportRetrieveResponse as j6, ExternalUpsertResponse as j7, ForbiddenError as j8, FulfillOrderRequest as j9, Order as jA, OrderErrorResponse as jB, OrderLineItem as jC, OrderListResponse as jD, Pagination as jE, PauseSubscriptionInput as jF, PayOrderRequest as jG, Payment as jH, PaymentAttempt as jI, PaymentAttemptErrorResponse as jJ, PaymentAttemptListResponse as jK, PaymentAttemptSingleResponse as jL, PaymentErrorResponse as jM, PaymentIntent as jN, PaymentIntentErrorResponse as jO, PaymentIntentListResponse as jP, PaymentIntentsCancelError as jQ, PaymentIntentsCaptureError as jR, PaymentIntentsConfirmError as jS, PaymentIntentsCreateError as jT, PaymentIntentsGetError as jU, PaymentIntentsListError as jV, PaymentLinksActivateError as jW, PaymentLinksArchiveError as jX, PaymentLinksCreateError as jY, PaymentLinksDeactivateError as jZ, PaymentLinksExpireError as j_, Import as ja, ImportCreateResponse as jb, ImportRetrieveResponse as jc, Invoice as jd, InvoiceCommentDetail as je, InvoiceCommentDetailResponse as jf, InvoiceCommentListDetailResponse as jg, InvoiceListResponse as jh, InvoiceResponse as ji, Mandate as jj, MandateActionRequest as jk, MandateActionResponse as jl, MandateListItem as jm, MandateListResponse as jn, MandateRequestLookupResponse as jo, MandateResponse as jp, MarkDeliveredResponse as jq, MeterError as jr, MeterGetResponse as js, MeterListResponse as jt, MeterPriceError as ju, MeterPriceListResponse as jv, MeterPriceResponse as jw, MeterPriceTierInput as jx, NotFoundError as jy, OpenDispute as jz, CartSessionsAddLineItemData as k, SetupIntentNextAction as k$, PaymentLinksListError as k0, PaymentLinksUpdateError as k1, PaymentListResponse as k2, PaymentMethod as k3, PaymentMethodList as k4, PaymentSecurityResponse as k5, PaymentSecurityResult as k6, Payout as k7, PayoutPayment as k8, PhaseItem as k9, PricesListError as kA, PricesUpdateError as kB, Product as kC, ProductCreateResponse as kD, ProductErrorResponse as kE, ProductListResponse as kF, ProductRetrieveResponse as kG, ProductUpdateResponse as kH, ProductsCreateError as kI, ProductsGetError as kJ, ProductsListError as kK, ProductsUpdateError as kL, Refund as kM, RefundCreateResponse as kN, RefundListResponse as kO, RefundRetrieveResponse as kP, RefundTerminalPaymentRequest as kQ, ReleaseSubscriptionScheduleRequest as kR, ResendWebhookResponse as kS, RetryEligibilityResponse as kT, ScheduleCollectionRequest as kU, ScheduleCollectionResponse as kV, SchedulePhase as kW, SetCartContactInput as kX, SetupIntent as kY, SetupIntentError as kZ, SetupIntentList as k_, PortalCustomer as ka, PortalCustomerResponse as kb, PortalInvoice as kc, PortalInvoiceList as kd, PortalInvoiceResponse as ke, PortalMandate as kf, PortalMandateList as kg, PortalReauthorizeMandateRequest as kh, PortalReauthorizeMandateResponse as ki, PortalReauthorizeSendOtpResponse as kj, PortalReauthorizeVerifyOtpRequest as kk, PortalReauthorizeVerifyOtpResponse as kl, PortalSubscription as km, PortalSubscriptionCancelResponse as kn, PortalSubscriptionList as ko, PortalSubscriptionResponse as kp, PreviewCollectionRequest as kq, PreviewCollectionResponse as kr, PreviewCreditNoteInput as ks, Price as kt, PriceErrorResponse as ku, PriceListResponse as kv, PriceTier as kw, PricesArchiveError as kx, PricesCreateError as ky, PricesGetError as kz, CartSessionsAddLineItemResponse as l, TransactionReversalEligibilityResponse as l$, StaleUpdateResponse as l0, StorefrontAvailability as l1, StorefrontKeyStatus as l2, StorefrontOrigin as l3, StorefrontOriginCreateRequest as l4, StorefrontOriginCreateResponse as l5, StorefrontOriginDeleteResponse as l6, StorefrontOriginError as l7, StorefrontOriginListResponse as l8, StorefrontOriginsCreateError as l9, SubscriptionPauseResponse as lA, SubscriptionPreviewRenewalResponse as lB, SubscriptionReactivateResponse as lC, SubscriptionResumeResponse as lD, SubscriptionRetrieveResponse as lE, SubscriptionSchedule as lF, SubscriptionScheduleErrorResponse as lG, SubscriptionScheduleListResponse as lH, SubscriptionTerms as lI, SubscriptionUpdateResponse as lJ, SuccessResponse as lK, TaxRate as lL, TaxRateErrorResponse as lM, TaxRateListResponse as lN, TerminalDevice as lO, TerminalDeviceErrorResponse as lP, TerminalDeviceListResponse as lQ, TerminalDeviceResponse as lR, TerminalPayment as lS, TerminalPaymentErrorResponse as lT, TerminalPaymentListResponse as lU, TerminalPaymentResponse as lV, TestEventResponse as lW, ToggleCartAddOnInput as lX, Transaction as lY, TransactionListResponse as lZ, TransactionRetrieveResponse as l_, StorefrontOriginsDeleteError as la, StorefrontOriginsListError as lb, StorefrontPrice as lc, StorefrontProduct as ld, StorefrontProductError as le, StorefrontProductListResponse as lf, StorefrontProductResponse as lg, StorefrontProductsGetError as lh, StorefrontProductsListError as li, StorefrontStatus as lj, StorefrontStatusCheck as lk, StorefrontStatusError as ll, StorefrontStatusGetError as lm, StorefrontStatusResponse as ln, Subscription as lo, SubscriptionCancelResponse as lp, SubscriptionCancelSubscriptionResponse as lq, SubscriptionChangePlanResponse as lr, SubscriptionChangeQuantityResponse as ls, SubscriptionCreateResponse as lt, SubscriptionItem as lu, SubscriptionItemCreateResponse as lv, SubscriptionItemDeleteResponse as lw, SubscriptionItemListResponse as lx, SubscriptionItemUpdateResponse as ly, SubscriptionListResponse as lz, CartSessionsApplyDiscountCodeData as m, WebhooksCustomerCreatedWebhookPayload as m$, TransactionsGetError as m0, TransactionsListError as m1, TransformQuantity as m2, UnchangedContentResponse as m3, UpdateCartLineItemInput as m4, UpdateDiscountInput as m5, UpdateMeterPriceRequest as m6, UpdateMeterRequest as m7, UpdateMeterResponse as m8, UpdateOrderRequest as m9, WebhookDeliveryErrorResponse as mA, WebhookDeliveryListResponse as mB, WebhookDeliveryResponse as mC, WebhookDeliveryRetryResponse as mD, WebhookEndpoint as mE, WebhookEvent as mF, Webhooks as mG, WebhooksCheckoutSessionCompletedWebhookPayload as mH, WebhooksCheckoutSessionCompletedWebhookRequest as mI, WebhooksCheckoutSessionExpiredWebhookPayload as mJ, WebhooksCheckoutSessionExpiredWebhookRequest as mK, WebhooksCollectionFailedWebhookPayload as mL, WebhooksCollectionFailedWebhookRequest as mM, WebhooksCollectionIndemnityClaimedWebhookPayload as mN, WebhooksCollectionIndemnityClaimedWebhookRequest as mO, WebhooksCollectionNoticeSentWebhookPayload as mP, WebhooksCollectionNoticeSentWebhookRequest as mQ, WebhooksCollectionScheduledWebhookPayload as mR, WebhooksCollectionScheduledWebhookRequest as mS, WebhooksCollectionSucceededWebhookPayload as mT, WebhooksCollectionSucceededWebhookRequest as mU, WebhooksCreditNoteCreatedWebhookPayload as mV, WebhooksCreditNoteCreatedWebhookRequest as mW, WebhooksCreditNoteIssuedWebhookPayload as mX, WebhooksCreditNoteIssuedWebhookRequest as mY, WebhooksCreditNoteVoidedWebhookPayload as mZ, WebhooksCreditNoteVoidedWebhookRequest as m_, UpdatePaymentIntentRequest as ma, UpdatePaymentMethodRequest as mb, UpdatePriceRequest as mc, UpdateProductRequest as md, UpdateSetupIntentRequest as me, UpdateSubscriptionItemInput as mf, UpdateSubscriptionScheduleRequest as mg, UpdateTaxRateRequest as mh, UsageAggregateResponse as mi, UsageBalanceMeter as mj, UsageBalanceResponse as mk, UsageEventError as ml, UsageEventListResponse as mm, UsageEventRecord as mn, ValidateBankAccountRequest as mo, ValidateBankAccountResponse as mp, ValidationError as mq, Void as mr, VoidCreateResponse as ms, VoidListResponse as mt, VoidRetrieveResponse as mu, VoidTerminalPaymentRequest as mv, WebhookDeliveriesGetError as mw, WebhookDeliveriesListError as mx, WebhookDeliveriesRetryError as my, WebhookDelivery as mz, CartSessionsApplyDiscountCodeResponse as n, WebhooksTerminalPaymentSucceededWebhookPayload as n$, WebhooksCustomerCreatedWebhookRequest as n0, WebhooksCustomerUpdatedWebhookPayload as n1, WebhooksCustomerUpdatedWebhookRequest as n2, WebhooksInvoiceCreatedWebhookPayload as n3, WebhooksInvoiceCreatedWebhookRequest as n4, WebhooksInvoiceOverdueWebhookPayload as n5, WebhooksInvoiceOverdueWebhookRequest as n6, WebhooksInvoicePaidWebhookPayload as n7, WebhooksInvoicePaidWebhookRequest as n8, WebhooksMandateActivatedWebhookPayload as n9, WebhooksOrderPaidWebhookRequest as nA, WebhooksPaymentFailedWebhookPayload as nB, WebhooksPaymentFailedWebhookRequest as nC, WebhooksPaymentSucceededWebhookPayload as nD, WebhooksPaymentSucceededWebhookRequest as nE, WebhooksRefundCreatedWebhookPayload as nF, WebhooksRefundCreatedWebhookRequest as nG, WebhooksRefundSucceededWebhookPayload as nH, WebhooksRefundSucceededWebhookRequest as nI, WebhooksSettlementCreatedWebhookPayload as nJ, WebhooksSettlementCreatedWebhookRequest as nK, WebhooksSubscriptionActivatedWebhookPayload as nL, WebhooksSubscriptionActivatedWebhookRequest as nM, WebhooksSubscriptionCanceledWebhookPayload as nN, WebhooksSubscriptionCanceledWebhookRequest as nO, WebhooksSubscriptionCreatedWebhookPayload as nP, WebhooksSubscriptionCreatedWebhookRequest as nQ, WebhooksSubscriptionRenewedWebhookPayload as nR, WebhooksSubscriptionRenewedWebhookRequest as nS, WebhooksTerminalPaymentCancelledWebhookPayload as nT, WebhooksTerminalPaymentCancelledWebhookRequest as nU, WebhooksTerminalPaymentDeclinedWebhookPayload as nV, WebhooksTerminalPaymentDeclinedWebhookRequest as nW, WebhooksTerminalPaymentErrorWebhookPayload as nX, WebhooksTerminalPaymentErrorWebhookRequest as nY, WebhooksTerminalPaymentRequestedWebhookPayload as nZ, WebhooksTerminalPaymentRequestedWebhookRequest as n_, WebhooksMandateActivatedWebhookRequest as na, WebhooksMandateAuddisRejectedWebhookPayload as nb, WebhooksMandateAuddisRejectedWebhookRequest as nc, WebhooksMandateCancelledWebhookPayload as nd, WebhooksMandateCancelledWebhookRequest as ne, WebhooksMandateCreatedWebhookPayload as nf, WebhooksMandateCreatedWebhookRequest as ng, WebhooksMandateSuspendedWebhookPayload as nh, WebhooksMandateSuspendedWebhookRequest as ni, WebhooksMeterArchivedWebhookPayload as nj, WebhooksMeterArchivedWebhookRequest as nk, WebhooksMeterCreatedWebhookPayload as nl, WebhooksMeterCreatedWebhookRequest as nm, WebhooksMeterPriceCreatedWebhookPayload as nn, WebhooksMeterPriceCreatedWebhookRequest as no, WebhooksMeterPriceDeactivatedWebhookPayload as np, WebhooksMeterPriceDeactivatedWebhookRequest as nq, WebhooksMeterPriceUpdatedWebhookPayload as nr, WebhooksMeterPriceUpdatedWebhookRequest as ns, WebhooksMeterUpdatedWebhookPayload as nt, WebhooksMeterUpdatedWebhookRequest as nu, WebhooksOrderCreatedWebhookPayload as nv, WebhooksOrderCreatedWebhookRequest as nw, WebhooksOrderFulfilledWebhookPayload as nx, WebhooksOrderFulfilledWebhookRequest as ny, WebhooksOrderPaidWebhookPayload as nz, CartSessionsConvertData as o, WebhooksTerminalPaymentSucceededWebhookRequest as o0, WebhooksTerminalRefundSucceededWebhookPayload as o1, WebhooksTerminalRefundSucceededWebhookRequest as o2, WebhooksTerminalVoidSucceededWebhookPayload as o3, WebhooksTerminalVoidSucceededWebhookRequest as o4, WebhooksUsageEventIngestedWebhookPayload as o5, WebhooksUsageEventIngestedWebhookRequest as o6, WebhooksUsageEventRejectedWebhookPayload as o7, WebhooksUsageEventRejectedWebhookRequest as o8, WebhooksUsageInvoiceCreatedWebhookPayload as o9, WebhooksUsageInvoiceCreatedWebhookRequest as oa, WebhooksUsagePeriodFinalizedWebhookPayload as ob, WebhooksUsagePeriodFinalizedWebhookRequest as oc, WebhooksUsageThresholdReachedWebhookPayload as od, WebhooksUsageThresholdReachedWebhookRequest as oe, WebhooksVoidCreatedWebhookPayload as of, WebhooksVoidCreatedWebhookRequest as og, WebhooksVoidFailedWebhookPayload as oh, WebhooksVoidFailedWebhookRequest as oi, WebhooksVoidSucceededWebhookPayload as oj, WebhooksVoidSucceededWebhookRequest as ok, CartSessionsConvertResponse as p, CartSessionsCreateData as q, CartSessionsCreateResponse as r, CartSessionsGetData as s, CartSessionsGetResponse as t, CartSessionsRemoveLineItemData as u, CartSessionsRemoveLineItemResponse as v, CartSessionsSetContactData as w, CartSessionsSetContactResponse as x, CartSessionsToggleAddOnData as y, CartSessionsToggleAddOnResponse as z };
+export type { CheckoutSessionsCreateData as $, AccountingInvoicePaymentRequestsCreateData as A, BatchIngestResult as B, CartApiKeysEnsureData as C, CartSessionsApplyDiscountCodeResponses as D, CartSessionsApplyDiscountCodeErrors as E, CartSessionsConvertData as F, CartSessionsConvertResponses as G, CartSessionsConvertErrors as H, CartSessionsCreateData as I, CartSessionsCreateResponses as J, CartSessionsCreateErrors as K, CartSessionsGetData as L, CartSessionsGetResponses as M, CartSessionsGetErrors as N, CartSessionsRemoveLineItemData as O, CartSessionsRemoveLineItemResponses as P, CartSessionsRemoveLineItemErrors as Q, CartSessionsSetContactData as R, CartSessionsSetContactResponses as S, CartSessionsSetContactErrors as T, UsageEvent as U, CartSessionsToggleAddOnData as V, CartSessionsToggleAddOnResponses as W, CartSessionsToggleAddOnErrors as X, CartSessionsUpdateLineItemData as Y, CartSessionsUpdateLineItemResponses as Z, CartSessionsUpdateLineItemErrors as _, AccountingInvoicePaymentRequestsCreateResponses as a, CustomerPortalSubscriptionsGetResponses as a$, CheckoutSessionsCreateResponses as a0, CheckoutSessionsCreateErrors as a1, CheckoutSessionsExpireData as a2, CheckoutSessionsExpireResponses as a3, CheckoutSessionsExpireErrors as a4, CheckoutSessionsGetData as a5, CheckoutSessionsGetResponses as a6, CheckoutSessionsGetErrors as a7, CreditNotesCreateData as a8, CreditNotesCreateResponses as a9, CustomerPortalInvoicesGetResponses as aA, CustomerPortalInvoicesGetErrors as aB, CustomerPortalInvoicesListData as aC, CustomerPortalInvoicesListResponses as aD, CustomerPortalInvoicesListErrors as aE, CustomerPortalMandatesCancelData as aF, CustomerPortalMandatesCancelResponses as aG, CustomerPortalMandatesCancelErrors as aH, CustomerPortalMandatesListData as aI, CustomerPortalMandatesListResponses as aJ, CustomerPortalMandatesListErrors as aK, CustomerPortalMandatesReauthorizeData as aL, CustomerPortalMandatesReauthorizeResponses as aM, CustomerPortalMandatesReauthorizeErrors as aN, CustomerPortalMandatesReauthorizeSendOtpData as aO, CustomerPortalMandatesReauthorizeSendOtpResponses as aP, CustomerPortalMandatesReauthorizeSendOtpErrors as aQ, CustomerPortalMandatesReauthorizeVerifyOtpData as aR, CustomerPortalMandatesReauthorizeVerifyOtpResponses as aS, CustomerPortalMandatesReauthorizeVerifyOtpErrors as aT, CustomerPortalSessionsCreateData as aU, CustomerPortalSessionsCreateResponses as aV, CustomerPortalSessionsCreateErrors as aW, CustomerPortalSubscriptionsCancelData as aX, CustomerPortalSubscriptionsCancelResponses as aY, CustomerPortalSubscriptionsCancelErrors as aZ, CustomerPortalSubscriptionsGetData as a_, CreditNotesCreateErrors as aa, CreditNotesGetData as ab, CreditNotesGetResponses as ac, CreditNotesGetErrors as ad, CreditNotesListData as ae, CreditNotesListResponses as af, CreditNotesListErrors as ag, CreditNotesListLinesData as ah, CreditNotesListLinesResponses as ai, CreditNotesListLinesErrors as aj, CreditNotesPreviewData as ak, CreditNotesPreviewResponses as al, CreditNotesPreviewErrors as am, CreditNotesVoidData as an, CreditNotesVoidResponses as ao, CreditNotesVoidErrors as ap, CustomerMetersGetData as aq, CustomerMetersGetResponses as ar, CustomerMetersGetErrors as as, CustomerMetersListData as at, CustomerMetersListResponses as au, CustomerMetersListErrors as av, CustomerPortalCustomerGetData as aw, CustomerPortalCustomerGetResponses as ax, CustomerPortalCustomerGetErrors as ay, CustomerPortalInvoicesGetData as az, AccountingInvoicePaymentRequestsCreateErrors as b, InvoicesFinalizeErrors as b$, CustomerPortalSubscriptionsGetErrors as b0, CustomerPortalSubscriptionsListData as b1, CustomerPortalSubscriptionsListResponses as b2, CustomerPortalSubscriptionsListErrors as b3, CustomerStateGetData as b4, CustomerStateGetResponses as b5, CustomerStateGetErrors as b6, CustomersCreateData as b7, CustomersCreateResponses as b8, CustomersCreateErrors as b9, DdValidateErrors as bA, EntitlementsCheckData as bB, EntitlementsCheckResponses as bC, EntitlementsCheckErrors as bD, EntitlementsListData as bE, EntitlementsListResponses as bF, EntitlementsListErrors as bG, EventsGetData as bH, EventsGetResponses as bI, EventsGetErrors as bJ, EventsListData as bK, EventsListResponses as bL, EventsListErrors as bM, EventsResendData as bN, EventsResendResponses as bO, EventsResendErrors as bP, InvoiceLineItemsListUsageEventsData as bQ, InvoiceLineItemsListUsageEventsResponses as bR, InvoiceLineItemsListUsageEventsErrors as bS, InvoiceUsageExplainData as bT, InvoiceUsageExplainResponses as bU, InvoiceUsageExplainErrors as bV, InvoicesCreateData as bW, InvoicesCreateResponses as bX, InvoicesCreateErrors as bY, InvoicesFinalizeData as bZ, InvoicesFinalizeResponses as b_, CustomersGetData as ba, CustomersGetResponses as bb, CustomersGetErrors as bc, CustomersListData as bd, CustomersListResponses as be, CustomersListErrors as bf, CustomersPaymentMethodsListData as bg, CustomersPaymentMethodsListResponses as bh, CustomersPaymentMethodsListErrors as bi, CustomersPaymentRailsGetData as bj, CustomersPaymentRailsGetResponses as bk, CustomersPaymentRailsGetErrors as bl, CustomersPreferredRailsGetData as bm, CustomersPreferredRailsGetResponses as bn, CustomersPreferredRailsGetErrors as bo, CustomersUpdateData as bp, CustomersUpdateResponses as bq, CustomersUpdateErrors as br, DdMandateRequestsGetData as bs, DdMandateRequestsGetResponses as bt, DdMandateRequestsGetErrors as bu, DdPreviewData as bv, DdPreviewResponses as bw, DdPreviewErrors as bx, DdValidateData as by, DdValidateResponses as bz, AccountingInvoicePaymentRequestsGetData as c, PaymentIntentsCreateData as c$, InvoicesGetData as c0, InvoicesGetResponses as c1, InvoicesGetErrors as c2, InvoicesListData as c3, InvoicesListResponses as c4, InvoicesListErrors as c5, InvoicesMarginEstimateData as c6, InvoicesMarginEstimateResponses as c7, InvoicesMarginEstimateErrors as c8, InvoicesSendData as c9, MandatesSuspendData as cA, MandatesSuspendResponses as cB, MandatesSuspendErrors as cC, MetersCreateData as cD, MetersCreateResponses as cE, MetersCreateErrors as cF, MetersGetData as cG, MetersGetResponses as cH, MetersGetErrors as cI, MetersListData as cJ, MetersListResponses as cK, MetersListErrors as cL, MetersQuantitiesData as cM, MetersQuantitiesResponses as cN, MetersQuantitiesErrors as cO, MetersUpdateData as cP, MetersUpdateResponses as cQ, MetersUpdateErrors as cR, PaymentIntentsCancelData as cS, PaymentIntentsCancelResponses as cT, PaymentIntentsCancelErrors as cU, PaymentIntentsCaptureData as cV, PaymentIntentsCaptureResponses as cW, PaymentIntentsCaptureErrors as cX, PaymentIntentsConfirmData as cY, PaymentIntentsConfirmResponses as cZ, PaymentIntentsConfirmErrors as c_, InvoicesSendResponses as ca, InvoicesSendErrors as cb, InvoicesUpdateData as cc, InvoicesUpdateResponses as cd, InvoicesUpdateErrors as ce, InvoicesVoidData as cf, InvoicesVoidResponses as cg, InvoicesVoidErrors as ch, MandatesCancelData as ci, MandatesCancelResponses as cj, MandatesCancelErrors as ck, MandatesCreateData as cl, MandatesCreateResponses as cm, MandatesCreateErrors as cn, MandatesGetData as co, MandatesGetResponses as cp, MandatesGetErrors as cq, MandatesListData as cr, MandatesListResponses as cs, MandatesListErrors as ct, MandatesReinstateData as cu, MandatesReinstateResponses as cv, MandatesReinstateErrors as cw, MandatesScheduleCollectionData as cx, MandatesScheduleCollectionResponses as cy, MandatesScheduleCollectionErrors as cz, AccountingInvoicePaymentRequestsGetResponses as d, ProductsCreateData as d$, PaymentIntentsCreateResponses as d0, PaymentIntentsCreateErrors as d1, PaymentIntentsGetData as d2, PaymentIntentsGetResponses as d3, PaymentIntentsGetErrors as d4, PaymentIntentsListData as d5, PaymentIntentsListResponses as d6, PaymentIntentsListErrors as d7, PaymentLinksActivateData as d8, PaymentLinksActivateResponses as d9, PricesCreateData as dA, PricesCreateResponses as dB, PricesCreateErrors as dC, PricesGetData as dD, PricesGetResponses as dE, PricesGetErrors as dF, PricesListData as dG, PricesListResponses as dH, PricesListErrors as dI, PricesUpdateData as dJ, PricesUpdateResponses as dK, PricesUpdateErrors as dL, ProductCollectionsCreateData as dM, ProductCollectionsCreateResponses as dN, ProductCollectionsCreateErrors as dO, ProductCollectionsDeleteData as dP, ProductCollectionsDeleteResponses as dQ, ProductCollectionsDeleteErrors as dR, ProductCollectionsGetData as dS, ProductCollectionsGetResponses as dT, ProductCollectionsGetErrors as dU, ProductCollectionsListData as dV, ProductCollectionsListResponses as dW, ProductCollectionsListErrors as dX, ProductCollectionsUpdateData as dY, ProductCollectionsUpdateResponses as dZ, ProductCollectionsUpdateErrors as d_, PaymentLinksActivateErrors as da, PaymentLinksArchiveData as db, PaymentLinksArchiveResponses as dc, PaymentLinksArchiveErrors as dd, PaymentLinksCreateData as de, PaymentLinksCreateResponses as df, PaymentLinksCreateErrors as dg, PaymentLinksDeactivateData as dh, PaymentLinksDeactivateResponses as di, PaymentLinksDeactivateErrors as dj, PaymentLinksExpireData as dk, PaymentLinksExpireResponses as dl, PaymentLinksExpireErrors as dm, PaymentLinksGetData as dn, PaymentLinksGetResponses as dp, PaymentLinksGetErrors as dq, PaymentLinksListData as dr, PaymentLinksListResponses as ds, PaymentLinksListErrors as dt, PaymentLinksUpdateData as du, PaymentLinksUpdateResponses as dv, PaymentLinksUpdateErrors as dw, PricesArchiveData as dx, PricesArchiveResponses as dy, PricesArchiveErrors as dz, AccountingInvoicePaymentRequestsGetErrors as e, UsageEventsGetResponses as e$, ProductsCreateResponses as e0, ProductsCreateErrors as e1, ProductsGetData as e2, ProductsGetResponses as e3, ProductsGetErrors as e4, ProductsListData as e5, ProductsListResponses as e6, ProductsListErrors as e7, ProductsUpdateData as e8, ProductsUpdateResponses as e9, StorefrontStatusGetResponses as eA, StorefrontStatusGetErrors as eB, SubscriptionsCancelData as eC, SubscriptionsCancelResponses as eD, SubscriptionsCancelErrors as eE, SubscriptionsCreateData as eF, SubscriptionsCreateResponses as eG, SubscriptionsCreateErrors as eH, SubscriptionsGetData as eI, SubscriptionsGetResponses as eJ, SubscriptionsGetErrors as eK, SubscriptionsListData as eL, SubscriptionsListResponses as eM, SubscriptionsListErrors as eN, SubscriptionsUpdateData as eO, SubscriptionsUpdateResponses as eP, SubscriptionsUpdateErrors as eQ, TransactionsGetData as eR, TransactionsGetResponses as eS, TransactionsGetErrors as eT, TransactionsListData as eU, TransactionsListResponses as eV, TransactionsListErrors as eW, UsageBalanceGetData as eX, UsageBalanceGetResponses as eY, UsageBalanceGetErrors as eZ, UsageEventsGetData as e_, ProductsUpdateErrors as ea, RefundsCreateData as eb, RefundsCreateResponses as ec, RefundsCreateErrors as ed, RefundsGetData as ee, RefundsGetResponses as ef, RefundsGetErrors as eg, RefundsListData as eh, RefundsListResponses as ei, RefundsListErrors as ej, StorefrontOriginsCreateData as ek, StorefrontOriginsCreateResponses as el, StorefrontOriginsCreateErrors as em, StorefrontOriginsDeleteData as en, StorefrontOriginsDeleteResponses as eo, StorefrontOriginsDeleteErrors as ep, StorefrontOriginsListData as eq, StorefrontOriginsListResponses as er, StorefrontOriginsListErrors as es, StorefrontProductsGetData as et, StorefrontProductsGetResponses as eu, StorefrontProductsGetErrors as ev, StorefrontProductsListData as ew, StorefrontProductsListResponses as ex, StorefrontProductsListErrors as ey, StorefrontStatusGetData as ez, AnalyticsRevenueMrrSummaryData as f, CancelOrderRequest as f$, UsageEventsGetErrors as f0, UsageEventsIngestData as f1, UsageEventsIngestResponses as f2, UsageEventsIngestErrors as f3, UsageEventsListData as f4, UsageEventsListResponses as f5, UsageEventsListErrors as f6, WebhookDeliveriesGetData as f7, WebhookDeliveriesGetResponses as f8, WebhookDeliveriesGetErrors as f9, AccountingInvoicePaymentRequestsCreateResponse as fA, AccountingInvoicePaymentRequestsGetError as fB, AccountingInvoicePaymentRequestsGetResponse as fC, AnalyticsRevenueMrrSummaryError as fD, AnalyticsRevenueMrrSummaryResponse as fE, AnalyticsRevenueTimeSeries200ResponseDataPointsInner as fF, AnalyticsRevenueTimeSeriesError as fG, AnalyticsRevenueTimeSeriesResponse as fH, ApiError as fI, ApplyCartDiscountCodeInput as fJ, AttachPaymentMethodRequest as fK, AuthenticationError as fL, AuthorizationAuditUnavailableError as fM, AvsCodeInterpretation as fN, BacsDirectDebitDetails as fO, BankAccountDetails as fP, BatchIngestRequest as fQ, Benefit as fR, BillingAnchorRulesResponse as fS, BillingDetails as fT, BillingIntervalsResponse as fU, BillingOverviewGetResponse as fV, BillingOverviewResponse as fW, BillingOverviewResponseOverdueInvoicesTotalsInner as fX, BillingPreviewErrorResponse as fY, BillingPreviewResponse as fZ, Business as f_, WebhookDeliveriesListData as fa, WebhookDeliveriesListResponses as fb, WebhookDeliveriesListErrors as fc, WebhookDeliveriesRetryData as fd, WebhookDeliveriesRetryResponses as fe, WebhookDeliveriesRetryErrors as ff, WebhookEndpointsCreateData as fg, WebhookEndpointsCreateResponses as fh, WebhookEndpointsCreateErrors as fi, WebhookEndpointsDeleteData as fj, WebhookEndpointsDeleteResponses as fk, WebhookEndpointsDeleteErrors as fl, WebhookEndpointsGetData as fm, WebhookEndpointsGetResponses as fn, WebhookEndpointsGetErrors as fo, WebhookEndpointsListData as fp, WebhookEndpointsListResponses as fq, WebhookEndpointsListErrors as fr, WebhookEndpointsRotateSecretData as fs, WebhookEndpointsRotateSecretResponses as ft, WebhookEndpointsRotateSecretErrors as fu, WebhookEndpointsUpdateData as fv, WebhookEndpointsUpdateResponses as fw, WebhookEndpointsUpdateErrors as fx, AccountingInvoicePaymentRequest as fy, AccountingInvoicePaymentRequestsCreateError as fz, AnalyticsRevenueMrrSummaryResponses as g, CheckoutSessionsGetResponse as g$, CancelPaymentIntentRequest as g0, CancelPaymentRequest as g1, CancelSetupIntentRequest as g2, CancelSubscriptionInput as g3, CancelSubscriptionRequest as g4, CancelSubscriptionScheduleRequest as g5, CapturePaymentIntentRequest as g6, CapturePaymentRequest as g7, CardDetails as g8, CartApiKeysEnsureError as g9, CartSessionsGetResponse as gA, CartSessionsRemoveLineItemError as gB, CartSessionsRemoveLineItemResponse as gC, CartSessionsSetContactError as gD, CartSessionsSetContactResponse as gE, CartSessionsToggleAddOnError as gF, CartSessionsToggleAddOnResponse as gG, CartSessionsUpdateLineItemError as gH, CartSessionsUpdateLineItemResponse as gI, CartStartRule as gJ, ChargeCaptureResponse as gK, ChargeCreateResponse as gL, ChargeDuplicateErrorResponse as gM, ChargeErrorResponse as gN, ChargeListResponse as gO, ChargeRefundResponse as gP, ChargeRetrieveResponse as gQ, CheckoutSession as gR, CheckoutSessionCreateResponse as gS, CheckoutSessionErrorResponse as gT, CheckoutSessionExpireResponse as gU, CheckoutSessionRetrieveResponse as gV, CheckoutSessionsCreateError as gW, CheckoutSessionsCreateResponse as gX, CheckoutSessionsExpireError as gY, CheckoutSessionsExpireResponse as gZ, CheckoutSessionsGetError as g_, CartApiKeysEnsureResponse as ga, CartApiKeysRotate200ResponseData as gb, CartApiKeysRotateError as gc, CartApiKeysRotateResponse as gd, CartApiKeysStatus200ResponseData as ge, CartApiKeysStatusError as gf, CartApiKeysStatusResponse as gg, CartBillingAnchorRule as gh, CartCheckoutSession as gi, CartConversionResponse as gj, CartLineItem as gk, CartLineItemInput as gl, CartLineItemRecurring as gm, CartSession as gn, CartSessionErrorResponse as go, CartSessionResponse as gp, CartSessionStatus as gq, CartSessionsAddLineItemError as gr, CartSessionsAddLineItemResponse as gs, CartSessionsApplyDiscountCodeError as gt, CartSessionsApplyDiscountCodeResponse as gu, CartSessionsConvertError as gv, CartSessionsConvertResponse as gw, CartSessionsCreateError as gx, CartSessionsCreateResponse as gy, CartSessionsGetError as gz, AnalyticsRevenueMrrSummaryErrors as h, CustomerPortalInvoicesGetError as h$, ClientOptions as h0, CollectionSchedule as h1, ConfirmPaymentIntentRequest as h2, ConfirmSetupIntentRequest as h3, CreateAccountingInvoicePaymentRequestInput as h4, CreateCartSessionInput as h5, CreateCheckoutSessionInput as h6, CreateCreditNoteInput as h7, CreateCustomerPortalSessionRequest as h8, CreateDiscountInput as h9, CreditNotePreviewResponse as hA, CreditNoteResponse as hB, CreditNoteRetrieveResponse as hC, CreditNoteVoidResponse as hD, CreditNotesCreateResponse as hE, CreditNotesGetResponse as hF, CreditNotesListLinesResponse as hG, CreditNotesListResponse as hH, CreditNotesPreviewResponse as hI, CreditNotesVoidResponse as hJ, CustomerCreateResponse as hK, CustomerInvoice as hL, CustomerListResponse as hM, CustomerMeter as hN, CustomerMeterErrorResponse as hO, CustomerMeterList as hP, CustomerMeterResponse as hQ, CustomerMetersGetError as hR, CustomerMetersGetResponse as hS, CustomerMetersListError as hT, CustomerMetersListResponse as hU, CustomerOrder as hV, CustomerPayment as hW, CustomerPaymentMethodsListResponse as hX, CustomerPortalCustomerGetError as hY, CustomerPortalCustomerGetResponse as hZ, CustomerPortalErrorResponse as h_, CreateExportRequest as ha, CreateImportRequest as hb, CreateMandateRequest as hc, CreateMeterPriceRequest as hd, CreateMeterRequest as he, CreateMeterResponse as hf, CreatePaymentIntentRequest as hg, CreatePriceRequest as hh, CreateProductRequest as hi, CreateRefundInput as hj, CreateSetupIntentRequest as hk, CreateSubscriptionItemInput as hl, CreateSubscriptionScheduleRequest as hm, CreateTerminalPaymentRequest as hn, CreateTestEventRequest as ho, CreateVoidInput as hp, CreditEligibilityResponse as hq, CreditNote as hr, CreditNoteCreateResponse as hs, CreditNoteEligibilityResponse as ht, CreditNoteEligibilityResponsePaymentsInnerConstraints as hu, CreditNoteLine as hv, CreditNoteLineAllocationInputV1 as hw, CreditNoteLineList as hx, CreditNoteListResponse as hy, CreditNotePreview as hz, AnalyticsRevenueTimeSeriesData as i, DiscountDeleteResponse as i$, CustomerPortalInvoicesGetResponse as i0, CustomerPortalInvoicesListError as i1, CustomerPortalInvoicesListResponse as i2, CustomerPortalMandatesCancelError as i3, CustomerPortalMandatesCancelResponse as i4, CustomerPortalMandatesListError as i5, CustomerPortalMandatesListResponse as i6, CustomerPortalMandatesReauthorizeError as i7, CustomerPortalMandatesReauthorizeResponse as i8, CustomerPortalMandatesReauthorizeSendOtpError as i9, CustomersPreferredRailsGet200ResponseDataPreferredRailsInnerMandate as iA, CustomersPreferredRailsGetResponse as iB, CustomersUpdateResponse as iC, CvvCodeInterpretation as iD, DdCaptureSession as iE, DdCaptureSessionResponse as iF, DdCollectionStopped as iG, DdMandatePdfReference as iH, DdMandateRequestActiveItem as iI, DdMandateRequestActiveResponse as iJ, DdMandateRequestCancelResponse as iK, DdMandateRequestConsumeResponse as iL, DdMandateRequestCreateResponse as iM, DdMandateRequestHistoryResponse as iN, DdMandateRequestLifecycleItem as iO, DdMandateRequestLifecycleStatus as iP, DdMandateRequestsGetError as iQ, DdMandateRequestsGetResponse as iR, DdPreviewError as iS, DdPreviewResponse as iT, DdValidateError as iU, DdValidateResponse as iV, DeclineAnalyticsResponse as iW, DeclineAnalyticsResponseDataByGatewayValue as iX, DeclineAnalyticsResponseDataTopDeclineCategoriesInner as iY, Discount as iZ, DiscountCreateResponse as i_, CustomerPortalMandatesReauthorizeSendOtpResponse as ia, CustomerPortalMandatesReauthorizeVerifyOtpError as ib, CustomerPortalMandatesReauthorizeVerifyOtpResponse as ic, CustomerPortalSessionCreateResponse as id, CustomerPortalSessionsCreateError as ie, CustomerPortalSessionsCreateResponse as ig, CustomerPortalSubscriptionsCancelError as ih, CustomerPortalSubscriptionsCancelResponse as ii, CustomerPortalSubscriptionsGetError as ij, CustomerPortalSubscriptionsGetResponse as ik, CustomerPortalSubscriptionsListError as il, CustomerPortalSubscriptionsListResponse as im, CustomerRetrieveResponse as io, CustomerStateGetResponse as ip, CustomerStateResponse as iq, CustomerSubscription as ir, CustomerUpdateResponse as is, CustomersCreateResponse as it, CustomersGetResponse as iu, CustomersListResponse as iv, CustomersPaymentMethodsListResponse as iw, CustomersPaymentRailsGet200ResponseData as ix, CustomersPaymentRailsGetResponse as iy, CustomersPreferredRailsGet200ResponseData as iz, AnalyticsRevenueTimeSeriesResponses as j, MandateListItem as j$, DiscountListResponse as j0, DiscountRetrieveResponse as j1, DiscountUpdateResponse as j2, Dispute as j3, DryRunResult as j4, DryRunResultDataInnerValidationDetails as j5, Entitlement as j6, EntitlementCheck as j7, EntitlementCheckResponse as j8, EntitlementListResponse as j9, InvoiceLineItemsListUsageEventsError as jA, InvoiceLineItemsListUsageEventsResponse as jB, InvoiceLineUsageEventProvenanceItem as jC, InvoiceLineUsageEventsError as jD, InvoiceLineUsageEventsList as jE, InvoiceListResponse as jF, InvoiceResponse as jG, InvoiceUsageExplainResponse as jH, InvoiceUsageExplainResponse2 as jI, InvoicesCreateError as jJ, InvoicesCreateResponse as jK, InvoicesFinalizeResponse as jL, InvoicesGetError as jM, InvoicesGetResponse as jN, InvoicesListError as jO, InvoicesListResponse as jP, InvoicesMarginEstimate200ResponseData as jQ, InvoicesMarginEstimate200ResponseDataEstimatesInnerFeeBreakdown as jR, InvoicesMarginEstimateResponse as jS, InvoicesSendResponse as jT, InvoicesUpdateError as jU, InvoicesUpdateRequestSubscriptionTerms as jV, InvoicesUpdateResponse as jW, InvoicesVoidResponse as jX, Mandate as jY, MandateActionRequest as jZ, MandateActionResponse as j_, EntitlementsCheckResponse as ja, EntitlementsListResponse as jb, ErrorResponse as jc, Event as jd, EventErrorResponse as je, EventListResponse as jf, EventRequest as jg, EventsGetError as jh, EventsGetResponse as ji, EventsListError as jj, EventsListResponse as jk, EventsResendError as jl, EventsResendResponse as jm, Export as jn, ExportCreateResponse as jo, ExportRetrieveResponse as jp, ExternalUpsertResponse as jq, ForbiddenError as jr, FulfillOrderRequest as js, Import as jt, ImportCreateResponse as ju, ImportRetrieveResponse as jv, Invoice as jw, InvoiceCommentDetail as jx, InvoiceCommentDetailResponse as jy, InvoiceCommentListDetailResponse as jz, AnalyticsRevenueTimeSeriesErrors as k, PaymentIntentsCaptureError as k$, MandateListResponse as k0, MandateRequestLookupResponse as k1, MandateRequestLookupResponseDataCustomer as k2, MandateRequestLookupResponseDataInvoice as k3, MandateRequestLookupResponseDataMerchant as k4, MandateResponse as k5, MandatesCancelError as k6, MandatesCancelResponse as k7, MandatesCreateError as k8, MandatesCreateResponse as k9, MetersListResponse as kA, MetersQuantitiesError as kB, MetersQuantitiesResponse as kC, MetersUpdateError as kD, MetersUpdateResponse as kE, NoPaymentMethodsAvailableError as kF, NotFoundError as kG, OpenDispute as kH, Order as kI, OrderErrorResponse as kJ, OrderLineItem as kK, OrderListResponse as kL, Pagination as kM, PauseSubscriptionInput as kN, Payment as kO, PaymentAttempt as kP, PaymentAttemptErrorResponse as kQ, PaymentAttemptListResponse as kR, PaymentAttemptSingleResponse as kS, PaymentErrorResponse as kT, PaymentIntent as kU, PaymentIntentErrorResponse as kV, PaymentIntentLastPaymentErrorPaymentMethod as kW, PaymentIntentListResponse as kX, PaymentIntentNextActionRedirectToUrl as kY, PaymentIntentsCancelError as kZ, PaymentIntentsCancelResponse as k_, MandatesGetError as ka, MandatesGetResponse as kb, MandatesListError as kc, MandatesListResponse as kd, MandatesReinstateError as ke, MandatesReinstateResponse as kf, MandatesScheduleCollectionError as kg, MandatesScheduleCollectionResponse as kh, MandatesSuspendError as ki, MandatesSuspendResponse as kj, MarkDeliveredResponse as kk, MerchantActionForbiddenError as kl, MerchantAuthorizationDeniedError as km, MeterError as kn, MeterGetResponse as ko, MeterListResponse as kp, MeterPriceError as kq, MeterPriceListResponse as kr, MeterPriceResponse as ks, MeterPriceTierInput as kt, MeterQuantitiesResponse as ku, MetersCreateError as kv, MetersCreateResponse as kw, MetersGetError as kx, MetersGetResponse as ky, MetersListError as kz, BillingOverviewGetData as l, PricesArchiveResponse as l$, PaymentIntentsCaptureResponse as l0, PaymentIntentsConfirmError as l1, PaymentIntentsConfirmResponse as l2, PaymentIntentsCreateError as l3, PaymentIntentsCreateResponse as l4, PaymentIntentsGetError as l5, PaymentIntentsGetResponse as l6, PaymentIntentsListError as l7, PaymentIntentsListResponse as l8, PaymentLinksActivateError as l9, Payout as lA, PayoutPayment as lB, PhaseItem as lC, PortalCustomer as lD, PortalCustomerResponse as lE, PortalInvoice as lF, PortalInvoiceList as lG, PortalInvoiceResponse as lH, PortalMandate as lI, PortalMandateList as lJ, PortalReauthorizeMandateRequest as lK, PortalReauthorizeMandateResponse as lL, PortalReauthorizeSendOtpResponse as lM, PortalReauthorizeVerifyOtpRequest as lN, PortalReauthorizeVerifyOtpResponse as lO, PortalSubscription as lP, PortalSubscriptionCancelResponse as lQ, PortalSubscriptionList as lR, PortalSubscriptionResponse as lS, PreviewCollectionRequest as lT, PreviewCollectionResponse as lU, PreviewCreditNoteInput as lV, Price as lW, PriceErrorResponse as lX, PriceListResponse as lY, PriceTier as lZ, PricesArchiveError as l_, PaymentLinksActivateResponse as la, PaymentLinksArchiveError as lb, PaymentLinksArchiveResponse as lc, PaymentLinksCreateError as ld, PaymentLinksCreateRequestLineItemsInner as le, PaymentLinksCreateRequestLineItemsInnerPriceDataProductData as lf, PaymentLinksCreateResponse as lg, PaymentLinksDeactivateError as lh, PaymentLinksDeactivateResponse as li, PaymentLinksExpireError as lj, PaymentLinksExpireResponse as lk, PaymentLinksGetError as ll, PaymentLinksGetResponse as lm, PaymentLinksList200ResponseDataInner as ln, PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetails as lo, PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetailsRecurring as lp, PaymentLinksList200ResponsePagination as lq, PaymentLinksListError as lr, PaymentLinksListResponse as ls, PaymentLinksUpdateError as lt, PaymentLinksUpdateResponse as lu, PaymentListResponse as lv, PaymentMethod as lw, PaymentMethodList as lx, PaymentSecurityResponse as ly, PaymentSecurityResult as lz, BillingOverviewGetResponses as m, SetupIntentList as m$, PricesCreateError as m0, PricesCreateResponse as m1, PricesGetError as m2, PricesGetResponse as m3, PricesListError as m4, PricesListResponse as m5, PricesUpdateError as m6, PricesUpdateResponse as m7, Product as m8, ProductCollection as m9, ProductsCreateError as mA, ProductsCreateResponse as mB, ProductsGetError as mC, ProductsGetResponse as mD, ProductsListError as mE, ProductsListResponse as mF, ProductsUpdateError as mG, ProductsUpdateResponse as mH, RateLimitError as mI, RateLimitErrorErrorDetails as mJ, Refund as mK, RefundCreateResponse as mL, RefundListResponse as mM, RefundRetrieveResponse as mN, RefundTerminalPaymentRequest as mO, RefundsCreateResponse as mP, RefundsGetResponse as mQ, RefundsListResponse as mR, ReleaseSubscriptionScheduleRequest as mS, ResendWebhookResponse as mT, RetryEligibilityResponse as mU, ScheduleCollectionRequest as mV, ScheduleCollectionResponse as mW, SchedulePhase as mX, SetCartContactInput as mY, SetupIntent as mZ, SetupIntentError as m_, ProductCollectionCreateRequest as ma, ProductCollectionCreateResponse as mb, ProductCollectionDeleted as mc, ProductCollectionDeletedResponse as md, ProductCollectionError as me, ProductCollectionListResponse as mf, ProductCollectionResponse as mg, ProductCollectionUpdateRequest as mh, ProductCollectionUpdateResponse as mi, ProductCollectionsCreateError as mj, ProductCollectionsCreateResponse as mk, ProductCollectionsDeleteError as ml, ProductCollectionsDeleteResponse as mm, ProductCollectionsGetError as mn, ProductCollectionsGetResponse as mo, ProductCollectionsListError as mp, ProductCollectionsListResponse as mq, ProductCollectionsUpdateError as mr, ProductCollectionsUpdateResponse as ms, ProductCreateResponse as mt, ProductErrorResponse as mu, ProductImage as mv, ProductImageResponse as mw, ProductListResponse as mx, ProductRetrieveResponse as my, ProductUpdateResponse as mz, BillingOverviewGetErrors as n, TerminalDeviceListResponse as n$, SetupIntentNextAction as n0, StaleUpdateResponse as n1, StorefrontAvailability as n2, StorefrontKeyStatus as n3, StorefrontOrigin as n4, StorefrontOriginCreateRequest as n5, StorefrontOriginCreateResponse as n6, StorefrontOriginDeleteResponse as n7, StorefrontOriginError as n8, StorefrontOriginListResponse as n9, SubscriptionChangeQuantityResponse as nA, SubscriptionCreateResponse as nB, SubscriptionItem as nC, SubscriptionItemCreateResponse as nD, SubscriptionItemDeleteResponse as nE, SubscriptionItemListResponse as nF, SubscriptionItemUpdateResponse as nG, SubscriptionListResponse as nH, SubscriptionPauseResponse as nI, SubscriptionPreviewRenewalResponse as nJ, SubscriptionPreviewRenewalResponseDataUpcomingRenewalsInner as nK, SubscriptionReactivateResponse as nL, SubscriptionResumeResponse as nM, SubscriptionRetrieveResponse as nN, SubscriptionSchedule as nO, SubscriptionScheduleErrorResponse as nP, SubscriptionScheduleListResponse as nQ, SubscriptionTerms as nR, SubscriptionUpdateResponse as nS, SubscriptionsCancelResponse as nT, SubscriptionsCreateResponse as nU, SubscriptionsGetResponse as nV, SubscriptionsListResponse as nW, SubscriptionsUpdateResponse as nX, SuccessResponse as nY, TerminalDevice as nZ, TerminalDeviceErrorResponse as n_, StorefrontOriginsCreateError as na, StorefrontOriginsCreateResponse as nb, StorefrontOriginsDeleteError as nc, StorefrontOriginsDeleteResponse as nd, StorefrontOriginsListError as ne, StorefrontOriginsListResponse as nf, StorefrontPrice as ng, StorefrontProduct as nh, StorefrontProductError as ni, StorefrontProductImage as nj, StorefrontProductListResponse as nk, StorefrontProductResponse as nl, StorefrontProductsGetError as nm, StorefrontProductsGetResponse as nn, StorefrontProductsListError as no, StorefrontProductsListResponse as np, StorefrontStatus as nq, StorefrontStatusCheck as nr, StorefrontStatusError as ns, StorefrontStatusGetError as nt, StorefrontStatusGetResponse as nu, StorefrontStatusResponse as nv, Subscription as nw, SubscriptionCancelResponse as nx, SubscriptionCancelSubscriptionResponse as ny, SubscriptionChangePlanResponse as nz, CartApiKeysEnsureResponses as o, WebhookDeliveryErrorResponse as o$, TerminalDeviceResponse as o0, TerminalPayment as o1, TerminalPaymentErrorResponse as o2, TerminalPaymentListResponse as o3, TerminalPaymentResponse as o4, TestEventResponse as o5, ToggleCartAddOnInput as o6, Transaction as o7, TransactionListResponse as o8, TransactionRetrieveResponse as o9, UsageEventError as oA, UsageEventGetResponse as oB, UsageEventListResponse as oC, UsageEventRecord as oD, UsageEventsGetError as oE, UsageEventsGetResponse as oF, UsageEventsIngestError as oG, UsageEventsIngestResponse as oH, UsageEventsListError as oI, UsageEventsListResponse as oJ, UsageIngestRequest as oK, ValidateBankAccountRequest as oL, ValidateBankAccountResponse as oM, ValidationError as oN, ValidationErrorErrorDetails as oO, Void as oP, VoidCreateResponse as oQ, VoidListResponse as oR, VoidRetrieveResponse as oS, VoidTerminalPaymentRequest as oT, WebhookDeliveriesGetError as oU, WebhookDeliveriesGetResponse as oV, WebhookDeliveriesListError as oW, WebhookDeliveriesListResponse as oX, WebhookDeliveriesRetryError as oY, WebhookDeliveriesRetryResponse as oZ, WebhookDelivery as o_, TransactionReversalEligibilityResponse as oa, TransactionsGetError as ob, TransactionsGetResponse as oc, TransactionsListError as od, TransactionsListResponse as oe, TransformQuantity as of, UnchangedContentResponse as og, UpdateCartLineItemInput as oh, UpdateDiscountInput as oi, UpdateMeterPriceRequest as oj, UpdateMeterRequest as ok, UpdateMeterResponse as ol, UpdateOrderRequest as om, UpdatePaymentIntentRequest as on, UpdatePaymentMethodRequest as oo, UpdatePriceRequest as op, UpdateProductRequest as oq, UpdateSetupIntentRequest as or, UpdateSubscriptionItemInput as os, UpdateSubscriptionScheduleRequest as ot, UsageAggregateResponse as ou, UsageBalanceGet400ResponseError as ov, UsageBalanceGetError as ow, UsageBalanceGetResponse as ox, UsageBalanceMeter as oy, UsageBalanceResponse as oz, CartApiKeysEnsureErrors as p, WebhooksMeterPriceDeactivatedWebhookPayload as p$, WebhookDeliveryListResponse as p0, WebhookDeliveryResponse as p1, WebhookDeliveryRetryResponse as p2, WebhookEndpoint as p3, WebhookEndpointsCreateResponse as p4, WebhookEndpointsDelete200ResponseData as p5, WebhookEndpointsDeleteResponse as p6, WebhookEndpointsGetResponse as p7, WebhookEndpointsList200ResponseDataInner as p8, WebhookEndpointsList200ResponseMeta as p9, WebhooksCustomerCreatedWebhookRequest as pA, WebhooksCustomerUpdatedWebhookPayload as pB, WebhooksCustomerUpdatedWebhookRequest as pC, WebhooksInvoiceCreatedWebhookPayload as pD, WebhooksInvoiceCreatedWebhookRequest as pE, WebhooksInvoiceOverdueWebhookPayload as pF, WebhooksInvoiceOverdueWebhookRequest as pG, WebhooksInvoicePaidWebhookPayload as pH, WebhooksInvoicePaidWebhookRequest as pI, WebhooksMandateActivatedWebhookPayload as pJ, WebhooksMandateActivatedWebhookRequest as pK, WebhooksMandateAuddisRejectedWebhookPayload as pL, WebhooksMandateAuddisRejectedWebhookRequest as pM, WebhooksMandateCancelledWebhookPayload as pN, WebhooksMandateCancelledWebhookRequest as pO, WebhooksMandateCreatedWebhookPayload as pP, WebhooksMandateCreatedWebhookRequest as pQ, WebhooksMandateSignedWebhookPayload as pR, WebhooksMandateSignedWebhookRequest as pS, WebhooksMandateSuspendedWebhookPayload as pT, WebhooksMandateSuspendedWebhookRequest as pU, WebhooksMeterArchivedWebhookPayload as pV, WebhooksMeterArchivedWebhookRequest as pW, WebhooksMeterCreatedWebhookPayload as pX, WebhooksMeterCreatedWebhookRequest as pY, WebhooksMeterPriceCreatedWebhookPayload as pZ, WebhooksMeterPriceCreatedWebhookRequest as p_, WebhookEndpointsListResponse as pa, WebhookEndpointsRotateSecretResponse as pb, WebhookEndpointsUpdateResponse as pc, WebhookEvent as pd, Webhooks as pe, WebhooksCheckoutSessionCompletedWebhookPayload as pf, WebhooksCheckoutSessionCompletedWebhookRequest as pg, WebhooksCheckoutSessionExpiredWebhookPayload as ph, WebhooksCheckoutSessionExpiredWebhookRequest as pi, WebhooksCollectionFailedWebhookPayload as pj, WebhooksCollectionFailedWebhookRequest as pk, WebhooksCollectionIndemnityClaimedWebhookPayload as pl, WebhooksCollectionIndemnityClaimedWebhookRequest as pm, WebhooksCollectionNoticeSentWebhookPayload as pn, WebhooksCollectionNoticeSentWebhookRequest as po, WebhooksCollectionScheduledWebhookPayload as pp, WebhooksCollectionScheduledWebhookRequest as pq, WebhooksCollectionSucceededWebhookPayload as pr, WebhooksCollectionSucceededWebhookRequest as ps, WebhooksCreditNoteCreatedWebhookPayload as pt, WebhooksCreditNoteCreatedWebhookRequest as pu, WebhooksCreditNoteIssuedWebhookPayload as pv, WebhooksCreditNoteIssuedWebhookRequest as pw, WebhooksCreditNoteVoidedWebhookPayload as px, WebhooksCreditNoteVoidedWebhookRequest as py, WebhooksCustomerCreatedWebhookPayload as pz, CartApiKeysRotateData as q, WebhooksVoidSucceededWebhookPayload as q$, WebhooksMeterPriceDeactivatedWebhookRequest as q0, WebhooksMeterPriceUpdatedWebhookPayload as q1, WebhooksMeterPriceUpdatedWebhookRequest as q2, WebhooksMeterUpdatedWebhookPayload as q3, WebhooksMeterUpdatedWebhookRequest as q4, WebhooksOrderCreatedWebhookPayload as q5, WebhooksOrderCreatedWebhookRequest as q6, WebhooksOrderFulfilledWebhookPayload as q7, WebhooksOrderFulfilledWebhookRequest as q8, WebhooksOrderPaidWebhookPayload as q9, WebhooksTerminalPaymentRequestedWebhookRequest as qA, WebhooksTerminalPaymentSucceededWebhookPayload as qB, WebhooksTerminalPaymentSucceededWebhookRequest as qC, WebhooksTerminalRefundSucceededWebhookPayload as qD, WebhooksTerminalRefundSucceededWebhookRequest as qE, WebhooksTerminalVoidSucceededWebhookPayload as qF, WebhooksTerminalVoidSucceededWebhookRequest as qG, WebhooksUsageCapExceededWebhookPayload as qH, WebhooksUsageCapExceededWebhookRequest as qI, WebhooksUsageEventExcludedWebhookPayload as qJ, WebhooksUsageEventExcludedWebhookRequest as qK, WebhooksUsageEventIngestedWebhookPayload as qL, WebhooksUsageEventIngestedWebhookRequest as qM, WebhooksUsageEventQuarantinedWebhookPayload as qN, WebhooksUsageEventQuarantinedWebhookRequest as qO, WebhooksUsageEventRejectedWebhookPayload as qP, WebhooksUsageEventRejectedWebhookRequest as qQ, WebhooksUsageInvoiceCreatedWebhookPayload as qR, WebhooksUsageInvoiceCreatedWebhookRequest as qS, WebhooksUsagePeriodFinalizedWebhookPayload as qT, WebhooksUsagePeriodFinalizedWebhookRequest as qU, WebhooksUsageThresholdReachedWebhookPayload as qV, WebhooksUsageThresholdReachedWebhookRequest as qW, WebhooksVoidCreatedWebhookPayload as qX, WebhooksVoidCreatedWebhookRequest as qY, WebhooksVoidFailedWebhookPayload as qZ, WebhooksVoidFailedWebhookRequest as q_, WebhooksOrderPaidWebhookRequest as qa, WebhooksPaymentFailedWebhookPayload as qb, WebhooksPaymentFailedWebhookRequest as qc, WebhooksPaymentSucceededWebhookPayload as qd, WebhooksPaymentSucceededWebhookRequest as qe, WebhooksRefundCreatedWebhookPayload as qf, WebhooksRefundCreatedWebhookRequest as qg, WebhooksRefundSucceededWebhookPayload as qh, WebhooksRefundSucceededWebhookRequest as qi, WebhooksSettlementCreatedWebhookPayload as qj, WebhooksSettlementCreatedWebhookRequest as qk, WebhooksSubscriptionActivatedWebhookPayload as ql, WebhooksSubscriptionActivatedWebhookRequest as qm, WebhooksSubscriptionCanceledWebhookPayload as qn, WebhooksSubscriptionCanceledWebhookRequest as qo, WebhooksSubscriptionCreatedWebhookPayload as qp, WebhooksSubscriptionCreatedWebhookRequest as qq, WebhooksSubscriptionRenewedWebhookPayload as qr, WebhooksSubscriptionRenewedWebhookRequest as qs, WebhooksTerminalPaymentCancelledWebhookPayload as qt, WebhooksTerminalPaymentCancelledWebhookRequest as qu, WebhooksTerminalPaymentDeclinedWebhookPayload as qv, WebhooksTerminalPaymentDeclinedWebhookRequest as qw, WebhooksTerminalPaymentErrorWebhookPayload as qx, WebhooksTerminalPaymentErrorWebhookRequest as qy, WebhooksTerminalPaymentRequestedWebhookPayload as qz, CartApiKeysRotateResponses as r, WebhooksVoidSucceededWebhookRequest as r0, CartApiKeysRotateErrors as s, CartApiKeysStatusData as t, CartApiKeysStatusResponses as u, CartApiKeysStatusErrors as v, CartSessionsAddLineItemData as w, CartSessionsAddLineItemResponses as x, CartSessionsAddLineItemErrors as y, CartSessionsApplyDiscountCodeData as z };

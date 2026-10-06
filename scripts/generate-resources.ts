@@ -17,6 +17,7 @@ interface OpenAPISpec {
 
 interface OpenAPIOperation {
   operationId?: string;
+  "x-revkeen-idempotent"?: boolean;
   parameters?: Array<{
     in: "path" | "query" | "header" | "cookie";
     name: string;
@@ -33,9 +34,14 @@ interface OperationMeta {
   bodyRequired: boolean;
   dataType: string;
   functionName: string;
+  httpMethod: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  idempotent: boolean;
+  operationId: string;
+  path: string;
   pathParams: string[];
   hasQuery: boolean;
   resourceName: string;
+  requiresIdempotencyKey: boolean;
   responseType: string;
 }
 
@@ -143,7 +149,7 @@ function getResourceAndAction(operationId: string): {
   };
 }
 
-function buildMethodSignature(operation: OperationMeta): string {
+function buildBaseMethodSignature(operation: OperationMeta): string {
   const dataType = operation.dataType;
   const bodyType = `NonNullable<${dataType}["body"]>`;
   const queryType = `NonNullable<${dataType}["query"]>`;
@@ -223,8 +229,17 @@ function buildMethodSignature(operation: OperationMeta): string {
   return `(params: { path: ${pathType}; body?: ${bodyType}; query?: ${queryType} }) => Promise<${operation.responseType}>`;
 }
 
-function buildMethodImplementation(operation: OperationMeta): string {
-  const call = `runtime.requestData<${operation.responseType}>(operations.${operation.functionName} as (options: unknown) => Promise<{ data?: ${operation.responseType}; error?: unknown }>, `;
+function buildMethodSignature(operation: OperationMeta): string {
+  const signature = buildBaseMethodSignature(operation);
+  const arrowIndex = signature.lastIndexOf(") =>");
+  const openingIndex = signature.indexOf("(");
+  const existingParameters = signature.slice(openingIndex + 1, arrowIndex);
+  const separator = existingParameters.length > 0 ? ", " : "";
+  return `${signature.slice(0, arrowIndex)}${separator}requestOptions?: RevKeenRequestOptions${signature.slice(arrowIndex)}`;
+}
+
+function buildBaseMethodImplementation(operation: OperationMeta): string {
+  const call = `runtime.requestData<${operation.responseType}>(`;
   const close = ")";
 
   if (operation.pathParams.length === 0) {
@@ -284,12 +299,26 @@ function buildMethodImplementation(operation: OperationMeta): string {
   return `async (params) => ${call}{ path: params.path, ...(params.body === undefined ? {} : { body: params.body }), ...(params.query === undefined ? {} : { query: params.query }) }${close}`;
 }
 
+function buildMethodImplementation(operation: OperationMeta): string {
+  const base = buildBaseMethodImplementation(operation);
+  const withRequestOptions = base.replace(
+    /^async \(([^)]*)\)/,
+    (_match, parameters: string) =>
+      `async (${parameters}${parameters.length > 0 ? ", " : ""}requestOptions)`
+  );
+  const metadata = `{ method: "${operation.httpMethod}", operationId: "${operation.operationId}", path: "${operation.path}", idempotent: ${operation.idempotent}, requiresIdempotencyKey: ${operation.requiresIdempotencyKey} }`;
+  return `${withRequestOptions.slice(0, -1)}, requestOptions, ${metadata})`;
+}
+
 function generate(): string {
   const spec = JSON.parse(fs.readFileSync(OPENAPI_PATH, "utf8")) as OpenAPISpec;
   const groups = new Map<string, OperationMeta[]>();
 
-  for (const methods of Object.values(spec.paths)) {
-    for (const operation of Object.values(methods)) {
+  for (const [routePath, methods] of Object.entries(spec.paths)) {
+    for (const [method, operation] of Object.entries(methods)) {
+      if (!["get", "post", "put", "patch", "delete"].includes(method)) {
+        continue;
+      }
       if (!operation?.operationId) {
         continue;
       }
@@ -310,9 +339,19 @@ function generate(): string {
         bodyRequired: Boolean(operation.requestBody?.required),
         dataType: `${operationTypeBase}Data`,
         functionName: toCamel(operation.operationId),
+        httpMethod: method.toUpperCase() as OperationMeta["httpMethod"],
+        idempotent: operation["x-revkeen-idempotent"] === true,
+        operationId: operation.operationId,
+        path: routePath,
         hasQuery,
         pathParams,
         resourceName,
+        requiresIdempotencyKey: (operation.parameters ?? []).some(
+          (parameter) =>
+            parameter.in === "header" &&
+            parameter.required === true &&
+            parameter.name.toLowerCase() === "idempotency-key"
+        ),
         responseType: `${operationTypeBase}Response`,
       };
 
@@ -367,13 +406,14 @@ function generate(): string {
  * Source of truth: packages/openapi/sdk-openapi.json
  */
 
-import * as operations from "./generated/sdk.gen.js";
 import type { ${typeImports} } from "./generated/types.gen.js";
+import type { RevKeenOperationMetadata, RevKeenRequestOptions } from "./core/request-options.js";
 
 export interface GeneratedResourceRuntime {
   requestData<T>(
-    fn: (options: unknown) => Promise<{ data?: T; error?: unknown }>,
-    options?: Record<string, unknown>
+    options?: Record<string, unknown>,
+    requestOptions?: RevKeenRequestOptions,
+    operation?: RevKeenOperationMetadata
   ): Promise<T>;
 }
 

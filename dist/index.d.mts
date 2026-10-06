@@ -1,248 +1,137 @@
-import { A as AccountingInvoicePaymentRequestsCreateData, a as AccountingInvoicePaymentRequestsCreateResponse, b as AccountingInvoicePaymentRequestsGetData, c as AccountingInvoicePaymentRequestsGetResponse, d as AnalyticsRevenueMrrSummaryData, e as AnalyticsRevenueMrrSummaryResponse, f as AnalyticsRevenueTimeSeriesData, g as AnalyticsRevenueTimeSeriesResponse, C as CartApiKeysEnsureResponse, h as CartApiKeysRotateData, i as CartApiKeysRotateResponse, j as CartApiKeysStatusResponse, k as CartSessionsAddLineItemData, l as CartSessionsAddLineItemResponse, m as CartSessionsApplyDiscountCodeData, n as CartSessionsApplyDiscountCodeResponse, o as CartSessionsConvertData, p as CartSessionsConvertResponse, q as CartSessionsCreateData, r as CartSessionsCreateResponse, s as CartSessionsGetData, t as CartSessionsGetResponse, u as CartSessionsRemoveLineItemData, v as CartSessionsRemoveLineItemResponse, w as CartSessionsSetContactData, x as CartSessionsSetContactResponse, y as CartSessionsToggleAddOnData, z as CartSessionsToggleAddOnResponse, D as CartSessionsUpdateLineItemData, E as CartSessionsUpdateLineItemResponse, F as CheckoutSessionsCreateData, G as CheckoutSessionsCreateResponse, H as CheckoutSessionsExpireData, I as CheckoutSessionsExpireResponse, J as CheckoutSessionsGetData, K as CheckoutSessionsGetResponse, L as CreditNotesCreateData, M as CreditNotesCreateResponse, N as CreditNotesGetData, O as CreditNotesGetResponse, P as CreditNotesListData, Q as CreditNotesListResponse, R as CreditNotesListLinesData, S as CreditNotesListLinesResponse, T as CreditNotesPreviewData, V as CreditNotesPreviewResponse, W as CreditNotesVoidData, X as CreditNotesVoidResponse, Y as CustomerMetersGetData, Z as CustomerMetersGetResponse, _ as CustomerMetersListData, $ as CustomerMetersListResponse, a0 as CustomerPortalCustomerGetResponse, a1 as CustomerPortalInvoicesGetData, a2 as CustomerPortalInvoicesGetResponse, a3 as CustomerPortalInvoicesListData, a4 as CustomerPortalInvoicesListResponse, a5 as CustomerPortalMandatesCancelData, a6 as CustomerPortalMandatesCancelResponse, a7 as CustomerPortalMandatesListResponse, a8 as CustomerPortalMandatesReauthorizeData, a9 as CustomerPortalMandatesReauthorizeResponse, aa as CustomerPortalMandatesReauthorizeSendOtpData, ab as CustomerPortalMandatesReauthorizeSendOtpResponse, ac as CustomerPortalMandatesReauthorizeVerifyOtpData, ad as CustomerPortalMandatesReauthorizeVerifyOtpResponse, ae as CustomerPortalSessionsCreateData, af as CustomerPortalSessionsCreateResponse, ag as CustomerPortalSubscriptionsCancelData, ah as CustomerPortalSubscriptionsCancelResponse, ai as CustomerPortalSubscriptionsGetData, aj as CustomerPortalSubscriptionsGetResponse, ak as CustomerPortalSubscriptionsListData, al as CustomerPortalSubscriptionsListResponse, am as CustomersCreateData, an as CustomersCreateResponse, ao as CustomersGetData, ap as CustomersGetResponse, aq as CustomersListData, ar as CustomersListResponse, as as CustomersPaymentMethodsListData, at as CustomersPaymentMethodsListResponse, au as CustomersPaymentRailsGetData, av as CustomersPaymentRailsGetResponse, aw as CustomersPreferredRailsGetData, ax as CustomersPreferredRailsGetResponse, ay as CustomersUpdateData, az as CustomersUpdateResponse, aA as DdMandateRequestsGetData, aB as DdMandateRequestsGetResponse, aC as DdPreviewData, aD as DdPreviewResponse, aE as DdValidateData, aF as DdValidateResponse, aG as EntitlementsCheckData, aH as EntitlementsCheckResponse, aI as EntitlementsListData, aJ as EntitlementsListResponse, aK as EventsGetData, aL as EventsGetResponse, aM as EventsListData, aN as EventsListResponse, aO as EventsResendData, aP as EventsResendResponse, aQ as InvoicesCreateData, aR as InvoicesCreateResponse, aS as InvoicesFinalizeData, aT as InvoicesFinalizeResponse, aU as InvoicesGetData, aV as InvoicesGetResponse, aW as InvoicesListData, aX as InvoicesListResponse, aY as InvoicesMarginEstimateData, aZ as InvoicesMarginEstimateResponse, a_ as InvoicesSendData, a$ as InvoicesSendResponse, b0 as InvoicesUpdateData, b1 as InvoicesUpdateResponse, b2 as InvoicesVoidData, b3 as InvoicesVoidResponse, b4 as MandatesCancelData, b5 as MandatesCancelResponse, b6 as MandatesCreateData, b7 as MandatesCreateResponse, b8 as MandatesGetData, b9 as MandatesGetResponse, ba as MandatesListData, bb as MandatesListResponse, bc as MandatesReinstateData, bd as MandatesReinstateResponse, be as MandatesScheduleCollectionData, bf as MandatesScheduleCollectionResponse, bg as MandatesSuspendData, bh as MandatesSuspendResponse, bi as PaymentIntentsCancelData, bj as PaymentIntentsCancelResponse, bk as PaymentIntentsCaptureData, bl as PaymentIntentsCaptureResponse, bm as PaymentIntentsConfirmData, bn as PaymentIntentsConfirmResponse, bo as PaymentIntentsCreateData, bp as PaymentIntentsCreateResponse, bq as PaymentIntentsGetData, br as PaymentIntentsGetResponse, bs as PaymentIntentsListData, bt as PaymentIntentsListResponse, bu as PaymentLinksActivateData, bv as PaymentLinksActivateResponse, bw as PaymentLinksArchiveData, bx as PaymentLinksArchiveResponse, by as PaymentLinksCreateData, bz as PaymentLinksCreateResponse, bA as PaymentLinksDeactivateData, bB as PaymentLinksDeactivateResponse, bC as PaymentLinksExpireData, bD as PaymentLinksExpireResponse, bE as PaymentLinksGetData, bF as PaymentLinksGetResponse, bG as PaymentLinksListData, bH as PaymentLinksListResponse, bI as PaymentLinksUpdateData, bJ as PaymentLinksUpdateResponse, bK as PricesArchiveData, bL as PricesArchiveResponse, bM as PricesCreateData, bN as PricesCreateResponse, bO as PricesGetData, bP as PricesGetResponse, bQ as PricesListData, bR as PricesListResponse, bS as PricesUpdateData, bT as PricesUpdateResponse, bU as ProductsCreateData, bV as ProductsCreateResponse, bW as ProductsGetData, bX as ProductsGetResponse, bY as ProductsListData, bZ as ProductsListResponse, b_ as ProductsUpdateData, b$ as ProductsUpdateResponse, c0 as RefundsCreateData, c1 as RefundsCreateResponse, c2 as RefundsGetData, c3 as RefundsGetResponse, c4 as RefundsListData, c5 as RefundsListResponse, c6 as StorefrontOriginsCreateData, c7 as StorefrontOriginsCreateResponse, c8 as StorefrontOriginsDeleteData, c9 as StorefrontOriginsDeleteResponse, ca as StorefrontOriginsListResponse, cb as StorefrontProductsGetData, cc as StorefrontProductsGetResponse, cd as StorefrontProductsListData, ce as StorefrontProductsListResponse, cf as StorefrontStatusGetResponse, cg as SubscriptionsCancelData, ch as SubscriptionsCancelResponse, ci as SubscriptionsCreateData, cj as SubscriptionsCreateResponse, ck as SubscriptionsGetData, cl as SubscriptionsGetResponse, cm as SubscriptionsListData, cn as SubscriptionsListResponse, co as SubscriptionsUpdateData, cp as SubscriptionsUpdateResponse, cq as TransactionsGetData, cr as TransactionsGetResponse, cs as TransactionsListData, ct as TransactionsListResponse, cu as WebhookDeliveriesGetData, cv as WebhookDeliveriesGetResponse, cw as WebhookDeliveriesListData, cx as WebhookDeliveriesListResponse, cy as WebhookDeliveriesRetryData, cz as WebhookDeliveriesRetryResponse, cA as WebhookEndpointsCreateData, cB as WebhookEndpointsCreateResponse, cC as WebhookEndpointsDeleteData, cD as WebhookEndpointsDeleteResponse, cE as WebhookEndpointsGetData, cF as WebhookEndpointsGetResponse, cG as WebhookEndpointsListData, cH as WebhookEndpointsListResponse, cI as WebhookEndpointsRotateSecretData, cJ as WebhookEndpointsRotateSecretResponse, cK as WebhookEndpointsUpdateData, cL as WebhookEndpointsUpdateResponse, cM as UsageIngestRequest, B as BatchIngestResult, cN as DryRunResult, cO as AccountingInvoicePaymentRequestsCreateResponses, cP as AccountingInvoicePaymentRequestsCreateErrors, cQ as AccountingInvoicePaymentRequestsGetResponses, cR as AccountingInvoicePaymentRequestsGetErrors, cS as AnalyticsRevenueMrrSummaryResponses, cT as AnalyticsRevenueTimeSeriesResponses, cU as CartApiKeysEnsureData, cV as CartApiKeysEnsureResponses, cW as CartApiKeysEnsureErrors, cX as CartApiKeysRotateResponses, cY as CartApiKeysRotateErrors, cZ as CartApiKeysStatusData, c_ as CartApiKeysStatusResponses, c$ as CartApiKeysStatusErrors, d0 as CartSessionsAddLineItemResponses, d1 as CartSessionsAddLineItemErrors, d2 as CartSessionsApplyDiscountCodeResponses, d3 as CartSessionsApplyDiscountCodeErrors, d4 as CartSessionsConvertResponses, d5 as CartSessionsConvertErrors, d6 as CartSessionsCreateResponses, d7 as CartSessionsCreateErrors, d8 as CartSessionsGetResponses, d9 as CartSessionsGetErrors, da as CartSessionsRemoveLineItemResponses, db as CartSessionsRemoveLineItemErrors, dc as CartSessionsSetContactResponses, dd as CartSessionsSetContactErrors, de as CartSessionsToggleAddOnResponses, df as CartSessionsToggleAddOnErrors, dg as CartSessionsUpdateLineItemResponses, dh as CartSessionsUpdateLineItemErrors, di as CheckoutSessionsCreateResponses, dj as CheckoutSessionsCreateErrors, dk as CheckoutSessionsExpireResponses, dl as CheckoutSessionsExpireErrors, dm as CheckoutSessionsGetResponses, dn as CheckoutSessionsGetErrors, dp as CreditNotesCreateResponses, dq as CreditNotesCreateErrors, dr as CreditNotesGetResponses, ds as CreditNotesGetErrors, dt as CreditNotesListResponses, du as CreditNotesListErrors, dv as CreditNotesListLinesResponses, dw as CreditNotesListLinesErrors, dx as CreditNotesPreviewResponses, dy as CreditNotesPreviewErrors, dz as CreditNotesVoidResponses, dA as CreditNotesVoidErrors, dB as CustomerMetersGetResponses, dC as CustomerMetersGetErrors, dD as CustomerMetersListResponses, dE as CustomerMetersListErrors, dF as CustomerPortalCustomerGetData, dG as CustomerPortalCustomerGetResponses, dH as CustomerPortalCustomerGetErrors, dI as CustomerPortalInvoicesGetResponses, dJ as CustomerPortalInvoicesGetErrors, dK as CustomerPortalInvoicesListResponses, dL as CustomerPortalInvoicesListErrors, dM as CustomerPortalMandatesCancelResponses, dN as CustomerPortalMandatesCancelErrors, dO as CustomerPortalMandatesListData, dP as CustomerPortalMandatesListResponses, dQ as CustomerPortalMandatesListErrors, dR as CustomerPortalMandatesReauthorizeResponses, dS as CustomerPortalMandatesReauthorizeErrors, dT as CustomerPortalMandatesReauthorizeSendOtpResponses, dU as CustomerPortalMandatesReauthorizeSendOtpErrors, dV as CustomerPortalMandatesReauthorizeVerifyOtpResponses, dW as CustomerPortalMandatesReauthorizeVerifyOtpErrors, dX as CustomerPortalSessionsCreateResponses, dY as CustomerPortalSessionsCreateErrors, dZ as CustomerPortalSubscriptionsCancelResponses, d_ as CustomerPortalSubscriptionsCancelErrors, d$ as CustomerPortalSubscriptionsGetResponses, e0 as CustomerPortalSubscriptionsGetErrors, e1 as CustomerPortalSubscriptionsListResponses, e2 as CustomerPortalSubscriptionsListErrors, e3 as CustomersCreateResponses, e4 as CustomersCreateErrors, e5 as CustomersGetResponses, e6 as CustomersGetErrors, e7 as CustomersListResponses, e8 as CustomersListErrors, e9 as CustomersPaymentMethodsListResponses, ea as CustomersPaymentMethodsListErrors, eb as CustomersPaymentRailsGetResponses, ec as CustomersPaymentRailsGetErrors, ed as CustomersPreferredRailsGetResponses, ee as CustomersPreferredRailsGetErrors, ef as CustomersUpdateResponses, eg as CustomersUpdateErrors, eh as DdMandateRequestsGetResponses, ei as DdMandateRequestsGetErrors, ej as DdPreviewResponses, ek as DdPreviewErrors, el as DdValidateResponses, em as DdValidateErrors, en as EntitlementsCheckResponses, eo as EntitlementsCheckErrors, ep as EntitlementsListResponses, eq as EntitlementsListErrors, er as EventsGetResponses, es as EventsGetErrors, et as EventsListResponses, eu as EventsListErrors, ev as EventsResendResponses, ew as EventsResendErrors, ex as InvoicesCreateResponses, ey as InvoicesFinalizeResponses, ez as InvoicesFinalizeErrors, eA as InvoicesGetResponses, eB as InvoicesListResponses, eC as InvoicesMarginEstimateResponses, eD as InvoicesMarginEstimateErrors, eE as InvoicesSendResponses, eF as InvoicesSendErrors, eG as InvoicesUpdateResponses, eH as InvoicesVoidResponses, eI as InvoicesVoidErrors, eJ as MandatesCancelResponses, eK as MandatesCancelErrors, eL as MandatesCreateResponses, eM as MandatesCreateErrors, eN as MandatesGetResponses, eO as MandatesGetErrors, eP as MandatesListResponses, eQ as MandatesListErrors, eR as MandatesReinstateResponses, eS as MandatesReinstateErrors, eT as MandatesScheduleCollectionResponses, eU as MandatesScheduleCollectionErrors, eV as MandatesSuspendResponses, eW as MandatesSuspendErrors, eX as PaymentIntentsCancelResponses, eY as PaymentIntentsCancelErrors, eZ as PaymentIntentsCaptureResponses, e_ as PaymentIntentsCaptureErrors, e$ as PaymentIntentsConfirmResponses, f0 as PaymentIntentsConfirmErrors, f1 as PaymentIntentsCreateResponses, f2 as PaymentIntentsCreateErrors, f3 as PaymentIntentsGetResponses, f4 as PaymentIntentsGetErrors, f5 as PaymentIntentsListResponses, f6 as PaymentIntentsListErrors, f7 as PaymentLinksActivateResponses, f8 as PaymentLinksActivateErrors, f9 as PaymentLinksArchiveResponses, fa as PaymentLinksArchiveErrors, fb as PaymentLinksCreateResponses, fc as PaymentLinksCreateErrors, fd as PaymentLinksDeactivateResponses, fe as PaymentLinksDeactivateErrors, ff as PaymentLinksExpireResponses, fg as PaymentLinksExpireErrors, fh as PaymentLinksGetResponses, fi as PaymentLinksGetErrors, fj as PaymentLinksListResponses, fk as PaymentLinksListErrors, fl as PaymentLinksUpdateResponses, fm as PaymentLinksUpdateErrors, fn as PricesArchiveResponses, fo as PricesArchiveErrors, fp as PricesCreateResponses, fq as PricesCreateErrors, fr as PricesGetResponses, fs as PricesGetErrors, ft as PricesListResponses, fu as PricesListErrors, fv as PricesUpdateResponses, fw as PricesUpdateErrors, fx as ProductsCreateResponses, fy as ProductsCreateErrors, fz as ProductsGetResponses, fA as ProductsGetErrors, fB as ProductsListResponses, fC as ProductsListErrors, fD as ProductsUpdateResponses, fE as ProductsUpdateErrors, fF as RefundsCreateResponses, fG as RefundsCreateErrors, fH as RefundsGetResponses, fI as RefundsGetErrors, fJ as RefundsListResponses, fK as RefundsListErrors, fL as StorefrontOriginsCreateResponses, fM as StorefrontOriginsCreateErrors, fN as StorefrontOriginsDeleteResponses, fO as StorefrontOriginsDeleteErrors, fP as StorefrontOriginsListData, fQ as StorefrontOriginsListResponses, fR as StorefrontOriginsListErrors, fS as StorefrontProductsGetResponses, fT as StorefrontProductsGetErrors, fU as StorefrontProductsListResponses, fV as StorefrontProductsListErrors, fW as StorefrontStatusGetData, fX as StorefrontStatusGetResponses, fY as StorefrontStatusGetErrors, fZ as SubscriptionsCancelResponses, f_ as SubscriptionsCancelErrors, f$ as SubscriptionsCreateResponses, g0 as SubscriptionsCreateErrors, g1 as SubscriptionsGetResponses, g2 as SubscriptionsGetErrors, g3 as SubscriptionsListResponses, g4 as SubscriptionsListErrors, g5 as SubscriptionsUpdateResponses, g6 as SubscriptionsUpdateErrors, g7 as TransactionsGetResponses, g8 as TransactionsGetErrors, g9 as TransactionsListResponses, ga as TransactionsListErrors, gb as WebhookDeliveriesGetResponses, gc as WebhookDeliveriesGetErrors, gd as WebhookDeliveriesListResponses, ge as WebhookDeliveriesListErrors, gf as WebhookDeliveriesRetryResponses, gg as WebhookDeliveriesRetryErrors, gh as WebhookEndpointsCreateResponses, gi as WebhookEndpointsCreateErrors, gj as WebhookEndpointsDeleteResponses, gk as WebhookEndpointsDeleteErrors, gl as WebhookEndpointsGetResponses, gm as WebhookEndpointsGetErrors, gn as WebhookEndpointsListResponses, go as WebhookEndpointsListErrors, gp as WebhookEndpointsRotateSecretResponses, gq as WebhookEndpointsRotateSecretErrors, gr as WebhookEndpointsUpdateResponses, gs as WebhookEndpointsUpdateErrors } from './types.gen-g0C3o-UE.mjs';
-export { gt as AccountingInvoicePaymentRequest, gu as AccountingInvoicePaymentRequestsCreateError, gv as AccountingInvoicePaymentRequestsGetError, gw as ApplyCartDiscountCodeInput, gx as AttachPaymentMethodRequest, gy as AuthenticationError, gz as AvsCodeInterpretation, gA as BacsDirectDebitDetails, gB as BankAccountDetails, gC as BatchIngestRequest, gD as Benefit, gE as BillingAnchorRulesResponse, gF as BillingDetails, gG as BillingIntervalsResponse, gH as BillingPreviewErrorResponse, gI as BillingPreviewResponse, gJ as Business, gK as CancelOrderRequest, gL as CancelPaymentIntentRequest, gM as CancelPaymentRequest, gN as CancelSetupIntentRequest, gO as CancelSubscriptionInput, gP as CancelSubscriptionRequest, gQ as CancelSubscriptionScheduleRequest, gR as CapturePaymentIntentRequest, gS as CapturePaymentRequest, gT as CardDetails, gU as CartApiKeysEnsureError, gV as CartApiKeysRotateError, gW as CartApiKeysStatusError, gX as CartBillingAnchorRule, gY as CartCheckoutSession, gZ as CartConversionResponse, g_ as CartLineItem, g$ as CartLineItemInput, h0 as CartLineItemRecurring, h1 as CartSession, h2 as CartSessionErrorResponse, h3 as CartSessionResponse, h4 as CartSessionStatus, h5 as CartSessionsAddLineItemError, h6 as CartSessionsApplyDiscountCodeError, h7 as CartSessionsConvertError, h8 as CartSessionsCreateError, h9 as CartSessionsGetError, ha as CartSessionsRemoveLineItemError, hb as CartSessionsSetContactError, hc as CartSessionsToggleAddOnError, hd as CartSessionsUpdateLineItemError, he as CartStartRule, hf as ChargeCaptureResponse, hg as ChargeCreateResponse, hh as ChargeDuplicateErrorResponse, hi as ChargeErrorResponse, hj as ChargeListResponse, hk as ChargeRefundResponse, hl as ChargeRetrieveResponse, hm as CheckoutSession, hn as CheckoutSessionCreateResponse, ho as CheckoutSessionErrorResponse, hp as CheckoutSessionExpireResponse, hq as CheckoutSessionRetrieveResponse, hr as CheckoutSessionsCreateError, hs as CheckoutSessionsExpireError, ht as CheckoutSessionsGetError, hu as ClientOptions, hv as CollectionSchedule, hw as ConfirmPaymentIntentRequest, hx as ConfirmSetupIntentRequest, hy as CreateAccountingInvoicePaymentRequestInput, hz as CreateCartSessionInput, hA as CreateCheckoutSessionInput, hB as CreateCreditNoteInput, hC as CreateCustomerPortalSessionRequest, hD as CreateDiscountInput, hE as CreateExportRequest, hF as CreateImportRequest, hG as CreateMandateRequest, hH as CreateMeterPriceRequest, hI as CreateMeterRequest, hJ as CreateMeterResponse, hK as CreateOrderRequest, hL as CreatePaymentIntentRequest, hM as CreatePriceRequest, hN as CreateProductRequest, hO as CreateRefundInput, hP as CreateSetupIntentRequest, hQ as CreateSubscriptionItemInput, hR as CreateSubscriptionScheduleRequest, hS as CreateTaxRateRequest, hT as CreateTerminalPaymentRequest, hU as CreateTestEventRequest, hV as CreateVoidInput, hW as CreditEligibilityResponse, hX as CreditNote, hY as CreditNoteCreateResponse, hZ as CreditNoteEligibilityResponse, h_ as CreditNoteLine, h$ as CreditNoteLineList, i0 as CreditNoteListResponse, i1 as CreditNotePreview, i2 as CreditNotePreviewResponse, i3 as CreditNoteResponse, i4 as CreditNoteRetrieveResponse, i5 as CreditNoteVoidResponse, i6 as CustomerCreateResponse, i7 as CustomerInvoice, i8 as CustomerListResponse, i9 as CustomerMeter, ia as CustomerMeterErrorResponse, ib as CustomerMeterList, ic as CustomerMeterResponse, id as CustomerMetersGetError, ie as CustomerMetersListError, ig as CustomerOrder, ih as CustomerPayment, ii as CustomerPaymentMethodsListResponse, ij as CustomerPortalCustomerGetError, ik as CustomerPortalErrorResponse, il as CustomerPortalInvoicesGetError, im as CustomerPortalInvoicesListError, io as CustomerPortalMandatesCancelError, ip as CustomerPortalMandatesListError, iq as CustomerPortalMandatesReauthorizeError, ir as CustomerPortalMandatesReauthorizeSendOtpError, is as CustomerPortalMandatesReauthorizeVerifyOtpError, it as CustomerPortalSessionCreateResponse, iu as CustomerPortalSessionsCreateError, iv as CustomerPortalSubscriptionsCancelError, iw as CustomerPortalSubscriptionsGetError, ix as CustomerPortalSubscriptionsListError, iy as CustomerRetrieveResponse, iz as CustomerSubscription, iA as CustomerUpdateResponse, iB as CvvCodeInterpretation, iC as DdCaptureSession, iD as DdCaptureSessionResponse, iE as DdMandatePdfReference, iF as DdMandateRequestActiveResponse, iG as DdMandateRequestCancelResponse, iH as DdMandateRequestConsumeResponse, iI as DdMandateRequestCreateResponse, iJ as DdMandateRequestHistoryResponse, iK as DdMandateRequestLifecycleItem, iL as DdMandateRequestLifecycleStatus, iM as DeclineAnalyticsResponse, iN as Discount, iO as DiscountCreateResponse, iP as DiscountDeleteResponse, iQ as DiscountListResponse, iR as DiscountRetrieveResponse, iS as DiscountUpdateResponse, iT as Dispute, iU as Entitlement, iV as EntitlementCheck, iW as EntitlementCheckResponse, iX as EntitlementListResponse, iY as ErrorResponse, iZ as Event, i_ as EventErrorResponse, i$ as EventListResponse, j0 as EventRequest, j1 as EventsGetError, j2 as EventsListError, j3 as EventsResendError, j4 as Export, j5 as ExportCreateResponse, j6 as ExportRetrieveResponse, j7 as ExternalUpsertResponse, j8 as ForbiddenError, j9 as FulfillOrderRequest, ja as Import, jb as ImportCreateResponse, jc as ImportRetrieveResponse, jd as Invoice, je as InvoiceCommentDetail, jf as InvoiceCommentDetailResponse, jg as InvoiceCommentListDetailResponse, jh as InvoiceListResponse, ji as InvoiceResponse, jj as Mandate, jk as MandateActionRequest, jl as MandateActionResponse, jm as MandateListItem, jn as MandateListResponse, jo as MandateRequestLookupResponse, jp as MandateResponse, jq as MarkDeliveredResponse, jr as MeterError, js as MeterGetResponse, jt as MeterListResponse, ju as MeterPriceError, jv as MeterPriceListResponse, jw as MeterPriceResponse, jx as MeterPriceTierInput, jy as NotFoundError, jz as OpenDispute, jA as Order, jB as OrderErrorResponse, jC as OrderLineItem, jD as OrderListResponse, jE as Pagination, jF as PauseSubscriptionInput, jG as PayOrderRequest, jH as Payment, jI as PaymentAttempt, jJ as PaymentAttemptErrorResponse, jK as PaymentAttemptListResponse, jL as PaymentAttemptSingleResponse, jM as PaymentErrorResponse, jN as PaymentIntent, jO as PaymentIntentErrorResponse, jP as PaymentIntentListResponse, jQ as PaymentIntentsCancelError, jR as PaymentIntentsCaptureError, jS as PaymentIntentsConfirmError, jT as PaymentIntentsCreateError, jU as PaymentIntentsGetError, jV as PaymentIntentsListError, jW as PaymentLinksActivateError, jX as PaymentLinksArchiveError, jY as PaymentLinksCreateError, jZ as PaymentLinksDeactivateError, j_ as PaymentLinksExpireError, j$ as PaymentLinksGetError, k0 as PaymentLinksListError, k1 as PaymentLinksUpdateError, k2 as PaymentListResponse, k3 as PaymentMethod, k4 as PaymentMethodList, k5 as PaymentSecurityResponse, k6 as PaymentSecurityResult, k7 as Payout, k8 as PayoutPayment, k9 as PhaseItem, ka as PortalCustomer, kb as PortalCustomerResponse, kc as PortalInvoice, kd as PortalInvoiceList, ke as PortalInvoiceResponse, kf as PortalMandate, kg as PortalMandateList, kh as PortalReauthorizeMandateRequest, ki as PortalReauthorizeMandateResponse, kj as PortalReauthorizeSendOtpResponse, kk as PortalReauthorizeVerifyOtpRequest, kl as PortalReauthorizeVerifyOtpResponse, km as PortalSubscription, kn as PortalSubscriptionCancelResponse, ko as PortalSubscriptionList, kp as PortalSubscriptionResponse, kq as PreviewCollectionRequest, kr as PreviewCollectionResponse, ks as PreviewCreditNoteInput, kt as Price, ku as PriceErrorResponse, kv as PriceListResponse, kw as PriceTier, kx as PricesArchiveError, ky as PricesCreateError, kz as PricesGetError, kA as PricesListError, kB as PricesUpdateError, kC as Product, kD as ProductCreateResponse, kE as ProductErrorResponse, kF as ProductListResponse, kG as ProductRetrieveResponse, kH as ProductUpdateResponse, kI as ProductsCreateError, kJ as ProductsGetError, kK as ProductsListError, kL as ProductsUpdateError, kM as Refund, kN as RefundCreateResponse, kO as RefundListResponse, kP as RefundRetrieveResponse, kQ as RefundTerminalPaymentRequest, kR as ReleaseSubscriptionScheduleRequest, kS as ResendWebhookResponse, kT as RetryEligibilityResponse, kU as ScheduleCollectionRequest, kV as ScheduleCollectionResponse, kW as SchedulePhase, kX as SetCartContactInput, kY as SetupIntent, kZ as SetupIntentError, k_ as SetupIntentList, k$ as SetupIntentNextAction, l0 as StaleUpdateResponse, l1 as StorefrontAvailability, l2 as StorefrontKeyStatus, l3 as StorefrontOrigin, l4 as StorefrontOriginCreateRequest, l5 as StorefrontOriginCreateResponse, l6 as StorefrontOriginDeleteResponse, l7 as StorefrontOriginError, l8 as StorefrontOriginListResponse, l9 as StorefrontOriginsCreateError, la as StorefrontOriginsDeleteError, lb as StorefrontOriginsListError, lc as StorefrontPrice, ld as StorefrontProduct, le as StorefrontProductError, lf as StorefrontProductListResponse, lg as StorefrontProductResponse, lh as StorefrontProductsGetError, li as StorefrontProductsListError, lj as StorefrontStatus, lk as StorefrontStatusCheck, ll as StorefrontStatusError, lm as StorefrontStatusGetError, ln as StorefrontStatusResponse, lo as Subscription, lp as SubscriptionCancelResponse, lq as SubscriptionCancelSubscriptionResponse, lr as SubscriptionChangePlanResponse, ls as SubscriptionChangeQuantityResponse, lt as SubscriptionCreateResponse, lu as SubscriptionItem, lv as SubscriptionItemCreateResponse, lw as SubscriptionItemDeleteResponse, lx as SubscriptionItemListResponse, ly as SubscriptionItemUpdateResponse, lz as SubscriptionListResponse, lA as SubscriptionPauseResponse, lB as SubscriptionPreviewRenewalResponse, lC as SubscriptionReactivateResponse, lD as SubscriptionResumeResponse, lE as SubscriptionRetrieveResponse, lF as SubscriptionSchedule, lG as SubscriptionScheduleErrorResponse, lH as SubscriptionScheduleListResponse, lI as SubscriptionTerms, lJ as SubscriptionUpdateResponse, lK as SuccessResponse, lL as TaxRate, lM as TaxRateErrorResponse, lN as TaxRateListResponse, lO as TerminalDevice, lP as TerminalDeviceErrorResponse, lQ as TerminalDeviceListResponse, lR as TerminalDeviceResponse, lS as TerminalPayment, lT as TerminalPaymentErrorResponse, lU as TerminalPaymentListResponse, lV as TerminalPaymentResponse, lW as TestEventResponse, lX as ToggleCartAddOnInput, lY as Transaction, lZ as TransactionListResponse, l_ as TransactionRetrieveResponse, l$ as TransactionReversalEligibilityResponse, m0 as TransactionsGetError, m1 as TransactionsListError, m2 as TransformQuantity, m3 as UnchangedContentResponse, m4 as UpdateCartLineItemInput, m5 as UpdateDiscountInput, m6 as UpdateMeterPriceRequest, m7 as UpdateMeterRequest, m8 as UpdateMeterResponse, m9 as UpdateOrderRequest, ma as UpdatePaymentIntentRequest, mb as UpdatePaymentMethodRequest, mc as UpdatePriceRequest, md as UpdateProductRequest, me as UpdateSetupIntentRequest, mf as UpdateSubscriptionItemInput, mg as UpdateSubscriptionScheduleRequest, mh as UpdateTaxRateRequest, mi as UsageAggregateResponse, mj as UsageBalanceMeter, mk as UsageBalanceResponse, U as UsageEvent, ml as UsageEventError, mm as UsageEventListResponse, mn as UsageEventRecord, mo as ValidateBankAccountRequest, mp as ValidateBankAccountResponse, mq as ValidationError, mr as Void, ms as VoidCreateResponse, mt as VoidListResponse, mu as VoidRetrieveResponse, mv as VoidTerminalPaymentRequest, mw as WebhookDeliveriesGetError, mx as WebhookDeliveriesListError, my as WebhookDeliveriesRetryError, mz as WebhookDelivery, mA as WebhookDeliveryErrorResponse, mB as WebhookDeliveryListResponse, mC as WebhookDeliveryResponse, mD as WebhookDeliveryRetryResponse, mE as WebhookEndpoint, mF as WebhookEvent, mG as Webhooks, mH as WebhooksCheckoutSessionCompletedWebhookPayload, mI as WebhooksCheckoutSessionCompletedWebhookRequest, mJ as WebhooksCheckoutSessionExpiredWebhookPayload, mK as WebhooksCheckoutSessionExpiredWebhookRequest, mL as WebhooksCollectionFailedWebhookPayload, mM as WebhooksCollectionFailedWebhookRequest, mN as WebhooksCollectionIndemnityClaimedWebhookPayload, mO as WebhooksCollectionIndemnityClaimedWebhookRequest, mP as WebhooksCollectionNoticeSentWebhookPayload, mQ as WebhooksCollectionNoticeSentWebhookRequest, mR as WebhooksCollectionScheduledWebhookPayload, mS as WebhooksCollectionScheduledWebhookRequest, mT as WebhooksCollectionSucceededWebhookPayload, mU as WebhooksCollectionSucceededWebhookRequest, mV as WebhooksCreditNoteCreatedWebhookPayload, mW as WebhooksCreditNoteCreatedWebhookRequest, mX as WebhooksCreditNoteIssuedWebhookPayload, mY as WebhooksCreditNoteIssuedWebhookRequest, mZ as WebhooksCreditNoteVoidedWebhookPayload, m_ as WebhooksCreditNoteVoidedWebhookRequest, m$ as WebhooksCustomerCreatedWebhookPayload, n0 as WebhooksCustomerCreatedWebhookRequest, n1 as WebhooksCustomerUpdatedWebhookPayload, n2 as WebhooksCustomerUpdatedWebhookRequest, n3 as WebhooksInvoiceCreatedWebhookPayload, n4 as WebhooksInvoiceCreatedWebhookRequest, n5 as WebhooksInvoiceOverdueWebhookPayload, n6 as WebhooksInvoiceOverdueWebhookRequest, n7 as WebhooksInvoicePaidWebhookPayload, n8 as WebhooksInvoicePaidWebhookRequest, n9 as WebhooksMandateActivatedWebhookPayload, na as WebhooksMandateActivatedWebhookRequest, nb as WebhooksMandateAuddisRejectedWebhookPayload, nc as WebhooksMandateAuddisRejectedWebhookRequest, nd as WebhooksMandateCancelledWebhookPayload, ne as WebhooksMandateCancelledWebhookRequest, nf as WebhooksMandateCreatedWebhookPayload, ng as WebhooksMandateCreatedWebhookRequest, nh as WebhooksMandateSuspendedWebhookPayload, ni as WebhooksMandateSuspendedWebhookRequest, nj as WebhooksMeterArchivedWebhookPayload, nk as WebhooksMeterArchivedWebhookRequest, nl as WebhooksMeterCreatedWebhookPayload, nm as WebhooksMeterCreatedWebhookRequest, nn as WebhooksMeterPriceCreatedWebhookPayload, no as WebhooksMeterPriceCreatedWebhookRequest, np as WebhooksMeterPriceDeactivatedWebhookPayload, nq as WebhooksMeterPriceDeactivatedWebhookRequest, nr as WebhooksMeterPriceUpdatedWebhookPayload, ns as WebhooksMeterPriceUpdatedWebhookRequest, nt as WebhooksMeterUpdatedWebhookPayload, nu as WebhooksMeterUpdatedWebhookRequest, nv as WebhooksOrderCreatedWebhookPayload, nw as WebhooksOrderCreatedWebhookRequest, nx as WebhooksOrderFulfilledWebhookPayload, ny as WebhooksOrderFulfilledWebhookRequest, nz as WebhooksOrderPaidWebhookPayload, nA as WebhooksOrderPaidWebhookRequest, nB as WebhooksPaymentFailedWebhookPayload, nC as WebhooksPaymentFailedWebhookRequest, nD as WebhooksPaymentSucceededWebhookPayload, nE as WebhooksPaymentSucceededWebhookRequest, nF as WebhooksRefundCreatedWebhookPayload, nG as WebhooksRefundCreatedWebhookRequest, nH as WebhooksRefundSucceededWebhookPayload, nI as WebhooksRefundSucceededWebhookRequest, nJ as WebhooksSettlementCreatedWebhookPayload, nK as WebhooksSettlementCreatedWebhookRequest, nL as WebhooksSubscriptionActivatedWebhookPayload, nM as WebhooksSubscriptionActivatedWebhookRequest, nN as WebhooksSubscriptionCanceledWebhookPayload, nO as WebhooksSubscriptionCanceledWebhookRequest, nP as WebhooksSubscriptionCreatedWebhookPayload, nQ as WebhooksSubscriptionCreatedWebhookRequest, nR as WebhooksSubscriptionRenewedWebhookPayload, nS as WebhooksSubscriptionRenewedWebhookRequest, nT as WebhooksTerminalPaymentCancelledWebhookPayload, nU as WebhooksTerminalPaymentCancelledWebhookRequest, nV as WebhooksTerminalPaymentDeclinedWebhookPayload, nW as WebhooksTerminalPaymentDeclinedWebhookRequest, nX as WebhooksTerminalPaymentErrorWebhookPayload, nY as WebhooksTerminalPaymentErrorWebhookRequest, nZ as WebhooksTerminalPaymentRequestedWebhookPayload, n_ as WebhooksTerminalPaymentRequestedWebhookRequest, n$ as WebhooksTerminalPaymentSucceededWebhookPayload, o0 as WebhooksTerminalPaymentSucceededWebhookRequest, o1 as WebhooksTerminalRefundSucceededWebhookPayload, o2 as WebhooksTerminalRefundSucceededWebhookRequest, o3 as WebhooksTerminalVoidSucceededWebhookPayload, o4 as WebhooksTerminalVoidSucceededWebhookRequest, o5 as WebhooksUsageEventIngestedWebhookPayload, o6 as WebhooksUsageEventIngestedWebhookRequest, o7 as WebhooksUsageEventRejectedWebhookPayload, o8 as WebhooksUsageEventRejectedWebhookRequest, o9 as WebhooksUsageInvoiceCreatedWebhookPayload, oa as WebhooksUsageInvoiceCreatedWebhookRequest, ob as WebhooksUsagePeriodFinalizedWebhookPayload, oc as WebhooksUsagePeriodFinalizedWebhookRequest, od as WebhooksUsageThresholdReachedWebhookPayload, oe as WebhooksUsageThresholdReachedWebhookRequest, of as WebhooksVoidCreatedWebhookPayload, og as WebhooksVoidCreatedWebhookRequest, oh as WebhooksVoidFailedWebhookPayload, oi as WebhooksVoidFailedWebhookRequest, oj as WebhooksVoidSucceededWebhookPayload, ok as WebhooksVoidSucceededWebhookRequest } from './types.gen-g0C3o-UE.mjs';
-import { OAuthConfig } from './auth.mjs';
-export { OAuthTokenManager } from './auth.mjs';
-export { WEBHOOK_TOLERANCE_IN_SECONDS, WebhookHeaders, WebhookSignatureVerificationError, WebhookEvent as WebhookUtilityEvent, WebhookEventData as WebhookUtilityEventData, WebhookEventType as WebhookUtilityEventType, WebhookVerifyOptions, constructEvent, constructEventWithHeaders, extractWebhookHeaders, verifySignature, default as webhooks } from './webhooks.mjs';
+export { A as AccountingResource, c as AnalyticsResource, B as BillingResource, C as CartResource, d as CheckoutSessionsResource, e as CreditNotesResource, f as CustomerResource, g as CustomersResource, D as DdResource, E as EntitlementsResource, h as EventsResource, G as GeneratedResourceRuntime, i as GeneratedResources, I as InvoiceResource, j as InvoicesResource, M as MandatesResource, k as MetersResource, P as PaymentIntentsResource, l as PaymentLinksResource, m as PricesResource, n as ProductResource, o as ProductsResource, p as RefundsResource, q as RevKeen, q as RevKeenClient, r as RevKeenClientOptions, s as RevKeenCustomBaseUrlClientOptions, a as RevKeenEnvironment, b as RevKeenRequestOptions, t as RevKeenRetryOptions, S as StorefrontResource, u as SubscriptionsResource, T as TransactionsResource, U as UsageBalanceResource, v as UsageEventsResource, w as UsageResource, W as WebhookEndpointsResource, x as WebhookResource, y as buildGeneratedResources, q as default } from './client-fGr6QWhF.mjs';
+export { O as OAuthConfig, a as OAuthTokenManager } from './oauth-D7xvINHV.mjs';
+import { A as AccountingInvoicePaymentRequestsCreateData, a as AccountingInvoicePaymentRequestsCreateResponses, b as AccountingInvoicePaymentRequestsCreateErrors, c as AccountingInvoicePaymentRequestsGetData, d as AccountingInvoicePaymentRequestsGetResponses, e as AccountingInvoicePaymentRequestsGetErrors, f as AnalyticsRevenueMrrSummaryData, g as AnalyticsRevenueMrrSummaryResponses, h as AnalyticsRevenueMrrSummaryErrors, i as AnalyticsRevenueTimeSeriesData, j as AnalyticsRevenueTimeSeriesResponses, k as AnalyticsRevenueTimeSeriesErrors, l as BillingOverviewGetData, m as BillingOverviewGetResponses, n as BillingOverviewGetErrors, C as CartApiKeysEnsureData, o as CartApiKeysEnsureResponses, p as CartApiKeysEnsureErrors, q as CartApiKeysRotateData, r as CartApiKeysRotateResponses, s as CartApiKeysRotateErrors, t as CartApiKeysStatusData, u as CartApiKeysStatusResponses, v as CartApiKeysStatusErrors, w as CartSessionsAddLineItemData, x as CartSessionsAddLineItemResponses, y as CartSessionsAddLineItemErrors, z as CartSessionsApplyDiscountCodeData, D as CartSessionsApplyDiscountCodeResponses, E as CartSessionsApplyDiscountCodeErrors, F as CartSessionsConvertData, G as CartSessionsConvertResponses, H as CartSessionsConvertErrors, I as CartSessionsCreateData, J as CartSessionsCreateResponses, K as CartSessionsCreateErrors, L as CartSessionsGetData, M as CartSessionsGetResponses, N as CartSessionsGetErrors, O as CartSessionsRemoveLineItemData, P as CartSessionsRemoveLineItemResponses, Q as CartSessionsRemoveLineItemErrors, R as CartSessionsSetContactData, S as CartSessionsSetContactResponses, T as CartSessionsSetContactErrors, V as CartSessionsToggleAddOnData, W as CartSessionsToggleAddOnResponses, X as CartSessionsToggleAddOnErrors, Y as CartSessionsUpdateLineItemData, Z as CartSessionsUpdateLineItemResponses, _ as CartSessionsUpdateLineItemErrors, $ as CheckoutSessionsCreateData, a0 as CheckoutSessionsCreateResponses, a1 as CheckoutSessionsCreateErrors, a2 as CheckoutSessionsExpireData, a3 as CheckoutSessionsExpireResponses, a4 as CheckoutSessionsExpireErrors, a5 as CheckoutSessionsGetData, a6 as CheckoutSessionsGetResponses, a7 as CheckoutSessionsGetErrors, a8 as CreditNotesCreateData, a9 as CreditNotesCreateResponses, aa as CreditNotesCreateErrors, ab as CreditNotesGetData, ac as CreditNotesGetResponses, ad as CreditNotesGetErrors, ae as CreditNotesListData, af as CreditNotesListResponses, ag as CreditNotesListErrors, ah as CreditNotesListLinesData, ai as CreditNotesListLinesResponses, aj as CreditNotesListLinesErrors, ak as CreditNotesPreviewData, al as CreditNotesPreviewResponses, am as CreditNotesPreviewErrors, an as CreditNotesVoidData, ao as CreditNotesVoidResponses, ap as CreditNotesVoidErrors, aq as CustomerMetersGetData, ar as CustomerMetersGetResponses, as as CustomerMetersGetErrors, at as CustomerMetersListData, au as CustomerMetersListResponses, av as CustomerMetersListErrors, aw as CustomerPortalCustomerGetData, ax as CustomerPortalCustomerGetResponses, ay as CustomerPortalCustomerGetErrors, az as CustomerPortalInvoicesGetData, aA as CustomerPortalInvoicesGetResponses, aB as CustomerPortalInvoicesGetErrors, aC as CustomerPortalInvoicesListData, aD as CustomerPortalInvoicesListResponses, aE as CustomerPortalInvoicesListErrors, aF as CustomerPortalMandatesCancelData, aG as CustomerPortalMandatesCancelResponses, aH as CustomerPortalMandatesCancelErrors, aI as CustomerPortalMandatesListData, aJ as CustomerPortalMandatesListResponses, aK as CustomerPortalMandatesListErrors, aL as CustomerPortalMandatesReauthorizeData, aM as CustomerPortalMandatesReauthorizeResponses, aN as CustomerPortalMandatesReauthorizeErrors, aO as CustomerPortalMandatesReauthorizeSendOtpData, aP as CustomerPortalMandatesReauthorizeSendOtpResponses, aQ as CustomerPortalMandatesReauthorizeSendOtpErrors, aR as CustomerPortalMandatesReauthorizeVerifyOtpData, aS as CustomerPortalMandatesReauthorizeVerifyOtpResponses, aT as CustomerPortalMandatesReauthorizeVerifyOtpErrors, aU as CustomerPortalSessionsCreateData, aV as CustomerPortalSessionsCreateResponses, aW as CustomerPortalSessionsCreateErrors, aX as CustomerPortalSubscriptionsCancelData, aY as CustomerPortalSubscriptionsCancelResponses, aZ as CustomerPortalSubscriptionsCancelErrors, a_ as CustomerPortalSubscriptionsGetData, a$ as CustomerPortalSubscriptionsGetResponses, b0 as CustomerPortalSubscriptionsGetErrors, b1 as CustomerPortalSubscriptionsListData, b2 as CustomerPortalSubscriptionsListResponses, b3 as CustomerPortalSubscriptionsListErrors, b4 as CustomerStateGetData, b5 as CustomerStateGetResponses, b6 as CustomerStateGetErrors, b7 as CustomersCreateData, b8 as CustomersCreateResponses, b9 as CustomersCreateErrors, ba as CustomersGetData, bb as CustomersGetResponses, bc as CustomersGetErrors, bd as CustomersListData, be as CustomersListResponses, bf as CustomersListErrors, bg as CustomersPaymentMethodsListData, bh as CustomersPaymentMethodsListResponses, bi as CustomersPaymentMethodsListErrors, bj as CustomersPaymentRailsGetData, bk as CustomersPaymentRailsGetResponses, bl as CustomersPaymentRailsGetErrors, bm as CustomersPreferredRailsGetData, bn as CustomersPreferredRailsGetResponses, bo as CustomersPreferredRailsGetErrors, bp as CustomersUpdateData, bq as CustomersUpdateResponses, br as CustomersUpdateErrors, bs as DdMandateRequestsGetData, bt as DdMandateRequestsGetResponses, bu as DdMandateRequestsGetErrors, bv as DdPreviewData, bw as DdPreviewResponses, bx as DdPreviewErrors, by as DdValidateData, bz as DdValidateResponses, bA as DdValidateErrors, bB as EntitlementsCheckData, bC as EntitlementsCheckResponses, bD as EntitlementsCheckErrors, bE as EntitlementsListData, bF as EntitlementsListResponses, bG as EntitlementsListErrors, bH as EventsGetData, bI as EventsGetResponses, bJ as EventsGetErrors, bK as EventsListData, bL as EventsListResponses, bM as EventsListErrors, bN as EventsResendData, bO as EventsResendResponses, bP as EventsResendErrors, bQ as InvoiceLineItemsListUsageEventsData, bR as InvoiceLineItemsListUsageEventsResponses, bS as InvoiceLineItemsListUsageEventsErrors, bT as InvoiceUsageExplainData, bU as InvoiceUsageExplainResponses, bV as InvoiceUsageExplainErrors, bW as InvoicesCreateData, bX as InvoicesCreateResponses, bY as InvoicesCreateErrors, bZ as InvoicesFinalizeData, b_ as InvoicesFinalizeResponses, b$ as InvoicesFinalizeErrors, c0 as InvoicesGetData, c1 as InvoicesGetResponses, c2 as InvoicesGetErrors, c3 as InvoicesListData, c4 as InvoicesListResponses, c5 as InvoicesListErrors, c6 as InvoicesMarginEstimateData, c7 as InvoicesMarginEstimateResponses, c8 as InvoicesMarginEstimateErrors, c9 as InvoicesSendData, ca as InvoicesSendResponses, cb as InvoicesSendErrors, cc as InvoicesUpdateData, cd as InvoicesUpdateResponses, ce as InvoicesUpdateErrors, cf as InvoicesVoidData, cg as InvoicesVoidResponses, ch as InvoicesVoidErrors, ci as MandatesCancelData, cj as MandatesCancelResponses, ck as MandatesCancelErrors, cl as MandatesCreateData, cm as MandatesCreateResponses, cn as MandatesCreateErrors, co as MandatesGetData, cp as MandatesGetResponses, cq as MandatesGetErrors, cr as MandatesListData, cs as MandatesListResponses, ct as MandatesListErrors, cu as MandatesReinstateData, cv as MandatesReinstateResponses, cw as MandatesReinstateErrors, cx as MandatesScheduleCollectionData, cy as MandatesScheduleCollectionResponses, cz as MandatesScheduleCollectionErrors, cA as MandatesSuspendData, cB as MandatesSuspendResponses, cC as MandatesSuspendErrors, cD as MetersCreateData, cE as MetersCreateResponses, cF as MetersCreateErrors, cG as MetersGetData, cH as MetersGetResponses, cI as MetersGetErrors, cJ as MetersListData, cK as MetersListResponses, cL as MetersListErrors, cM as MetersQuantitiesData, cN as MetersQuantitiesResponses, cO as MetersQuantitiesErrors, cP as MetersUpdateData, cQ as MetersUpdateResponses, cR as MetersUpdateErrors, cS as PaymentIntentsCancelData, cT as PaymentIntentsCancelResponses, cU as PaymentIntentsCancelErrors, cV as PaymentIntentsCaptureData, cW as PaymentIntentsCaptureResponses, cX as PaymentIntentsCaptureErrors, cY as PaymentIntentsConfirmData, cZ as PaymentIntentsConfirmResponses, c_ as PaymentIntentsConfirmErrors, c$ as PaymentIntentsCreateData, d0 as PaymentIntentsCreateResponses, d1 as PaymentIntentsCreateErrors, d2 as PaymentIntentsGetData, d3 as PaymentIntentsGetResponses, d4 as PaymentIntentsGetErrors, d5 as PaymentIntentsListData, d6 as PaymentIntentsListResponses, d7 as PaymentIntentsListErrors, d8 as PaymentLinksActivateData, d9 as PaymentLinksActivateResponses, da as PaymentLinksActivateErrors, db as PaymentLinksArchiveData, dc as PaymentLinksArchiveResponses, dd as PaymentLinksArchiveErrors, de as PaymentLinksCreateData, df as PaymentLinksCreateResponses, dg as PaymentLinksCreateErrors, dh as PaymentLinksDeactivateData, di as PaymentLinksDeactivateResponses, dj as PaymentLinksDeactivateErrors, dk as PaymentLinksExpireData, dl as PaymentLinksExpireResponses, dm as PaymentLinksExpireErrors, dn as PaymentLinksGetData, dp as PaymentLinksGetResponses, dq as PaymentLinksGetErrors, dr as PaymentLinksListData, ds as PaymentLinksListResponses, dt as PaymentLinksListErrors, du as PaymentLinksUpdateData, dv as PaymentLinksUpdateResponses, dw as PaymentLinksUpdateErrors, dx as PricesArchiveData, dy as PricesArchiveResponses, dz as PricesArchiveErrors, dA as PricesCreateData, dB as PricesCreateResponses, dC as PricesCreateErrors, dD as PricesGetData, dE as PricesGetResponses, dF as PricesGetErrors, dG as PricesListData, dH as PricesListResponses, dI as PricesListErrors, dJ as PricesUpdateData, dK as PricesUpdateResponses, dL as PricesUpdateErrors, dM as ProductCollectionsCreateData, dN as ProductCollectionsCreateResponses, dO as ProductCollectionsCreateErrors, dP as ProductCollectionsDeleteData, dQ as ProductCollectionsDeleteResponses, dR as ProductCollectionsDeleteErrors, dS as ProductCollectionsGetData, dT as ProductCollectionsGetResponses, dU as ProductCollectionsGetErrors, dV as ProductCollectionsListData, dW as ProductCollectionsListResponses, dX as ProductCollectionsListErrors, dY as ProductCollectionsUpdateData, dZ as ProductCollectionsUpdateResponses, d_ as ProductCollectionsUpdateErrors, d$ as ProductsCreateData, e0 as ProductsCreateResponses, e1 as ProductsCreateErrors, e2 as ProductsGetData, e3 as ProductsGetResponses, e4 as ProductsGetErrors, e5 as ProductsListData, e6 as ProductsListResponses, e7 as ProductsListErrors, e8 as ProductsUpdateData, e9 as ProductsUpdateResponses, ea as ProductsUpdateErrors, eb as RefundsCreateData, ec as RefundsCreateResponses, ed as RefundsCreateErrors, ee as RefundsGetData, ef as RefundsGetResponses, eg as RefundsGetErrors, eh as RefundsListData, ei as RefundsListResponses, ej as RefundsListErrors, ek as StorefrontOriginsCreateData, el as StorefrontOriginsCreateResponses, em as StorefrontOriginsCreateErrors, en as StorefrontOriginsDeleteData, eo as StorefrontOriginsDeleteResponses, ep as StorefrontOriginsDeleteErrors, eq as StorefrontOriginsListData, er as StorefrontOriginsListResponses, es as StorefrontOriginsListErrors, et as StorefrontProductsGetData, eu as StorefrontProductsGetResponses, ev as StorefrontProductsGetErrors, ew as StorefrontProductsListData, ex as StorefrontProductsListResponses, ey as StorefrontProductsListErrors, ez as StorefrontStatusGetData, eA as StorefrontStatusGetResponses, eB as StorefrontStatusGetErrors, eC as SubscriptionsCancelData, eD as SubscriptionsCancelResponses, eE as SubscriptionsCancelErrors, eF as SubscriptionsCreateData, eG as SubscriptionsCreateResponses, eH as SubscriptionsCreateErrors, eI as SubscriptionsGetData, eJ as SubscriptionsGetResponses, eK as SubscriptionsGetErrors, eL as SubscriptionsListData, eM as SubscriptionsListResponses, eN as SubscriptionsListErrors, eO as SubscriptionsUpdateData, eP as SubscriptionsUpdateResponses, eQ as SubscriptionsUpdateErrors, eR as TransactionsGetData, eS as TransactionsGetResponses, eT as TransactionsGetErrors, eU as TransactionsListData, eV as TransactionsListResponses, eW as TransactionsListErrors, eX as UsageBalanceGetData, eY as UsageBalanceGetResponses, eZ as UsageBalanceGetErrors, e_ as UsageEventsGetData, e$ as UsageEventsGetResponses, f0 as UsageEventsGetErrors, f1 as UsageEventsIngestData, f2 as UsageEventsIngestResponses, f3 as UsageEventsIngestErrors, f4 as UsageEventsListData, f5 as UsageEventsListResponses, f6 as UsageEventsListErrors, f7 as WebhookDeliveriesGetData, f8 as WebhookDeliveriesGetResponses, f9 as WebhookDeliveriesGetErrors, fa as WebhookDeliveriesListData, fb as WebhookDeliveriesListResponses, fc as WebhookDeliveriesListErrors, fd as WebhookDeliveriesRetryData, fe as WebhookDeliveriesRetryResponses, ff as WebhookDeliveriesRetryErrors, fg as WebhookEndpointsCreateData, fh as WebhookEndpointsCreateResponses, fi as WebhookEndpointsCreateErrors, fj as WebhookEndpointsDeleteData, fk as WebhookEndpointsDeleteResponses, fl as WebhookEndpointsDeleteErrors, fm as WebhookEndpointsGetData, fn as WebhookEndpointsGetResponses, fo as WebhookEndpointsGetErrors, fp as WebhookEndpointsListData, fq as WebhookEndpointsListResponses, fr as WebhookEndpointsListErrors, fs as WebhookEndpointsRotateSecretData, ft as WebhookEndpointsRotateSecretResponses, fu as WebhookEndpointsRotateSecretErrors, fv as WebhookEndpointsUpdateData, fw as WebhookEndpointsUpdateResponses, fx as WebhookEndpointsUpdateErrors } from './types.gen-ByS8P8Qb.mjs';
+export { fy as AccountingInvoicePaymentRequest, fz as AccountingInvoicePaymentRequestsCreateError, fA as AccountingInvoicePaymentRequestsCreateResponse, fB as AccountingInvoicePaymentRequestsGetError, fC as AccountingInvoicePaymentRequestsGetResponse, fD as AnalyticsRevenueMrrSummaryError, fE as AnalyticsRevenueMrrSummaryResponse, fF as AnalyticsRevenueTimeSeries200ResponseDataPointsInner, fG as AnalyticsRevenueTimeSeriesError, fH as AnalyticsRevenueTimeSeriesResponse, fI as ApiError, fJ as ApplyCartDiscountCodeInput, fK as AttachPaymentMethodRequest, fL as AuthenticationError, fM as AuthorizationAuditUnavailableError, fN as AvsCodeInterpretation, fO as BacsDirectDebitDetails, fP as BankAccountDetails, fQ as BatchIngestRequest, B as BatchIngestResult, fR as Benefit, fS as BillingAnchorRulesResponse, fT as BillingDetails, fU as BillingIntervalsResponse, fV as BillingOverviewGetResponse, fW as BillingOverviewResponse, fX as BillingOverviewResponseOverdueInvoicesTotalsInner, fY as BillingPreviewErrorResponse, fZ as BillingPreviewResponse, f_ as Business, f$ as CancelOrderRequest, g0 as CancelPaymentIntentRequest, g1 as CancelPaymentRequest, g2 as CancelSetupIntentRequest, g3 as CancelSubscriptionInput, g4 as CancelSubscriptionRequest, g5 as CancelSubscriptionScheduleRequest, g6 as CapturePaymentIntentRequest, g7 as CapturePaymentRequest, g8 as CardDetails, g9 as CartApiKeysEnsureError, ga as CartApiKeysEnsureResponse, gb as CartApiKeysRotate200ResponseData, gc as CartApiKeysRotateError, gd as CartApiKeysRotateResponse, ge as CartApiKeysStatus200ResponseData, gf as CartApiKeysStatusError, gg as CartApiKeysStatusResponse, gh as CartBillingAnchorRule, gi as CartCheckoutSession, gj as CartConversionResponse, gk as CartLineItem, gl as CartLineItemInput, gm as CartLineItemRecurring, gn as CartSession, go as CartSessionErrorResponse, gp as CartSessionResponse, gq as CartSessionStatus, gr as CartSessionsAddLineItemError, gs as CartSessionsAddLineItemResponse, gt as CartSessionsApplyDiscountCodeError, gu as CartSessionsApplyDiscountCodeResponse, gv as CartSessionsConvertError, gw as CartSessionsConvertResponse, gx as CartSessionsCreateError, gy as CartSessionsCreateResponse, gz as CartSessionsGetError, gA as CartSessionsGetResponse, gB as CartSessionsRemoveLineItemError, gC as CartSessionsRemoveLineItemResponse, gD as CartSessionsSetContactError, gE as CartSessionsSetContactResponse, gF as CartSessionsToggleAddOnError, gG as CartSessionsToggleAddOnResponse, gH as CartSessionsUpdateLineItemError, gI as CartSessionsUpdateLineItemResponse, gJ as CartStartRule, gK as ChargeCaptureResponse, gL as ChargeCreateResponse, gM as ChargeDuplicateErrorResponse, gN as ChargeErrorResponse, gO as ChargeListResponse, gP as ChargeRefundResponse, gQ as ChargeRetrieveResponse, gR as CheckoutSession, gS as CheckoutSessionCreateResponse, gT as CheckoutSessionErrorResponse, gU as CheckoutSessionExpireResponse, gV as CheckoutSessionRetrieveResponse, gW as CheckoutSessionsCreateError, gX as CheckoutSessionsCreateResponse, gY as CheckoutSessionsExpireError, gZ as CheckoutSessionsExpireResponse, g_ as CheckoutSessionsGetError, g$ as CheckoutSessionsGetResponse, h0 as ClientOptions, h1 as CollectionSchedule, h2 as ConfirmPaymentIntentRequest, h3 as ConfirmSetupIntentRequest, h4 as CreateAccountingInvoicePaymentRequestInput, h5 as CreateCartSessionInput, h6 as CreateCheckoutSessionInput, h7 as CreateCreditNoteInput, h8 as CreateCustomerPortalSessionRequest, h9 as CreateDiscountInput, ha as CreateExportRequest, hb as CreateImportRequest, hc as CreateMandateRequest, hd as CreateMeterPriceRequest, he as CreateMeterRequest, hf as CreateMeterResponse, hg as CreatePaymentIntentRequest, hh as CreatePriceRequest, hi as CreateProductRequest, hj as CreateRefundInput, hk as CreateSetupIntentRequest, hl as CreateSubscriptionItemInput, hm as CreateSubscriptionScheduleRequest, hn as CreateTerminalPaymentRequest, ho as CreateTestEventRequest, hp as CreateVoidInput, hq as CreditEligibilityResponse, hr as CreditNote, hs as CreditNoteCreateResponse, ht as CreditNoteEligibilityResponse, hu as CreditNoteEligibilityResponsePaymentsInnerConstraints, hv as CreditNoteLine, hw as CreditNoteLineAllocationInputV1, hx as CreditNoteLineList, hy as CreditNoteListResponse, hz as CreditNotePreview, hA as CreditNotePreviewResponse, hB as CreditNoteResponse, hC as CreditNoteRetrieveResponse, hD as CreditNoteVoidResponse, hE as CreditNotesCreateResponse, hF as CreditNotesGetResponse, hG as CreditNotesListLinesResponse, hH as CreditNotesListResponse, hI as CreditNotesPreviewResponse, hJ as CreditNotesVoidResponse, hK as CustomerCreateResponse, hL as CustomerInvoice, hM as CustomerListResponse, hN as CustomerMeter, hO as CustomerMeterErrorResponse, hP as CustomerMeterList, hQ as CustomerMeterResponse, hR as CustomerMetersGetError, hS as CustomerMetersGetResponse, hT as CustomerMetersListError, hU as CustomerMetersListResponse, hV as CustomerOrder, hW as CustomerPayment, hX as CustomerPaymentMethodsListResponse, hY as CustomerPortalCustomerGetError, hZ as CustomerPortalCustomerGetResponse, h_ as CustomerPortalErrorResponse, h$ as CustomerPortalInvoicesGetError, i0 as CustomerPortalInvoicesGetResponse, i1 as CustomerPortalInvoicesListError, i2 as CustomerPortalInvoicesListResponse, i3 as CustomerPortalMandatesCancelError, i4 as CustomerPortalMandatesCancelResponse, i5 as CustomerPortalMandatesListError, i6 as CustomerPortalMandatesListResponse, i7 as CustomerPortalMandatesReauthorizeError, i8 as CustomerPortalMandatesReauthorizeResponse, i9 as CustomerPortalMandatesReauthorizeSendOtpError, ia as CustomerPortalMandatesReauthorizeSendOtpResponse, ib as CustomerPortalMandatesReauthorizeVerifyOtpError, ic as CustomerPortalMandatesReauthorizeVerifyOtpResponse, id as CustomerPortalSessionCreateResponse, ie as CustomerPortalSessionsCreateError, ig as CustomerPortalSessionsCreateResponse, ih as CustomerPortalSubscriptionsCancelError, ii as CustomerPortalSubscriptionsCancelResponse, ij as CustomerPortalSubscriptionsGetError, ik as CustomerPortalSubscriptionsGetResponse, il as CustomerPortalSubscriptionsListError, im as CustomerPortalSubscriptionsListResponse, io as CustomerRetrieveResponse, ip as CustomerStateGetResponse, iq as CustomerStateResponse, ir as CustomerSubscription, is as CustomerUpdateResponse, it as CustomersCreateResponse, iu as CustomersGetResponse, iv as CustomersListResponse, iw as CustomersPaymentMethodsListResponse, ix as CustomersPaymentRailsGet200ResponseData, iy as CustomersPaymentRailsGetResponse, iz as CustomersPreferredRailsGet200ResponseData, iA as CustomersPreferredRailsGet200ResponseDataPreferredRailsInnerMandate, iB as CustomersPreferredRailsGetResponse, iC as CustomersUpdateResponse, iD as CvvCodeInterpretation, iE as DdCaptureSession, iF as DdCaptureSessionResponse, iG as DdCollectionStopped, iH as DdMandatePdfReference, iI as DdMandateRequestActiveItem, iJ as DdMandateRequestActiveResponse, iK as DdMandateRequestCancelResponse, iL as DdMandateRequestConsumeResponse, iM as DdMandateRequestCreateResponse, iN as DdMandateRequestHistoryResponse, iO as DdMandateRequestLifecycleItem, iP as DdMandateRequestLifecycleStatus, iQ as DdMandateRequestsGetError, iR as DdMandateRequestsGetResponse, iS as DdPreviewError, iT as DdPreviewResponse, iU as DdValidateError, iV as DdValidateResponse, iW as DeclineAnalyticsResponse, iX as DeclineAnalyticsResponseDataByGatewayValue, iY as DeclineAnalyticsResponseDataTopDeclineCategoriesInner, iZ as Discount, i_ as DiscountCreateResponse, i$ as DiscountDeleteResponse, j0 as DiscountListResponse, j1 as DiscountRetrieveResponse, j2 as DiscountUpdateResponse, j3 as Dispute, j4 as DryRunResult, j5 as DryRunResultDataInnerValidationDetails, j6 as Entitlement, j7 as EntitlementCheck, j8 as EntitlementCheckResponse, j9 as EntitlementListResponse, ja as EntitlementsCheckResponse, jb as EntitlementsListResponse, jc as ErrorResponse, jd as Event, je as EventErrorResponse, jf as EventListResponse, jg as EventRequest, jh as EventsGetError, ji as EventsGetResponse, jj as EventsListError, jk as EventsListResponse, jl as EventsResendError, jm as EventsResendResponse, jn as Export, jo as ExportCreateResponse, jp as ExportRetrieveResponse, jq as ExternalUpsertResponse, jr as ForbiddenError, js as FulfillOrderRequest, jt as Import, ju as ImportCreateResponse, jv as ImportRetrieveResponse, jw as Invoice, jx as InvoiceCommentDetail, jy as InvoiceCommentDetailResponse, jz as InvoiceCommentListDetailResponse, jA as InvoiceLineItemsListUsageEventsError, jB as InvoiceLineItemsListUsageEventsResponse, jC as InvoiceLineUsageEventProvenanceItem, jD as InvoiceLineUsageEventsError, jE as InvoiceLineUsageEventsList, jF as InvoiceListResponse, jG as InvoiceResponse, jH as InvoiceUsageExplainResponse, jI as InvoiceUsageExplainResponse2, jJ as InvoicesCreateError, jK as InvoicesCreateResponse, jL as InvoicesFinalizeResponse, jM as InvoicesGetError, jN as InvoicesGetResponse, jO as InvoicesListError, jP as InvoicesListResponse, jQ as InvoicesMarginEstimate200ResponseData, jR as InvoicesMarginEstimate200ResponseDataEstimatesInnerFeeBreakdown, jS as InvoicesMarginEstimateResponse, jT as InvoicesSendResponse, jU as InvoicesUpdateError, jV as InvoicesUpdateRequestSubscriptionTerms, jW as InvoicesUpdateResponse, jX as InvoicesVoidResponse, jY as Mandate, jZ as MandateActionRequest, j_ as MandateActionResponse, j$ as MandateListItem, k0 as MandateListResponse, k1 as MandateRequestLookupResponse, k2 as MandateRequestLookupResponseDataCustomer, k3 as MandateRequestLookupResponseDataInvoice, k4 as MandateRequestLookupResponseDataMerchant, k5 as MandateResponse, k6 as MandatesCancelError, k7 as MandatesCancelResponse, k8 as MandatesCreateError, k9 as MandatesCreateResponse, ka as MandatesGetError, kb as MandatesGetResponse, kc as MandatesListError, kd as MandatesListResponse, ke as MandatesReinstateError, kf as MandatesReinstateResponse, kg as MandatesScheduleCollectionError, kh as MandatesScheduleCollectionResponse, ki as MandatesSuspendError, kj as MandatesSuspendResponse, kk as MarkDeliveredResponse, kl as MerchantActionForbiddenError, km as MerchantAuthorizationDeniedError, kn as MeterError, ko as MeterGetResponse, kp as MeterListResponse, kq as MeterPriceError, kr as MeterPriceListResponse, ks as MeterPriceResponse, kt as MeterPriceTierInput, ku as MeterQuantitiesResponse, kv as MetersCreateError, kw as MetersCreateResponse, kx as MetersGetError, ky as MetersGetResponse, kz as MetersListError, kA as MetersListResponse, kB as MetersQuantitiesError, kC as MetersQuantitiesResponse, kD as MetersUpdateError, kE as MetersUpdateResponse, kF as NoPaymentMethodsAvailableError, kG as NotFoundError, kH as OpenDispute, kI as Order, kJ as OrderErrorResponse, kK as OrderLineItem, kL as OrderListResponse, kM as Pagination, kN as PauseSubscriptionInput, kO as Payment, kP as PaymentAttempt, kQ as PaymentAttemptErrorResponse, kR as PaymentAttemptListResponse, kS as PaymentAttemptSingleResponse, kT as PaymentErrorResponse, kU as PaymentIntent, kV as PaymentIntentErrorResponse, kW as PaymentIntentLastPaymentErrorPaymentMethod, kX as PaymentIntentListResponse, kY as PaymentIntentNextActionRedirectToUrl, kZ as PaymentIntentsCancelError, k_ as PaymentIntentsCancelResponse, k$ as PaymentIntentsCaptureError, l0 as PaymentIntentsCaptureResponse, l1 as PaymentIntentsConfirmError, l2 as PaymentIntentsConfirmResponse, l3 as PaymentIntentsCreateError, l4 as PaymentIntentsCreateResponse, l5 as PaymentIntentsGetError, l6 as PaymentIntentsGetResponse, l7 as PaymentIntentsListError, l8 as PaymentIntentsListResponse, l9 as PaymentLinksActivateError, la as PaymentLinksActivateResponse, lb as PaymentLinksArchiveError, lc as PaymentLinksArchiveResponse, ld as PaymentLinksCreateError, le as PaymentLinksCreateRequestLineItemsInner, lf as PaymentLinksCreateRequestLineItemsInnerPriceDataProductData, lg as PaymentLinksCreateResponse, lh as PaymentLinksDeactivateError, li as PaymentLinksDeactivateResponse, lj as PaymentLinksExpireError, lk as PaymentLinksExpireResponse, ll as PaymentLinksGetError, lm as PaymentLinksGetResponse, ln as PaymentLinksList200ResponseDataInner, lo as PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetails, lp as PaymentLinksList200ResponseDataInnerLineItemsInnerProductDetailsRecurring, lq as PaymentLinksList200ResponsePagination, lr as PaymentLinksListError, ls as PaymentLinksListResponse, lt as PaymentLinksUpdateError, lu as PaymentLinksUpdateResponse, lv as PaymentListResponse, lw as PaymentMethod, lx as PaymentMethodList, ly as PaymentSecurityResponse, lz as PaymentSecurityResult, lA as Payout, lB as PayoutPayment, lC as PhaseItem, lD as PortalCustomer, lE as PortalCustomerResponse, lF as PortalInvoice, lG as PortalInvoiceList, lH as PortalInvoiceResponse, lI as PortalMandate, lJ as PortalMandateList, lK as PortalReauthorizeMandateRequest, lL as PortalReauthorizeMandateResponse, lM as PortalReauthorizeSendOtpResponse, lN as PortalReauthorizeVerifyOtpRequest, lO as PortalReauthorizeVerifyOtpResponse, lP as PortalSubscription, lQ as PortalSubscriptionCancelResponse, lR as PortalSubscriptionList, lS as PortalSubscriptionResponse, lT as PreviewCollectionRequest, lU as PreviewCollectionResponse, lV as PreviewCreditNoteInput, lW as Price, lX as PriceErrorResponse, lY as PriceListResponse, lZ as PriceTier, l_ as PricesArchiveError, l$ as PricesArchiveResponse, m0 as PricesCreateError, m1 as PricesCreateResponse, m2 as PricesGetError, m3 as PricesGetResponse, m4 as PricesListError, m5 as PricesListResponse, m6 as PricesUpdateError, m7 as PricesUpdateResponse, m8 as Product, m9 as ProductCollection, ma as ProductCollectionCreateRequest, mb as ProductCollectionCreateResponse, mc as ProductCollectionDeleted, md as ProductCollectionDeletedResponse, me as ProductCollectionError, mf as ProductCollectionListResponse, mg as ProductCollectionResponse, mh as ProductCollectionUpdateRequest, mi as ProductCollectionUpdateResponse, mj as ProductCollectionsCreateError, mk as ProductCollectionsCreateResponse, ml as ProductCollectionsDeleteError, mm as ProductCollectionsDeleteResponse, mn as ProductCollectionsGetError, mo as ProductCollectionsGetResponse, mp as ProductCollectionsListError, mq as ProductCollectionsListResponse, mr as ProductCollectionsUpdateError, ms as ProductCollectionsUpdateResponse, mt as ProductCreateResponse, mu as ProductErrorResponse, mv as ProductImage, mw as ProductImageResponse, mx as ProductListResponse, my as ProductRetrieveResponse, mz as ProductUpdateResponse, mA as ProductsCreateError, mB as ProductsCreateResponse, mC as ProductsGetError, mD as ProductsGetResponse, mE as ProductsListError, mF as ProductsListResponse, mG as ProductsUpdateError, mH as ProductsUpdateResponse, mI as RateLimitError, mJ as RateLimitErrorErrorDetails, mK as Refund, mL as RefundCreateResponse, mM as RefundListResponse, mN as RefundRetrieveResponse, mO as RefundTerminalPaymentRequest, mP as RefundsCreateResponse, mQ as RefundsGetResponse, mR as RefundsListResponse, mS as ReleaseSubscriptionScheduleRequest, mT as ResendWebhookResponse, mU as RetryEligibilityResponse, mV as ScheduleCollectionRequest, mW as ScheduleCollectionResponse, mX as SchedulePhase, mY as SetCartContactInput, mZ as SetupIntent, m_ as SetupIntentError, m$ as SetupIntentList, n0 as SetupIntentNextAction, n1 as StaleUpdateResponse, n2 as StorefrontAvailability, n3 as StorefrontKeyStatus, n4 as StorefrontOrigin, n5 as StorefrontOriginCreateRequest, n6 as StorefrontOriginCreateResponse, n7 as StorefrontOriginDeleteResponse, n8 as StorefrontOriginError, n9 as StorefrontOriginListResponse, na as StorefrontOriginsCreateError, nb as StorefrontOriginsCreateResponse, nc as StorefrontOriginsDeleteError, nd as StorefrontOriginsDeleteResponse, ne as StorefrontOriginsListError, nf as StorefrontOriginsListResponse, ng as StorefrontPrice, nh as StorefrontProduct, ni as StorefrontProductError, nj as StorefrontProductImage, nk as StorefrontProductListResponse, nl as StorefrontProductResponse, nm as StorefrontProductsGetError, nn as StorefrontProductsGetResponse, no as StorefrontProductsListError, np as StorefrontProductsListResponse, nq as StorefrontStatus, nr as StorefrontStatusCheck, ns as StorefrontStatusError, nt as StorefrontStatusGetError, nu as StorefrontStatusGetResponse, nv as StorefrontStatusResponse, nw as Subscription, nx as SubscriptionCancelResponse, ny as SubscriptionCancelSubscriptionResponse, nz as SubscriptionChangePlanResponse, nA as SubscriptionChangeQuantityResponse, nB as SubscriptionCreateResponse, nC as SubscriptionItem, nD as SubscriptionItemCreateResponse, nE as SubscriptionItemDeleteResponse, nF as SubscriptionItemListResponse, nG as SubscriptionItemUpdateResponse, nH as SubscriptionListResponse, nI as SubscriptionPauseResponse, nJ as SubscriptionPreviewRenewalResponse, nK as SubscriptionPreviewRenewalResponseDataUpcomingRenewalsInner, nL as SubscriptionReactivateResponse, nM as SubscriptionResumeResponse, nN as SubscriptionRetrieveResponse, nO as SubscriptionSchedule, nP as SubscriptionScheduleErrorResponse, nQ as SubscriptionScheduleListResponse, nR as SubscriptionTerms, nS as SubscriptionUpdateResponse, nT as SubscriptionsCancelResponse, nU as SubscriptionsCreateResponse, nV as SubscriptionsGetResponse, nW as SubscriptionsListResponse, nX as SubscriptionsUpdateResponse, nY as SuccessResponse, nZ as TerminalDevice, n_ as TerminalDeviceErrorResponse, n$ as TerminalDeviceListResponse, o0 as TerminalDeviceResponse, o1 as TerminalPayment, o2 as TerminalPaymentErrorResponse, o3 as TerminalPaymentListResponse, o4 as TerminalPaymentResponse, o5 as TestEventResponse, o6 as ToggleCartAddOnInput, o7 as Transaction, o8 as TransactionListResponse, o9 as TransactionRetrieveResponse, oa as TransactionReversalEligibilityResponse, ob as TransactionsGetError, oc as TransactionsGetResponse, od as TransactionsListError, oe as TransactionsListResponse, of as TransformQuantity, og as UnchangedContentResponse, oh as UpdateCartLineItemInput, oi as UpdateDiscountInput, oj as UpdateMeterPriceRequest, ok as UpdateMeterRequest, ol as UpdateMeterResponse, om as UpdateOrderRequest, on as UpdatePaymentIntentRequest, oo as UpdatePaymentMethodRequest, op as UpdatePriceRequest, oq as UpdateProductRequest, or as UpdateSetupIntentRequest, os as UpdateSubscriptionItemInput, ot as UpdateSubscriptionScheduleRequest, ou as UsageAggregateResponse, ov as UsageBalanceGet400ResponseError, ow as UsageBalanceGetError, ox as UsageBalanceGetResponse, oy as UsageBalanceMeter, oz as UsageBalanceResponse, U as UsageEvent, oA as UsageEventError, oB as UsageEventGetResponse, oC as UsageEventListResponse, oD as UsageEventRecord, oE as UsageEventsGetError, oF as UsageEventsGetResponse, oG as UsageEventsIngestError, oH as UsageEventsIngestResponse, oI as UsageEventsListError, oJ as UsageEventsListResponse, oK as UsageIngestRequest, oL as ValidateBankAccountRequest, oM as ValidateBankAccountResponse, oN as ValidationError, oO as ValidationErrorErrorDetails, oP as Void, oQ as VoidCreateResponse, oR as VoidListResponse, oS as VoidRetrieveResponse, oT as VoidTerminalPaymentRequest, oU as WebhookDeliveriesGetError, oV as WebhookDeliveriesGetResponse, oW as WebhookDeliveriesListError, oX as WebhookDeliveriesListResponse, oY as WebhookDeliveriesRetryError, oZ as WebhookDeliveriesRetryResponse, o_ as WebhookDelivery, o$ as WebhookDeliveryErrorResponse, p0 as WebhookDeliveryListResponse, p1 as WebhookDeliveryResponse, p2 as WebhookDeliveryRetryResponse, p3 as WebhookEndpoint, p4 as WebhookEndpointsCreateResponse, p5 as WebhookEndpointsDelete200ResponseData, p6 as WebhookEndpointsDeleteResponse, p7 as WebhookEndpointsGetResponse, p8 as WebhookEndpointsList200ResponseDataInner, p9 as WebhookEndpointsList200ResponseMeta, pa as WebhookEndpointsListResponse, pb as WebhookEndpointsRotateSecretResponse, pc as WebhookEndpointsUpdateResponse, pd as WebhookEvent, pe as Webhooks, pf as WebhooksCheckoutSessionCompletedWebhookPayload, pg as WebhooksCheckoutSessionCompletedWebhookRequest, ph as WebhooksCheckoutSessionExpiredWebhookPayload, pi as WebhooksCheckoutSessionExpiredWebhookRequest, pj as WebhooksCollectionFailedWebhookPayload, pk as WebhooksCollectionFailedWebhookRequest, pl as WebhooksCollectionIndemnityClaimedWebhookPayload, pm as WebhooksCollectionIndemnityClaimedWebhookRequest, pn as WebhooksCollectionNoticeSentWebhookPayload, po as WebhooksCollectionNoticeSentWebhookRequest, pp as WebhooksCollectionScheduledWebhookPayload, pq as WebhooksCollectionScheduledWebhookRequest, pr as WebhooksCollectionSucceededWebhookPayload, ps as WebhooksCollectionSucceededWebhookRequest, pt as WebhooksCreditNoteCreatedWebhookPayload, pu as WebhooksCreditNoteCreatedWebhookRequest, pv as WebhooksCreditNoteIssuedWebhookPayload, pw as WebhooksCreditNoteIssuedWebhookRequest, px as WebhooksCreditNoteVoidedWebhookPayload, py as WebhooksCreditNoteVoidedWebhookRequest, pz as WebhooksCustomerCreatedWebhookPayload, pA as WebhooksCustomerCreatedWebhookRequest, pB as WebhooksCustomerUpdatedWebhookPayload, pC as WebhooksCustomerUpdatedWebhookRequest, pD as WebhooksInvoiceCreatedWebhookPayload, pE as WebhooksInvoiceCreatedWebhookRequest, pF as WebhooksInvoiceOverdueWebhookPayload, pG as WebhooksInvoiceOverdueWebhookRequest, pH as WebhooksInvoicePaidWebhookPayload, pI as WebhooksInvoicePaidWebhookRequest, pJ as WebhooksMandateActivatedWebhookPayload, pK as WebhooksMandateActivatedWebhookRequest, pL as WebhooksMandateAuddisRejectedWebhookPayload, pM as WebhooksMandateAuddisRejectedWebhookRequest, pN as WebhooksMandateCancelledWebhookPayload, pO as WebhooksMandateCancelledWebhookRequest, pP as WebhooksMandateCreatedWebhookPayload, pQ as WebhooksMandateCreatedWebhookRequest, pR as WebhooksMandateSignedWebhookPayload, pS as WebhooksMandateSignedWebhookRequest, pT as WebhooksMandateSuspendedWebhookPayload, pU as WebhooksMandateSuspendedWebhookRequest, pV as WebhooksMeterArchivedWebhookPayload, pW as WebhooksMeterArchivedWebhookRequest, pX as WebhooksMeterCreatedWebhookPayload, pY as WebhooksMeterCreatedWebhookRequest, pZ as WebhooksMeterPriceCreatedWebhookPayload, p_ as WebhooksMeterPriceCreatedWebhookRequest, p$ as WebhooksMeterPriceDeactivatedWebhookPayload, q0 as WebhooksMeterPriceDeactivatedWebhookRequest, q1 as WebhooksMeterPriceUpdatedWebhookPayload, q2 as WebhooksMeterPriceUpdatedWebhookRequest, q3 as WebhooksMeterUpdatedWebhookPayload, q4 as WebhooksMeterUpdatedWebhookRequest, q5 as WebhooksOrderCreatedWebhookPayload, q6 as WebhooksOrderCreatedWebhookRequest, q7 as WebhooksOrderFulfilledWebhookPayload, q8 as WebhooksOrderFulfilledWebhookRequest, q9 as WebhooksOrderPaidWebhookPayload, qa as WebhooksOrderPaidWebhookRequest, qb as WebhooksPaymentFailedWebhookPayload, qc as WebhooksPaymentFailedWebhookRequest, qd as WebhooksPaymentSucceededWebhookPayload, qe as WebhooksPaymentSucceededWebhookRequest, qf as WebhooksRefundCreatedWebhookPayload, qg as WebhooksRefundCreatedWebhookRequest, qh as WebhooksRefundSucceededWebhookPayload, qi as WebhooksRefundSucceededWebhookRequest, qj as WebhooksSettlementCreatedWebhookPayload, qk as WebhooksSettlementCreatedWebhookRequest, ql as WebhooksSubscriptionActivatedWebhookPayload, qm as WebhooksSubscriptionActivatedWebhookRequest, qn as WebhooksSubscriptionCanceledWebhookPayload, qo as WebhooksSubscriptionCanceledWebhookRequest, qp as WebhooksSubscriptionCreatedWebhookPayload, qq as WebhooksSubscriptionCreatedWebhookRequest, qr as WebhooksSubscriptionRenewedWebhookPayload, qs as WebhooksSubscriptionRenewedWebhookRequest, qt as WebhooksTerminalPaymentCancelledWebhookPayload, qu as WebhooksTerminalPaymentCancelledWebhookRequest, qv as WebhooksTerminalPaymentDeclinedWebhookPayload, qw as WebhooksTerminalPaymentDeclinedWebhookRequest, qx as WebhooksTerminalPaymentErrorWebhookPayload, qy as WebhooksTerminalPaymentErrorWebhookRequest, qz as WebhooksTerminalPaymentRequestedWebhookPayload, qA as WebhooksTerminalPaymentRequestedWebhookRequest, qB as WebhooksTerminalPaymentSucceededWebhookPayload, qC as WebhooksTerminalPaymentSucceededWebhookRequest, qD as WebhooksTerminalRefundSucceededWebhookPayload, qE as WebhooksTerminalRefundSucceededWebhookRequest, qF as WebhooksTerminalVoidSucceededWebhookPayload, qG as WebhooksTerminalVoidSucceededWebhookRequest, qH as WebhooksUsageCapExceededWebhookPayload, qI as WebhooksUsageCapExceededWebhookRequest, qJ as WebhooksUsageEventExcludedWebhookPayload, qK as WebhooksUsageEventExcludedWebhookRequest, qL as WebhooksUsageEventIngestedWebhookPayload, qM as WebhooksUsageEventIngestedWebhookRequest, qN as WebhooksUsageEventQuarantinedWebhookPayload, qO as WebhooksUsageEventQuarantinedWebhookRequest, qP as WebhooksUsageEventRejectedWebhookPayload, qQ as WebhooksUsageEventRejectedWebhookRequest, qR as WebhooksUsageInvoiceCreatedWebhookPayload, qS as WebhooksUsageInvoiceCreatedWebhookRequest, qT as WebhooksUsagePeriodFinalizedWebhookPayload, qU as WebhooksUsagePeriodFinalizedWebhookRequest, qV as WebhooksUsageThresholdReachedWebhookPayload, qW as WebhooksUsageThresholdReachedWebhookRequest, qX as WebhooksVoidCreatedWebhookPayload, qY as WebhooksVoidCreatedWebhookRequest, qZ as WebhooksVoidFailedWebhookPayload, q_ as WebhooksVoidFailedWebhookRequest, q$ as WebhooksVoidSucceededWebhookPayload, r0 as WebhooksVoidSucceededWebhookRequest } from './types.gen-ByS8P8Qb.mjs';
+export { WEBHOOK_TOLERANCE_IN_SECONDS, WebhookHeaders, WebhookSignatureVerificationError, WebhookSignatureVerificationErrorCode, WebhookEvent as WebhookUtilityEvent, WebhookEventData as WebhookUtilityEventData, WebhookEventType as WebhookUtilityEventType, WebhookVerifyOptions, constructEvent, constructEventWithHeaders, extractWebhookHeaders, verifySignature, default as webhooks } from './webhooks.mjs';
 
 /**
- * AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
+ * Rate-limit headers RevKeen publishes alongside a response.
  *
- * Generated by: pnpm --dir packages/sdk generate:wrapper
- * Source of truth: packages/openapi/sdk-openapi.json
+ * Units are fixed by the public contract and must not be re-derived by callers:
+ * `resetAt` is built from `X-RateLimit-Reset`, which is a UNIX timestamp in
+ * **seconds**, and `retryAfterSeconds` is the server-stated `Retry-After` delay
+ * in **whole seconds**. Each field is `null` when its header was absent, so a
+ * published zero (`X-RateLimit-Remaining: 0`) is never confused with an
+ * unreported limit.
  */
-
-interface GeneratedResourceRuntime {
-    requestData<T>(fn: (options: unknown) => Promise<{
-        data?: T;
-        error?: unknown;
-    }>, options?: Record<string, unknown>): Promise<T>;
+interface RevKeenRateLimitMetadata {
+    /** `X-RateLimit-Limit` — requests permitted in the current window. */
+    readonly limit: number | null;
+    /** `X-RateLimit-Remaining` — requests left in the current window. */
+    readonly remaining: number | null;
+    /** `X-RateLimit-Reset` — window reset instant, parsed from UNIX seconds. */
+    readonly resetAt: Date | null;
+    /**
+     * `Retry-After` — whole seconds to wait, exactly as the server stated it. An
+     * HTTP-date value is resolved to seconds from now. This is never clamped to
+     * the SDK retry ceiling; that bound belongs to the retry policy alone.
+     */
+    readonly retryAfterSeconds: number | null;
 }
-interface AccountingResource {
-    invoicePaymentRequestsCreate: (body?: NonNullable<AccountingInvoicePaymentRequestsCreateData["body"]>) => Promise<AccountingInvoicePaymentRequestsCreateResponse>;
-    invoicePaymentRequestsGet: (id: NonNullable<AccountingInvoicePaymentRequestsGetData["path"]>["id"]) => Promise<AccountingInvoicePaymentRequestsGetResponse>;
+/** The metadata surfaced when a response carried no rate-limit headers. */
+declare function emptyRevKeenRateLimitMetadata(): RevKeenRateLimitMetadata;
+/**
+ * Reads the rate-limit headers off a response without inventing values. A
+ * header that is missing, blank, or not a non-negative integer stays `null`.
+ */
+declare function parseRevKeenRateLimitMetadata(headers: Headers | undefined | null, now?: number): RevKeenRateLimitMetadata;
+interface RevKeenErrorContext {
+    requestId?: string | null;
+    traceId?: string | null;
+    correlationId?: string | null;
+    attemptCount?: number;
+    rateLimit?: RevKeenRateLimitMetadata | null;
 }
-interface AnalyticsResource {
-    revenueMrrSummary: (query?: NonNullable<AnalyticsRevenueMrrSummaryData["query"]>) => Promise<AnalyticsRevenueMrrSummaryResponse>;
-    revenueTimeSeries: (query?: NonNullable<AnalyticsRevenueTimeSeriesData["query"]>) => Promise<AnalyticsRevenueTimeSeriesResponse>;
+interface RevKeenAPIErrorMetadata {
+    code?: string | null;
+    type?: string | null;
+    param?: string | null;
+    details?: unknown;
 }
-interface CartResource {
-    apiKeysEnsure: () => Promise<CartApiKeysEnsureResponse>;
-    apiKeysRotate: (id: NonNullable<CartApiKeysRotateData["path"]>["kind"], body?: NonNullable<CartApiKeysRotateData["body"]>) => Promise<CartApiKeysRotateResponse>;
-    apiKeysStatus: () => Promise<CartApiKeysStatusResponse>;
-    sessionsAddLineItem: (id: NonNullable<CartSessionsAddLineItemData["path"]>["id"], body?: NonNullable<CartSessionsAddLineItemData["body"]>) => Promise<CartSessionsAddLineItemResponse>;
-    sessionsApplyDiscountCode: (id: NonNullable<CartSessionsApplyDiscountCodeData["path"]>["id"], body?: NonNullable<CartSessionsApplyDiscountCodeData["body"]>) => Promise<CartSessionsApplyDiscountCodeResponse>;
-    sessionsConvert: (id: NonNullable<CartSessionsConvertData["path"]>["id"]) => Promise<CartSessionsConvertResponse>;
-    sessionsCreate: (body?: NonNullable<CartSessionsCreateData["body"]>) => Promise<CartSessionsCreateResponse>;
-    sessionsGet: (id: NonNullable<CartSessionsGetData["path"]>["id"]) => Promise<CartSessionsGetResponse>;
-    sessionsRemoveLineItem: (path: NonNullable<CartSessionsRemoveLineItemData["path"]>) => Promise<CartSessionsRemoveLineItemResponse>;
-    sessionsSetContact: (id: NonNullable<CartSessionsSetContactData["path"]>["id"], body?: NonNullable<CartSessionsSetContactData["body"]>) => Promise<CartSessionsSetContactResponse>;
-    sessionsToggleAddOn: (id: NonNullable<CartSessionsToggleAddOnData["path"]>["id"], body?: NonNullable<CartSessionsToggleAddOnData["body"]>) => Promise<CartSessionsToggleAddOnResponse>;
-    sessionsUpdateLineItem: (params: {
-        path: NonNullable<CartSessionsUpdateLineItemData["path"]>;
-        body?: NonNullable<CartSessionsUpdateLineItemData["body"]>;
-    }) => Promise<CartSessionsUpdateLineItemResponse>;
+interface NormalizedRevKeenAPIError {
+    code: string;
+    message: string;
+    type: string | null;
+    param: string | null;
+    details: unknown;
 }
-interface CheckoutSessionsResource {
-    create: (body?: NonNullable<CheckoutSessionsCreateData["body"]>) => Promise<CheckoutSessionsCreateResponse>;
-    expire: (id: NonNullable<CheckoutSessionsExpireData["path"]>["id"]) => Promise<CheckoutSessionsExpireResponse>;
-    get: (id: NonNullable<CheckoutSessionsGetData["path"]>["id"]) => Promise<CheckoutSessionsGetResponse>;
-}
-interface CreditNotesResource {
-    create: (body?: NonNullable<CreditNotesCreateData["body"]>) => Promise<CreditNotesCreateResponse>;
-    get: (id: NonNullable<CreditNotesGetData["path"]>["id"]) => Promise<CreditNotesGetResponse>;
-    list: (query?: NonNullable<CreditNotesListData["query"]>) => Promise<CreditNotesListResponse>;
-    listLines: (id: NonNullable<CreditNotesListLinesData["path"]>["id"], query?: NonNullable<CreditNotesListLinesData["query"]>) => Promise<CreditNotesListLinesResponse>;
-    preview: (body: NonNullable<CreditNotesPreviewData["body"]>) => Promise<CreditNotesPreviewResponse>;
-    void: (id: NonNullable<CreditNotesVoidData["path"]>["id"]) => Promise<CreditNotesVoidResponse>;
-}
-interface CustomerResource {
-    metersGet: (path: NonNullable<CustomerMetersGetData["path"]>) => Promise<CustomerMetersGetResponse>;
-    metersList: (query?: NonNullable<CustomerMetersListData["query"]>) => Promise<CustomerMetersListResponse>;
-    portalCustomerGet: () => Promise<CustomerPortalCustomerGetResponse>;
-    portalInvoicesGet: (id: NonNullable<CustomerPortalInvoicesGetData["path"]>["id"]) => Promise<CustomerPortalInvoicesGetResponse>;
-    portalInvoicesList: (query?: NonNullable<CustomerPortalInvoicesListData["query"]>) => Promise<CustomerPortalInvoicesListResponse>;
-    portalMandatesCancel: (id: NonNullable<CustomerPortalMandatesCancelData["path"]>["id"], body?: NonNullable<CustomerPortalMandatesCancelData["body"]>) => Promise<CustomerPortalMandatesCancelResponse>;
-    portalMandatesList: () => Promise<CustomerPortalMandatesListResponse>;
-    portalMandatesReauthorize: (id: NonNullable<CustomerPortalMandatesReauthorizeData["path"]>["id"], body: NonNullable<CustomerPortalMandatesReauthorizeData["body"]>) => Promise<CustomerPortalMandatesReauthorizeResponse>;
-    portalMandatesReauthorizeSendOtp: (id: NonNullable<CustomerPortalMandatesReauthorizeSendOtpData["path"]>["id"]) => Promise<CustomerPortalMandatesReauthorizeSendOtpResponse>;
-    portalMandatesReauthorizeVerifyOtp: (id: NonNullable<CustomerPortalMandatesReauthorizeVerifyOtpData["path"]>["id"], body: NonNullable<CustomerPortalMandatesReauthorizeVerifyOtpData["body"]>) => Promise<CustomerPortalMandatesReauthorizeVerifyOtpResponse>;
-    portalSessionsCreate: (body: NonNullable<CustomerPortalSessionsCreateData["body"]>) => Promise<CustomerPortalSessionsCreateResponse>;
-    portalSubscriptionsCancel: (id: NonNullable<CustomerPortalSubscriptionsCancelData["path"]>["id"], body?: NonNullable<CustomerPortalSubscriptionsCancelData["body"]>) => Promise<CustomerPortalSubscriptionsCancelResponse>;
-    portalSubscriptionsGet: (id: NonNullable<CustomerPortalSubscriptionsGetData["path"]>["id"]) => Promise<CustomerPortalSubscriptionsGetResponse>;
-    portalSubscriptionsList: (query?: NonNullable<CustomerPortalSubscriptionsListData["query"]>) => Promise<CustomerPortalSubscriptionsListResponse>;
-}
-interface CustomersResource {
-    create: (body?: NonNullable<CustomersCreateData["body"]>) => Promise<CustomersCreateResponse>;
-    get: (id: NonNullable<CustomersGetData["path"]>["id"]) => Promise<CustomersGetResponse>;
-    list: (query?: NonNullable<CustomersListData["query"]>) => Promise<CustomersListResponse>;
-    paymentMethodsList: (id: NonNullable<CustomersPaymentMethodsListData["path"]>["id"]) => Promise<CustomersPaymentMethodsListResponse>;
-    paymentRailsGet: (id: NonNullable<CustomersPaymentRailsGetData["path"]>["id"], query?: NonNullable<CustomersPaymentRailsGetData["query"]>) => Promise<CustomersPaymentRailsGetResponse>;
-    preferredRailsGet: (id: NonNullable<CustomersPreferredRailsGetData["path"]>["id"], query?: NonNullable<CustomersPreferredRailsGetData["query"]>) => Promise<CustomersPreferredRailsGetResponse>;
-    update: (id: NonNullable<CustomersUpdateData["path"]>["id"], body?: NonNullable<CustomersUpdateData["body"]>) => Promise<CustomersUpdateResponse>;
-}
-interface DdResource {
-    mandateRequestsGet: (id: NonNullable<DdMandateRequestsGetData["path"]>["token"]) => Promise<DdMandateRequestsGetResponse>;
-    preview: (body?: NonNullable<DdPreviewData["body"]>) => Promise<DdPreviewResponse>;
-    validate: (body?: NonNullable<DdValidateData["body"]>) => Promise<DdValidateResponse>;
-}
-interface EntitlementsResource {
-    check: (query?: NonNullable<EntitlementsCheckData["query"]>) => Promise<EntitlementsCheckResponse>;
-    list: (query?: NonNullable<EntitlementsListData["query"]>) => Promise<EntitlementsListResponse>;
-}
-interface EventsResource {
-    get: (id: NonNullable<EventsGetData["path"]>["id"]) => Promise<EventsGetResponse>;
-    list: (query?: NonNullable<EventsListData["query"]>) => Promise<EventsListResponse>;
-    resend: (id: NonNullable<EventsResendData["path"]>["id"]) => Promise<EventsResendResponse>;
-}
-interface InvoicesResource {
-    create: (body: NonNullable<InvoicesCreateData["body"]>) => Promise<InvoicesCreateResponse>;
-    finalize: (id: NonNullable<InvoicesFinalizeData["path"]>["id"], body?: NonNullable<InvoicesFinalizeData["body"]>) => Promise<InvoicesFinalizeResponse>;
-    get: (id: NonNullable<InvoicesGetData["path"]>["id"]) => Promise<InvoicesGetResponse>;
-    list: (query?: NonNullable<InvoicesListData["query"]>) => Promise<InvoicesListResponse>;
-    marginEstimate: (id: NonNullable<InvoicesMarginEstimateData["path"]>["id"], body: NonNullable<InvoicesMarginEstimateData["body"]>) => Promise<InvoicesMarginEstimateResponse>;
-    send: (id: NonNullable<InvoicesSendData["path"]>["id"], body?: NonNullable<InvoicesSendData["body"]>) => Promise<InvoicesSendResponse>;
-    update: (id: NonNullable<InvoicesUpdateData["path"]>["id"], body: NonNullable<InvoicesUpdateData["body"]>) => Promise<InvoicesUpdateResponse>;
-    void: (id: NonNullable<InvoicesVoidData["path"]>["id"], body?: NonNullable<InvoicesVoidData["body"]>) => Promise<InvoicesVoidResponse>;
-}
-interface MandatesResource {
-    cancel: (id: NonNullable<MandatesCancelData["path"]>["id"], body?: NonNullable<MandatesCancelData["body"]>) => Promise<MandatesCancelResponse>;
-    create: (body?: NonNullable<MandatesCreateData["body"]>) => Promise<MandatesCreateResponse>;
-    get: (id: NonNullable<MandatesGetData["path"]>["id"]) => Promise<MandatesGetResponse>;
-    list: (query?: NonNullable<MandatesListData["query"]>) => Promise<MandatesListResponse>;
-    reinstate: (id: NonNullable<MandatesReinstateData["path"]>["id"], body?: NonNullable<MandatesReinstateData["body"]>) => Promise<MandatesReinstateResponse>;
-    scheduleCollection: (id: NonNullable<MandatesScheduleCollectionData["path"]>["id"], body?: NonNullable<MandatesScheduleCollectionData["body"]>) => Promise<MandatesScheduleCollectionResponse>;
-    suspend: (id: NonNullable<MandatesSuspendData["path"]>["id"], body?: NonNullable<MandatesSuspendData["body"]>) => Promise<MandatesSuspendResponse>;
-}
-interface PaymentIntentsResource {
-    cancel: (id: NonNullable<PaymentIntentsCancelData["path"]>["id"], body?: NonNullable<PaymentIntentsCancelData["body"]>) => Promise<PaymentIntentsCancelResponse>;
-    capture: (id: NonNullable<PaymentIntentsCaptureData["path"]>["id"], body?: NonNullable<PaymentIntentsCaptureData["body"]>) => Promise<PaymentIntentsCaptureResponse>;
-    confirm: (id: NonNullable<PaymentIntentsConfirmData["path"]>["id"], body?: NonNullable<PaymentIntentsConfirmData["body"]>) => Promise<PaymentIntentsConfirmResponse>;
-    create: (body?: NonNullable<PaymentIntentsCreateData["body"]>) => Promise<PaymentIntentsCreateResponse>;
-    get: (id: NonNullable<PaymentIntentsGetData["path"]>["id"]) => Promise<PaymentIntentsGetResponse>;
-    list: (query?: NonNullable<PaymentIntentsListData["query"]>) => Promise<PaymentIntentsListResponse>;
-}
-interface PaymentLinksResource {
-    activate: (id: NonNullable<PaymentLinksActivateData["path"]>["id"]) => Promise<PaymentLinksActivateResponse>;
-    archive: (id: NonNullable<PaymentLinksArchiveData["path"]>["id"]) => Promise<PaymentLinksArchiveResponse>;
-    create: (body?: NonNullable<PaymentLinksCreateData["body"]>) => Promise<PaymentLinksCreateResponse>;
-    deactivate: (id: NonNullable<PaymentLinksDeactivateData["path"]>["id"]) => Promise<PaymentLinksDeactivateResponse>;
-    expire: (id: NonNullable<PaymentLinksExpireData["path"]>["id"], body?: NonNullable<PaymentLinksExpireData["body"]>) => Promise<PaymentLinksExpireResponse>;
-    get: (id: NonNullable<PaymentLinksGetData["path"]>["id"]) => Promise<PaymentLinksGetResponse>;
-    list: (query?: NonNullable<PaymentLinksListData["query"]>) => Promise<PaymentLinksListResponse>;
-    update: (id: NonNullable<PaymentLinksUpdateData["path"]>["id"], body?: NonNullable<PaymentLinksUpdateData["body"]>) => Promise<PaymentLinksUpdateResponse>;
-}
-interface PricesResource {
-    archive: (id: NonNullable<PricesArchiveData["path"]>["id"]) => Promise<PricesArchiveResponse>;
-    create: (body: NonNullable<PricesCreateData["body"]>) => Promise<PricesCreateResponse>;
-    get: (id: NonNullable<PricesGetData["path"]>["id"]) => Promise<PricesGetResponse>;
-    list: (query?: NonNullable<PricesListData["query"]>) => Promise<PricesListResponse>;
-    update: (id: NonNullable<PricesUpdateData["path"]>["id"], body: NonNullable<PricesUpdateData["body"]>) => Promise<PricesUpdateResponse>;
-}
-interface ProductsResource {
-    create: (body: NonNullable<ProductsCreateData["body"]>) => Promise<ProductsCreateResponse>;
-    get: (id: NonNullable<ProductsGetData["path"]>["id"]) => Promise<ProductsGetResponse>;
-    list: (query?: NonNullable<ProductsListData["query"]>) => Promise<ProductsListResponse>;
-    update: (id: NonNullable<ProductsUpdateData["path"]>["id"], body: NonNullable<ProductsUpdateData["body"]>) => Promise<ProductsUpdateResponse>;
-}
-interface RefundsResource {
-    create: (body?: NonNullable<RefundsCreateData["body"]>) => Promise<RefundsCreateResponse>;
-    get: (id: NonNullable<RefundsGetData["path"]>["id"]) => Promise<RefundsGetResponse>;
-    list: (query?: NonNullable<RefundsListData["query"]>) => Promise<RefundsListResponse>;
-}
-interface StorefrontResource {
-    originsCreate: (body?: NonNullable<StorefrontOriginsCreateData["body"]>) => Promise<StorefrontOriginsCreateResponse>;
-    originsDelete: (id: NonNullable<StorefrontOriginsDeleteData["path"]>["originId"]) => Promise<StorefrontOriginsDeleteResponse>;
-    originsList: () => Promise<StorefrontOriginsListResponse>;
-    productsGet: (id: NonNullable<StorefrontProductsGetData["path"]>["productId"]) => Promise<StorefrontProductsGetResponse>;
-    productsList: (query?: NonNullable<StorefrontProductsListData["query"]>) => Promise<StorefrontProductsListResponse>;
-    statusGet: () => Promise<StorefrontStatusGetResponse>;
-}
-interface SubscriptionsResource {
-    cancel: (id: NonNullable<SubscriptionsCancelData["path"]>["id"], body?: NonNullable<SubscriptionsCancelData["body"]>) => Promise<SubscriptionsCancelResponse>;
-    create: (body?: NonNullable<SubscriptionsCreateData["body"]>) => Promise<SubscriptionsCreateResponse>;
-    get: (id: NonNullable<SubscriptionsGetData["path"]>["id"]) => Promise<SubscriptionsGetResponse>;
-    list: (query?: NonNullable<SubscriptionsListData["query"]>) => Promise<SubscriptionsListResponse>;
-    update: (id: NonNullable<SubscriptionsUpdateData["path"]>["id"], body?: NonNullable<SubscriptionsUpdateData["body"]>) => Promise<SubscriptionsUpdateResponse>;
-}
-interface TransactionsResource {
-    get: (id: NonNullable<TransactionsGetData["path"]>["id"]) => Promise<TransactionsGetResponse>;
-    list: (query?: NonNullable<TransactionsListData["query"]>) => Promise<TransactionsListResponse>;
-}
-interface WebhookResource {
-    deliveriesGet: (id: NonNullable<WebhookDeliveriesGetData["path"]>["id"]) => Promise<WebhookDeliveriesGetResponse>;
-    deliveriesList: (query?: NonNullable<WebhookDeliveriesListData["query"]>) => Promise<WebhookDeliveriesListResponse>;
-    deliveriesRetry: (id: NonNullable<WebhookDeliveriesRetryData["path"]>["id"]) => Promise<WebhookDeliveriesRetryResponse>;
-}
-interface WebhookEndpointsResource {
-    create: (body?: NonNullable<WebhookEndpointsCreateData["body"]>) => Promise<WebhookEndpointsCreateResponse>;
-    delete: (id: NonNullable<WebhookEndpointsDeleteData["path"]>["id"]) => Promise<WebhookEndpointsDeleteResponse>;
-    get: (id: NonNullable<WebhookEndpointsGetData["path"]>["id"]) => Promise<WebhookEndpointsGetResponse>;
-    list: (query?: NonNullable<WebhookEndpointsListData["query"]>) => Promise<WebhookEndpointsListResponse>;
-    rotateSecret: (id: NonNullable<WebhookEndpointsRotateSecretData["path"]>["id"]) => Promise<WebhookEndpointsRotateSecretResponse>;
-    update: (id: NonNullable<WebhookEndpointsUpdateData["path"]>["id"], body?: NonNullable<WebhookEndpointsUpdateData["body"]>) => Promise<WebhookEndpointsUpdateResponse>;
-}
-interface GeneratedResources {
-    accounting: AccountingResource;
-    analytics: AnalyticsResource;
-    cart: CartResource;
-    checkoutSessions: CheckoutSessionsResource;
-    creditNotes: CreditNotesResource;
-    customer: CustomerResource;
-    customers: CustomersResource;
-    dd: DdResource;
-    entitlements: EntitlementsResource;
-    events: EventsResource;
-    invoices: InvoicesResource;
-    mandates: MandatesResource;
-    paymentIntents: PaymentIntentsResource;
-    paymentLinks: PaymentLinksResource;
-    prices: PricesResource;
-    products: ProductsResource;
-    refunds: RefundsResource;
-    storefront: StorefrontResource;
-    subscriptions: SubscriptionsResource;
-    transactions: TransactionsResource;
-    webhook: WebhookResource;
-    webhookEndpoints: WebhookEndpointsResource;
-}
-declare function buildGeneratedResources(runtime: GeneratedResourceRuntime): GeneratedResources;
-
-interface RevKeenClientOptions {
-    apiKey?: string;
-    oauth?: OAuthConfig;
-    baseUrl?: string;
-    timeout?: number;
-    headers?: Record<string, string>;
-    fetch?: typeof fetch;
-}
-interface UsageResource {
-    ingest: (body: UsageIngestRequest) => Promise<BatchIngestResult>;
-    dryRun: (body: UsageIngestRequest) => Promise<DryRunResult>;
-}
-declare class RevKeenClient implements GeneratedResourceRuntime {
-    private readonly generatedClient;
-    readonly usage: UsageResource;
-    constructor(options: RevKeenClientOptions);
-    requestData<T>(fn: (options: unknown) => Promise<{
-        data?: T;
-        error?: unknown;
-    }>, options?: Record<string, unknown>): Promise<T>;
-    private postUsage;
-}
-interface RevKeenClient extends GeneratedResources {
-}
-
 declare class RevKeenError extends Error {
-    constructor(message: string);
+    readonly requestId: string | null;
+    readonly traceId: string | null;
+    readonly correlationId: string | null;
+    readonly attemptCount: number;
+    /**
+     * Rate-limit headers observed on the response, if any. Always an object, so
+     * `error.rateLimit.retryAfterSeconds` is safe to read on every failure.
+     */
+    readonly rateLimit: RevKeenRateLimitMetadata;
+    constructor(message: string, context?: RevKeenErrorContext);
 }
 declare class RevKeenAPIError extends RevKeenError {
     readonly status: number;
     readonly body: unknown;
-    constructor(status: number, message: string, body: unknown);
+    readonly code: string;
+    readonly machineCode: string;
+    readonly rawBody: unknown;
+    readonly type: string | null;
+    readonly param: string | null;
+    readonly details: unknown;
+    constructor(status: number, message: string, body: unknown, context?: RevKeenErrorContext, metadata?: RevKeenAPIErrorMetadata);
+}
+type APIErrorArguments = ConstructorParameters<typeof RevKeenAPIError>;
+declare class RevKeenAuthenticationError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenAuthorizationError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenValidationError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenNotFoundError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenRateLimitError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenConflictError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenIdempotencyConflictError extends RevKeenConflictError {
+    constructor(...args: APIErrorArguments);
+}
+declare class RevKeenServerError extends RevKeenAPIError {
+    constructor(...args: APIErrorArguments);
 }
 declare class RevKeenTimeoutError extends RevKeenError {
-    constructor(message: string);
+    readonly phase: "connect" | "read";
+    constructor(message: string, phase: "connect" | "read", context?: RevKeenErrorContext);
 }
+declare function normalizeRevKeenAPIError(body: unknown, fallbackMessage: string): NormalizedRevKeenAPIError;
+declare function createRevKeenAPIError(status: number, body: unknown, fallbackMessage: string, context?: RevKeenErrorContext): RevKeenAPIError;
+
+interface RevKeenPaginationOptions<TPage, TItem, TState> {
+    initialState: TState;
+    getItems: (page: TPage) => readonly TItem[];
+    getNextState: (page: TPage) => TState | null | undefined;
+    stateKey: (state: TState) => string;
+    signal?: AbortSignal;
+}
+type RevKeenFetchPage<TPage, TState> = (state: TState, signal?: AbortSignal) => Promise<TPage>;
+declare class RevKeenPaginationStallError extends RevKeenError {
+    readonly stateKey: string;
+    constructor(stateKey: string);
+}
+declare function paginate<TPage, TItem, TState>(fetchPage: RevKeenFetchPage<TPage, TState>, options: RevKeenPaginationOptions<TPage, TItem, TState>): AsyncIterable<TItem>;
+
+declare const minorUnitsBrand: unique symbol;
+type MinorUnits = number & {
+    readonly [minorUnitsBrand]: "MinorUnits";
+};
+declare function isMinorUnits(value: number): value is MinorUnits;
+declare function minorUnits(value: number): MinorUnits;
+declare function mapOptionalNullable<T, U>(value: T | null | undefined, transform: (value: T) => U): U | null | undefined;
+declare function parseRfc3339(value: string): Date;
 
 type AuthToken = string | undefined;
 interface Auth {
@@ -251,15 +140,15 @@ interface Auth {
      *
      * @default 'header'
      */
-    in?: 'header' | 'query' | 'cookie';
+    in?: "header" | "query" | "cookie";
     /**
      * Header or query parameter name.
      *
      * @default 'Authorization'
      */
     name?: string;
-    scheme?: 'basic' | 'bearer';
-    type: 'apiKey' | 'http';
+    scheme?: "basic" | "bearer";
+    type: "apiKey" | "http";
 }
 
 interface SerializerOptions<T> {
@@ -269,8 +158,8 @@ interface SerializerOptions<T> {
     explode: boolean;
     style: T;
 }
-type ArrayStyle = 'form' | 'spaceDelimited' | 'pipeDelimited';
-type ObjectStyle = 'form' | 'deepObject';
+type ArrayStyle = "form" | "spaceDelimited" | "pipeDelimited";
+type ObjectStyle = "form" | "deepObject";
 
 type QuerySerializer = (query: Record<string, unknown>) => string;
 type BodySerializer = (body: unknown) => unknown;
@@ -287,7 +176,7 @@ type QuerySerializerOptions = QuerySerializerOptionsObject & {
     parameters?: Record<string, QuerySerializerOptionsObject>;
 };
 
-type HttpMethod = 'connect' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put' | 'trace';
+type HttpMethod = "connect" | "delete" | "get" | "head" | "options" | "patch" | "post" | "put" | "trace";
 type Client$1<RequestFn = never, Config = unknown, MethodFn = never, BuildUrlFn = never, SseFn = never> = {
     /**
      * Returns the final request URL.
@@ -322,7 +211,7 @@ interface Config$1 {
      *
      * {@link https://developer.mozilla.org/docs/Web/API/Headers/Headers#init See more}
      */
-    headers?: RequestInit['headers'] | Record<string, string | number | boolean | (string | number | boolean)[] | null | undefined | unknown>;
+    headers?: RequestInit["headers"] | Record<string, string | number | boolean | (string | number | boolean)[] | null | undefined | unknown>;
     /**
      * The request method.
      *
@@ -359,7 +248,7 @@ interface Config$1 {
     responseValidator?: (data: unknown) => Promise<unknown>;
 }
 
-type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, 'method'> & Pick<Config$1, 'method' | 'responseTransformer' | 'responseValidator'> & {
+type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, "method"> & Pick<Config$1, "method" | "responseTransformer" | "responseValidator"> & {
     /**
      * Fetch API implementation. You can use this option to provide a custom
      * fetch instance.
@@ -388,7 +277,7 @@ type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, 'method'> & Pi
      * @returns Nothing (void).
      */
     onSseEvent?: (event: StreamEvent<TData>) => void;
-    serializedBody?: RequestInit['body'];
+    serializedBody?: RequestInit["body"];
     /**
      * Default retry delay in milliseconds.
      *
@@ -447,12 +336,12 @@ interface Middleware<Req, Res, Err, Options> {
     response: Interceptors<ResInterceptor<Res, Req, Options>>;
 }
 
-type ResponseStyle = 'data' | 'fields';
-interface Config<T extends ClientOptions = ClientOptions> extends Omit<RequestInit, 'body' | 'headers' | 'method'>, Config$1 {
+type ResponseStyle = "data" | "fields";
+interface Config<T extends ClientOptions = ClientOptions> extends Omit<RequestInit, "body" | "headers" | "method">, Config$1 {
     /**
      * Base URL for all requests made by this client.
      */
-    baseUrl?: T['baseUrl'];
+    baseUrl?: T["baseUrl"];
     /**
      * Fetch API implementation. You can use this option to provide a custom
      * fetch instance.
@@ -475,7 +364,7 @@ interface Config<T extends ClientOptions = ClientOptions> extends Omit<RequestIn
      *
      * @default 'auto'
      */
-    parseAs?: 'arrayBuffer' | 'auto' | 'blob' | 'formData' | 'json' | 'stream' | 'text';
+    parseAs?: "arrayBuffer" | "auto" | "blob" | "formData" | "json" | "stream" | "text";
     /**
      * Should we return only data or multiple fields (data, error, response, etc.)?
      *
@@ -487,12 +376,12 @@ interface Config<T extends ClientOptions = ClientOptions> extends Omit<RequestIn
      *
      * @default false
      */
-    throwOnError?: T['throwOnError'];
+    throwOnError?: T["throwOnError"];
 }
-interface RequestOptions<TData = unknown, TResponseStyle extends ResponseStyle = 'fields', ThrowOnError extends boolean = boolean, Url extends string = string> extends Config<{
+interface RequestOptions<TData = unknown, TResponseStyle extends ResponseStyle = "fields", ThrowOnError extends boolean = boolean, Url extends string = string> extends Config<{
     responseStyle: TResponseStyle;
     throwOnError: ThrowOnError;
-}>, Pick<ServerSentEventsOptions<TData>, 'onRequest' | 'onSseError' | 'onSseEvent' | 'sseDefaultRetryDelay' | 'sseMaxRetryAttempts' | 'sseMaxRetryDelay'> {
+}>, Pick<ServerSentEventsOptions<TData>, "onRequest" | "onSseError" | "onSseEvent" | "sseDefaultRetryDelay" | "sseMaxRetryAttempts" | "sseMaxRetryDelay"> {
     /**
      * Any body that you want to add to your request.
      *
@@ -507,14 +396,14 @@ interface RequestOptions<TData = unknown, TResponseStyle extends ResponseStyle =
     security?: ReadonlyArray<Auth>;
     url: Url;
 }
-interface ResolvedRequestOptions<TResponseStyle extends ResponseStyle = 'fields', ThrowOnError extends boolean = boolean, Url extends string = string> extends RequestOptions<unknown, TResponseStyle, ThrowOnError, Url> {
+interface ResolvedRequestOptions<TResponseStyle extends ResponseStyle = "fields", ThrowOnError extends boolean = boolean, Url extends string = string> extends RequestOptions<unknown, TResponseStyle, ThrowOnError, Url> {
     serializedBody?: string;
 }
-type RequestResult<TData = unknown, TError = unknown, ThrowOnError extends boolean = boolean, TResponseStyle extends ResponseStyle = 'fields'> = ThrowOnError extends true ? Promise<TResponseStyle extends 'data' ? TData extends Record<string, unknown> ? TData[keyof TData] : TData : {
+type RequestResult<TData = unknown, TError = unknown, ThrowOnError extends boolean = boolean, TResponseStyle extends ResponseStyle = "fields"> = ThrowOnError extends true ? Promise<TResponseStyle extends "data" ? TData extends Record<string, unknown> ? TData[keyof TData] : TData : {
     data: TData extends Record<string, unknown> ? TData[keyof TData] : TData;
     request: Request;
     response: Response;
-}> : Promise<TResponseStyle extends 'data' ? (TData extends Record<string, unknown> ? TData[keyof TData] : TData) | undefined : ({
+}> : Promise<TResponseStyle extends "data" ? (TData extends Record<string, unknown> ? TData[keyof TData] : TData) | undefined : ({
     data: TData extends Record<string, unknown> ? TData[keyof TData] : TData;
     error: undefined;
 } | {
@@ -529,9 +418,9 @@ interface ClientOptions {
     responseStyle?: ResponseStyle;
     throwOnError?: boolean;
 }
-type MethodFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false, TResponseStyle extends ResponseStyle = 'fields'>(options: Omit<RequestOptions<TData, TResponseStyle, ThrowOnError>, 'method'>) => RequestResult<TData, TError, ThrowOnError, TResponseStyle>;
-type SseFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false, TResponseStyle extends ResponseStyle = 'fields'>(options: Omit<RequestOptions<never, TResponseStyle, ThrowOnError>, 'method'>) => Promise<ServerSentEventsResult<TData, TError>>;
-type RequestFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false, TResponseStyle extends ResponseStyle = 'fields'>(options: Omit<RequestOptions<TData, TResponseStyle, ThrowOnError>, 'method'> & Pick<Required<RequestOptions<TData, TResponseStyle, ThrowOnError>>, 'method'>) => RequestResult<TData, TError, ThrowOnError, TResponseStyle>;
+type MethodFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false, TResponseStyle extends ResponseStyle = "fields">(options: Omit<RequestOptions<TData, TResponseStyle, ThrowOnError>, "method">) => RequestResult<TData, TError, ThrowOnError, TResponseStyle>;
+type SseFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false, TResponseStyle extends ResponseStyle = "fields">(options: Omit<RequestOptions<never, TResponseStyle, ThrowOnError>, "method">) => Promise<ServerSentEventsResult<TData, TError>>;
+type RequestFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false, TResponseStyle extends ResponseStyle = "fields">(options: Omit<RequestOptions<TData, TResponseStyle, ThrowOnError>, "method"> & Pick<Required<RequestOptions<TData, TResponseStyle, ThrowOnError>>, "method">) => RequestResult<TData, TError, ThrowOnError, TResponseStyle>;
 type BuildUrlFn = <TData extends {
     body?: unknown;
     path?: Record<string, unknown>;
@@ -549,7 +438,7 @@ interface TDataShape {
     url: string;
 }
 type OmitKeys<T, K> = Pick<T, Exclude<keyof T, K>>;
-type Options$1<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown, TResponseStyle extends ResponseStyle = 'fields'> = OmitKeys<RequestOptions<TResponse, TResponseStyle, ThrowOnError>, 'body' | 'path' | 'query' | 'url'> & ([TData] extends [never] ? unknown : Omit<TData, 'url'>);
+type Options$1<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown, TResponseStyle extends ResponseStyle = "fields"> = OmitKeys<RequestOptions<TResponse, TResponseStyle, ThrowOnError>, "body" | "path" | "query" | "url"> & ([TData] extends [never] ? unknown : Omit<TData, "url">);
 
 type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options$1<TData, ThrowOnError, TResponse> & {
     /**
@@ -565,6 +454,30 @@ type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean
     meta?: Record<string, unknown>;
 };
 /**
+ * Explain invoice usage charges
+ *
+ * Return why this invoice billed the amount it did: line-item attribution plus usage provenance counts for usage lines. Use this instead of chaining invoices_get + invoice_line_items_list_usage_events.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices` — List invoices
+ * - `POST /invoices` — Create invoice
+ * - `GET /invoices/{id}` — Get invoice
+ * - `PATCH /invoices/{id}` — Update invoice
+ * - `DELETE /invoices/{id}` — Delete invoice
+ * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
+ * - `POST /invoices/{id}/reject` — Reject invoice
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ */
+declare const invoiceUsageExplain: <ThrowOnError extends boolean = false>(options: Options<InvoiceUsageExplainData, ThrowOnError>) => RequestResult<InvoiceUsageExplainResponses, InvoiceUsageExplainErrors, ThrowOnError, "fields">;
+/**
  * List invoices
  *
  * List invoices with pagination and filtering.
@@ -574,19 +487,19 @@ type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `POST /invoices` — Create invoice
  * - `GET /invoices/{id}` — Get invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  * - `POST /invoices/{id}/reject` — Reject invoice
  *
  * **Pagination**
  *
  * Offset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.
  */
-declare const invoicesList: <ThrowOnError extends boolean = false>(options?: Options<InvoicesListData, ThrowOnError>) => RequestResult<InvoicesListResponses, unknown, ThrowOnError, "fields">;
+declare const invoicesList: <ThrowOnError extends boolean = false>(options?: Options<InvoicesListData, ThrowOnError>) => RequestResult<InvoicesListResponses, InvoicesListErrors, ThrowOnError, "fields">;
 /**
  * Create invoice
  *
@@ -597,19 +510,19 @@ declare const invoicesList: <ThrowOnError extends boolean = false>(options?: Opt
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `GET /invoices/{id}` — Get invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  * - `POST /invoices/{id}/reject` — Reject invoice
  *
  * **Idempotency**
  *
  * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
  */
-declare const invoicesCreate: <ThrowOnError extends boolean = false>(options: Options<InvoicesCreateData, ThrowOnError>) => RequestResult<InvoicesCreateResponses, unknown, ThrowOnError, "fields">;
+declare const invoicesCreate: <ThrowOnError extends boolean = false>(options: Options<InvoicesCreateData, ThrowOnError>) => RequestResult<InvoicesCreateResponses, InvoicesCreateErrors, ThrowOnError, "fields">;
 /**
  * Get invoice
  *
@@ -620,15 +533,15 @@ declare const invoicesCreate: <ThrowOnError extends boolean = false>(options: Op
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `POST /invoices` — Create invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  * - `POST /invoices/{id}/reject` — Reject invoice
  */
-declare const invoicesGet: <ThrowOnError extends boolean = false>(options: Options<InvoicesGetData, ThrowOnError>) => RequestResult<InvoicesGetResponses, unknown, ThrowOnError, "fields">;
+declare const invoicesGet: <ThrowOnError extends boolean = false>(options: Options<InvoicesGetData, ThrowOnError>) => RequestResult<InvoicesGetResponses, InvoicesGetErrors, ThrowOnError, "fields">;
 /**
  * Update invoice
  *
@@ -639,19 +552,19 @@ declare const invoicesGet: <ThrowOnError extends boolean = false>(options: Optio
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `POST /invoices` — Create invoice
  * - `GET /invoices/{id}` — Get invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  * - `POST /invoices/{id}/reject` — Reject invoice
  *
  * **Idempotency**
  *
  * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
  */
-declare const invoicesUpdate: <ThrowOnError extends boolean = false>(options: Options<InvoicesUpdateData, ThrowOnError>) => RequestResult<InvoicesUpdateResponses, unknown, ThrowOnError, "fields">;
+declare const invoicesUpdate: <ThrowOnError extends boolean = false>(options: Options<InvoicesUpdateData, ThrowOnError>) => RequestResult<InvoicesUpdateResponses, InvoicesUpdateErrors, ThrowOnError, "fields">;
 /**
  * Estimate invoice net by payment rail
  *
@@ -662,12 +575,12 @@ declare const invoicesUpdate: <ThrowOnError extends boolean = false>(options: Op
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `POST /invoices` — Create invoice
  * - `GET /invoices/{id}` — Get invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
- * - `POST /invoices/{id}/refund` — Refund invoice
  * - `POST /invoices/{id}/reject` — Reject invoice
  *
  * **Common errors**
@@ -689,13 +602,13 @@ declare const invoicesMarginEstimate: <ThrowOnError extends boolean = false>(opt
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `POST /invoices` — Create invoice
  * - `GET /invoices/{id}` — Get invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  *
  * **Common errors**
  *
@@ -717,13 +630,13 @@ declare const invoicesFinalize: <ThrowOnError extends boolean = false>(options: 
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `POST /invoices` — Create invoice
  * - `GET /invoices/{id}` — Get invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  *
  * **Common errors**
  *
@@ -745,13 +658,13 @@ declare const invoicesVoid: <ThrowOnError extends boolean = false>(options: Opti
  * **Related endpoints**
  *
  * - `PUT /invoices/external/batch` — Batch upsert invoices by external ID
+ * - `GET /invoices/{id}/usage-explain` — Explain invoice usage charges
  * - `GET /invoices` — List invoices
  * - `POST /invoices` — Create invoice
  * - `GET /invoices/{id}` — Get invoice
  * - `PATCH /invoices/{id}` — Update invoice
  * - `DELETE /invoices/{id}` — Delete invoice
  * - `POST /invoices/{id}/margin-estimate` — Estimate invoice net by payment rail
- * - `POST /invoices/{id}/refund` — Refund invoice
  *
  * **Common errors**
  *
@@ -777,11 +690,14 @@ declare const invoicesSend: <ThrowOnError extends boolean = false>(options: Opti
  * - `PATCH /products/{id}` — Update product
  * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
  * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ * - `GET /product-collections/{id}` — Get a product collection
  *
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -802,11 +718,14 @@ declare const productsList: <ThrowOnError extends boolean = false>(options?: Opt
  * - `PATCH /products/{id}` — Update product
  * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
  * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ * - `GET /product-collections/{id}` — Get a product collection
  *
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Idempotency**
  *
@@ -827,10 +746,13 @@ declare const productsCreate: <ThrowOnError extends boolean = false>(options: Op
  * - `PATCH /products/{id}` — Update product
  * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
  * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ * - `GET /product-collections/{id}` — Get a product collection
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const productsGet: <ThrowOnError extends boolean = false>(options: Options<ProductsGetData, ThrowOnError>) => RequestResult<ProductsGetResponses, ProductsGetErrors, ThrowOnError, "fields">;
@@ -848,11 +770,14 @@ declare const productsGet: <ThrowOnError extends boolean = false>(options: Optio
  * - `GET /products/{id}` — Get product by ID
  * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
  * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ * - `GET /product-collections/{id}` — Get a product collection
  *
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -860,6 +785,144 @@ declare const productsGet: <ThrowOnError extends boolean = false>(options: Optio
  * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
  */
 declare const productsUpdate: <ThrowOnError extends boolean = false>(options: Options<ProductsUpdateData, ThrowOnError>) => RequestResult<ProductsUpdateResponses, ProductsUpdateErrors, ThrowOnError, "fields">;
+/**
+ * List product collections
+ *
+ * List the merchant's product collections, with member product ids in display order.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /products` — List products
+ * - `POST /products` — Create product
+ * - `GET /products/{id}` — Get product by ID
+ * - `PATCH /products/{id}` — Update product
+ * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
+ * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `POST /product-collections` — Create a product collection
+ * - `GET /product-collections/{id}` — Get a product collection
+ *
+ * **Common errors**
+ *
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
+ *
+ * **Pagination**
+ *
+ * Offset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.
+ */
+declare const productCollectionsList: <ThrowOnError extends boolean = false>(options?: Options<ProductCollectionsListData, ThrowOnError>) => RequestResult<ProductCollectionsListResponses, ProductCollectionsListErrors, ThrowOnError, "fields">;
+/**
+ * Create a product collection
+ *
+ * Create a product collection. The URL handle must be unique for the merchant, and every product must belong to the merchant.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /products` — List products
+ * - `POST /products` — Create product
+ * - `GET /products/{id}` — Get product by ID
+ * - `PATCH /products/{id}` — Update product
+ * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
+ * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `GET /product-collections/{id}` — Get a product collection
+ *
+ * **Common errors**
+ *
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
+ * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
+ * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
+ *
+ * **Idempotency**
+ *
+ * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
+ */
+declare const productCollectionsCreate: <ThrowOnError extends boolean = false>(options?: Options<ProductCollectionsCreateData, ThrowOnError>) => RequestResult<ProductCollectionsCreateResponses, ProductCollectionsCreateErrors, ThrowOnError, "fields">;
+/**
+ * Delete a product collection
+ *
+ * Delete a product collection. Its products are not changed.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /products` — List products
+ * - `POST /products` — Create product
+ * - `GET /products/{id}` — Get product by ID
+ * - `PATCH /products/{id}` — Update product
+ * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
+ * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ *
+ * **Common errors**
+ *
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ *
+ * **Idempotency**
+ *
+ * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
+ */
+declare const productCollectionsDelete: <ThrowOnError extends boolean = false>(options: Options<ProductCollectionsDeleteData, ThrowOnError>) => RequestResult<ProductCollectionsDeleteResponses, ProductCollectionsDeleteErrors, ThrowOnError, "fields">;
+/**
+ * Get a product collection
+ *
+ * Get one product collection by id or URL handle.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /products` — List products
+ * - `POST /products` — Create product
+ * - `GET /products/{id}` — Get product by ID
+ * - `PATCH /products/{id}` — Update product
+ * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
+ * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ *
+ * **Common errors**
+ *
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ */
+declare const productCollectionsGet: <ThrowOnError extends boolean = false>(options: Options<ProductCollectionsGetData, ThrowOnError>) => RequestResult<ProductCollectionsGetResponses, ProductCollectionsGetErrors, ThrowOnError, "fields">;
+/**
+ * Update a product collection
+ *
+ * Update a product collection. `product_ids` replaces the membership in the given order. Send `expected_version` to refuse the change if the collection was edited since you read it.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /products` — List products
+ * - `POST /products` — Create product
+ * - `GET /products/{id}` — Get product by ID
+ * - `PATCH /products/{id}` — Update product
+ * - `PUT /products/external/{source}/{externalId}` — Upsert product by external ID
+ * - `PUT /products/external/batch` — Batch upsert products by external ID
+ * - `GET /product-collections` — List product collections
+ * - `POST /product-collections` — Create a product collection
+ *
+ * **Common errors**
+ *
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
+ * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
+ *
+ * **Idempotency**
+ *
+ * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
+ */
+declare const productCollectionsUpdate: <ThrowOnError extends boolean = false>(options: Options<ProductCollectionsUpdateData, ThrowOnError>) => RequestResult<ProductCollectionsUpdateResponses, ProductCollectionsUpdateErrors, ThrowOnError, "fields">;
 /**
  * Create a checkout session
  *
@@ -875,7 +938,7 @@ declare const productsUpdate: <ThrowOnError extends boolean = false>(options: Op
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -897,7 +960,7 @@ declare const checkoutSessionsCreate: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const checkoutSessionsGet: <ThrowOnError extends boolean = false>(options: Options<CheckoutSessionsGetData, ThrowOnError>) => RequestResult<CheckoutSessionsGetResponses, CheckoutSessionsGetErrors, ThrowOnError, "fields">;
@@ -915,7 +978,7 @@ declare const checkoutSessionsGet: <ThrowOnError extends boolean = false>(option
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -956,7 +1019,7 @@ declare const checkoutSessionsExpire: <ThrowOnError extends boolean = false>(opt
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
  *
@@ -985,7 +1048,7 @@ declare const cartSessionsCreate: <ThrowOnError extends boolean = false>(options
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const cartSessionsGet: <ThrowOnError extends boolean = false>(options: Options<CartSessionsGetData, ThrowOnError>) => RequestResult<CartSessionsGetResponses, CartSessionsGetErrors, ThrowOnError, "fields">;
@@ -1010,7 +1073,7 @@ declare const cartSessionsGet: <ThrowOnError extends boolean = false>(options: O
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1039,7 +1102,7 @@ declare const cartSessionsAddLineItem: <ThrowOnError extends boolean = false>(op
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1069,7 +1132,7 @@ declare const cartSessionsRemoveLineItem: <ThrowOnError extends boolean = false>
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1099,7 +1162,7 @@ declare const cartSessionsUpdateLineItem: <ThrowOnError extends boolean = false>
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1129,7 +1192,7 @@ declare const cartSessionsToggleAddOn: <ThrowOnError extends boolean = false>(op
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1141,7 +1204,7 @@ declare const cartSessionsApplyDiscountCode: <ThrowOnError extends boolean = fal
 /**
  * Capture customer email + consent on a cart
  *
- * Capture the customer's email and marketing/recovery consent on an open cart so an abandoned cart can be recovered (REV-5517). Every field is optional; pass `null` to clear. Setting a field records its consent/capture timestamp. Idempotent — an input that changes nothing is a no-op.
+ * Capture the customer's email and marketing/recovery consent on an open cart so an abandoned cart can be recovered. Every field is optional; pass `null` to clear. Setting a field records its consent/capture timestamp. Idempotent — an input that changes nothing is a no-op.
  *
  * ---
  *
@@ -1159,7 +1222,7 @@ declare const cartSessionsApplyDiscountCode: <ThrowOnError extends boolean = fal
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1198,7 +1261,7 @@ declare const cartSessionsSetContact: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
@@ -1221,8 +1284,8 @@ declare const cartSessionsConvert: <ThrowOnError extends boolean = false>(option
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  */
 declare const cartApiKeysStatus: <ThrowOnError extends boolean = false>(options?: Options<CartApiKeysStatusData, ThrowOnError>) => RequestResult<CartApiKeysStatusResponses, CartApiKeysStatusErrors, ThrowOnError, "fields">;
 /**
@@ -1239,8 +1302,8 @@ declare const cartApiKeysStatus: <ThrowOnError extends boolean = false>(options?
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  *
  * **Idempotency**
  *
@@ -1262,8 +1325,8 @@ declare const cartApiKeysEnsure: <ThrowOnError extends boolean = false>(options?
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  *
  * **Idempotency**
  *
@@ -1273,7 +1336,7 @@ declare const cartApiKeysRotate: <ThrowOnError extends boolean = false>(options:
 /**
  * List storefront products
  *
- * List active, cart-eligible products with browser-safe display data, active prices, and derived availability. Intended for publishable-key storefront and CMS-picker use; never returns product metadata or internal fields.
+ * List active, cart-eligible products with browser-safe display data, active prices, and derived availability. Only products listed on the Storefront are returned (store_visibility visible, or scheduled and due). Intended for publishable-key storefront and CMS-picker use; never returns product metadata or internal fields.
  *
  * ---
  *
@@ -1287,8 +1350,8 @@ declare const cartApiKeysRotate: <ThrowOnError extends boolean = false>(options:
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  *
  * **Pagination**
  *
@@ -1298,7 +1361,7 @@ declare const storefrontProductsList: <ThrowOnError extends boolean = false>(opt
 /**
  * Get a storefront product
  *
- * Fetch one active, cart-eligible product by UUID, product reference, or slug. Same browser-safe projection as the list endpoint.
+ * Fetch one active, cart-eligible product by UUID, URL handle (slug), or product reference. A UUID also finds a product hidden from the Storefront; a handle or reference only finds listed products, and the handle wins over another product's reference. Same browser-safe projection as the list endpoint.
  *
  * ---
  *
@@ -1312,8 +1375,8 @@ declare const storefrontProductsList: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const storefrontProductsGet: <ThrowOnError extends boolean = false>(options: Options<StorefrontProductsGetData, ThrowOnError>) => RequestResult<StorefrontProductsGetResponses, StorefrontProductsGetErrors, ThrowOnError, "fields">;
@@ -1334,8 +1397,8 @@ declare const storefrontProductsGet: <ThrowOnError extends boolean = false>(opti
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  *
  * **Pagination**
  *
@@ -1360,8 +1423,8 @@ declare const storefrontOriginsList: <ThrowOnError extends boolean = false>(opti
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
  * **Idempotency**
@@ -1386,8 +1449,8 @@ declare const storefrontOriginsCreate: <ThrowOnError extends boolean = false>(op
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -1412,14 +1475,14 @@ declare const storefrontOriginsDelete: <ThrowOnError extends boolean = false>(op
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  */
 declare const storefrontStatusGet: <ThrowOnError extends boolean = false>(options?: Options<StorefrontStatusGetData, ThrowOnError>) => RequestResult<StorefrontStatusGetResponses, StorefrontStatusGetErrors, ThrowOnError, "fields">;
 /**
- * List customers
+ * Get customer billing state
  *
- * Retrieve a paginated list of customers for the merchant
+ * Return the Polar-shaped job snapshot for one customer: identity, active and recent subscriptions, and recent invoices with overdue flags. Use this instead of chaining customers_get + subscriptions_list + invoices_list.
  *
  * ---
  *
@@ -1431,12 +1494,36 @@ declare const storefrontStatusGet: <ThrowOnError extends boolean = false>(option
  * - `GET /customers/{customerId}/payments` — List customer payments
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `POST /customers` — Create a new customer
+ * - `GET /customers` — List customers
  * - `GET /customers/{id}` — Get customer by ID
- * - `PATCH /customers/{id}` — Update customer details
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ */
+declare const customerStateGet: <ThrowOnError extends boolean = false>(options: Options<CustomerStateGetData, ThrowOnError>) => RequestResult<CustomerStateGetResponses, CustomerStateGetErrors, ThrowOnError, "fields">;
+/**
+ * List customers
+ *
+ * Retrieve a paginated list of customers for the merchant
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /customers/{id}/state` — Get customer billing state
+ * - `GET /customers/{customerId}/invoices` — List customer invoices
+ * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
+ * - `GET /customers/{customerId}/orders` — List customer orders
+ * - `GET /customers/{customerId}/payments` — List customer payments
+ * - `PUT /customers/external/batch` — Batch upsert customers by external ID
+ * - `POST /customers` — Create a new customer
+ * - `GET /customers/{id}` — Get customer by ID
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -1452,6 +1539,7 @@ declare const customersList: <ThrowOnError extends boolean = false>(options?: Op
  *
  * **Related endpoints**
  *
+ * - `GET /customers/{id}/state` — Get customer billing state
  * - `GET /customers/{customerId}/invoices` — List customer invoices
  * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
  * - `GET /customers/{customerId}/orders` — List customer orders
@@ -1459,12 +1547,11 @@ declare const customersList: <ThrowOnError extends boolean = false>(options?: Op
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `GET /customers` — List customers
  * - `GET /customers/{id}` — Get customer by ID
- * - `PATCH /customers/{id}` — Update customer details
  *
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Idempotency**
  *
@@ -1480,6 +1567,7 @@ declare const customersCreate: <ThrowOnError extends boolean = false>(options?: 
  *
  * **Related endpoints**
  *
+ * - `GET /customers/{id}/state` — Get customer billing state
  * - `GET /customers/{customerId}/invoices` — List customer invoices
  * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
  * - `GET /customers/{customerId}/orders` — List customer orders
@@ -1487,11 +1575,10 @@ declare const customersCreate: <ThrowOnError extends boolean = false>(options?: 
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `POST /customers` — Create a new customer
  * - `GET /customers` — List customers
- * - `PATCH /customers/{id}` — Update customer details
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customersGet: <ThrowOnError extends boolean = false>(options: Options<CustomersGetData, ThrowOnError>) => RequestResult<CustomersGetResponses, CustomersGetErrors, ThrowOnError, "fields">;
@@ -1504,6 +1591,7 @@ declare const customersGet: <ThrowOnError extends boolean = false>(options: Opti
  *
  * **Related endpoints**
  *
+ * - `GET /customers/{id}/state` — Get customer billing state
  * - `GET /customers/{customerId}/invoices` — List customer invoices
  * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
  * - `GET /customers/{customerId}/orders` — List customer orders
@@ -1511,11 +1599,10 @@ declare const customersGet: <ThrowOnError extends boolean = false>(options: Opti
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `POST /customers` — Create a new customer
  * - `GET /customers` — List customers
- * - `GET /customers/{id}` — Get customer by ID
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -1532,6 +1619,7 @@ declare const customersUpdate: <ThrowOnError extends boolean = false>(options: O
  *
  * **Related endpoints**
  *
+ * - `GET /customers/{id}/state` — Get customer billing state
  * - `GET /customers/{customerId}/invoices` — List customer invoices
  * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
  * - `GET /customers/{customerId}/orders` — List customer orders
@@ -1539,12 +1627,11 @@ declare const customersUpdate: <ThrowOnError extends boolean = false>(options: O
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `POST /customers` — Create a new customer
  * - `GET /customers` — List customers
- * - `GET /customers/{id}` — Get customer by ID
  *
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customersPaymentRailsGet: <ThrowOnError extends boolean = false>(options: Options<CustomersPaymentRailsGetData, ThrowOnError>) => RequestResult<CustomersPaymentRailsGetResponses, CustomersPaymentRailsGetErrors, ThrowOnError, "fields">;
@@ -1557,6 +1644,7 @@ declare const customersPaymentRailsGet: <ThrowOnError extends boolean = false>(o
  *
  * **Related endpoints**
  *
+ * - `GET /customers/{id}/state` — Get customer billing state
  * - `GET /customers/{customerId}/invoices` — List customer invoices
  * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
  * - `GET /customers/{customerId}/orders` — List customer orders
@@ -1564,12 +1652,11 @@ declare const customersPaymentRailsGet: <ThrowOnError extends boolean = false>(o
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `POST /customers` — Create a new customer
  * - `GET /customers` — List customers
- * - `GET /customers/{id}` — Get customer by ID
  *
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customersPreferredRailsGet: <ThrowOnError extends boolean = false>(options: Options<CustomersPreferredRailsGetData, ThrowOnError>) => RequestResult<CustomersPreferredRailsGetResponses, CustomersPreferredRailsGetErrors, ThrowOnError, "fields">;
@@ -1582,6 +1669,7 @@ declare const customersPreferredRailsGet: <ThrowOnError extends boolean = false>
  *
  * **Related endpoints**
  *
+ * - `GET /customers/{id}/state` — Get customer billing state
  * - `GET /customers/{customerId}/invoices` — List customer invoices
  * - `GET /customers/{customerId}/subscriptions` — List customer subscriptions
  * - `GET /customers/{customerId}/orders` — List customer orders
@@ -1589,11 +1677,10 @@ declare const customersPreferredRailsGet: <ThrowOnError extends boolean = false>
  * - `PUT /customers/external/batch` — Batch upsert customers by external ID
  * - `POST /customers` — Create a new customer
  * - `GET /customers` — List customers
- * - `GET /customers/{id}` — Get customer by ID
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Pagination**
@@ -1621,7 +1708,7 @@ declare const customersPaymentMethodsList: <ThrowOnError extends boolean = false
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -1631,7 +1718,11 @@ declare const subscriptionsList: <ThrowOnError extends boolean = false>(options?
 /**
  * Create a new subscription
  *
- * Create a new subscription for a customer
+ * Create a new subscription for a customer.
+ *
+ * **The first period is billed at creation**, at the price's amount for the quantity. On card the saved `paymentMethodId` is charged straight away (it is required unless the subscription starts in a trial). On Direct Debit the first collection is scheduled with advance notice, typically 5–7 working days after creation. With a trial, nothing is billed until the trial ends.
+ *
+ * Set `paymentRail: direct_debit` with an active `mandateId` to create a Direct Debit subscription (GBP only). This needs a signed-in team member or an OAuth app; API keys are refused with 403.
  *
  * ---
  *
@@ -1649,7 +1740,10 @@ declare const subscriptionsList: <ThrowOnError extends boolean = false>(options?
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
  *
  * **Idempotency**
  *
@@ -1676,7 +1770,7 @@ declare const subscriptionsCreate: <ThrowOnError extends boolean = false>(option
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const subscriptionsGet: <ThrowOnError extends boolean = false>(options: Options<SubscriptionsGetData, ThrowOnError>) => RequestResult<SubscriptionsGetResponses, SubscriptionsGetErrors, ThrowOnError, "fields">;
@@ -1700,7 +1794,7 @@ declare const subscriptionsGet: <ThrowOnError extends boolean = false>(options: 
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -1733,7 +1827,7 @@ declare const subscriptionsUpdate: <ThrowOnError extends boolean = false>(option
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -1759,7 +1853,7 @@ declare const subscriptionsCancel: <ThrowOnError extends boolean = false>(option
  * - `GET /analytics/checkout/funnel` — Checkout Funnel Analytics
  * - `GET /analytics/checkout/abandonment/summary` — Abandonment Alert Summary
  */
-declare const analyticsRevenueMrrSummary: <ThrowOnError extends boolean = false>(options?: Options<AnalyticsRevenueMrrSummaryData, ThrowOnError>) => RequestResult<AnalyticsRevenueMrrSummaryResponses, unknown, ThrowOnError, "fields">;
+declare const analyticsRevenueMrrSummary: <ThrowOnError extends boolean = false>(options?: Options<AnalyticsRevenueMrrSummaryData, ThrowOnError>) => RequestResult<AnalyticsRevenueMrrSummaryResponses, AnalyticsRevenueMrrSummaryErrors, ThrowOnError, "fields">;
 /**
  * Revenue Time Series
  *
@@ -1778,7 +1872,7 @@ declare const analyticsRevenueMrrSummary: <ThrowOnError extends boolean = false>
  * - `GET /analytics/checkout/funnel` — Checkout Funnel Analytics
  * - `GET /analytics/checkout/abandonment/summary` — Abandonment Alert Summary
  */
-declare const analyticsRevenueTimeSeries: <ThrowOnError extends boolean = false>(options: Options<AnalyticsRevenueTimeSeriesData, ThrowOnError>) => RequestResult<AnalyticsRevenueTimeSeriesResponses, unknown, ThrowOnError, "fields">;
+declare const analyticsRevenueTimeSeries: <ThrowOnError extends boolean = false>(options: Options<AnalyticsRevenueTimeSeriesData, ThrowOnError>) => RequestResult<AnalyticsRevenueTimeSeriesResponses, AnalyticsRevenueTimeSeriesErrors, ThrowOnError, "fields">;
 /**
  * List refunds
  *
@@ -1793,7 +1887,7 @@ declare const analyticsRevenueTimeSeries: <ThrowOnError extends boolean = false>
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -1815,7 +1909,7 @@ declare const refundsList: <ThrowOnError extends boolean = false>(options?: Opti
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Idempotency**
  *
@@ -1836,7 +1930,7 @@ declare const refundsCreate: <ThrowOnError extends boolean = false>(options?: Op
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const refundsGet: <ThrowOnError extends boolean = false>(options: Options<RefundsGetData, ThrowOnError>) => RequestResult<RefundsGetResponses, RefundsGetErrors, ThrowOnError, "fields">;
@@ -1859,7 +1953,7 @@ declare const refundsGet: <ThrowOnError extends boolean = false>(options: Option
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -1886,7 +1980,7 @@ declare const creditNotesList: <ThrowOnError extends boolean = false>(options?: 
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
  * **Idempotency**
@@ -1913,7 +2007,7 @@ declare const creditNotesCreate: <ThrowOnError extends boolean = false>(options?
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const creditNotesGet: <ThrowOnError extends boolean = false>(options: Options<CreditNotesGetData, ThrowOnError>) => RequestResult<CreditNotesGetResponses, CreditNotesGetErrors, ThrowOnError, "fields">;
@@ -1937,7 +2031,7 @@ declare const creditNotesGet: <ThrowOnError extends boolean = false>(options: Op
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -1964,7 +2058,7 @@ declare const creditNotesVoid: <ThrowOnError extends boolean = false>(options: O
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Pagination**
@@ -1992,7 +2086,7 @@ declare const creditNotesListLines: <ThrowOnError extends boolean = false>(optio
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2020,7 +2114,7 @@ declare const creditNotesPreview: <ThrowOnError extends boolean = false>(options
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2047,7 +2141,7 @@ declare const paymentLinksList: <ThrowOnError extends boolean = false>(options?:
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
  * **Idempotency**
@@ -2074,7 +2168,7 @@ declare const paymentLinksCreate: <ThrowOnError extends boolean = false>(options
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const paymentLinksGet: <ThrowOnError extends boolean = false>(options: Options<PaymentLinksGetData, ThrowOnError>) => RequestResult<PaymentLinksGetResponses, PaymentLinksGetErrors, ThrowOnError, "fields">;
@@ -2098,7 +2192,7 @@ declare const paymentLinksGet: <ThrowOnError extends boolean = false>(options: O
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2128,7 +2222,7 @@ declare const paymentLinksExpire: <ThrowOnError extends boolean = false>(options
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2156,7 +2250,7 @@ declare const paymentLinksUpdate: <ThrowOnError extends boolean = false>(options
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2186,7 +2280,7 @@ declare const paymentLinksDeactivate: <ThrowOnError extends boolean = false>(opt
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2215,7 +2309,7 @@ declare const paymentLinksActivate: <ThrowOnError extends boolean = false>(optio
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2225,6 +2319,24 @@ declare const paymentLinksActivate: <ThrowOnError extends boolean = false>(optio
  * @deprecated
  */
 declare const paymentLinksArchive: <ThrowOnError extends boolean = false>(options: Options<PaymentLinksArchiveData, ThrowOnError>) => RequestResult<PaymentLinksArchiveResponses, PaymentLinksArchiveErrors, ThrowOnError, "fields">;
+/**
+ * Get merchant billing overview
+ *
+ * Return overdue invoices, subscriptions in dunning, and high-signal usage invoices for the authenticated merchant. Use this instead of chaining invoices_list + subscriptions_list_in_dunning.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `POST /billing/preview` — Generate billing schedule preview
+ * - `GET /billing/intervals` — Get billing intervals
+ * - `GET /billing/anchor-rules` — Get billing anchor rules
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ */
+declare const billingOverviewGet: <ThrowOnError extends boolean = false>(options?: Options<BillingOverviewGetData, ThrowOnError>) => RequestResult<BillingOverviewGetResponses, BillingOverviewGetErrors, ThrowOnError, "fields">;
 /**
  * List prices
  *
@@ -2241,7 +2353,7 @@ declare const paymentLinksArchive: <ThrowOnError extends boolean = false>(option
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2265,7 +2377,7 @@ declare const pricesList: <ThrowOnError extends boolean = false>(options?: Optio
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2289,7 +2401,7 @@ declare const pricesCreate: <ThrowOnError extends boolean = false>(options: Opti
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2313,7 +2425,7 @@ declare const pricesArchive: <ThrowOnError extends boolean = false>(options: Opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const pricesGet: <ThrowOnError extends boolean = false>(options: Options<PricesGetData, ThrowOnError>) => RequestResult<PricesGetResponses, PricesGetErrors, ThrowOnError, "fields">;
@@ -2334,7 +2446,7 @@ declare const pricesGet: <ThrowOnError extends boolean = false>(options: Options
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2342,6 +2454,156 @@ declare const pricesGet: <ThrowOnError extends boolean = false>(options: Options
  * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
  */
 declare const pricesUpdate: <ThrowOnError extends boolean = false>(options: Options<PricesUpdateData, ThrowOnError>) => RequestResult<PricesUpdateResponses, PricesUpdateErrors, ThrowOnError, "fields">;
+/**
+ * List meters
+ *
+ * List all usage meters with optional filtering and pagination.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `POST /meters` — Create a meter
+ * - `GET /meters/{id}/quantities` — Get meter quantities
+ * - `GET /meters/{id}` — Get a meter
+ * - `PATCH /meters/{id}` — Update a meter
+ * - `POST /meters/{meterId}/prices` — Create a meter price
+ * - `GET /meters/{meterId}/prices` — List meter prices
+ * - `PATCH /meters/{meterId}/prices/{priceId}` — Update a meter price
+ * - `POST /meters/{meterId}/prices/{priceId}/deactivate` — Deactivate a meter price
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ *
+ * **Pagination**
+ *
+ * Offset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.
+ */
+declare const metersList: <ThrowOnError extends boolean = false>(options?: Options<MetersListData, ThrowOnError>) => RequestResult<MetersListResponses, MetersListErrors, ThrowOnError, "fields">;
+/**
+ * Create a meter
+ *
+ * Create a new usage meter. Meters define how usage events are aggregated for billing.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /meters` — List meters
+ * - `GET /meters/{id}/quantities` — Get meter quantities
+ * - `GET /meters/{id}` — Get a meter
+ * - `PATCH /meters/{id}` — Update a meter
+ * - `POST /meters/{meterId}/prices` — Create a meter price
+ * - `GET /meters/{meterId}/prices` — List meter prices
+ * - `PATCH /meters/{meterId}/prices/{priceId}` — Update a meter price
+ * - `POST /meters/{meterId}/prices/{priceId}/deactivate` — Deactivate a meter price
+ *
+ * **Common errors**
+ *
+ * - `400 invalid_request` — malformed payload or failed validation.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ *
+ * **Idempotency**
+ *
+ * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
+ */
+declare const metersCreate: <ThrowOnError extends boolean = false>(options?: Options<MetersCreateData, ThrowOnError>) => RequestResult<MetersCreateResponses, MetersCreateErrors, ThrowOnError, "fields">;
+/**
+ * Get meter quantities
+ *
+ * Get bucketed quantities for a meter over a time period. Timestamps are UTC. Polar-compatible query names (`start_timestamp`, `end_timestamp`, `interval`) are required.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /meters` — List meters
+ * - `POST /meters` — Create a meter
+ * - `GET /meters/{id}` — Get a meter
+ * - `PATCH /meters/{id}` — Update a meter
+ * - `POST /meters/{meterId}/prices` — Create a meter price
+ * - `GET /meters/{meterId}/prices` — List meter prices
+ * - `PATCH /meters/{meterId}/prices/{priceId}` — Update a meter price
+ * - `POST /meters/{meterId}/prices/{priceId}/deactivate` — Deactivate a meter price
+ *
+ * **Common errors**
+ *
+ * - `400 invalid_request` — malformed payload or failed validation.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ */
+declare const metersQuantities: <ThrowOnError extends boolean = false>(options: Options<MetersQuantitiesData, ThrowOnError>) => RequestResult<MetersQuantitiesResponses, MetersQuantitiesErrors, ThrowOnError, "fields">;
+/**
+ * Get a meter
+ *
+ * Retrieve a single meter by ID.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /meters` — List meters
+ * - `POST /meters` — Create a meter
+ * - `GET /meters/{id}/quantities` — Get meter quantities
+ * - `PATCH /meters/{id}` — Update a meter
+ * - `POST /meters/{meterId}/prices` — Create a meter price
+ * - `GET /meters/{meterId}/prices` — List meter prices
+ * - `PATCH /meters/{meterId}/prices/{priceId}` — Update a meter price
+ * - `POST /meters/{meterId}/prices/{priceId}/deactivate` — Deactivate a meter price
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ */
+declare const metersGet: <ThrowOnError extends boolean = false>(options: Options<MetersGetData, ThrowOnError>) => RequestResult<MetersGetResponses, MetersGetErrors, ThrowOnError, "fields">;
+/**
+ * Update a meter
+ *
+ * Update a meter's configuration. Note: `event_name` and `aggregation` are immutable after creation.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /meters` — List meters
+ * - `POST /meters` — Create a meter
+ * - `GET /meters/{id}/quantities` — Get meter quantities
+ * - `GET /meters/{id}` — Get a meter
+ * - `POST /meters/{meterId}/prices` — Create a meter price
+ * - `GET /meters/{meterId}/prices` — List meter prices
+ * - `PATCH /meters/{meterId}/prices/{priceId}` — Update a meter price
+ * - `POST /meters/{meterId}/prices/{priceId}/deactivate` — Deactivate a meter price
+ *
+ * **Common errors**
+ *
+ * - `400 invalid_request` — malformed payload or failed validation.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ *
+ * **Idempotency**
+ *
+ * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
+ */
+declare const metersUpdate: <ThrowOnError extends boolean = false>(options: Options<MetersUpdateData, ThrowOnError>) => RequestResult<MetersUpdateResponses, MetersUpdateErrors, ThrowOnError, "fields">;
+/**
+ * List usage events for an invoice line
+ *
+ * Trace a usage invoice line back to the billing entries, meter matches, and events that produced it (REV-6228). FK-driven; does not re-rate from live prices.
+ *
+ * ---
+ *
+ * **Common errors**
+ *
+ * - `400 invalid_request` — malformed payload or failed validation.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ *
+ * **Pagination**
+ *
+ * Offset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.
+ */
+declare const invoiceLineItemsListUsageEvents: <ThrowOnError extends boolean = false>(options: Options<InvoiceLineItemsListUsageEventsData, ThrowOnError>) => RequestResult<InvoiceLineItemsListUsageEventsResponses, InvoiceLineItemsListUsageEventsErrors, ThrowOnError, "fields">;
 /**
  * Create an accounting-led invoice payment request
  *
@@ -2395,7 +2657,7 @@ declare const accountingInvoicePaymentRequestsGet: <ThrowOnError extends boolean
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2420,7 +2682,7 @@ declare const webhookEndpointsList: <ThrowOnError extends boolean = false>(optio
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  *
  * **Idempotency**
@@ -2445,7 +2707,7 @@ declare const webhookEndpointsCreate: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2470,7 +2732,7 @@ declare const webhookEndpointsDelete: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const webhookEndpointsGet: <ThrowOnError extends boolean = false>(options: Options<WebhookEndpointsGetData, ThrowOnError>) => RequestResult<WebhookEndpointsGetResponses, WebhookEndpointsGetErrors, ThrowOnError, "fields">;
@@ -2492,7 +2754,7 @@ declare const webhookEndpointsGet: <ThrowOnError extends boolean = false>(option
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2517,7 +2779,7 @@ declare const webhookEndpointsUpdate: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2539,7 +2801,7 @@ declare const webhookEndpointsRotateSecret: <ThrowOnError extends boolean = fals
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2605,7 +2867,7 @@ declare const webhookDeliveriesRetry: <ThrowOnError extends boolean = false>(opt
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2633,7 +2895,7 @@ declare const customerPortalSessionsCreate: <ThrowOnError extends boolean = fals
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customerPortalCustomerGet: <ThrowOnError extends boolean = false>(options?: Options<CustomerPortalCustomerGetData, ThrowOnError>) => RequestResult<CustomerPortalCustomerGetResponses, CustomerPortalCustomerGetErrors, ThrowOnError, "fields">;
@@ -2657,7 +2919,7 @@ declare const customerPortalCustomerGet: <ThrowOnError extends boolean = false>(
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2684,7 +2946,7 @@ declare const customerPortalSubscriptionsList: <ThrowOnError extends boolean = f
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customerPortalSubscriptionsGet: <ThrowOnError extends boolean = false>(options: Options<CustomerPortalSubscriptionsGetData, ThrowOnError>) => RequestResult<CustomerPortalSubscriptionsGetResponses, CustomerPortalSubscriptionsGetErrors, ThrowOnError, "fields">;
@@ -2708,7 +2970,7 @@ declare const customerPortalSubscriptionsGet: <ThrowOnError extends boolean = fa
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2736,7 +2998,7 @@ declare const customerPortalSubscriptionsCancel: <ThrowOnError extends boolean =
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2763,7 +3025,7 @@ declare const customerPortalInvoicesList: <ThrowOnError extends boolean = false>
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customerPortalInvoicesGet: <ThrowOnError extends boolean = false>(options: Options<CustomerPortalInvoicesGetData, ThrowOnError>) => RequestResult<CustomerPortalInvoicesGetResponses, CustomerPortalInvoicesGetErrors, ThrowOnError, "fields">;
@@ -2787,8 +3049,8 @@ declare const customerPortalInvoicesGet: <ThrowOnError extends boolean = false>(
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  *
  * **Pagination**
  *
@@ -2816,8 +3078,8 @@ declare const customerPortalMandatesList: <ThrowOnError extends boolean = false>
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
@@ -2848,7 +3110,7 @@ declare const customerPortalMandatesReauthorize: <ThrowOnError extends boolean =
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -2877,7 +3139,7 @@ declare const customerPortalMandatesCancel: <ThrowOnError extends boolean = fals
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
@@ -2908,7 +3170,7 @@ declare const customerPortalMandatesReauthorizeSendOtp: <ThrowOnError extends bo
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
  *
@@ -2933,7 +3195,7 @@ declare const customerPortalMandatesReauthorizeVerifyOtp: <ThrowOnError extends 
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -2953,7 +3215,7 @@ declare const customerMetersList: <ThrowOnError extends boolean = false>(options
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const customerMetersGet: <ThrowOnError extends boolean = false>(options: Options<CustomerMetersGetData, ThrowOnError>) => RequestResult<CustomerMetersGetResponses, CustomerMetersGetErrors, ThrowOnError, "fields">;
@@ -2975,7 +3237,7 @@ declare const customerMetersGet: <ThrowOnError extends boolean = false>(options:
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -3001,7 +3263,7 @@ declare const paymentIntentsList: <ThrowOnError extends boolean = false>(options
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Idempotency**
  *
@@ -3122,7 +3384,7 @@ declare const paymentIntentsCancel: <ThrowOnError extends boolean = false>(optio
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -3144,7 +3406,7 @@ declare const eventsList: <ThrowOnError extends boolean = false>(options?: Optio
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const eventsGet: <ThrowOnError extends boolean = false>(options: Options<EventsGetData, ThrowOnError>) => RequestResult<EventsGetResponses, EventsGetErrors, ThrowOnError, "fields">;
@@ -3163,7 +3425,7 @@ declare const eventsGet: <ThrowOnError extends boolean = false>(options: Options
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -3171,6 +3433,97 @@ declare const eventsGet: <ThrowOnError extends boolean = false>(options: Options
  * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
  */
 declare const eventsResend: <ThrowOnError extends boolean = false>(options: Options<EventsResendData, ThrowOnError>) => RequestResult<EventsResendResponses, EventsResendErrors, ThrowOnError, "fields">;
+/**
+ * Query usage events
+ *
+ * List usage events with optional filters. Returns up to 100 events per request.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `POST /usage-events` — Ingest usage events
+ * - `POST /usage-events/dry-run` — Dry-run usage events
+ * - `GET /usage-events/aggregate/{meterId}` — Get aggregated usage
+ * - `GET /usage-events/{id}` — Get a usage event
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ *
+ * **Pagination**
+ *
+ * Offset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.
+ */
+declare const usageEventsList: <ThrowOnError extends boolean = false>(options?: Options<UsageEventsListData, ThrowOnError>) => RequestResult<UsageEventsListResponses, UsageEventsListErrors, ThrowOnError, "fields">;
+/**
+ * Ingest usage events
+ *
+ * Send usage events for billing. Accepts a single event or a batch of up to 1000 events.
+ *
+ * **Single event:** Send the event object directly in the request body.
+ * **Batch:** Wrap events in an `events` array.
+ *
+ * Events are matched to meters by `name` (event name) or `meter_id`. At least one of `customer_id`, `external_customer_id`, or `subscription_id` is required.
+ *
+ * **Idempotency:** provide `idempotency_key` per event. The key is unique per merchant forever; repeats return `duplicate` and do not create another billable event.
+ *
+ * **Attribution:** prefer `external_customer_id` when your system owns customer identifiers. Unknown external IDs fail fast instead of creating orphan usage.
+ *
+ * **Currency:** each subscription has one currency. Usage attributed to that subscription is interpreted in that currency; RevKeen does not perform FX conversion in the metering layer.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `GET /usage-events` — Query usage events
+ * - `POST /usage-events/dry-run` — Dry-run usage events
+ * - `GET /usage-events/aggregate/{meterId}` — Get aggregated usage
+ * - `GET /usage-events/{id}` — Get a usage event
+ *
+ * **Common errors**
+ *
+ * - `400 invalid_request` — malformed payload or failed validation.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ *
+ * **Idempotency**
+ *
+ * Pass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).
+ */
+declare const usageEventsIngest: <ThrowOnError extends boolean = false>(options?: Options<UsageEventsIngestData, ThrowOnError>) => RequestResult<UsageEventsIngestResponses, UsageEventsIngestErrors, ThrowOnError, "fields">;
+/**
+ * Get a usage event
+ *
+ * Retrieve a single usage event by ID. Unknown ids and ids that belong to another merchant both return 404 — the lookup is merchant-scoped under RLS.
+ *
+ * ---
+ *
+ * **Related endpoints**
+ *
+ * - `POST /usage-events` — Ingest usage events
+ * - `GET /usage-events` — Query usage events
+ * - `POST /usage-events/dry-run` — Dry-run usage events
+ * - `GET /usage-events/aggregate/{meterId}` — Get aggregated usage
+ *
+ * **Common errors**
+ *
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
+ */
+declare const usageEventsGet: <ThrowOnError extends boolean = false>(options: Options<UsageEventsGetData, ThrowOnError>) => RequestResult<UsageEventsGetResponses, UsageEventsGetErrors, ThrowOnError, "fields">;
+/**
+ * Get current usage balance
+ *
+ * Returns the current usage balance for a customer or subscription in the active billing period. Shows per-meter breakdown with included allowance, overage, estimated charges, and margin data. A subscription has one currency; metered usage attributed to the subscription is assumed to be in that same currency. RevKeen does not perform FX conversion in the metering layer.
+ *
+ * ---
+ *
+ * **Common errors**
+ *
+ * - `400 invalid_request` — malformed payload or failed validation.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ */
+declare const usageBalanceGet: <ThrowOnError extends boolean = false>(options?: Options<UsageBalanceGetData, ThrowOnError>) => RequestResult<UsageBalanceGetResponses, UsageBalanceGetErrors, ThrowOnError, "fields">;
 /**
  * List entitlements
  *
@@ -3190,7 +3543,7 @@ declare const eventsResend: <ThrowOnError extends boolean = false>(options: Opti
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Pagination**
@@ -3216,7 +3569,7 @@ declare const entitlementsList: <ThrowOnError extends boolean = false>(options: 
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const entitlementsCheck: <ThrowOnError extends boolean = false>(options: Options<EntitlementsCheckData, ThrowOnError>) => RequestResult<EntitlementsCheckResponses, EntitlementsCheckErrors, ThrowOnError, "fields">;
@@ -3233,7 +3586,7 @@ declare const entitlementsCheck: <ThrowOnError extends boolean = false>(options:
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -3253,7 +3606,7 @@ declare const transactionsList: <ThrowOnError extends boolean = false>(options?:
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const transactionsGet: <ThrowOnError extends boolean = false>(options: Options<TransactionsGetData, ThrowOnError>) => RequestResult<TransactionsGetResponses, TransactionsGetErrors, ThrowOnError, "fields">;
@@ -3272,7 +3625,7 @@ declare const transactionsGet: <ThrowOnError extends boolean = false>(options: O
  * **Common errors**
  *
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
- * - `429 rate_limit_exceeded` — back off using the `Retry-After` header.
+ * - `429 rate_limit_error` — code `rate_limit_exceeded`. Back off using the `Retry-After` header (whole seconds); `X-RateLimit-Reset` is a UNIX timestamp in seconds.
  */
 declare const ddMandateRequestsGet: <ThrowOnError extends boolean = false>(options: Options<DdMandateRequestsGetData, ThrowOnError>) => RequestResult<DdMandateRequestsGetResponses, DdMandateRequestsGetErrors, ThrowOnError, "fields">;
 /**
@@ -3290,7 +3643,7 @@ declare const ddMandateRequestsGet: <ThrowOnError extends boolean = false>(optio
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Idempotency**
  *
@@ -3312,7 +3665,7 @@ declare const ddValidate: <ThrowOnError extends boolean = false>(options?: Optio
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Idempotency**
  *
@@ -3335,7 +3688,7 @@ declare const ddPreview: <ThrowOnError extends boolean = false>(options?: Option
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  *
  * **Pagination**
  *
@@ -3361,7 +3714,7 @@ declare const mandatesList: <ThrowOnError extends boolean = false>(options?: Opt
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  * - `410 gone` — the resource has been archived or permanently deleted.
@@ -3388,7 +3741,7 @@ declare const mandatesCreate: <ThrowOnError extends boolean = false>(options: Op
  *
  * **Common errors**
  *
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  */
 declare const mandatesGet: <ThrowOnError extends boolean = false>(options: Options<MandatesGetData, ThrowOnError>) => RequestResult<MandatesGetResponses, MandatesGetErrors, ThrowOnError, "fields">;
@@ -3411,7 +3764,7 @@ declare const mandatesGet: <ThrowOnError extends boolean = false>(options: Optio
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -3438,7 +3791,7 @@ declare const mandatesCancel: <ThrowOnError extends boolean = false>(options: Op
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  *
  * **Idempotency**
@@ -3465,7 +3818,7 @@ declare const mandatesSuspend: <ThrowOnError extends boolean = false>(options: O
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
@@ -3478,7 +3831,7 @@ declare const mandatesReinstate: <ThrowOnError extends boolean = false>(options:
 /**
  * Schedule a one-off Direct Debit collection
  *
- * Schedules a one-off Bacs collection against an active mandate for an invoice or payment link. L&Z confirms the permitted collection date, the payer receives the configured regulatory advance notice first, and nothing is marked paid until the bureau confirms collection. Idempotent per source: retrying with the same sourceId returns or reconciles the same provider schedule instead of collecting twice.
+ * Schedules a one-off Bacs collection against an active mandate for an invoice or payment link. L&Z confirms the permitted collection date, the payer receives the configured regulatory advance notice first, and nothing is marked paid until the bureau confirms collection. Idempotent per source: retrying with the same sourceId returns or reconciles the same provider schedule instead of collecting twice. An invoice source must be issued and still owe money: a draft or pending_approval invoice is refused, and so are paid, void and other closed invoices (409 invoice_not_collectable at the final check before bureau submission).
  *
  * ---
  *
@@ -3494,8 +3847,8 @@ declare const mandatesReinstate: <ThrowOnError extends boolean = false>(options:
  * **Common errors**
  *
  * - `400 invalid_request` — malformed payload or failed validation.
- * - `401 unauthenticated` — missing, malformed, or revoked API key.
- * - `403 permission_denied` — key lacks the required scope, or the resource belongs to a different merchant.
+ * - `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.
+ * - `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.
  * - `404 resource_missing` — the referenced resource does not exist or is not visible to your key.
  * - `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.
  * - `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).
@@ -3506,4 +3859,4 @@ declare const mandatesReinstate: <ThrowOnError extends boolean = false>(options:
  */
 declare const mandatesScheduleCollection: <ThrowOnError extends boolean = false>(options: Options<MandatesScheduleCollectionData, ThrowOnError>) => RequestResult<MandatesScheduleCollectionResponses, MandatesScheduleCollectionErrors, ThrowOnError, "fields">;
 
-export { AccountingInvoicePaymentRequestsCreateData, AccountingInvoicePaymentRequestsCreateErrors, AccountingInvoicePaymentRequestsCreateResponse, AccountingInvoicePaymentRequestsCreateResponses, AccountingInvoicePaymentRequestsGetData, AccountingInvoicePaymentRequestsGetErrors, AccountingInvoicePaymentRequestsGetResponse, AccountingInvoicePaymentRequestsGetResponses, type AccountingResource, type AnalyticsResource, AnalyticsRevenueMrrSummaryData, AnalyticsRevenueMrrSummaryResponse, AnalyticsRevenueMrrSummaryResponses, AnalyticsRevenueTimeSeriesData, AnalyticsRevenueTimeSeriesResponse, AnalyticsRevenueTimeSeriesResponses, BatchIngestResult, CartApiKeysEnsureData, CartApiKeysEnsureErrors, CartApiKeysEnsureResponse, CartApiKeysEnsureResponses, CartApiKeysRotateData, CartApiKeysRotateErrors, CartApiKeysRotateResponse, CartApiKeysRotateResponses, CartApiKeysStatusData, CartApiKeysStatusErrors, CartApiKeysStatusResponse, CartApiKeysStatusResponses, type CartResource, CartSessionsAddLineItemData, CartSessionsAddLineItemErrors, CartSessionsAddLineItemResponse, CartSessionsAddLineItemResponses, CartSessionsApplyDiscountCodeData, CartSessionsApplyDiscountCodeErrors, CartSessionsApplyDiscountCodeResponse, CartSessionsApplyDiscountCodeResponses, CartSessionsConvertData, CartSessionsConvertErrors, CartSessionsConvertResponse, CartSessionsConvertResponses, CartSessionsCreateData, CartSessionsCreateErrors, CartSessionsCreateResponse, CartSessionsCreateResponses, CartSessionsGetData, CartSessionsGetErrors, CartSessionsGetResponse, CartSessionsGetResponses, CartSessionsRemoveLineItemData, CartSessionsRemoveLineItemErrors, CartSessionsRemoveLineItemResponse, CartSessionsRemoveLineItemResponses, CartSessionsSetContactData, CartSessionsSetContactErrors, CartSessionsSetContactResponse, CartSessionsSetContactResponses, CartSessionsToggleAddOnData, CartSessionsToggleAddOnErrors, CartSessionsToggleAddOnResponse, CartSessionsToggleAddOnResponses, CartSessionsUpdateLineItemData, CartSessionsUpdateLineItemErrors, CartSessionsUpdateLineItemResponse, CartSessionsUpdateLineItemResponses, CheckoutSessionsCreateData, CheckoutSessionsCreateErrors, CheckoutSessionsCreateResponse, CheckoutSessionsCreateResponses, CheckoutSessionsExpireData, CheckoutSessionsExpireErrors, CheckoutSessionsExpireResponse, CheckoutSessionsExpireResponses, CheckoutSessionsGetData, CheckoutSessionsGetErrors, CheckoutSessionsGetResponse, CheckoutSessionsGetResponses, type CheckoutSessionsResource, CreditNotesCreateData, CreditNotesCreateErrors, CreditNotesCreateResponse, CreditNotesCreateResponses, CreditNotesGetData, CreditNotesGetErrors, CreditNotesGetResponse, CreditNotesGetResponses, CreditNotesListData, CreditNotesListErrors, CreditNotesListLinesData, CreditNotesListLinesErrors, CreditNotesListLinesResponse, CreditNotesListLinesResponses, CreditNotesListResponse, CreditNotesListResponses, CreditNotesPreviewData, CreditNotesPreviewErrors, CreditNotesPreviewResponse, CreditNotesPreviewResponses, type CreditNotesResource, CreditNotesVoidData, CreditNotesVoidErrors, CreditNotesVoidResponse, CreditNotesVoidResponses, CustomerMetersGetData, CustomerMetersGetErrors, CustomerMetersGetResponse, CustomerMetersGetResponses, CustomerMetersListData, CustomerMetersListErrors, CustomerMetersListResponse, CustomerMetersListResponses, CustomerPortalCustomerGetData, CustomerPortalCustomerGetErrors, CustomerPortalCustomerGetResponse, CustomerPortalCustomerGetResponses, CustomerPortalInvoicesGetData, CustomerPortalInvoicesGetErrors, CustomerPortalInvoicesGetResponse, CustomerPortalInvoicesGetResponses, CustomerPortalInvoicesListData, CustomerPortalInvoicesListErrors, CustomerPortalInvoicesListResponse, CustomerPortalInvoicesListResponses, CustomerPortalMandatesCancelData, CustomerPortalMandatesCancelErrors, CustomerPortalMandatesCancelResponse, CustomerPortalMandatesCancelResponses, CustomerPortalMandatesListData, CustomerPortalMandatesListErrors, CustomerPortalMandatesListResponse, CustomerPortalMandatesListResponses, CustomerPortalMandatesReauthorizeData, CustomerPortalMandatesReauthorizeErrors, CustomerPortalMandatesReauthorizeResponse, CustomerPortalMandatesReauthorizeResponses, CustomerPortalMandatesReauthorizeSendOtpData, CustomerPortalMandatesReauthorizeSendOtpErrors, CustomerPortalMandatesReauthorizeSendOtpResponse, CustomerPortalMandatesReauthorizeSendOtpResponses, CustomerPortalMandatesReauthorizeVerifyOtpData, CustomerPortalMandatesReauthorizeVerifyOtpErrors, CustomerPortalMandatesReauthorizeVerifyOtpResponse, CustomerPortalMandatesReauthorizeVerifyOtpResponses, CustomerPortalSessionsCreateData, CustomerPortalSessionsCreateErrors, CustomerPortalSessionsCreateResponse, CustomerPortalSessionsCreateResponses, CustomerPortalSubscriptionsCancelData, CustomerPortalSubscriptionsCancelErrors, CustomerPortalSubscriptionsCancelResponse, CustomerPortalSubscriptionsCancelResponses, CustomerPortalSubscriptionsGetData, CustomerPortalSubscriptionsGetErrors, CustomerPortalSubscriptionsGetResponse, CustomerPortalSubscriptionsGetResponses, CustomerPortalSubscriptionsListData, CustomerPortalSubscriptionsListErrors, CustomerPortalSubscriptionsListResponse, CustomerPortalSubscriptionsListResponses, type CustomerResource, CustomersCreateData, CustomersCreateErrors, CustomersCreateResponse, CustomersCreateResponses, CustomersGetData, CustomersGetErrors, CustomersGetResponse, CustomersGetResponses, CustomersListData, CustomersListErrors, CustomersListResponse, CustomersListResponses, CustomersPaymentMethodsListData, CustomersPaymentMethodsListErrors, CustomersPaymentMethodsListResponse, CustomersPaymentMethodsListResponses, CustomersPaymentRailsGetData, CustomersPaymentRailsGetErrors, CustomersPaymentRailsGetResponse, CustomersPaymentRailsGetResponses, CustomersPreferredRailsGetData, CustomersPreferredRailsGetErrors, CustomersPreferredRailsGetResponse, CustomersPreferredRailsGetResponses, type CustomersResource, CustomersUpdateData, CustomersUpdateErrors, CustomersUpdateResponse, CustomersUpdateResponses, DdMandateRequestsGetData, DdMandateRequestsGetErrors, DdMandateRequestsGetResponse, DdMandateRequestsGetResponses, DdPreviewData, DdPreviewErrors, DdPreviewResponse, DdPreviewResponses, type DdResource, DdValidateData, DdValidateErrors, DdValidateResponse, DdValidateResponses, DryRunResult, EntitlementsCheckData, EntitlementsCheckErrors, EntitlementsCheckResponse, EntitlementsCheckResponses, EntitlementsListData, EntitlementsListErrors, EntitlementsListResponse, EntitlementsListResponses, type EntitlementsResource, EventsGetData, EventsGetErrors, EventsGetResponse, EventsGetResponses, EventsListData, EventsListErrors, EventsListResponse, EventsListResponses, EventsResendData, EventsResendErrors, EventsResendResponse, EventsResendResponses, type EventsResource, type GeneratedResourceRuntime, type GeneratedResources, InvoicesCreateData, InvoicesCreateResponse, InvoicesCreateResponses, InvoicesFinalizeData, InvoicesFinalizeErrors, InvoicesFinalizeResponse, InvoicesFinalizeResponses, InvoicesGetData, InvoicesGetResponse, InvoicesGetResponses, InvoicesListData, InvoicesListResponse, InvoicesListResponses, InvoicesMarginEstimateData, InvoicesMarginEstimateErrors, InvoicesMarginEstimateResponse, InvoicesMarginEstimateResponses, type InvoicesResource, InvoicesSendData, InvoicesSendErrors, InvoicesSendResponse, InvoicesSendResponses, InvoicesUpdateData, InvoicesUpdateResponse, InvoicesUpdateResponses, InvoicesVoidData, InvoicesVoidErrors, InvoicesVoidResponse, InvoicesVoidResponses, MandatesCancelData, MandatesCancelErrors, MandatesCancelResponse, MandatesCancelResponses, MandatesCreateData, MandatesCreateErrors, MandatesCreateResponse, MandatesCreateResponses, MandatesGetData, MandatesGetErrors, MandatesGetResponse, MandatesGetResponses, MandatesListData, MandatesListErrors, MandatesListResponse, MandatesListResponses, MandatesReinstateData, MandatesReinstateErrors, MandatesReinstateResponse, MandatesReinstateResponses, type MandatesResource, MandatesScheduleCollectionData, MandatesScheduleCollectionErrors, MandatesScheduleCollectionResponse, MandatesScheduleCollectionResponses, MandatesSuspendData, MandatesSuspendErrors, MandatesSuspendResponse, MandatesSuspendResponses, OAuthConfig, type Options, PaymentIntentsCancelData, PaymentIntentsCancelErrors, PaymentIntentsCancelResponse, PaymentIntentsCancelResponses, PaymentIntentsCaptureData, PaymentIntentsCaptureErrors, PaymentIntentsCaptureResponse, PaymentIntentsCaptureResponses, PaymentIntentsConfirmData, PaymentIntentsConfirmErrors, PaymentIntentsConfirmResponse, PaymentIntentsConfirmResponses, PaymentIntentsCreateData, PaymentIntentsCreateErrors, PaymentIntentsCreateResponse, PaymentIntentsCreateResponses, PaymentIntentsGetData, PaymentIntentsGetErrors, PaymentIntentsGetResponse, PaymentIntentsGetResponses, PaymentIntentsListData, PaymentIntentsListErrors, PaymentIntentsListResponse, PaymentIntentsListResponses, type PaymentIntentsResource, PaymentLinksActivateData, PaymentLinksActivateErrors, PaymentLinksActivateResponse, PaymentLinksActivateResponses, PaymentLinksArchiveData, PaymentLinksArchiveErrors, PaymentLinksArchiveResponse, PaymentLinksArchiveResponses, PaymentLinksCreateData, PaymentLinksCreateErrors, PaymentLinksCreateResponse, PaymentLinksCreateResponses, PaymentLinksDeactivateData, PaymentLinksDeactivateErrors, PaymentLinksDeactivateResponse, PaymentLinksDeactivateResponses, PaymentLinksExpireData, PaymentLinksExpireErrors, PaymentLinksExpireResponse, PaymentLinksExpireResponses, PaymentLinksGetData, PaymentLinksGetErrors, PaymentLinksGetResponse, PaymentLinksGetResponses, PaymentLinksListData, PaymentLinksListErrors, PaymentLinksListResponse, PaymentLinksListResponses, type PaymentLinksResource, PaymentLinksUpdateData, PaymentLinksUpdateErrors, PaymentLinksUpdateResponse, PaymentLinksUpdateResponses, PricesArchiveData, PricesArchiveErrors, PricesArchiveResponse, PricesArchiveResponses, PricesCreateData, PricesCreateErrors, PricesCreateResponse, PricesCreateResponses, PricesGetData, PricesGetErrors, PricesGetResponse, PricesGetResponses, PricesListData, PricesListErrors, PricesListResponse, PricesListResponses, type PricesResource, PricesUpdateData, PricesUpdateErrors, PricesUpdateResponse, PricesUpdateResponses, ProductsCreateData, ProductsCreateErrors, ProductsCreateResponse, ProductsCreateResponses, ProductsGetData, ProductsGetErrors, ProductsGetResponse, ProductsGetResponses, ProductsListData, ProductsListErrors, ProductsListResponse, ProductsListResponses, type ProductsResource, ProductsUpdateData, ProductsUpdateErrors, ProductsUpdateResponse, ProductsUpdateResponses, RefundsCreateData, RefundsCreateErrors, RefundsCreateResponse, RefundsCreateResponses, RefundsGetData, RefundsGetErrors, RefundsGetResponse, RefundsGetResponses, RefundsListData, RefundsListErrors, RefundsListResponse, RefundsListResponses, type RefundsResource, RevKeenClient as RevKeen, RevKeenAPIError, RevKeenClient, type RevKeenClientOptions, RevKeenError, RevKeenTimeoutError, StorefrontOriginsCreateData, StorefrontOriginsCreateErrors, StorefrontOriginsCreateResponse, StorefrontOriginsCreateResponses, StorefrontOriginsDeleteData, StorefrontOriginsDeleteErrors, StorefrontOriginsDeleteResponse, StorefrontOriginsDeleteResponses, StorefrontOriginsListData, StorefrontOriginsListErrors, StorefrontOriginsListResponse, StorefrontOriginsListResponses, StorefrontProductsGetData, StorefrontProductsGetErrors, StorefrontProductsGetResponse, StorefrontProductsGetResponses, StorefrontProductsListData, StorefrontProductsListErrors, StorefrontProductsListResponse, StorefrontProductsListResponses, type StorefrontResource, StorefrontStatusGetData, StorefrontStatusGetErrors, StorefrontStatusGetResponse, StorefrontStatusGetResponses, SubscriptionsCancelData, SubscriptionsCancelErrors, SubscriptionsCancelResponse, SubscriptionsCancelResponses, SubscriptionsCreateData, SubscriptionsCreateErrors, SubscriptionsCreateResponse, SubscriptionsCreateResponses, SubscriptionsGetData, SubscriptionsGetErrors, SubscriptionsGetResponse, SubscriptionsGetResponses, SubscriptionsListData, SubscriptionsListErrors, SubscriptionsListResponse, SubscriptionsListResponses, type SubscriptionsResource, SubscriptionsUpdateData, SubscriptionsUpdateErrors, SubscriptionsUpdateResponse, SubscriptionsUpdateResponses, TransactionsGetData, TransactionsGetErrors, TransactionsGetResponse, TransactionsGetResponses, TransactionsListData, TransactionsListErrors, TransactionsListResponse, TransactionsListResponses, type TransactionsResource, UsageIngestRequest, type UsageResource, WebhookDeliveriesGetData, WebhookDeliveriesGetErrors, WebhookDeliveriesGetResponse, WebhookDeliveriesGetResponses, WebhookDeliveriesListData, WebhookDeliveriesListErrors, WebhookDeliveriesListResponse, WebhookDeliveriesListResponses, WebhookDeliveriesRetryData, WebhookDeliveriesRetryErrors, WebhookDeliveriesRetryResponse, WebhookDeliveriesRetryResponses, WebhookEndpointsCreateData, WebhookEndpointsCreateErrors, WebhookEndpointsCreateResponse, WebhookEndpointsCreateResponses, WebhookEndpointsDeleteData, WebhookEndpointsDeleteErrors, WebhookEndpointsDeleteResponse, WebhookEndpointsDeleteResponses, WebhookEndpointsGetData, WebhookEndpointsGetErrors, WebhookEndpointsGetResponse, WebhookEndpointsGetResponses, WebhookEndpointsListData, WebhookEndpointsListErrors, WebhookEndpointsListResponse, WebhookEndpointsListResponses, type WebhookEndpointsResource, WebhookEndpointsRotateSecretData, WebhookEndpointsRotateSecretErrors, WebhookEndpointsRotateSecretResponse, WebhookEndpointsRotateSecretResponses, WebhookEndpointsUpdateData, WebhookEndpointsUpdateErrors, WebhookEndpointsUpdateResponse, WebhookEndpointsUpdateResponses, type WebhookResource, accountingInvoicePaymentRequestsCreate, accountingInvoicePaymentRequestsGet, analyticsRevenueMrrSummary, analyticsRevenueTimeSeries, buildGeneratedResources, cartApiKeysEnsure, cartApiKeysRotate, cartApiKeysStatus, cartSessionsAddLineItem, cartSessionsApplyDiscountCode, cartSessionsConvert, cartSessionsCreate, cartSessionsGet, cartSessionsRemoveLineItem, cartSessionsSetContact, cartSessionsToggleAddOn, cartSessionsUpdateLineItem, checkoutSessionsCreate, checkoutSessionsExpire, checkoutSessionsGet, creditNotesCreate, creditNotesGet, creditNotesList, creditNotesListLines, creditNotesPreview, creditNotesVoid, customerMetersGet, customerMetersList, customerPortalCustomerGet, customerPortalInvoicesGet, customerPortalInvoicesList, customerPortalMandatesCancel, customerPortalMandatesList, customerPortalMandatesReauthorize, customerPortalMandatesReauthorizeSendOtp, customerPortalMandatesReauthorizeVerifyOtp, customerPortalSessionsCreate, customerPortalSubscriptionsCancel, customerPortalSubscriptionsGet, customerPortalSubscriptionsList, customersCreate, customersGet, customersList, customersPaymentMethodsList, customersPaymentRailsGet, customersPreferredRailsGet, customersUpdate, ddMandateRequestsGet, ddPreview, ddValidate, RevKeenClient as default, entitlementsCheck, entitlementsList, eventsGet, eventsList, eventsResend, invoicesCreate, invoicesFinalize, invoicesGet, invoicesList, invoicesMarginEstimate, invoicesSend, invoicesUpdate, invoicesVoid, mandatesCancel, mandatesCreate, mandatesGet, mandatesList, mandatesReinstate, mandatesScheduleCollection, mandatesSuspend, paymentIntentsCancel, paymentIntentsCapture, paymentIntentsConfirm, paymentIntentsCreate, paymentIntentsGet, paymentIntentsList, paymentLinksActivate, paymentLinksArchive, paymentLinksCreate, paymentLinksDeactivate, paymentLinksExpire, paymentLinksGet, paymentLinksList, paymentLinksUpdate, pricesArchive, pricesCreate, pricesGet, pricesList, pricesUpdate, productsCreate, productsGet, productsList, productsUpdate, refundsCreate, refundsGet, refundsList, storefrontOriginsCreate, storefrontOriginsDelete, storefrontOriginsList, storefrontProductsGet, storefrontProductsList, storefrontStatusGet, subscriptionsCancel, subscriptionsCreate, subscriptionsGet, subscriptionsList, subscriptionsUpdate, transactionsGet, transactionsList, webhookDeliveriesGet, webhookDeliveriesList, webhookDeliveriesRetry, webhookEndpointsCreate, webhookEndpointsDelete, webhookEndpointsGet, webhookEndpointsList, webhookEndpointsRotateSecret, webhookEndpointsUpdate };
+export { AccountingInvoicePaymentRequestsCreateData, AccountingInvoicePaymentRequestsCreateErrors, AccountingInvoicePaymentRequestsCreateResponses, AccountingInvoicePaymentRequestsGetData, AccountingInvoicePaymentRequestsGetErrors, AccountingInvoicePaymentRequestsGetResponses, AnalyticsRevenueMrrSummaryData, AnalyticsRevenueMrrSummaryErrors, AnalyticsRevenueMrrSummaryResponses, AnalyticsRevenueTimeSeriesData, AnalyticsRevenueTimeSeriesErrors, AnalyticsRevenueTimeSeriesResponses, BillingOverviewGetData, BillingOverviewGetErrors, BillingOverviewGetResponses, CartApiKeysEnsureData, CartApiKeysEnsureErrors, CartApiKeysEnsureResponses, CartApiKeysRotateData, CartApiKeysRotateErrors, CartApiKeysRotateResponses, CartApiKeysStatusData, CartApiKeysStatusErrors, CartApiKeysStatusResponses, CartSessionsAddLineItemData, CartSessionsAddLineItemErrors, CartSessionsAddLineItemResponses, CartSessionsApplyDiscountCodeData, CartSessionsApplyDiscountCodeErrors, CartSessionsApplyDiscountCodeResponses, CartSessionsConvertData, CartSessionsConvertErrors, CartSessionsConvertResponses, CartSessionsCreateData, CartSessionsCreateErrors, CartSessionsCreateResponses, CartSessionsGetData, CartSessionsGetErrors, CartSessionsGetResponses, CartSessionsRemoveLineItemData, CartSessionsRemoveLineItemErrors, CartSessionsRemoveLineItemResponses, CartSessionsSetContactData, CartSessionsSetContactErrors, CartSessionsSetContactResponses, CartSessionsToggleAddOnData, CartSessionsToggleAddOnErrors, CartSessionsToggleAddOnResponses, CartSessionsUpdateLineItemData, CartSessionsUpdateLineItemErrors, CartSessionsUpdateLineItemResponses, CheckoutSessionsCreateData, CheckoutSessionsCreateErrors, CheckoutSessionsCreateResponses, CheckoutSessionsExpireData, CheckoutSessionsExpireErrors, CheckoutSessionsExpireResponses, CheckoutSessionsGetData, CheckoutSessionsGetErrors, CheckoutSessionsGetResponses, CreditNotesCreateData, CreditNotesCreateErrors, CreditNotesCreateResponses, CreditNotesGetData, CreditNotesGetErrors, CreditNotesGetResponses, CreditNotesListData, CreditNotesListErrors, CreditNotesListLinesData, CreditNotesListLinesErrors, CreditNotesListLinesResponses, CreditNotesListResponses, CreditNotesPreviewData, CreditNotesPreviewErrors, CreditNotesPreviewResponses, CreditNotesVoidData, CreditNotesVoidErrors, CreditNotesVoidResponses, CustomerMetersGetData, CustomerMetersGetErrors, CustomerMetersGetResponses, CustomerMetersListData, CustomerMetersListErrors, CustomerMetersListResponses, CustomerPortalCustomerGetData, CustomerPortalCustomerGetErrors, CustomerPortalCustomerGetResponses, CustomerPortalInvoicesGetData, CustomerPortalInvoicesGetErrors, CustomerPortalInvoicesGetResponses, CustomerPortalInvoicesListData, CustomerPortalInvoicesListErrors, CustomerPortalInvoicesListResponses, CustomerPortalMandatesCancelData, CustomerPortalMandatesCancelErrors, CustomerPortalMandatesCancelResponses, CustomerPortalMandatesListData, CustomerPortalMandatesListErrors, CustomerPortalMandatesListResponses, CustomerPortalMandatesReauthorizeData, CustomerPortalMandatesReauthorizeErrors, CustomerPortalMandatesReauthorizeResponses, CustomerPortalMandatesReauthorizeSendOtpData, CustomerPortalMandatesReauthorizeSendOtpErrors, CustomerPortalMandatesReauthorizeSendOtpResponses, CustomerPortalMandatesReauthorizeVerifyOtpData, CustomerPortalMandatesReauthorizeVerifyOtpErrors, CustomerPortalMandatesReauthorizeVerifyOtpResponses, CustomerPortalSessionsCreateData, CustomerPortalSessionsCreateErrors, CustomerPortalSessionsCreateResponses, CustomerPortalSubscriptionsCancelData, CustomerPortalSubscriptionsCancelErrors, CustomerPortalSubscriptionsCancelResponses, CustomerPortalSubscriptionsGetData, CustomerPortalSubscriptionsGetErrors, CustomerPortalSubscriptionsGetResponses, CustomerPortalSubscriptionsListData, CustomerPortalSubscriptionsListErrors, CustomerPortalSubscriptionsListResponses, CustomerStateGetData, CustomerStateGetErrors, CustomerStateGetResponses, CustomersCreateData, CustomersCreateErrors, CustomersCreateResponses, CustomersGetData, CustomersGetErrors, CustomersGetResponses, CustomersListData, CustomersListErrors, CustomersListResponses, CustomersPaymentMethodsListData, CustomersPaymentMethodsListErrors, CustomersPaymentMethodsListResponses, CustomersPaymentRailsGetData, CustomersPaymentRailsGetErrors, CustomersPaymentRailsGetResponses, CustomersPreferredRailsGetData, CustomersPreferredRailsGetErrors, CustomersPreferredRailsGetResponses, CustomersUpdateData, CustomersUpdateErrors, CustomersUpdateResponses, DdMandateRequestsGetData, DdMandateRequestsGetErrors, DdMandateRequestsGetResponses, DdPreviewData, DdPreviewErrors, DdPreviewResponses, DdValidateData, DdValidateErrors, DdValidateResponses, EntitlementsCheckData, EntitlementsCheckErrors, EntitlementsCheckResponses, EntitlementsListData, EntitlementsListErrors, EntitlementsListResponses, EventsGetData, EventsGetErrors, EventsGetResponses, EventsListData, EventsListErrors, EventsListResponses, EventsResendData, EventsResendErrors, EventsResendResponses, InvoiceLineItemsListUsageEventsData, InvoiceLineItemsListUsageEventsErrors, InvoiceLineItemsListUsageEventsResponses, InvoiceUsageExplainData, InvoiceUsageExplainErrors, InvoiceUsageExplainResponses, InvoicesCreateData, InvoicesCreateErrors, InvoicesCreateResponses, InvoicesFinalizeData, InvoicesFinalizeErrors, InvoicesFinalizeResponses, InvoicesGetData, InvoicesGetErrors, InvoicesGetResponses, InvoicesListData, InvoicesListErrors, InvoicesListResponses, InvoicesMarginEstimateData, InvoicesMarginEstimateErrors, InvoicesMarginEstimateResponses, InvoicesSendData, InvoicesSendErrors, InvoicesSendResponses, InvoicesUpdateData, InvoicesUpdateErrors, InvoicesUpdateResponses, InvoicesVoidData, InvoicesVoidErrors, InvoicesVoidResponses, MandatesCancelData, MandatesCancelErrors, MandatesCancelResponses, MandatesCreateData, MandatesCreateErrors, MandatesCreateResponses, MandatesGetData, MandatesGetErrors, MandatesGetResponses, MandatesListData, MandatesListErrors, MandatesListResponses, MandatesReinstateData, MandatesReinstateErrors, MandatesReinstateResponses, MandatesScheduleCollectionData, MandatesScheduleCollectionErrors, MandatesScheduleCollectionResponses, MandatesSuspendData, MandatesSuspendErrors, MandatesSuspendResponses, MetersCreateData, MetersCreateErrors, MetersCreateResponses, MetersGetData, MetersGetErrors, MetersGetResponses, MetersListData, MetersListErrors, MetersListResponses, MetersQuantitiesData, MetersQuantitiesErrors, MetersQuantitiesResponses, MetersUpdateData, MetersUpdateErrors, MetersUpdateResponses, type MinorUnits, type NormalizedRevKeenAPIError, type Options, PaymentIntentsCancelData, PaymentIntentsCancelErrors, PaymentIntentsCancelResponses, PaymentIntentsCaptureData, PaymentIntentsCaptureErrors, PaymentIntentsCaptureResponses, PaymentIntentsConfirmData, PaymentIntentsConfirmErrors, PaymentIntentsConfirmResponses, PaymentIntentsCreateData, PaymentIntentsCreateErrors, PaymentIntentsCreateResponses, PaymentIntentsGetData, PaymentIntentsGetErrors, PaymentIntentsGetResponses, PaymentIntentsListData, PaymentIntentsListErrors, PaymentIntentsListResponses, PaymentLinksActivateData, PaymentLinksActivateErrors, PaymentLinksActivateResponses, PaymentLinksArchiveData, PaymentLinksArchiveErrors, PaymentLinksArchiveResponses, PaymentLinksCreateData, PaymentLinksCreateErrors, PaymentLinksCreateResponses, PaymentLinksDeactivateData, PaymentLinksDeactivateErrors, PaymentLinksDeactivateResponses, PaymentLinksExpireData, PaymentLinksExpireErrors, PaymentLinksExpireResponses, PaymentLinksGetData, PaymentLinksGetErrors, PaymentLinksGetResponses, PaymentLinksListData, PaymentLinksListErrors, PaymentLinksListResponses, PaymentLinksUpdateData, PaymentLinksUpdateErrors, PaymentLinksUpdateResponses, PricesArchiveData, PricesArchiveErrors, PricesArchiveResponses, PricesCreateData, PricesCreateErrors, PricesCreateResponses, PricesGetData, PricesGetErrors, PricesGetResponses, PricesListData, PricesListErrors, PricesListResponses, PricesUpdateData, PricesUpdateErrors, PricesUpdateResponses, ProductCollectionsCreateData, ProductCollectionsCreateErrors, ProductCollectionsCreateResponses, ProductCollectionsDeleteData, ProductCollectionsDeleteErrors, ProductCollectionsDeleteResponses, ProductCollectionsGetData, ProductCollectionsGetErrors, ProductCollectionsGetResponses, ProductCollectionsListData, ProductCollectionsListErrors, ProductCollectionsListResponses, ProductCollectionsUpdateData, ProductCollectionsUpdateErrors, ProductCollectionsUpdateResponses, ProductsCreateData, ProductsCreateErrors, ProductsCreateResponses, ProductsGetData, ProductsGetErrors, ProductsGetResponses, ProductsListData, ProductsListErrors, ProductsListResponses, ProductsUpdateData, ProductsUpdateErrors, ProductsUpdateResponses, RefundsCreateData, RefundsCreateErrors, RefundsCreateResponses, RefundsGetData, RefundsGetErrors, RefundsGetResponses, RefundsListData, RefundsListErrors, RefundsListResponses, RevKeenAPIError, type RevKeenAPIErrorMetadata, RevKeenAuthenticationError, RevKeenAuthorizationError, RevKeenConflictError, RevKeenError, type RevKeenErrorContext, type RevKeenFetchPage, RevKeenIdempotencyConflictError, RevKeenNotFoundError, type RevKeenPaginationOptions, RevKeenPaginationStallError, RevKeenRateLimitError, type RevKeenRateLimitMetadata, RevKeenServerError, RevKeenTimeoutError, RevKeenValidationError, StorefrontOriginsCreateData, StorefrontOriginsCreateErrors, StorefrontOriginsCreateResponses, StorefrontOriginsDeleteData, StorefrontOriginsDeleteErrors, StorefrontOriginsDeleteResponses, StorefrontOriginsListData, StorefrontOriginsListErrors, StorefrontOriginsListResponses, StorefrontProductsGetData, StorefrontProductsGetErrors, StorefrontProductsGetResponses, StorefrontProductsListData, StorefrontProductsListErrors, StorefrontProductsListResponses, StorefrontStatusGetData, StorefrontStatusGetErrors, StorefrontStatusGetResponses, SubscriptionsCancelData, SubscriptionsCancelErrors, SubscriptionsCancelResponses, SubscriptionsCreateData, SubscriptionsCreateErrors, SubscriptionsCreateResponses, SubscriptionsGetData, SubscriptionsGetErrors, SubscriptionsGetResponses, SubscriptionsListData, SubscriptionsListErrors, SubscriptionsListResponses, SubscriptionsUpdateData, SubscriptionsUpdateErrors, SubscriptionsUpdateResponses, TransactionsGetData, TransactionsGetErrors, TransactionsGetResponses, TransactionsListData, TransactionsListErrors, TransactionsListResponses, UsageBalanceGetData, UsageBalanceGetErrors, UsageBalanceGetResponses, UsageEventsGetData, UsageEventsGetErrors, UsageEventsGetResponses, UsageEventsIngestData, UsageEventsIngestErrors, UsageEventsIngestResponses, UsageEventsListData, UsageEventsListErrors, UsageEventsListResponses, WebhookDeliveriesGetData, WebhookDeliveriesGetErrors, WebhookDeliveriesGetResponses, WebhookDeliveriesListData, WebhookDeliveriesListErrors, WebhookDeliveriesListResponses, WebhookDeliveriesRetryData, WebhookDeliveriesRetryErrors, WebhookDeliveriesRetryResponses, WebhookEndpointsCreateData, WebhookEndpointsCreateErrors, WebhookEndpointsCreateResponses, WebhookEndpointsDeleteData, WebhookEndpointsDeleteErrors, WebhookEndpointsDeleteResponses, WebhookEndpointsGetData, WebhookEndpointsGetErrors, WebhookEndpointsGetResponses, WebhookEndpointsListData, WebhookEndpointsListErrors, WebhookEndpointsListResponses, WebhookEndpointsRotateSecretData, WebhookEndpointsRotateSecretErrors, WebhookEndpointsRotateSecretResponses, WebhookEndpointsUpdateData, WebhookEndpointsUpdateErrors, WebhookEndpointsUpdateResponses, accountingInvoicePaymentRequestsCreate, accountingInvoicePaymentRequestsGet, analyticsRevenueMrrSummary, analyticsRevenueTimeSeries, billingOverviewGet, cartApiKeysEnsure, cartApiKeysRotate, cartApiKeysStatus, cartSessionsAddLineItem, cartSessionsApplyDiscountCode, cartSessionsConvert, cartSessionsCreate, cartSessionsGet, cartSessionsRemoveLineItem, cartSessionsSetContact, cartSessionsToggleAddOn, cartSessionsUpdateLineItem, checkoutSessionsCreate, checkoutSessionsExpire, checkoutSessionsGet, createRevKeenAPIError, creditNotesCreate, creditNotesGet, creditNotesList, creditNotesListLines, creditNotesPreview, creditNotesVoid, customerMetersGet, customerMetersList, customerPortalCustomerGet, customerPortalInvoicesGet, customerPortalInvoicesList, customerPortalMandatesCancel, customerPortalMandatesList, customerPortalMandatesReauthorize, customerPortalMandatesReauthorizeSendOtp, customerPortalMandatesReauthorizeVerifyOtp, customerPortalSessionsCreate, customerPortalSubscriptionsCancel, customerPortalSubscriptionsGet, customerPortalSubscriptionsList, customerStateGet, customersCreate, customersGet, customersList, customersPaymentMethodsList, customersPaymentRailsGet, customersPreferredRailsGet, customersUpdate, ddMandateRequestsGet, ddPreview, ddValidate, emptyRevKeenRateLimitMetadata, entitlementsCheck, entitlementsList, eventsGet, eventsList, eventsResend, invoiceLineItemsListUsageEvents, invoiceUsageExplain, invoicesCreate, invoicesFinalize, invoicesGet, invoicesList, invoicesMarginEstimate, invoicesSend, invoicesUpdate, invoicesVoid, isMinorUnits, mandatesCancel, mandatesCreate, mandatesGet, mandatesList, mandatesReinstate, mandatesScheduleCollection, mandatesSuspend, mapOptionalNullable, metersCreate, metersGet, metersList, metersQuantities, metersUpdate, minorUnits, normalizeRevKeenAPIError, paginate, parseRevKeenRateLimitMetadata, parseRfc3339, paymentIntentsCancel, paymentIntentsCapture, paymentIntentsConfirm, paymentIntentsCreate, paymentIntentsGet, paymentIntentsList, paymentLinksActivate, paymentLinksArchive, paymentLinksCreate, paymentLinksDeactivate, paymentLinksExpire, paymentLinksGet, paymentLinksList, paymentLinksUpdate, pricesArchive, pricesCreate, pricesGet, pricesList, pricesUpdate, productCollectionsCreate, productCollectionsDelete, productCollectionsGet, productCollectionsList, productCollectionsUpdate, productsCreate, productsGet, productsList, productsUpdate, refundsCreate, refundsGet, refundsList, storefrontOriginsCreate, storefrontOriginsDelete, storefrontOriginsList, storefrontProductsGet, storefrontProductsList, storefrontStatusGet, subscriptionsCancel, subscriptionsCreate, subscriptionsGet, subscriptionsList, subscriptionsUpdate, transactionsGet, transactionsList, usageBalanceGet, usageEventsGet, usageEventsIngest, usageEventsList, webhookDeliveriesGet, webhookDeliveriesList, webhookDeliveriesRetry, webhookEndpointsCreate, webhookEndpointsDelete, webhookEndpointsGet, webhookEndpointsList, webhookEndpointsRotateSecret, webhookEndpointsUpdate };

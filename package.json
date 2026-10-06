@@ -1,6 +1,6 @@
 {
   "name": "@revkeen/sdk",
-  "version": "1.20260819.1529",
+  "version": "1.20261006.2",
   "description": "RevKeen TypeScript SDK — Know What You Keep",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -20,6 +20,11 @@
       "types": "./dist/auth.d.ts",
       "import": "./dist/auth.mjs",
       "require": "./dist/auth.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.mjs",
+      "require": "./dist/browser.js"
     },
     "./ai": {
       "types": "./dist/ai.d.ts",
@@ -42,7 +47,7 @@
   },
   "devDependencies": {
     "tsup": "^8.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.1.8"
   },
   "peerDependencies": {

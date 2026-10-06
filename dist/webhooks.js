@@ -41,6 +41,7 @@ function extractWebhookHeaders(headers) {
   const signature = getHeader("X-Revkeen-Signature") || getHeader("x-rk-signature");
   if (!signature) {
     throw new WebhookSignatureVerificationError(
+      "missing_signature",
       "Missing webhook signature header (X-Revkeen-Signature or x-rk-signature)"
     );
   }
@@ -53,32 +54,77 @@ function extractWebhookHeaders(headers) {
   };
 }
 var WebhookSignatureVerificationError = class _WebhookSignatureVerificationError extends Error {
-  constructor(message) {
+  code;
+  constructor(code, message) {
     super(message);
     this.name = "WebhookSignatureVerificationError";
+    this.code = code;
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, _WebhookSignatureVerificationError);
     }
   }
 };
 function parseSignatureHeader(header) {
+  if (!header) {
+    throw new WebhookSignatureVerificationError(
+      "missing_signature",
+      "Missing webhook signature header"
+    );
+  }
   const parts = header.split(",");
-  let timestamp;
+  let timestampText;
   const signatures = [];
   for (const part of parts) {
-    const [key, value] = part.split("=");
+    const separatorIndex = part.indexOf("=");
+    if (separatorIndex <= 0 || separatorIndex === part.length - 1) {
+      throw new WebhookSignatureVerificationError(
+        "invalid_signature_header",
+        "Invalid signature header format"
+      );
+    }
+    const key = part.slice(0, separatorIndex);
+    const value = part.slice(separatorIndex + 1);
     if (key === "t") {
-      timestamp = parseInt(value, 10);
+      if (timestampText !== void 0) {
+        throw new WebhookSignatureVerificationError(
+          "invalid_signature_header",
+          "Invalid signature header: multiple timestamps"
+        );
+      }
+      timestampText = value;
     } else if (key === "v1") {
       signatures.push(value);
     }
   }
-  if (!timestamp || signatures.length === 0) {
+  if (timestampText === void 0 || signatures.length === 0) {
     throw new WebhookSignatureVerificationError(
+      "invalid_signature_header",
       "Invalid signature header: missing timestamp or signature"
     );
   }
+  if (!/^[0-9]+$/.test(timestampText)) {
+    throw new WebhookSignatureVerificationError(
+      "invalid_timestamp",
+      "Invalid signature header timestamp"
+    );
+  }
+  const timestamp = Number(timestampText);
+  if (!Number.isSafeInteger(timestamp) || timestamp <= 0) {
+    throw new WebhookSignatureVerificationError(
+      "invalid_timestamp",
+      "Invalid signature header timestamp"
+    );
+  }
+  if (signatures.some((signature) => !/^[0-9a-fA-F]{64}$/.test(signature))) {
+    throw new WebhookSignatureVerificationError(
+      "invalid_signature_encoding",
+      "Webhook signatures must be 64 hexadecimal characters"
+    );
+  }
   return { timestamp, signatures };
+}
+function payloadToText(payload) {
+  return typeof payload === "string" ? payload : Buffer.from(payload).toString("utf8");
 }
 function verifySignature(options) {
   const {
@@ -87,9 +133,10 @@ function verifySignature(options) {
     secret,
     tolerance = WEBHOOK_TOLERANCE_IN_SECONDS
   } = options;
-  if (!signature) {
+  if (!Number.isSafeInteger(tolerance) || tolerance < 0) {
     throw new WebhookSignatureVerificationError(
-      "Missing webhook signature header"
+      "invalid_timestamp",
+      "Webhook timestamp tolerance must be a non-negative integer"
     );
   }
   const parsed = parseSignatureHeader(signature);
@@ -97,29 +144,31 @@ function verifySignature(options) {
   const timeDiff = Math.abs(currentTime - parsed.timestamp);
   if (timeDiff > tolerance) {
     throw new WebhookSignatureVerificationError(
+      "timestamp_outside_tolerance",
       `Timestamp outside tolerance window (${timeDiff}s > ${tolerance}s). The webhook might be a replay attack, or your server's clock might be out of sync.`
     );
   }
-  const signedPayload = `${parsed.timestamp}.${payload}`;
-  const expectedSignature = (0, import_crypto.createHmac)("sha256", secret).update(signedPayload, "utf8").digest("hex");
+  const hmac = (0, import_crypto.createHmac)("sha256", secret).update(
+    `${parsed.timestamp}.`,
+    "utf8"
+  );
+  if (typeof payload === "string") hmac.update(payload, "utf8");
+  else hmac.update(payload);
+  const expectedSignature = hmac.digest();
   const signatureValid = parsed.signatures.some((sig) => {
     try {
       const sigBuffer = Buffer.from(sig, "hex");
-      const expectedBuffer = Buffer.from(expectedSignature, "hex");
-      if (sigBuffer.length !== expectedBuffer.length) {
-        return false;
-      }
-      return (0, import_crypto.timingSafeEqual)(sigBuffer, expectedBuffer);
+      return sigBuffer.length === expectedSignature.length && (0, import_crypto.timingSafeEqual)(sigBuffer, expectedSignature);
     } catch {
       return false;
     }
   });
   if (!signatureValid) {
     throw new WebhookSignatureVerificationError(
+      "signature_mismatch",
       "Signature verification failed. Ensure you're using the correct webhook secret and the raw request body."
     );
   }
-  return true;
 }
 function constructEvent(payload, signature, secret, options) {
   verifySignature({
@@ -129,14 +178,18 @@ function constructEvent(payload, signature, secret, options) {
     tolerance: options?.tolerance
   });
   try {
-    const event = JSON.parse(payload);
+    const event = JSON.parse(payloadToText(payload));
     if (!event.id || !event.type || !event.data) {
-      throw new Error("Invalid event structure");
+      throw new WebhookSignatureVerificationError(
+        "invalid_payload",
+        "Invalid event structure"
+      );
     }
     return event;
   } catch (error) {
     if (error instanceof SyntaxError) {
       throw new WebhookSignatureVerificationError(
+        "invalid_payload",
         "Invalid JSON payload: " + error.message
       );
     }
@@ -151,9 +204,12 @@ function constructEventWithHeaders(payload, headers, secret, options) {
     tolerance: options?.tolerance
   });
   try {
-    const event = JSON.parse(payload);
+    const event = JSON.parse(payloadToText(payload));
     if (!event.id || !event.type || !event.data) {
-      throw new Error("Invalid event structure");
+      throw new WebhookSignatureVerificationError(
+        "invalid_payload",
+        "Invalid event structure"
+      );
     }
     return {
       ...event,
@@ -163,6 +219,7 @@ function constructEventWithHeaders(payload, headers, secret, options) {
   } catch (error) {
     if (error instanceof SyntaxError) {
       throw new WebhookSignatureVerificationError(
+        "invalid_payload",
         "Invalid JSON payload: " + error.message
       );
     }

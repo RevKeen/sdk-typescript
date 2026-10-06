@@ -20,15 +20,36 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/auth.ts
 var auth_exports = {};
 __export(auth_exports, {
-  OAuthTokenManager: () => OAuthTokenManager
+  OAuthTokenManager: () => OAuthTokenManager,
+  classifyApiKey: () => classifyApiKey
 });
 module.exports = __toCommonJS(auth_exports);
 
 // src/core/errors.ts
+var ABSENT_RATE_LIMIT = Object.freeze({
+  limit: null,
+  remaining: null,
+  resetAt: null,
+  retryAfterSeconds: null
+});
 var RevKeenError = class extends Error {
-  constructor(message) {
+  requestId;
+  traceId;
+  correlationId;
+  attemptCount;
+  /**
+   * Rate-limit headers observed on the response, if any. Always an object, so
+   * `error.rateLimit.retryAfterSeconds` is safe to read on every failure.
+   */
+  rateLimit;
+  constructor(message, context = {}) {
     super(message);
     this.name = "RevKeenError";
+    this.requestId = context.requestId ?? null;
+    this.traceId = context.traceId ?? null;
+    this.correlationId = context.correlationId ?? context.requestId ?? null;
+    this.attemptCount = context.attemptCount ?? 1;
+    this.rateLimit = context.rateLimit ?? ABSENT_RATE_LIMIT;
   }
 };
 
@@ -104,8 +125,26 @@ var OAuthTokenManager = class {
     return data.access_token;
   }
 };
+
+// src/core/authentication.ts
+var SECRET_KEY_PREFIXES = ["rk_live_", "rk_sandbox_"];
+var PUBLISHABLE_KEY_PREFIXES = ["rk_pk_live_", "rk_pk_sandbox_"];
+function classifyApiKey(key) {
+  if (PUBLISHABLE_KEY_PREFIXES.some(
+    (prefix) => key.startsWith(prefix) && key.length > prefix.length
+  )) {
+    return "publishable";
+  }
+  if (SECRET_KEY_PREFIXES.some(
+    (prefix) => key.startsWith(prefix) && key.length > prefix.length
+  )) {
+    return "secret";
+  }
+  return "unknown";
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  OAuthTokenManager
+  OAuthTokenManager,
+  classifyApiKey
 });
 //# sourceMappingURL=auth.js.map

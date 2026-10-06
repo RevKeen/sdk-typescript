@@ -1,9 +1,26 @@
 import {
+  RevKeenClient,
+  RevKeenEnvironment,
+  buildGeneratedResources
+} from "./chunk-K3WJXU6M.mjs";
+import {
   OAuthTokenManager,
   RevKeenAPIError,
+  RevKeenAuthenticationError,
+  RevKeenAuthorizationError,
+  RevKeenConflictError,
   RevKeenError,
-  RevKeenTimeoutError
-} from "./chunk-VKMDZSYJ.mjs";
+  RevKeenIdempotencyConflictError,
+  RevKeenNotFoundError,
+  RevKeenRateLimitError,
+  RevKeenServerError,
+  RevKeenTimeoutError,
+  RevKeenValidationError,
+  createRevKeenAPIError,
+  emptyRevKeenRateLimitMetadata,
+  normalizeRevKeenAPIError,
+  parseRevKeenRateLimitMetadata
+} from "./chunk-BW3I7P6R.mjs";
 import {
   WEBHOOK_TOLERANCE_IN_SECONDS,
   WebhookSignatureVerificationError,
@@ -12,11 +29,104 @@ import {
   extractWebhookHeaders,
   verifySignature,
   webhooks_default
-} from "./chunk-T4GKSASR.mjs";
+} from "./chunk-YCMMQ67Y.mjs";
+
+// src/core/pagination.ts
+var RevKeenPaginationStallError = class extends RevKeenError {
+  constructor(stateKey) {
+    super(`Pagination did not advance beyond state '${stateKey}'`);
+    this.stateKey = stateKey;
+    this.name = "RevKeenPaginationStallError";
+  }
+};
+function throwIfAborted(signal) {
+  if (!signal?.aborted) return;
+  if (signal.reason !== void 0) throw signal.reason;
+  if (typeof DOMException !== "undefined")
+    throw new DOMException("The operation was aborted", "AbortError");
+  const error = new Error("The operation was aborted");
+  error.name = "AbortError";
+  throw error;
+}
+function paginate(fetchPage, options) {
+  return {
+    async *[Symbol.asyncIterator]() {
+      let state = options.initialState;
+      const seen = /* @__PURE__ */ new Set();
+      while (true) {
+        throwIfAborted(options.signal);
+        const currentKey = options.stateKey(state);
+        if (seen.has(currentKey))
+          throw new RevKeenPaginationStallError(currentKey);
+        seen.add(currentKey);
+        const page = await fetchPage(state, options.signal);
+        const items = options.getItems(page);
+        for (const item of items) {
+          throwIfAborted(options.signal);
+          yield item;
+        }
+        if (items.length === 0) return;
+        const nextState = options.getNextState(page);
+        if (nextState === null || nextState === void 0) return;
+        const nextKey = options.stateKey(nextState);
+        if (seen.has(nextKey)) throw new RevKeenPaginationStallError(nextKey);
+        state = nextState;
+      }
+    }
+  };
+}
+
+// src/core/scalars.ts
+function isMinorUnits(value) {
+  return Number.isSafeInteger(value);
+}
+function minorUnits(value) {
+  if (!isMinorUnits(value))
+    throw new RevKeenError("Minor-unit money must be a safe integer");
+  return value;
+}
+function mapOptionalNullable(value, transform) {
+  if (value === void 0) return void 0;
+  if (value === null) return null;
+  return transform(value);
+}
+var RFC3339_WITH_OFFSET = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:Z|([+-])(\d{2}):(\d{2}))$/;
+function isLeapYear(year) {
+  return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+}
+function daysInMonth(year, month) {
+  if (month === 2) return isLeapYear(year) ? 29 : 28;
+  return [4, 6, 9, 11].includes(month) ? 30 : 31;
+}
+function parseRfc3339(value) {
+  const match = RFC3339_WITH_OFFSET.exec(value);
+  if (!match)
+    throw new RevKeenError(
+      "Date-time must be RFC 3339 with an explicit offset"
+    );
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const hour = Number(match[4]);
+  const minute = Number(match[5]);
+  const second = Number(match[6]);
+  const offsetHour = match[8] === void 0 ? 0 : Number(match[8]);
+  const offsetMinute = match[9] === void 0 ? 0 : Number(match[9]);
+  if (month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month) || hour > 23 || minute > 59 || second > 59 || offsetHour > 23 || offsetMinute > 59) {
+    throw new RevKeenError("Date-time must be a valid RFC 3339 timestamp");
+  }
+  const timestamp = Date.parse(value);
+  if (!Number.isFinite(timestamp))
+    throw new RevKeenError("Date-time must be a valid RFC 3339 timestamp");
+  return new Date(timestamp);
+}
 
 // src/generated/core/bodySerializer.gen.ts
 var jsonBodySerializer = {
-  bodySerializer: (body) => JSON.stringify(body, (_key, value) => typeof value === "bigint" ? value.toString() : value)
+  bodySerializer: (body) => JSON.stringify(
+    body,
+    (_key, value) => typeof value === "bigint" ? value.toString() : value
+  )
 };
 
 // src/generated/core/params.gen.ts
@@ -69,7 +179,10 @@ function createSseClient({
         }
         const _fetch = options.fetch ?? globalThis.fetch;
         const response = await _fetch(request);
-        if (!response.ok) throw new Error(`SSE failed: ${response.status} ${response.statusText}`);
+        if (!response.ok)
+          throw new Error(
+            `SSE failed: ${response.status} ${response.statusText}`
+          );
         if (!response.body) throw new Error("No body in SSE response");
         const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
         let buffer = "";
@@ -100,7 +213,10 @@ function createSseClient({
                 } else if (line.startsWith("id:")) {
                   lastEventId = line.replace(/^id:\s*/, "");
                 } else if (line.startsWith("retry:")) {
-                  const parsed = Number.parseInt(line.replace(/^retry:\s*/, ""), 10);
+                  const parsed = Number.parseInt(
+                    line.replace(/^retry:\s*/, ""),
+                    10
+                  );
                   if (!Number.isNaN(parsed)) {
                     retryDelay = parsed;
                   }
@@ -146,7 +262,10 @@ function createSseClient({
         if (sseMaxRetryAttempts !== void 0 && attempt >= sseMaxRetryAttempts) {
           break;
         }
-        const backoff = Math.min(retryDelay * 2 ** (attempt - 1), sseMaxRetryDelay ?? 3e4);
+        const backoff = Math.min(
+          retryDelay * 2 ** (attempt - 1),
+          sseMaxRetryDelay ?? 3e4
+        );
         await sleep(backoff);
       }
     }
@@ -254,7 +373,11 @@ var serializeObjectParam = ({
   if (style !== "deepObject" && !explode) {
     let values = [];
     Object.entries(value).forEach(([key, v]) => {
-      values = [...values, key, allowReserved ? v : encodeURIComponent(v)];
+      values = [
+        ...values,
+        key,
+        allowReserved ? v : encodeURIComponent(v)
+      ];
     });
     const joinedValues2 = values.join(",");
     switch (style) {
@@ -305,7 +428,10 @@ var defaultPathSerializer = ({ path, url: _url }) => {
         continue;
       }
       if (Array.isArray(value)) {
-        url = url.replace(match, serializeArrayParam({ explode, name, style, value }));
+        url = url.replace(
+          match,
+          serializeArrayParam({ explode, name, style, value })
+        );
         continue;
       }
       if (typeof value === "object") {
@@ -453,7 +579,9 @@ var getParseAs = (contentType) => {
   if (cleanContent === "multipart/form-data") {
     return "formData";
   }
-  if (["application/", "audio/", "image/", "video/"].some((type) => cleanContent.startsWith(type))) {
+  if (["application/", "audio/", "image/", "video/"].some(
+    (type) => cleanContent.startsWith(type)
+  )) {
     return "blob";
   }
   if (cleanContent.startsWith("text/")) {
@@ -664,7 +792,12 @@ var createClient = (config = {}) => {
       let finalError2 = error2;
       for (const fn of interceptors.error.fns) {
         if (fn) {
-          finalError2 = await fn(error2, void 0, request2, opts);
+          finalError2 = await fn(
+            error2,
+            void 0,
+            request2,
+            opts
+          );
         }
       }
       finalError2 = finalError2 || {};
@@ -818,16 +951,32 @@ var createClient = (config = {}) => {
 };
 
 // src/generated/client.gen.ts
-var client = createClient(createConfig({ baseUrl: "https://staging-api.revkeen.com/v2" }));
+var client = createClient(
+  createConfig({ baseUrl: "https://api.revkeen.com/v2" })
+);
 
 // src/generated/sdk.gen.ts
+var invoiceUsageExplain = (options) => (options.client ?? client).get({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/invoices/{id}/usage-explain",
+  ...options
+});
 var invoicesList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices",
   ...options
 });
 var invoicesCreate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices",
   ...options,
   headers: {
@@ -836,12 +985,18 @@ var invoicesCreate = (options) => (options.client ?? client).post({
   }
 });
 var invoicesGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices/{id}",
   ...options
 });
 var invoicesUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices/{id}",
   ...options,
   headers: {
@@ -850,7 +1005,10 @@ var invoicesUpdate = (options) => (options.client ?? client).patch({
   }
 });
 var invoicesMarginEstimate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices/{id}/margin-estimate",
   ...options,
   headers: {
@@ -859,7 +1017,10 @@ var invoicesMarginEstimate = (options) => (options.client ?? client).post({
   }
 });
 var invoicesFinalize = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices/{id}/finalize",
   ...options,
   headers: {
@@ -868,7 +1029,10 @@ var invoicesFinalize = (options) => (options.client ?? client).post({
   }
 });
 var invoicesVoid = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices/{id}/void",
   ...options,
   headers: {
@@ -877,7 +1041,10 @@ var invoicesVoid = (options) => (options.client ?? client).post({
   }
 });
 var invoicesSend = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/invoices/{id}/send",
   ...options,
   headers: {
@@ -886,12 +1053,18 @@ var invoicesSend = (options) => (options.client ?? client).post({
   }
 });
 var productsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/products",
   ...options
 });
 var productsCreate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/products",
   ...options,
   headers: {
@@ -900,12 +1073,18 @@ var productsCreate = (options) => (options.client ?? client).post({
   }
 });
 var productsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/products/{id}",
   ...options
 });
 var productsUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/products/{id}",
   ...options,
   headers: {
@@ -913,8 +1092,59 @@ var productsUpdate = (options) => (options.client ?? client).patch({
     ...options.headers
   }
 });
+var productCollectionsList = (options) => (options?.client ?? client).get({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/product-collections",
+  ...options
+});
+var productCollectionsCreate = (options) => (options?.client ?? client).post({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/product-collections",
+  ...options,
+  headers: {
+    "Content-Type": "application/json",
+    ...options?.headers
+  }
+});
+var productCollectionsDelete = (options) => (options.client ?? client).delete({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/product-collections/{id}",
+  ...options
+});
+var productCollectionsGet = (options) => (options.client ?? client).get({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/product-collections/{id}",
+  ...options
+});
+var productCollectionsUpdate = (options) => (options.client ?? client).patch({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/product-collections/{id}",
+  ...options,
+  headers: {
+    "Content-Type": "application/json",
+    ...options.headers
+  }
+});
 var checkoutSessionsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/checkout-sessions",
   ...options,
   headers: {
@@ -923,17 +1153,26 @@ var checkoutSessionsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var checkoutSessionsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/checkout-sessions/{id}",
   ...options
 });
 var checkoutSessionsExpire = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/checkout-sessions/{id}/expire",
   ...options
 });
 var cartSessionsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions",
   ...options,
   headers: {
@@ -942,12 +1181,18 @@ var cartSessionsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var cartSessionsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}",
   ...options
 });
 var cartSessionsAddLineItem = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/line-items",
   ...options,
   headers: {
@@ -956,12 +1201,18 @@ var cartSessionsAddLineItem = (options) => (options.client ?? client).post({
   }
 });
 var cartSessionsRemoveLineItem = (options) => (options.client ?? client).delete({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/line-items/{lineId}",
   ...options
 });
 var cartSessionsUpdateLineItem = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/line-items/{lineId}",
   ...options,
   headers: {
@@ -970,7 +1221,10 @@ var cartSessionsUpdateLineItem = (options) => (options.client ?? client).patch({
   }
 });
 var cartSessionsToggleAddOn = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/add-ons",
   ...options,
   headers: {
@@ -979,7 +1233,10 @@ var cartSessionsToggleAddOn = (options) => (options.client ?? client).post({
   }
 });
 var cartSessionsApplyDiscountCode = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/discount-code",
   ...options,
   headers: {
@@ -988,7 +1245,10 @@ var cartSessionsApplyDiscountCode = (options) => (options.client ?? client).post
   }
 });
 var cartSessionsSetContact = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/contact",
   ...options,
   headers: {
@@ -997,22 +1257,34 @@ var cartSessionsSetContact = (options) => (options.client ?? client).post({
   }
 });
 var cartSessionsConvert = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-sessions/{id}/convert",
   ...options
 });
 var cartApiKeysStatus = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-api-keys/status",
   ...options
 });
 var cartApiKeysEnsure = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-api-keys/ensure",
   ...options
 });
 var cartApiKeysRotate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/cart-api-keys/{kind}/rotate",
   ...options,
   headers: {
@@ -1021,22 +1293,34 @@ var cartApiKeysRotate = (options) => (options.client ?? client).post({
   }
 });
 var storefrontProductsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/storefront/products",
   ...options
 });
 var storefrontProductsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/storefront/products/{productId}",
   ...options
 });
 var storefrontOriginsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/storefront/origins",
   ...options
 });
 var storefrontOriginsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/storefront/origins",
   ...options,
   headers: {
@@ -1045,22 +1329,42 @@ var storefrontOriginsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var storefrontOriginsDelete = (options) => (options.client ?? client).delete({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/storefront/origins/{originId}",
   ...options
 });
 var storefrontStatusGet = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/storefront/status",
   ...options
 });
+var customerStateGet = (options) => (options.client ?? client).get({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/customers/{id}/state",
+  ...options
+});
 var customersList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers",
   ...options
 });
 var customersCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers",
   ...options,
   headers: {
@@ -1069,12 +1373,18 @@ var customersCreate = (options) => (options?.client ?? client).post({
   }
 });
 var customersGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers/{id}",
   ...options
 });
 var customersUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers/{id}",
   ...options,
   headers: {
@@ -1083,27 +1393,42 @@ var customersUpdate = (options) => (options.client ?? client).patch({
   }
 });
 var customersPaymentRailsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers/{id}/payment-rails",
   ...options
 });
 var customersPreferredRailsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers/{id}/preferred-rails",
   ...options
 });
 var customersPaymentMethodsList = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customers/{id}/payment-methods",
   ...options
 });
 var subscriptionsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/subscriptions",
   ...options
 });
 var subscriptionsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/subscriptions",
   ...options,
   headers: {
@@ -1112,12 +1437,18 @@ var subscriptionsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var subscriptionsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/subscriptions/{id}",
   ...options
 });
 var subscriptionsUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/subscriptions/{id}",
   ...options,
   headers: {
@@ -1126,7 +1457,10 @@ var subscriptionsUpdate = (options) => (options.client ?? client).patch({
   }
 });
 var subscriptionsCancel = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/subscriptions/{id}/cancel",
   ...options,
   headers: {
@@ -1135,22 +1469,34 @@ var subscriptionsCancel = (options) => (options.client ?? client).post({
   }
 });
 var analyticsRevenueMrrSummary = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/analytics/revenue/mrr-summary",
   ...options
 });
 var analyticsRevenueTimeSeries = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/analytics/revenue/time-series",
   ...options
 });
 var refundsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/refunds",
   ...options
 });
 var refundsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/refunds",
   ...options,
   headers: {
@@ -1159,17 +1505,26 @@ var refundsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var refundsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/refunds/{id}",
   ...options
 });
 var creditNotesList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/credit_notes",
   ...options
 });
 var creditNotesCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/credit_notes",
   ...options,
   headers: {
@@ -1178,22 +1533,34 @@ var creditNotesCreate = (options) => (options?.client ?? client).post({
   }
 });
 var creditNotesGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/credit_notes/{id}",
   ...options
 });
 var creditNotesVoid = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/credit_notes/{id}/void",
   ...options
 });
 var creditNotesListLines = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/credit_notes/{id}/lines",
   ...options
 });
 var creditNotesPreview = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/credit_notes/preview",
   ...options,
   headers: {
@@ -1202,12 +1569,18 @@ var creditNotesPreview = (options) => (options.client ?? client).post({
   }
 });
 var paymentLinksList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links",
   ...options
 });
 var paymentLinksCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links",
   ...options,
   headers: {
@@ -1216,12 +1589,18 @@ var paymentLinksCreate = (options) => (options?.client ?? client).post({
   }
 });
 var paymentLinksGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links/{id}",
   ...options
 });
 var paymentLinksExpire = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links/{id}/expire",
   ...options,
   headers: {
@@ -1230,7 +1609,10 @@ var paymentLinksExpire = (options) => (options.client ?? client).post({
   }
 });
 var paymentLinksUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links/{id}/status",
   ...options,
   headers: {
@@ -1239,27 +1621,50 @@ var paymentLinksUpdate = (options) => (options.client ?? client).patch({
   }
 });
 var paymentLinksDeactivate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links/{id}/deactivate",
   ...options
 });
 var paymentLinksActivate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links/{id}/activate",
   ...options
 });
 var paymentLinksArchive = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-links/{id}/archive",
   ...options
 });
+var billingOverviewGet = (options) => (options?.client ?? client).get({
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
+  url: "/billing/overview",
+  ...options
+});
 var pricesList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/prices",
   ...options
 });
 var pricesCreate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/prices",
   ...options,
   headers: {
@@ -1268,17 +1673,26 @@ var pricesCreate = (options) => (options.client ?? client).post({
   }
 });
 var pricesArchive = (options) => (options.client ?? client).delete({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/prices/{id}",
   ...options
 });
 var pricesGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/prices/{id}",
   ...options
 });
 var pricesUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/prices/{id}",
   ...options,
   headers: {
@@ -1286,8 +1700,49 @@ var pricesUpdate = (options) => (options.client ?? client).patch({
     ...options.headers
   }
 });
+var metersList = (options) => (options?.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/meters",
+  ...options
+});
+var metersCreate = (options) => (options?.client ?? client).post({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/meters",
+  ...options,
+  headers: {
+    "Content-Type": "application/json",
+    ...options?.headers
+  }
+});
+var metersQuantities = (options) => (options.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/meters/{id}/quantities",
+  ...options
+});
+var metersGet = (options) => (options.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/meters/{id}",
+  ...options
+});
+var metersUpdate = (options) => (options.client ?? client).patch({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/meters/{id}",
+  ...options,
+  headers: {
+    "Content-Type": "application/json",
+    ...options.headers
+  }
+});
+var invoiceLineItemsListUsageEvents = (options) => (options.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/invoice-line-items/{id}/usage-events",
+  ...options
+});
 var accountingInvoicePaymentRequestsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/integrations/accounting/invoice-payment-requests",
   ...options,
   headers: {
@@ -1296,17 +1751,26 @@ var accountingInvoicePaymentRequestsCreate = (options) => (options?.client ?? cl
   }
 });
 var accountingInvoicePaymentRequestsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/integrations/accounting/invoice-payment-requests/{id}",
   ...options
 });
 var webhookEndpointsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-endpoints",
   ...options
 });
 var webhookEndpointsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-endpoints",
   ...options,
   headers: {
@@ -1315,17 +1779,26 @@ var webhookEndpointsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var webhookEndpointsDelete = (options) => (options.client ?? client).delete({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-endpoints/{id}",
   ...options
 });
 var webhookEndpointsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-endpoints/{id}",
   ...options
 });
 var webhookEndpointsUpdate = (options) => (options.client ?? client).patch({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-endpoints/{id}",
   ...options,
   headers: {
@@ -1334,27 +1807,42 @@ var webhookEndpointsUpdate = (options) => (options.client ?? client).patch({
   }
 });
 var webhookEndpointsRotateSecret = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-endpoints/{id}/rotate-secret",
   ...options
 });
 var webhookDeliveriesList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-deliveries",
   ...options
 });
 var webhookDeliveriesGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-deliveries/{id}",
   ...options
 });
 var webhookDeliveriesRetry = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/webhook-deliveries/{id}/retry",
   ...options
 });
 var customerPortalSessionsCreate = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/sessions",
   ...options,
   headers: {
@@ -1363,22 +1851,34 @@ var customerPortalSessionsCreate = (options) => (options.client ?? client).post(
   }
 });
 var customerPortalCustomerGet = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/customer",
   ...options
 });
 var customerPortalSubscriptionsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/subscriptions",
   ...options
 });
 var customerPortalSubscriptionsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/subscriptions/{id}",
   ...options
 });
 var customerPortalSubscriptionsCancel = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/subscriptions/{id}/cancel",
   ...options,
   headers: {
@@ -1387,22 +1887,34 @@ var customerPortalSubscriptionsCancel = (options) => (options.client ?? client).
   }
 });
 var customerPortalInvoicesList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/invoices",
   ...options
 });
 var customerPortalInvoicesGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/invoices/{id}",
   ...options
 });
 var customerPortalMandatesList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/mandates",
   ...options
 });
 var customerPortalMandatesReauthorize = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/mandates/{id}/re-authorize",
   ...options,
   headers: {
@@ -1411,7 +1923,10 @@ var customerPortalMandatesReauthorize = (options) => (options.client ?? client).
   }
 });
 var customerPortalMandatesCancel = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/mandates/{id}/cancel",
   ...options,
   headers: {
@@ -1420,12 +1935,18 @@ var customerPortalMandatesCancel = (options) => (options.client ?? client).post(
   }
 });
 var customerPortalMandatesReauthorizeSendOtp = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/mandates/{id}/re-authorize/send-otp",
   ...options
 });
 var customerPortalMandatesReauthorizeVerifyOtp = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-portal/mandates/{id}/re-authorize/verify-otp",
   ...options,
   headers: {
@@ -1434,22 +1955,34 @@ var customerPortalMandatesReauthorizeVerifyOtp = (options) => (options.client ??
   }
 });
 var customerMetersList = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-meters",
   ...options
 });
 var customerMetersGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/customer-meters/{customer_id}/{meter_id}",
   ...options
 });
 var paymentIntentsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-intents",
   ...options
 });
 var paymentIntentsCreate = (options) => (options?.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-intents",
   ...options,
   headers: {
@@ -1458,12 +1991,18 @@ var paymentIntentsCreate = (options) => (options?.client ?? client).post({
   }
 });
 var paymentIntentsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-intents/{id}",
   ...options
 });
 var paymentIntentsConfirm = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-intents/{id}/confirm",
   ...options,
   headers: {
@@ -1472,7 +2011,10 @@ var paymentIntentsConfirm = (options) => (options.client ?? client).post({
   }
 });
 var paymentIntentsCapture = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-intents/{id}/capture",
   ...options,
   headers: {
@@ -1481,7 +2023,10 @@ var paymentIntentsCapture = (options) => (options.client ?? client).post({
   }
 });
 var paymentIntentsCancel = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/payment-intents/{id}/cancel",
   ...options,
   headers: {
@@ -1490,37 +2035,82 @@ var paymentIntentsCancel = (options) => (options.client ?? client).post({
   }
 });
 var eventsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/events",
   ...options
 });
 var eventsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/events/{id}",
   ...options
 });
 var eventsResend = (options) => (options.client ?? client).post({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/events/{id}/resend",
   ...options
 });
+var usageEventsList = (options) => (options?.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/usage-events",
+  ...options
+});
+var usageEventsIngest = (options) => (options?.client ?? client).post({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/usage-events",
+  ...options,
+  headers: {
+    "Content-Type": "application/json",
+    ...options?.headers
+  }
+});
+var usageEventsGet = (options) => (options.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/usage-events/{id}",
+  ...options
+});
+var usageBalanceGet = (options) => (options?.client ?? client).get({
+  security: [{ name: "x-api-key", type: "apiKey" }],
+  url: "/usage/balance",
+  ...options
+});
 var entitlementsList = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/entitlements",
   ...options
 });
 var entitlementsCheck = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/entitlements/check",
   ...options
 });
 var transactionsList = (options) => (options?.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/transactions",
   ...options
 });
 var transactionsGet = (options) => (options.client ?? client).get({
-  security: [{ name: "x-api-key", type: "apiKey" }, { scheme: "bearer", type: "http" }],
+  security: [
+    { name: "x-api-key", type: "apiKey" },
+    { scheme: "bearer", type: "http" }
+  ],
   url: "/transactions/{id}",
   ...options
 });
@@ -1598,298 +2188,30 @@ var mandatesScheduleCollection = (options) => (options.client ?? client).post({
     ...options.headers
   }
 });
-
-// src/generated-resources.ts
-function buildGeneratedResources(runtime) {
-  return {
-    accounting: {
-      invoicePaymentRequestsCreate: async (body) => runtime.requestData(accountingInvoicePaymentRequestsCreate, body === void 0 ? void 0 : { body }),
-      invoicePaymentRequestsGet: async (id) => runtime.requestData(accountingInvoicePaymentRequestsGet, { path: { id } })
-    },
-    analytics: {
-      revenueMrrSummary: async (query) => runtime.requestData(analyticsRevenueMrrSummary, query === void 0 ? void 0 : { query }),
-      revenueTimeSeries: async (query) => runtime.requestData(analyticsRevenueTimeSeries, query === void 0 ? void 0 : { query })
-    },
-    cart: {
-      apiKeysEnsure: async () => runtime.requestData(cartApiKeysEnsure, void 0),
-      apiKeysRotate: async (id, body) => runtime.requestData(cartApiKeysRotate, body === void 0 ? { path: { kind: id } } : { path: { kind: id }, body }),
-      apiKeysStatus: async () => runtime.requestData(cartApiKeysStatus, void 0),
-      sessionsAddLineItem: async (id, body) => runtime.requestData(cartSessionsAddLineItem, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsApplyDiscountCode: async (id, body) => runtime.requestData(cartSessionsApplyDiscountCode, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsConvert: async (id) => runtime.requestData(cartSessionsConvert, { path: { id } }),
-      sessionsCreate: async (body) => runtime.requestData(cartSessionsCreate, body === void 0 ? void 0 : { body }),
-      sessionsGet: async (id) => runtime.requestData(cartSessionsGet, { path: { id } }),
-      sessionsRemoveLineItem: async (path) => runtime.requestData(cartSessionsRemoveLineItem, { path }),
-      sessionsSetContact: async (id, body) => runtime.requestData(cartSessionsSetContact, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsToggleAddOn: async (id, body) => runtime.requestData(cartSessionsToggleAddOn, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      sessionsUpdateLineItem: async (params) => runtime.requestData(cartSessionsUpdateLineItem, { path: params.path, ...params.body === void 0 ? {} : { body: params.body } })
-    },
-    checkoutSessions: {
-      create: async (body) => runtime.requestData(checkoutSessionsCreate, body === void 0 ? void 0 : { body }),
-      expire: async (id) => runtime.requestData(checkoutSessionsExpire, { path: { id } }),
-      get: async (id) => runtime.requestData(checkoutSessionsGet, { path: { id } })
-    },
-    creditNotes: {
-      create: async (body) => runtime.requestData(creditNotesCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(creditNotesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(creditNotesList, query === void 0 ? void 0 : { query }),
-      listLines: async (id, query) => runtime.requestData(creditNotesListLines, query === void 0 ? { path: { id } } : { path: { id }, query }),
-      preview: async (body) => runtime.requestData(creditNotesPreview, { body }),
-      void: async (id) => runtime.requestData(creditNotesVoid, { path: { id } })
-    },
-    customer: {
-      metersGet: async (path) => runtime.requestData(customerMetersGet, { path }),
-      metersList: async (query) => runtime.requestData(customerMetersList, query === void 0 ? void 0 : { query }),
-      portalCustomerGet: async () => runtime.requestData(customerPortalCustomerGet, void 0),
-      portalInvoicesGet: async (id) => runtime.requestData(customerPortalInvoicesGet, { path: { id } }),
-      portalInvoicesList: async (query) => runtime.requestData(customerPortalInvoicesList, query === void 0 ? void 0 : { query }),
-      portalMandatesCancel: async (id, body) => runtime.requestData(customerPortalMandatesCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      portalMandatesList: async () => runtime.requestData(customerPortalMandatesList, void 0),
-      portalMandatesReauthorize: async (id, body) => runtime.requestData(customerPortalMandatesReauthorize, { path: { id }, body }),
-      portalMandatesReauthorizeSendOtp: async (id) => runtime.requestData(customerPortalMandatesReauthorizeSendOtp, { path: { id } }),
-      portalMandatesReauthorizeVerifyOtp: async (id, body) => runtime.requestData(customerPortalMandatesReauthorizeVerifyOtp, { path: { id }, body }),
-      portalSessionsCreate: async (body) => runtime.requestData(customerPortalSessionsCreate, { body }),
-      portalSubscriptionsCancel: async (id, body) => runtime.requestData(customerPortalSubscriptionsCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      portalSubscriptionsGet: async (id) => runtime.requestData(customerPortalSubscriptionsGet, { path: { id } }),
-      portalSubscriptionsList: async (query) => runtime.requestData(customerPortalSubscriptionsList, query === void 0 ? void 0 : { query })
-    },
-    customers: {
-      create: async (body) => runtime.requestData(customersCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(customersGet, { path: { id } }),
-      list: async (query) => runtime.requestData(customersList, query === void 0 ? void 0 : { query }),
-      paymentMethodsList: async (id) => runtime.requestData(customersPaymentMethodsList, { path: { id } }),
-      paymentRailsGet: async (id, query) => runtime.requestData(customersPaymentRailsGet, query === void 0 ? { path: { id } } : { path: { id }, query }),
-      preferredRailsGet: async (id, query) => runtime.requestData(customersPreferredRailsGet, query === void 0 ? { path: { id } } : { path: { id }, query }),
-      update: async (id, body) => runtime.requestData(customersUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    dd: {
-      mandateRequestsGet: async (id) => runtime.requestData(ddMandateRequestsGet, { path: { token: id } }),
-      preview: async (body) => runtime.requestData(ddPreview, body === void 0 ? void 0 : { body }),
-      validate: async (body) => runtime.requestData(ddValidate, body === void 0 ? void 0 : { body })
-    },
-    entitlements: {
-      check: async (query) => runtime.requestData(entitlementsCheck, query === void 0 ? void 0 : { query }),
-      list: async (query) => runtime.requestData(entitlementsList, query === void 0 ? void 0 : { query })
-    },
-    events: {
-      get: async (id) => runtime.requestData(eventsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(eventsList, query === void 0 ? void 0 : { query }),
-      resend: async (id) => runtime.requestData(eventsResend, { path: { id } })
-    },
-    invoices: {
-      create: async (body) => runtime.requestData(invoicesCreate, { body }),
-      finalize: async (id, body) => runtime.requestData(invoicesFinalize, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      get: async (id) => runtime.requestData(invoicesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(invoicesList, query === void 0 ? void 0 : { query }),
-      marginEstimate: async (id, body) => runtime.requestData(invoicesMarginEstimate, { path: { id }, body }),
-      send: async (id, body) => runtime.requestData(invoicesSend, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      update: async (id, body) => runtime.requestData(invoicesUpdate, { path: { id }, body }),
-      void: async (id, body) => runtime.requestData(invoicesVoid, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    mandates: {
-      cancel: async (id, body) => runtime.requestData(mandatesCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      create: async (body) => runtime.requestData(mandatesCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(mandatesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(mandatesList, query === void 0 ? void 0 : { query }),
-      reinstate: async (id, body) => runtime.requestData(mandatesReinstate, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      scheduleCollection: async (id, body) => runtime.requestData(mandatesScheduleCollection, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      suspend: async (id, body) => runtime.requestData(mandatesSuspend, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    paymentIntents: {
-      cancel: async (id, body) => runtime.requestData(paymentIntentsCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      capture: async (id, body) => runtime.requestData(paymentIntentsCapture, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      confirm: async (id, body) => runtime.requestData(paymentIntentsConfirm, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      create: async (body) => runtime.requestData(paymentIntentsCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(paymentIntentsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(paymentIntentsList, query === void 0 ? void 0 : { query })
-    },
-    paymentLinks: {
-      activate: async (id) => runtime.requestData(paymentLinksActivate, { path: { id } }),
-      archive: async (id) => runtime.requestData(paymentLinksArchive, { path: { id } }),
-      create: async (body) => runtime.requestData(paymentLinksCreate, body === void 0 ? void 0 : { body }),
-      deactivate: async (id) => runtime.requestData(paymentLinksDeactivate, { path: { id } }),
-      expire: async (id, body) => runtime.requestData(paymentLinksExpire, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      get: async (id) => runtime.requestData(paymentLinksGet, { path: { id } }),
-      list: async (query) => runtime.requestData(paymentLinksList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(paymentLinksUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    prices: {
-      archive: async (id) => runtime.requestData(pricesArchive, { path: { id } }),
-      create: async (body) => runtime.requestData(pricesCreate, { body }),
-      get: async (id) => runtime.requestData(pricesGet, { path: { id } }),
-      list: async (query) => runtime.requestData(pricesList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(pricesUpdate, { path: { id }, body })
-    },
-    products: {
-      create: async (body) => runtime.requestData(productsCreate, { body }),
-      get: async (id) => runtime.requestData(productsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(productsList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(productsUpdate, { path: { id }, body })
-    },
-    refunds: {
-      create: async (body) => runtime.requestData(refundsCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(refundsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(refundsList, query === void 0 ? void 0 : { query })
-    },
-    storefront: {
-      originsCreate: async (body) => runtime.requestData(storefrontOriginsCreate, body === void 0 ? void 0 : { body }),
-      originsDelete: async (id) => runtime.requestData(storefrontOriginsDelete, { path: { originId: id } }),
-      originsList: async () => runtime.requestData(storefrontOriginsList, void 0),
-      productsGet: async (id) => runtime.requestData(storefrontProductsGet, { path: { productId: id } }),
-      productsList: async (query) => runtime.requestData(storefrontProductsList, query === void 0 ? void 0 : { query }),
-      statusGet: async () => runtime.requestData(storefrontStatusGet, void 0)
-    },
-    subscriptions: {
-      cancel: async (id, body) => runtime.requestData(subscriptionsCancel, body === void 0 ? { path: { id } } : { path: { id }, body }),
-      create: async (body) => runtime.requestData(subscriptionsCreate, body === void 0 ? void 0 : { body }),
-      get: async (id) => runtime.requestData(subscriptionsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(subscriptionsList, query === void 0 ? void 0 : { query }),
-      update: async (id, body) => runtime.requestData(subscriptionsUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    },
-    transactions: {
-      get: async (id) => runtime.requestData(transactionsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(transactionsList, query === void 0 ? void 0 : { query })
-    },
-    webhook: {
-      deliveriesGet: async (id) => runtime.requestData(webhookDeliveriesGet, { path: { id } }),
-      deliveriesList: async (query) => runtime.requestData(webhookDeliveriesList, query === void 0 ? void 0 : { query }),
-      deliveriesRetry: async (id) => runtime.requestData(webhookDeliveriesRetry, { path: { id } })
-    },
-    webhookEndpoints: {
-      create: async (body) => runtime.requestData(webhookEndpointsCreate, body === void 0 ? void 0 : { body }),
-      delete: async (id) => runtime.requestData(webhookEndpointsDelete, { path: { id } }),
-      get: async (id) => runtime.requestData(webhookEndpointsGet, { path: { id } }),
-      list: async (query) => runtime.requestData(webhookEndpointsList, query === void 0 ? void 0 : { query }),
-      rotateSecret: async (id) => runtime.requestData(webhookEndpointsRotateSecret, { path: { id } }),
-      update: async (id, body) => runtime.requestData(webhookEndpointsUpdate, body === void 0 ? { path: { id } } : { path: { id }, body })
-    }
-  };
-}
-
-// src/client.ts
-var API_SECURITY = [
-  { name: "x-api-key", type: "apiKey" },
-  { scheme: "bearer", type: "http" }
-];
-function createTimeoutFetch(fetchImpl, timeoutMs) {
-  return async (input, init = {}) => {
-    const timeoutController = new AbortController();
-    const signal = init.signal ? AbortSignal.any([init.signal, timeoutController.signal]) : timeoutController.signal;
-    const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
-    try {
-      return await fetchImpl(input, {
-        ...init,
-        signal
-      });
-    } finally {
-      clearTimeout(timeoutId);
-    }
-  };
-}
-function getApiErrorMessage(error, fallback) {
-  if (typeof error === "string" && error.length > 0) {
-    return error;
-  }
-  if (error && typeof error === "object" && "error" in error && typeof error.error === "string") {
-    return error.error;
-  }
-  if (error && typeof error === "object" && "message" in error && typeof error.message === "string") {
-    return error.message;
-  }
-  return fallback;
-}
-var RevKeenClient = class {
-  generatedClient;
-  usage;
-  constructor(options) {
-    if (!options.apiKey && !options.oauth) {
-      throw new RevKeenError(
-        "RevKeenClient requires either 'apiKey' or 'oauth' configuration. See https://docs.revkeen.com/api/authentication"
-      );
-    }
-    if (options.apiKey && options.oauth) {
-      throw new RevKeenError(
-        "Provide either 'apiKey' or 'oauth', not both. Use 'apiKey' for server-to-server with Unkey keys, or 'oauth' for OAuth 2.1 client credentials."
-      );
-    }
-    const timeoutMs = options.timeout ?? 3e4;
-    const tokenManager = options.oauth ? new OAuthTokenManager(options.oauth) : null;
-    const fetchImpl = createTimeoutFetch(options.fetch ?? globalThis.fetch, timeoutMs);
-    this.generatedClient = createClient({
-      auth: async (auth) => {
-        if (auth.type === "apiKey") {
-          return options.apiKey;
-        }
-        if (auth.scheme === "bearer" && tokenManager) {
-          return tokenManager.getToken();
-        }
-        return void 0;
-      },
-      baseUrl: options.baseUrl || "https://api.revkeen.com/v2",
-      fetch: fetchImpl,
-      headers: options.headers
-    });
-    this.generatedClient.interceptors.error.use(async (error, response, request) => {
-      if (error instanceof RevKeenError) {
-        return error;
-      }
-      if (response) {
-        return new RevKeenAPIError(
-          response.status,
-          getApiErrorMessage(error, response.statusText),
-          error
-        );
-      }
-      if (error instanceof Error && error.name === "AbortError") {
-        return new RevKeenTimeoutError(
-          `Request timed out${request ? ` for ${request.method} ${request.url}` : ""}`
-        );
-      }
-      if (error instanceof Error) {
-        return new RevKeenError(`Network error: ${error.message}`);
-      }
-      return new RevKeenError("Unknown SDK error");
-    });
-    Object.assign(this, buildGeneratedResources(this));
-    this.usage = {
-      ingest: (body) => this.postUsage("/usage-events", body),
-      dryRun: (body) => this.postUsage("/usage-events/dry-run", body)
-    };
-  }
-  async requestData(fn, options) {
-    const result = await fn({
-      client: this.generatedClient,
-      throwOnError: true,
-      ...options ?? {}
-    });
-    if (result.data === void 0) {
-      throw new RevKeenError("SDK request completed without response data");
-    }
-    return result.data;
-  }
-  async postUsage(url, body) {
-    const result = await this.generatedClient.post({
-      security: API_SECURITY,
-      throwOnError: true,
-      url,
-      body
-    });
-    return result.data;
-  }
-};
 export {
   OAuthTokenManager,
   RevKeenClient as RevKeen,
   RevKeenAPIError,
+  RevKeenAuthenticationError,
+  RevKeenAuthorizationError,
   RevKeenClient,
+  RevKeenConflictError,
+  RevKeenEnvironment,
   RevKeenError,
+  RevKeenIdempotencyConflictError,
+  RevKeenNotFoundError,
+  RevKeenPaginationStallError,
+  RevKeenRateLimitError,
+  RevKeenServerError,
   RevKeenTimeoutError,
+  RevKeenValidationError,
   WEBHOOK_TOLERANCE_IN_SECONDS,
   WebhookSignatureVerificationError,
   accountingInvoicePaymentRequestsCreate,
   accountingInvoicePaymentRequestsGet,
   analyticsRevenueMrrSummary,
   analyticsRevenueTimeSeries,
+  billingOverviewGet,
   buildGeneratedResources,
   cartApiKeysEnsure,
   cartApiKeysRotate,
@@ -1908,6 +2230,7 @@ export {
   checkoutSessionsGet,
   constructEvent,
   constructEventWithHeaders,
+  createRevKeenAPIError,
   creditNotesCreate,
   creditNotesGet,
   creditNotesList,
@@ -1928,6 +2251,7 @@ export {
   customerPortalSubscriptionsCancel,
   customerPortalSubscriptionsGet,
   customerPortalSubscriptionsList,
+  customerStateGet,
   customersCreate,
   customersGet,
   customersList,
@@ -1939,12 +2263,15 @@ export {
   ddPreview,
   ddValidate,
   RevKeenClient as default,
+  emptyRevKeenRateLimitMetadata,
   entitlementsCheck,
   entitlementsList,
   eventsGet,
   eventsList,
   eventsResend,
   extractWebhookHeaders,
+  invoiceLineItemsListUsageEvents,
+  invoiceUsageExplain,
   invoicesCreate,
   invoicesFinalize,
   invoicesGet,
@@ -1953,6 +2280,7 @@ export {
   invoicesSend,
   invoicesUpdate,
   invoicesVoid,
+  isMinorUnits,
   mandatesCancel,
   mandatesCreate,
   mandatesGet,
@@ -1960,6 +2288,17 @@ export {
   mandatesReinstate,
   mandatesScheduleCollection,
   mandatesSuspend,
+  mapOptionalNullable,
+  metersCreate,
+  metersGet,
+  metersList,
+  metersQuantities,
+  metersUpdate,
+  minorUnits,
+  normalizeRevKeenAPIError,
+  paginate,
+  parseRevKeenRateLimitMetadata,
+  parseRfc3339,
   paymentIntentsCancel,
   paymentIntentsCapture,
   paymentIntentsConfirm,
@@ -1979,6 +2318,11 @@ export {
   pricesGet,
   pricesList,
   pricesUpdate,
+  productCollectionsCreate,
+  productCollectionsDelete,
+  productCollectionsGet,
+  productCollectionsList,
+  productCollectionsUpdate,
   productsCreate,
   productsGet,
   productsList,
@@ -1999,6 +2343,10 @@ export {
   subscriptionsUpdate,
   transactionsGet,
   transactionsList,
+  usageBalanceGet,
+  usageEventsGet,
+  usageEventsIngest,
+  usageEventsList,
   verifySignature,
   webhookDeliveriesGet,
   webhookDeliveriesList,
