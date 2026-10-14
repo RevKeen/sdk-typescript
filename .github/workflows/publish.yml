@@ -120,6 +120,8 @@ jobs:
       dist_sha256: ${{ steps.dist.outputs.dist_sha256 }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -265,4 +267,4 @@ jobs:
           fi
 
       - name: Publish through npm trusted publishing
-        run: npm publish --access public --provenance
+        run: npm publish --ignore-scripts --access public --provenance
