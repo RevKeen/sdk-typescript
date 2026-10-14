@@ -114,17 +114,56 @@ jobs:
     needs: detect-release
     if: needs.detect-release.outputs.release == 'true'
     runs-on: ubuntu-24.04
+    # This job installs dependencies and runs their code to build dist/. It therefore holds no token that can
+    # publish: only the workflow-level contents: read applies, and there is no id-token.
+    outputs:
+      dist_sha256: ${{ steps.dist.outputs.dist_sha256 }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+
+      - name: Install from the lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Build dist/ from the audited source
+        run: npm run build
+
       - name: Validate publishable package
         run: |
-          test -f dist/index.js
-          test -f dist/index.mjs
-          test -f dist/index.d.ts
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync } from "node:fs";
+          const manifest = JSON.parse(readFileSync("package.json", "utf8"));
+          const targets = new Set([manifest.main, manifest.module, manifest.types]);
+          const collect = (value) => {
+            if (typeof value === "string") targets.add(value);
+            else if (value && typeof value === "object") Object.values(value).forEach(collect);
+          };
+          collect(manifest.exports);
+          const missing = [...targets].filter((target) => target && !existsSync(target));
+          if (missing.length) throw new Error(`The build did not produce: ${missing.join(", ")}`);
+          NODE
           npm pack --dry-run
+
+      - name: Fingerprint dist/
+        id: dist
+        shell: bash
+        run: |
+          set -euo pipefail
+          DIGEST=$(find dist -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)
+          echo "dist_sha256=${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      - name: Keep dist/ for the publish job
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: sdk-typescript-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 7
 
   publish:
     name: Approve, tag, and publish TypeScript SDK
@@ -173,6 +212,24 @@ jobs:
             exit 1
           fi
 
+      - name: Fetch the dist/ built from this source
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: sdk-typescript-dist
+          path: dist
+
+      - name: Verify dist/ is the validated build
+        env:
+          EXPECTED: ${{ needs.validate.outputs.dist_sha256 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTUAL=$(find dist -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)
+          if [ -z "$EXPECTED" ] || [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "::error::dist/ does not match the build the validate job fingerprinted (expected ${EXPECTED:-none}, got ${ACTUAL})."
+            exit 1
+          fi
+
       - name: Require unused npm version
         env:
           VERSION: ${{ needs.detect-release.outputs.version }}
@@ -210,4 +267,4 @@ jobs:
           fi
 
       - name: Publish through npm trusted publishing
-        run: npm publish --access public --provenance
+        run: npm publish --ignore-scripts --access public --provenance
