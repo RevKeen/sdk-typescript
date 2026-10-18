@@ -45,7 +45,9 @@ describe("OAuthTokenManager", () => {
     const [url, options] = mockFetch.mock.calls[0];
     expect(url).toBe(TOKEN_ENDPOINT);
     expect(options.method).toBe("POST");
-    expect(options.headers["Content-Type"]).toBe("application/x-www-form-urlencoded");
+    expect(options.headers["Content-Type"]).toBe(
+      "application/x-www-form-urlencoded",
+    );
 
     const body = new URLSearchParams(options.body);
     expect(body.get("grant_type")).toBe("client_credentials");
@@ -86,7 +88,7 @@ describe("OAuthTokenManager", () => {
     await manager.getToken();
 
     expect(mockFetch.mock.calls[0][0]).toBe(
-      "https://api.revkeen.com/api/auth/oauth2/token"
+      "https://api.revkeen.com/api/auth/oauth2/token",
     );
   });
 
@@ -193,7 +195,9 @@ describe("OAuthTokenManager", () => {
       clientSecret: "bad_secret",
       tokenEndpoint: TOKEN_ENDPOINT,
     });
-    await expect(manager2.getToken()).rejects.toThrow("OAuth token request failed (401)");
+    await expect(manager2.getToken()).rejects.toThrow(
+      "OAuth token request failed (401)",
+    );
   });
 
   it("uses refresh_token when available, falls back to client_credentials", async () => {
@@ -221,8 +225,7 @@ describe("OAuthTokenManager", () => {
     // Second call: tries refresh_token grant
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () =>
-        mockTokenResponse({ access_token: "rkoa_refreshed" }),
+      json: async () => mockTokenResponse({ access_token: "rkoa_refreshed" }),
     });
 
     const token2 = await manager.getToken();
@@ -264,8 +267,7 @@ describe("OAuthTokenManager", () => {
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: async () =>
-          mockTokenResponse({ access_token: "rkoa_fallback" }),
+        json: async () => mockTokenResponse({ access_token: "rkoa_fallback" }),
       });
 
     const token2 = await manager.getToken();

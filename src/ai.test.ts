@@ -6,7 +6,9 @@ import {
   type RevKeenAiMeteringOptions,
 } from "./ai.js";
 
-function baseOptions(overrides: Partial<RevKeenAiMeteringOptions> = {}): RevKeenAiMeteringOptions {
+function baseOptions(
+  overrides: Partial<RevKeenAiMeteringOptions> = {},
+): RevKeenAiMeteringOptions {
   return {
     revkeen: {
       usage: {
@@ -132,27 +134,29 @@ describe("AI meter adapter", () => {
       doGenerate: (params: Record<string, unknown>) => Promise<unknown>;
     };
 
-    await wrapped.doGenerate({});
+    await wrapped.doGenerate({ prompt: [] });
 
     expect(options.revkeen.usage.ingest).toHaveBeenCalledOnce();
-    expect(options.revkeen.usage.ingest).toHaveBeenCalledWith(expect.objectContaining({
-      name: "ai.total_tokens",
-      quantity: 130,
-      metadata: expect.objectContaining({
-        ai: expect.objectContaining({
-          provider: "anthropic",
-          model: "claude-sonnet-4",
+    expect(options.revkeen.usage.ingest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: "ai.total_tokens",
+        quantity: 130,
+        metadata: expect.objectContaining({
+          ai: expect.objectContaining({
+            provider: "anthropic",
+            model: "claude-sonnet-4",
+          }),
         }),
       }),
-    }));
+    );
   });
 
   it("documents the trusted-server and no-direct-infra guardrails", () => {
     expect(AI_METER_ADAPTER_GUARDRAILS).toContain(
-      "Run only in merchant server-side or trusted edge code."
+      "Run only in merchant server-side or trusted edge code.",
     );
     expect(AI_METER_ADAPTER_GUARDRAILS).toContain(
-      "Never write directly to RDS, ClickHouse, Redpanda, Kafka, or any analytics infrastructure."
+      "Never write directly to RDS, ClickHouse, Redpanda, Kafka, or any analytics infrastructure.",
     );
   });
 });

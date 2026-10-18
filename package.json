@@ -1,6 +1,6 @@
 {
   "name": "@revkeen/sdk",
-  "version": "1.20260819.1529",
+  "version": "1.20261006.4",
   "description": "RevKeen TypeScript SDK — Know What You Keep",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,6 +21,11 @@
       "import": "./dist/auth.mjs",
       "require": "./dist/auth.js"
     },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.mjs",
+      "require": "./dist/browser.js"
+    },
     "./ai": {
       "types": "./dist/ai.d.ts",
       "import": "./dist/ai.mjs",
@@ -33,16 +38,20 @@
   "scripts": {
     "generate:webhooks": "node scripts/sync-webhooks.mjs",
     "generate:client": "openapi-ts --file openapi-ts.config.ts",
+    "generate:runtime": "node scripts/sync-runtime.mjs",
     "generate:wrapper": "tsx scripts/generate-resources.ts",
-    "generate": "pnpm generate:webhooks && pnpm generate:client && pnpm generate:wrapper",
+    "generate": "pnpm generate:webhooks && pnpm generate:client && pnpm generate:runtime && pnpm generate:wrapper",
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "tsup": "^8.0.0",
-    "typescript": "^5.9.3",
+    "@types/node": "20.19.43",
+    "ai": "7.0.130",
+    "esbuild": "0.27.3",
+    "tsup": "8.5.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "vitest": "^4.1.8"
   },
   "peerDependencies": {
@@ -56,7 +65,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/revkeen/sdk"
+    "url": "https://github.com/RevKeen/sdk-typescript"
   },
   "keywords": [
     "revkeen",
