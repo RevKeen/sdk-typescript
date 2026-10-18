@@ -1,14 +1,13 @@
 # RevKeen TypeScript SDK
 
-> [!IMPORTANT]
-> This repository is a generated release mirror. Propose source changes in
-> [RevKeen/revkeen](https://github.com/RevKeen/revkeen); `main` here is updated only by an explicit reviewed SDK release.
-
-
 [![npm version](https://img.shields.io/npm/v/@revkeen/sdk.svg)](https://www.npmjs.com/package/@revkeen/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Official TypeScript/Node.js SDK for the [RevKeen API](https://docs.revkeen.com/api-reference/openapi) — auto-generated from the OpenAPI specification via [Hey API](https://heyapi.dev).
+Official TypeScript/Node.js SDK for the [RevKeen API](https://docs.revkeen.com/api-reference/openapi), generated with OpenAPI Generator `7.24.0`.
+
+> [!IMPORTANT]
+> This repository is a generated release mirror. Propose source changes in
+> [RevKeen/revkeen](https://github.com/RevKeen/revkeen); `main` here is updated only by an explicit reviewed SDK release.
 
 ## Installation
 
@@ -27,9 +26,12 @@ yarn add @revkeen/sdk
 ## Quick Start
 
 ```typescript
-import { RevKeen } from '@revkeen/sdk';
+import { RevKeenClient, RevKeenEnvironment } from '@revkeen/sdk';
 
-const client = new RevKeen({ apiKey: process.env.REVKEEN_API_KEY! });
+const client = new RevKeenClient({
+  secretKey: process.env.REVKEEN_API_KEY!,
+  environment: RevKeenEnvironment.Sandbox,
+});
 
 const customers = await client.customers.list({ limit: 10 });
 
@@ -43,13 +45,17 @@ for (const customer of customers.data) {
 ### API Key (recommended for server-to-server)
 
 ```typescript
-const client = new RevKeen({ apiKey: process.env.REVKEEN_API_KEY! });
+const client = new RevKeenClient({
+  secretKey: process.env.REVKEEN_API_KEY!,
+  environment: RevKeenEnvironment.Production,
+});
 ```
 
 ### OAuth 2.1 (recommended for MCP and third-party integrations)
 
 ```typescript
-const client = new RevKeen({
+const client = new RevKeenClient({
+  environment: RevKeenEnvironment.Production,
   oauth: {
     clientId: process.env.REVKEEN_CLIENT_ID!,
     clientSecret: process.env.REVKEEN_CLIENT_SECRET!,
@@ -86,8 +92,9 @@ Every API resource is available as a typed property on the client:
 import { constructEvent, WebhookSignatureVerificationError } from '@revkeen/sdk';
 
 try {
+  // Capture rawBody before any JSON middleware runs.
   const event = constructEvent(
-    requestBody,
+    rawBody,
     headers['revkeen-signature'],
     process.env.REVKEEN_WEBHOOK_SECRET!
   );
@@ -107,11 +114,13 @@ try {
 ## Error Handling
 
 ```typescript
+import { RevKeenAPIError } from '@revkeen/sdk';
+
 try {
   const customer = await client.customers.get('cus_nonexistent');
 } catch (error) {
-  if (error instanceof RevKeen.ApiError) {
-    console.error(`API error ${error.statusCode}: ${error.message}`);
+  if (error instanceof RevKeenAPIError) {
+    console.error(`API error ${error.status}: ${error.code}`);
   }
 }
 ```
@@ -119,12 +128,16 @@ try {
 ## Configuration
 
 ```typescript
-const client = new RevKeen({
-  apiKey: process.env.REVKEEN_API_KEY!,
-  // Staging environment
-  baseUrl: 'https://staging-api.revkeen.com',
-  // Custom timeout (ms)
-  timeoutInSeconds: 30,
+const client = new RevKeenClient({
+  secretKey: process.env.REVKEEN_API_KEY!,
+  environment: RevKeenEnvironment.Sandbox,
+  connectTimeout: 5_000,
+  readTimeout: 30_000,
+});
+
+// Custom endpoints require the explicit escape hatch.
+const local = RevKeenClient.forCustomBaseUrl('http://localhost:4010/v2', {
+  secretKey: process.env.REVKEEN_API_KEY!,
 });
 ```
 
