@@ -133,6 +133,13 @@ const client = new RevKeen({
 - **Runtime:** Node.js 18+
 - **Package format:** ESM and CommonJS
 - **TypeScript:** Full type definitions included
+- **Vercel AI SDK (`ai`), for the optional `@revkeen/sdk/ai` meter adapter:** `^6.0.0`.
+  **`ai` 7 is not yet supported.** The adapter registers middleware against
+  language-model specification v3; `ai` 7 drives a v4 model and routes a v3
+  middleware through its own converter, which fails at run time. The peer range
+  is deliberately `^6.0.0` so npm reports an install-time peer conflict rather
+  than letting the call crash mid-generation. Support for `ai` 7 is tracked in
+  REV-13198.
 
 ## Links
 

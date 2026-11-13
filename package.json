@@ -42,13 +42,13 @@
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
-    "ai": "^7.0.130",
+    "ai": "^6.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.9.3",
     "vitest": "^4.1.8"
   },
   "peerDependencies": {
-    "ai": "^6.0.0 || ^7.0.0"
+    "ai": "^6.0.0"
   },
   "peerDependenciesMeta": {
     "ai": {
